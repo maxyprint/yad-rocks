@@ -1079,6 +1079,30 @@
       .logos_item { font-size: 12px; padding: 8px 14px; }
 
       .compare_cell { font-size: 13px; padding: 14px 12px; }
+
+      /* Process tabs → 2×2 pill grid on mobile */
+      .process_tabs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        border-bottom: none;
+        margin-bottom: 32px;
+      }
+      .process_tab {
+        border: 1px solid var(--grey-border);
+        border-radius: var(--radius);
+        text-align: center;
+        padding: 10px 12px;
+        font-size: 13px;
+        margin-bottom: 0;
+      }
+      .process_tab.active {
+        background: var(--red);
+        border-color: var(--red);
+        border-bottom-color: var(--red);
+        color: var(--white);
+      }
+      .process_visual { display: none; }
     }
 
     /* ─── RESPONSIVE 480px ─── */
