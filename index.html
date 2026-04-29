@@ -795,6 +795,83 @@
     .compare_no { color: var(--grey-mid); }
     .compare_row_last .compare_cell { border-bottom: none; }
 
+    /* ─── CREATIVES SLIDER ─── */
+    .creatives_section {
+      background: var(--red);
+      padding: 80px 0;
+      overflow: hidden;
+    }
+    .creatives_header {
+      text-align: center;
+      padding: 0 40px;
+      margin-bottom: 48px;
+    }
+    .creatives_label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 12px;
+    }
+    .creatives_title {
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      color: var(--white);
+    }
+    .creatives_track_wrap {
+      overflow: hidden;
+      position: relative;
+    }
+    .creatives_track_wrap::before,
+    .creatives_track_wrap::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 100px;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .creatives_track_wrap::before {
+      left: 0;
+      background: linear-gradient(to right, var(--red), transparent);
+    }
+    .creatives_track_wrap::after {
+      right: 0;
+      background: linear-gradient(to left, var(--red), transparent);
+    }
+    .creatives_track {
+      display: flex;
+      gap: 24px;
+      width: max-content;
+      animation: creatives-scroll 18s linear infinite;
+    }
+    .creatives_track:hover { animation-play-state: paused; }
+    @keyframes creatives-scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .creatives_card {
+      flex-shrink: 0;
+      width: 340px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 2px solid rgba(255,255,255,0.15);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+    }
+    .creatives_card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    @media (max-width: 600px) {
+      .creatives_card { width: 260px; }
+      .creatives_header { padding: 0 20px; margin-bottom: 36px; }
+    }
+
     /* ─── TICKER ─── */
     .ticker { background: var(--red); padding: 14px 0; overflow: hidden; white-space: nowrap; }
     .ticker_track { display: inline-block; animation: ticker 22s linear infinite; }
@@ -1090,6 +1167,24 @@
     </div>
   </section>
 
+  <!-- CREATIVES SLIDER -->
+  <div class="creatives_section">
+    <div class="creatives_header">
+      <div class="creatives_label">So sehen deine Ads aus</div>
+      <h2 class="creatives_title">Creatives, die Kunden bringen.</h2>
+    </div>
+    <div class="creatives_track_wrap">
+      <div class="creatives_track">
+        <div class="creatives_card"><img src="creative1.png" alt="Ad Creative 1"></div>
+        <div class="creatives_card"><img src="creative2.png" alt="Ad Creative 2"></div>
+        <div class="creatives_card"><img src="creative3.png" alt="Ad Creative 3"></div>
+        <div class="creatives_card"><img src="creative1.png" alt="Ad Creative 1"></div>
+        <div class="creatives_card"><img src="creative2.png" alt="Ad Creative 2"></div>
+        <div class="creatives_card"><img src="creative3.png" alt="Ad Creative 3"></div>
+      </div>
+    </div>
+  </div>
+
   <!-- BEFORE / AFTER -->
   <section class="before_after" id="results">
     <div class="section_inner">
@@ -1197,8 +1292,9 @@
           <p class="process_content_text" style="margin-top:0;">Wir testen jeden Monat mehrere Creative-Winkel — damit wir mit der Zeit genau wissen, was Buchungen für dein Studio und deinen Stil antreibt.</p>
           <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="btn-whatsapp" target="_blank" rel="noopener">Jetzt Kunden gewinnen →</a>
         </div>
-        <div class="process_visual" style="background:none; border:none;">
-          <img src="creative1.png" alt="Ad Creative Beispiel 1" style="width:100%; height:100%; object-fit:cover; border-radius:var(--radius-lg); border:1px solid var(--grey-border);">
+        <div class="process_visual">
+          <div class="process_visual_icon">🎬</div>
+          <span style="font-size:14px; color:var(--grey-light);">Deine Creatives — individuell produziert</span>
         </div>
       </div>
       <div id="tab2" class="process_content">
@@ -1208,8 +1304,9 @@
           <p class="process_content_text" style="margin-top:0;">Wir nutzen erprobte Targeting-Methoden, die speziell für lokale Tattoo-Studios entwickelt wurden — keine generischen E-Commerce-Taktiken.</p>
           <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="btn-whatsapp" target="_blank" rel="noopener">Jetzt Kunden gewinnen →</a>
         </div>
-        <div class="process_visual" style="background:none; border:none;">
-          <img src="creative2.png" alt="Ad Creative Beispiel 2" style="width:100%; height:100%; object-fit:cover; border-radius:var(--radius-lg); border:1px solid var(--grey-border);">
+        <div class="process_visual">
+          <div class="process_visual_icon">📊</div>
+          <span style="font-size:14px; color:var(--grey-light);">Täglich aktiv verwaltete Kampagnen</span>
         </div>
       </div>
       <div id="tab3" class="process_content">
@@ -1219,7 +1316,8 @@
           <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="btn-whatsapp" target="_blank" rel="noopener">Jetzt Kunden gewinnen →</a>
         </div>
         <div class="process_visual">
-          <img src="creative3.png" alt="Ad Creative Beispiel 3" style="width:100%; height:100%; object-fit:cover; border-radius:var(--radius-lg); border:1px solid var(--grey-border);">
+          <div class="process_visual_icon">✅</div>
+          <span style="font-size:14px; color:var(--grey-light);">Nur buchungsbereite Kunden</span>
         </div>
       </div>
       <div id="tab4" class="process_content">
@@ -1228,8 +1326,9 @@
           <p class="process_content_text">Jeden Montag bekommst du einen klaren Performance-Report — Leads, Buchungen, Kosten pro Buchung, Werbeausgaben, ROAS. Du weißt immer, was deine Ads machen, und wir sind immer im Call, um zu erklären, was wir als nächstes verbessern.</p>
           <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="btn-whatsapp" target="_blank" rel="noopener">Jetzt Kunden gewinnen →</a>
         </div>
-        <div class="process_visual" style="background:none; border:none;">
-          <img src="creative2.png" alt="Ad Creative Beispiel" style="width:100%; height:100%; object-fit:cover; border-radius:var(--radius-lg); border:1px solid var(--grey-border);">
+        <div class="process_visual">
+          <div class="process_visual_icon">📈</div>
+          <span style="font-size:14px; color:var(--grey-light);">Wöchentliche Performance-Reports</span>
         </div>
       </div>
     </div>
