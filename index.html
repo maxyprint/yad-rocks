@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" class="w-mod-js">
+<html lang="de" class="w-mod-js">
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1" name="viewport">
-  <title>YAD — Meta Ads for Tattoo Artists</title>
-  <meta name="description" content="Stop chasing clients. Start getting booked. YAD runs your Meta Ads so your calendar fills itself.">
-  <meta property="og:title" content="YAD — Meta Ads for Tattoo Artists">
-  <meta property="og:description" content="Stop chasing clients. Start getting booked. YAD runs your Meta Ads so your calendar fills itself.">
+  <title>YAD — Meta Ads für Tätowierer</title>
+  <meta name="description" content="Hör auf, Kunden hinterherzulaufen. YAD schaltet deine Meta Ads, damit dein Kalender sich von selbst füllt.">
+  <meta property="og:title" content="YAD — Meta Ads für Tätowierer">
+  <meta property="og:description" content="Hör auf, Kunden hinterherzulaufen. YAD schaltet deine Meta Ads, damit dein Kalender sich von selbst füllt.">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://yad.rocks">
@@ -29,6 +29,8 @@
       --red: #e8173a;
       --red-dark: #c0102e;
       --red-glow: rgba(232, 23, 58, 0.15);
+      --wa-green: #25D366;
+      --wa-green-dark: #1ebe5d;
       --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       --radius: 12px;
       --radius-lg: 20px;
@@ -59,7 +61,7 @@
       align-items: center;
       padding: 0 40px;
       border-bottom: 1px solid var(--grey-border);
-      background: rgba(10,10,10,0.85);
+      background: rgba(10,10,10,0.92);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
     }
@@ -76,6 +78,7 @@
       font-weight: 900;
       letter-spacing: -1px;
       color: var(--white);
+      z-index: 101;
     }
     .nav_logo span { color: var(--red); }
     .nav_links {
@@ -103,6 +106,8 @@
       border-radius: 8px;
       border: 1px solid var(--grey-border);
       transition: border-color 0.2s;
+      display: inline-flex;
+      align-items: center;
     }
     .btn-ghost:hover { border-color: var(--grey-mid); }
     .btn-primary {
@@ -128,11 +133,80 @@
       padding: 20px 40px;
       border-radius: 12px;
     }
-    .nav_mobile_btn { display: none; }
+    .btn-whatsapp {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--white);
+      padding: 10px 22px;
+      border-radius: 8px;
+      background: var(--wa-green);
+      transition: background 0.2s, transform 0.1s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-whatsapp:hover { background: var(--wa-green-dark); transform: translateY(-1px); }
+    .btn-whatsapp.large {
+      font-size: 16px;
+      padding: 16px 32px;
+      border-radius: 10px;
+    }
+    .btn-whatsapp.xl {
+      font-size: 18px;
+      padding: 20px 40px;
+      border-radius: 12px;
+    }
+
+    /* ─── MOBILE NAV ─── */
+    .nav_mobile_btn {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 8px;
+      z-index: 101;
+    }
+    .nav_mobile_btn span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .nav_mobile_btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav_mobile_btn.open span:nth-child(2) { opacity: 0; }
+    .nav_mobile_btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .nav_mobile_overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--black);
+      z-index: 99;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      padding: 40px;
+    }
+    .nav_mobile_overlay.open { display: flex; }
+    .nav_mobile_overlay .nav_link {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.5px;
+    }
+    .nav_mobile_overlay .btn-whatsapp {
+      font-size: 18px;
+      padding: 16px 40px;
+      border-radius: 12px;
+      margin-top: 16px;
+    }
 
     /* ─── HERO ─── */
     .hero {
-      padding-top: calc(var(--nav-h) + 80px);
+      padding-top: 80px;
       padding-bottom: 100px;
       padding-left: 40px;
       padding-right: 40px;
@@ -181,7 +255,7 @@
       50% { opacity: 0.5; transform: scale(0.8); }
     }
     .hero_title {
-      font-size: clamp(42px, 5vw, 68px);
+      font-size: clamp(38px, 5vw, 68px);
       font-weight: 900;
       line-height: 1.05;
       letter-spacing: -2px;
@@ -233,10 +307,6 @@
       inset: 0;
       background: linear-gradient(135deg, rgba(232,23,58,0.05) 0%, transparent 60%);
     }
-    .hero_visual_icon {
-      font-size: 48px;
-      margin-bottom: 8px;
-    }
     .hero_visual_label {
       font-size: 12px;
       color: var(--grey-mid);
@@ -285,13 +355,13 @@
     }
     .logos_track {
       display: flex;
-      gap: 48px;
+      gap: 16px;
       align-items: center;
       justify-content: center;
       flex-wrap: wrap;
     }
     .logos_item {
-      padding: 12px 24px;
+      padding: 10px 20px;
       border: 1px solid var(--grey-border);
       border-radius: 8px;
       background: var(--black-3);
@@ -314,7 +384,7 @@
       margin-bottom: 16px;
     }
     .section_title {
-      font-size: clamp(34px, 4vw, 52px);
+      font-size: clamp(32px, 4vw, 52px);
       font-weight: 900;
       letter-spacing: -1.5px;
       line-height: 1.1;
@@ -342,7 +412,6 @@
       padding: 48px 40px;
       background: var(--black-2);
       transition: background 0.2s;
-      border: 1px solid transparent;
       position: relative;
     }
     .feature_card:hover { background: var(--black-3); }
@@ -425,11 +494,7 @@
     }
     .ba_card.is-before .ba_item { color: var(--grey-mid); }
     .ba_card.is-after .ba_item { color: var(--white-soft); }
-    .ba_item_icon {
-      flex-shrink: 0;
-      font-size: 16px;
-      margin-top: 1px;
-    }
+    .ba_item_icon { flex-shrink: 0; font-size: 16px; margin-top: 1px; }
 
     /* ─── HOW IT WORKS ─── */
     .hiw { background: var(--black); }
@@ -500,6 +565,7 @@
       gap: 20px;
       width: max-content;
       animation: marquee 40s linear infinite;
+      touch-action: pan-y;
     }
     .testimonials_track:hover { animation-play-state: paused; }
     @keyframes marquee {
@@ -507,7 +573,7 @@
       100% { transform: translateX(-50%); }
     }
     .testimonial_card {
-      width: 340px;
+      width: 320px;
       flex-shrink: 0;
       background: var(--black-3);
       border: 1px solid var(--grey-border);
@@ -526,11 +592,7 @@
       color: var(--white-soft);
       margin-bottom: 24px;
     }
-    .testimonial_author {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+    .testimonial_author { display: flex; align-items: center; gap: 12px; }
     .testimonial_avatar {
       width: 40px; height: 40px;
       border-radius: 50%;
@@ -542,20 +604,11 @@
       flex-shrink: 0;
       border: 1px solid var(--grey-border);
     }
-    .testimonial_name {
-      font-size: 14px;
-      font-weight: 700;
-    }
-    .testimonial_handle {
-      font-size: 13px;
-      color: var(--grey-mid);
-    }
+    .testimonial_name { font-size: 14px; font-weight: 700; }
+    .testimonial_handle { font-size: 13px; color: var(--grey-mid); }
 
     /* ─── CTA BANNER ─── */
-    .cta_banner {
-      background: var(--black);
-      padding: 100px 40px;
-    }
+    .cta_banner { background: var(--black); padding: 100px 40px; }
     .cta_banner_inner {
       max-width: var(--max-w);
       margin: 0 auto;
@@ -590,7 +643,7 @@
       margin-bottom: 28px;
     }
     .cta_banner_title {
-      font-size: clamp(36px, 5vw, 60px);
+      font-size: clamp(32px, 5vw, 60px);
       font-weight: 900;
       letter-spacing: -2px;
       line-height: 1.05;
@@ -603,11 +656,7 @@
       max-width: 520px;
       margin: 0 auto 40px;
     }
-    .cta_banner_disclaimer {
-      margin-top: 16px;
-      font-size: 13px;
-      color: var(--grey-mid);
-    }
+    .cta_banner_disclaimer { margin-top: 16px; font-size: 13px; color: var(--grey-mid); }
 
     /* ─── PROCESS TABS ─── */
     .process { background: var(--black-2); }
@@ -616,9 +665,11 @@
       gap: 8px;
       margin-bottom: 48px;
       border-bottom: 1px solid var(--grey-border);
-      padding-bottom: 0;
       overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
     }
+    .process_tabs::-webkit-scrollbar { display: none; }
     .process_tab {
       padding: 12px 20px;
       font-size: 14px;
@@ -629,11 +680,9 @@
       margin-bottom: -1px;
       white-space: nowrap;
       transition: color 0.2s, border-color 0.2s;
+      flex-shrink: 0;
     }
-    .process_tab.active {
-      color: var(--white);
-      border-bottom-color: var(--red);
-    }
+    .process_tab.active { color: var(--white); border-bottom-color: var(--red); }
     .process_tab:hover { color: var(--white); }
     .process_content { display: none; }
     .process_content.active { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
@@ -711,17 +760,58 @@
       border-color: rgba(232,23,58,0.3);
       color: var(--red);
     }
-    .faq_body {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.35s ease, padding 0.35s ease;
-    }
-    .faq_item.open .faq_body { max-height: 300px; }
+    .faq_body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+    .faq_item.open .faq_body { max-height: 600px; }
     .faq_answer {
       padding: 0 28px 28px;
       font-size: 15px;
       color: var(--grey-light);
       line-height: 1.7;
+    }
+
+    /* ─── COMPARISON TABLE ─── */
+    .compare { background: var(--black-2); }
+    .compare_grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      border: 1px solid var(--grey-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .compare_cell {
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--grey-border);
+      border-right: 1px solid var(--grey-border);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .compare_cell:last-child { border-right: none; }
+    .compare_cell.header {
+      background: var(--black-3);
+      font-weight: 700;
+      font-size: 13px;
+    }
+    .compare_cell.yad { background: rgba(232,23,58,0.04); }
+    .compare_cell.yad.header { background: rgba(232,23,58,0.08); color: var(--red); }
+    .compare_yes { color: #4ade80; }
+    .compare_no { color: var(--grey-mid); }
+    .compare_row_last .compare_cell { border-bottom: none; }
+
+    /* ─── TICKER ─── */
+    .ticker { background: var(--red); padding: 14px 0; overflow: hidden; white-space: nowrap; }
+    .ticker_track { display: inline-block; animation: ticker 22s linear infinite; }
+    .ticker_item {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 0 28px;
+    }
+    .ticker_item::after { content: '✦'; margin-left: 28px; }
+    @keyframes ticker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
     }
 
     /* ─── FOOTER ─── */
@@ -737,13 +827,7 @@
       gap: 60px;
       margin-bottom: 64px;
     }
-    .footer_brand {}
-    .footer_logo {
-      font-size: 28px;
-      font-weight: 900;
-      letter-spacing: -1px;
-      margin-bottom: 16px;
-    }
+    .footer_logo { font-size: 28px; font-weight: 900; letter-spacing: -1px; margin-bottom: 16px; }
     .footer_logo span { color: var(--red); }
     .footer_tagline {
       font-size: 14px;
@@ -752,10 +836,7 @@
       max-width: 280px;
       margin-bottom: 28px;
     }
-    .footer_social {
-      display: flex;
-      gap: 12px;
-    }
+    .footer_social { display: flex; gap: 12px; }
     .footer_social_link {
       width: 36px; height: 36px;
       border-radius: 8px;
@@ -768,19 +849,9 @@
       transition: border-color 0.2s, color 0.2s;
     }
     .footer_social_link:hover { border-color: var(--grey-mid); color: var(--white); }
-    .footer_col_title {
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      color: var(--white);
-      margin-bottom: 20px;
-    }
+    .footer_col_title { font-size: 13px; font-weight: 700; color: var(--white); margin-bottom: 20px; }
     .footer_links { display: flex; flex-direction: column; gap: 12px; }
-    .footer_link {
-      font-size: 14px;
-      color: var(--grey-light);
-      transition: color 0.2s;
-    }
+    .footer_link { font-size: 14px; color: var(--grey-light); transition: color 0.2s; }
     .footer_link:hover { color: var(--white); }
     .footer_bottom {
       padding-top: 32px;
@@ -791,190 +862,192 @@
       gap: 20px;
       flex-wrap: wrap;
     }
-    .footer_copy {
-      font-size: 13px;
-      color: var(--grey-mid);
-    }
-    .footer_legal {
-      display: flex;
-      gap: 24px;
-    }
-    .footer_legal_link {
-      font-size: 13px;
-      color: var(--grey-mid);
-      transition: color 0.2s;
-    }
+    .footer_copy { font-size: 13px; color: var(--grey-mid); }
+    .footer_legal { display: flex; gap: 24px; }
+    .footer_legal_link { font-size: 13px; color: var(--grey-mid); transition: color 0.2s; }
     .footer_legal_link:hover { color: var(--grey-light); }
 
-    /* ─── COMPARISON TABLE ─── */
-    .compare { background: var(--black-2); }
-    .compare_grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1fr;
-      border: 1px solid var(--grey-border);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-    }
-    .compare_cell {
-      padding: 20px 24px;
-      border-bottom: 1px solid var(--grey-border);
-      border-right: 1px solid var(--grey-border);
-      font-size: 15px;
-      line-height: 1.5;
-    }
-    .compare_cell:last-child { border-right: none; }
-    .compare_cell.header {
-      background: var(--black-3);
-      font-weight: 700;
-      font-size: 13px;
-      letter-spacing: 0.3px;
-    }
-    .compare_cell.yad {
-      background: rgba(232,23,58,0.04);
-    }
-    .compare_cell.yad.header {
-      background: rgba(232,23,58,0.08);
-      color: var(--red);
-    }
-    .compare_yes { color: #4ade80; }
-    .compare_no { color: var(--grey-mid); }
-    .compare_row_last .compare_cell { border-bottom: none; }
-
-    /* ─── MARQUEE BAR ─── */
-    .ticker {
-      background: var(--red);
-      padding: 14px 0;
-      overflow: hidden;
-      white-space: nowrap;
-    }
-    .ticker_track {
-      display: inline-block;
-      animation: ticker 20s linear infinite;
-    }
-    .ticker_item {
-      display: inline-block;
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      padding: 0 32px;
-    }
-    .ticker_item::after {
-      content: '✦';
-      margin-left: 32px;
-    }
-    @keyframes ticker {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-
-    /* ─── MOBILE ─── */
+    /* ─── RESPONSIVE 992px ─── */
     @media (max-width: 992px) {
-      .nav_links { display: none; }
       .nav { padding: 0 20px; }
-      .hero, section, .cta_banner, .footer { padding-left: 20px; padding-right: 20px; }
+      .nav_links, .nav_cta { display: none; }
+      .nav_mobile_btn { display: flex; }
+
+      .hero, section, .cta_banner, .footer, .logos { padding-left: 20px; padding-right: 20px; }
       .hero_inner { grid-template-columns: 1fr; gap: 48px; }
       .features_grid { grid-template-columns: 1fr; }
       .before_after_grid { grid-template-columns: 1fr; }
-      .hiw_steps { grid-template-columns: 1fr; }
+      .hiw_steps { grid-template-columns: 1fr; gap: 48px; }
       .hiw_steps::before { display: none; }
+      .hiw_step { padding: 0; }
+      .hiw_number { margin-bottom: 20px; }
       .footer_top { grid-template-columns: 1fr 1fr; gap: 40px; }
       .compare_grid { grid-template-columns: 1.5fr 1fr; }
       .compare_cell:nth-child(3), .compare_cell:nth-child(4),
       .compare_cell:nth-child(7), .compare_cell:nth-child(8),
       .compare_cell:nth-child(11), .compare_cell:nth-child(12),
       .compare_cell:nth-child(15), .compare_cell:nth-child(16),
-      .compare_cell:nth-child(19), .compare_cell:nth-child(20) { display: none; }
-      .process_content.active { grid-template-columns: 1fr; }
+      .compare_cell:nth-child(19), .compare_cell:nth-child(20),
+      .compare_cell:nth-child(23), .compare_cell:nth-child(24) { display: none; }
+      .process_content.active { grid-template-columns: 1fr; gap: 40px; }
       .cta_banner_inner { padding: 48px 24px; }
-      .logos_track { gap: 12px; }
+      .process_visual { aspect-ratio: 16/9; }
+      .section_header { margin-bottom: 48px; }
     }
+
+    /* ─── RESPONSIVE 600px ─── */
     @media (max-width: 600px) {
-      .footer_top { grid-template-columns: 1fr; }
-      .footer_bottom { flex-direction: column; align-items: flex-start; }
-      .hero_stats { flex-direction: column; gap: 24px; }
+      :root { --nav-h: 64px; }
+      .hero { padding-top: 40px; padding-bottom: 64px; }
+      section { padding: 64px 16px; }
+      .cta_banner { padding: 64px 16px; }
+      .logos { padding: 48px 16px; }
+      .footer { padding: 64px 16px 32px; }
+
+      .hero_title { letter-spacing: -1.5px; }
+      .hero_text { font-size: 16px; }
+      .hero_buttons { flex-direction: column; align-items: stretch; }
+      .hero_buttons .btn-whatsapp.large,
+      .hero_buttons .btn-ghost { width: 100%; justify-content: center; text-align: center; font-size: 15px; padding: 14px 20px; }
+      .hero_visual_placeholder { aspect-ratio: 16/9; padding: 24px; }
+      .hero_stats { flex-direction: column; gap: 20px; padding-top: 28px; margin-top: 40px; }
+
+      .ticker_item { font-size: 11px; padding: 0 16px; }
+      .ticker_item::after { margin-left: 16px; }
+
+      .feature_card { padding: 32px 24px; }
+      .ba_card { padding: 28px 20px; }
+
+      .section_title { letter-spacing: -1px; }
+      .section_subtitle { font-size: 16px; }
+      .section_header { margin-bottom: 36px; }
+
+      .btn-whatsapp.xl, .btn-primary.xl {
+        width: 100%;
+        justify-content: center;
+        font-size: 16px;
+        padding: 16px 24px;
+      }
+      .cta_banner_inner { padding: 40px 20px; }
+
+      .faq_trigger { padding: 20px; font-size: 15px; }
+      .faq_answer { padding: 0 20px 20px; }
+
+      .footer_top { grid-template-columns: 1fr; gap: 36px; }
+      .footer_bottom { flex-direction: column; align-items: flex-start; gap: 12px; }
+      .footer_legal { flex-wrap: wrap; gap: 16px; }
+
+      .logos_label { font-size: 11px; margin-bottom: 28px; }
+      .logos_item { font-size: 12px; padding: 8px 14px; }
+
+      .compare_cell { font-size: 13px; padding: 14px 12px; }
+    }
+
+    /* ─── RESPONSIVE 480px ─── */
+    @media (max-width: 480px) {
+      .hiw_number { width: 56px; height: 56px; font-size: 18px; }
+      .testimonial_card { width: 280px; padding: 20px; }
+      .cta_banner_inner { border-radius: 16px; }
     }
   </style>
 </head>
 <body>
+
+  <!-- MOBILE NAV OVERLAY -->
+  <div class="nav_mobile_overlay" id="mobileNav">
+    <a href="#features" class="nav_link" onclick="closeMobileNav()">Was wir tun</a>
+    <a href="#process" class="nav_link" onclick="closeMobileNav()">Ablauf</a>
+    <a href="#results" class="nav_link" onclick="closeMobileNav()">Ergebnisse</a>
+    <a href="#faq" class="nav_link" onclick="closeMobileNav()">FAQ</a>
+    <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="btn-whatsapp" target="_blank" rel="noopener" onclick="closeMobileNav()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Jetzt schreiben
+    </a>
+  </div>
 
   <!-- NAV -->
   <nav class="nav">
     <div class="nav_inner">
       <a href="/" class="nav_logo">YAD<span>.</span></a>
       <div class="nav_links">
-        <a href="#features" class="nav_link">What We Do</a>
-        <a href="#process" class="nav_link">How It Works</a>
-        <a href="#results" class="nav_link">Results</a>
+        <a href="#features" class="nav_link">Was wir tun</a>
+        <a href="#process" class="nav_link">Ablauf</a>
+        <a href="#results" class="nav_link">Ergebnisse</a>
         <a href="#faq" class="nav_link">FAQ</a>
       </div>
       <div class="nav_cta">
-        <a href="#contact" class="btn-ghost">Talk to us</a>
-        <a href="#contact" class="btn-primary">Get booked out →</a>
+        <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="btn-ghost" target="_blank" rel="noopener">Schreib uns</a>
+        <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="btn-whatsapp" target="_blank" rel="noopener">Jetzt buchen →</a>
       </div>
+      <button class="nav_mobile_btn" id="mobileNavBtn" onclick="toggleMobileNav()" aria-label="Menü öffnen">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </nav>
 
   <!-- TICKER -->
   <div class="ticker" style="margin-top: var(--nav-h);">
     <div class="ticker_track">
-      <span class="ticker_item">No more empty slots</span>
-      <span class="ticker_item">Done-for-you Meta Ads</span>
-      <span class="ticker_item">New clients on autopilot</span>
-      <span class="ticker_item">Tattoo artists only</span>
-      <span class="ticker_item">Full-service creatives</span>
-      <span class="ticker_item">Predictable bookings</span>
-      <span class="ticker_item">No more empty slots</span>
-      <span class="ticker_item">Done-for-you Meta Ads</span>
-      <span class="ticker_item">New clients on autopilot</span>
-      <span class="ticker_item">Tattoo artists only</span>
-      <span class="ticker_item">Full-service creatives</span>
-      <span class="ticker_item">Predictable bookings</span>
+      <span class="ticker_item">Keine leeren Slots mehr</span>
+      <span class="ticker_item">Meta Ads komplett für dich</span>
+      <span class="ticker_item">Neue Kunden auf Autopilot</span>
+      <span class="ticker_item">Nur für Tätowierer</span>
+      <span class="ticker_item">Creatives inklusive</span>
+      <span class="ticker_item">Planbare Buchungen</span>
+      <span class="ticker_item">Keine leeren Slots mehr</span>
+      <span class="ticker_item">Meta Ads komplett für dich</span>
+      <span class="ticker_item">Neue Kunden auf Autopilot</span>
+      <span class="ticker_item">Nur für Tätowierer</span>
+      <span class="ticker_item">Creatives inklusive</span>
+      <span class="ticker_item">Planbare Buchungen</span>
     </div>
   </div>
 
   <!-- HERO -->
-  <section class="hero" style="padding-top: 80px;">
+  <section class="hero">
     <div class="hero_inner">
       <div class="hero_content">
         <div class="hero_badge">
           <div class="hero_badge_dot"></div>
-          Meta Ads — Exclusively for Tattoo Artists
+          Meta Ads — Exklusiv für Tätowierer
         </div>
         <h1 class="hero_title">
-          Your calendar<br>
-          stays <span class="accent">full.</span><br>
-          You stay tattooing.
+          Dein Kalender<br>
+          bleibt <span class="accent">voll.</span><br>
+          Du bleibst am Stechen.
         </h1>
         <p class="hero_text">
-          Stop chasing clients on Instagram. YAD runs your Meta Ads, builds your creatives, and delivers ready-to-book clients straight to your DMs — every single week.
+          Hör auf, Kunden hinterherzulaufen. YAD schaltet deine Meta Ads, produziert deine Creatives und liefert buchungsbereite Kunden direkt in deine DMs — jede Woche.
         </p>
         <div class="hero_buttons">
-          <a href="#contact" class="btn-primary large">Fill my calendar →</a>
-          <a href="#process" class="btn-ghost" style="padding: 16px 24px; font-size: 16px; border-radius: 10px;">See how it works</a>
+          <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="btn-whatsapp large" target="_blank" rel="noopener">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Kalender füllen →
+          </a>
+          <a href="#process" class="btn-ghost" style="padding: 16px 24px; font-size: 16px; border-radius: 10px;">So funktioniert's</a>
         </div>
-        <p class="hero_disclaimer">Free strategy call — no credit card, no bullshit.</p>
+        <p class="hero_disclaimer">Kostenloses Erstgespräch — kein Risiko, keine Verpflichtung.</p>
         <div class="hero_stats">
           <div>
-            <div class="hero_stat_number">3.2×</div>
-            <div class="hero_stat_label">Average booking increase</div>
+            <div class="hero_stat_number">3,2×</div>
+            <div class="hero_stat_label">Mehr Buchungen im Schnitt</div>
           </div>
           <div>
             <div class="hero_stat_number">€8–€24</div>
-            <div class="hero_stat_label">Cost per booked client</div>
+            <div class="hero_stat_label">Kosten pro Buchung</div>
           </div>
           <div>
-            <div class="hero_stat_number">14 days</div>
-            <div class="hero_stat_label">To first results</div>
+            <div class="hero_stat_number">14 Tage</div>
+            <div class="hero_stat_label">Bis zu ersten Ergebnissen</div>
           </div>
         </div>
       </div>
       <div class="hero_visual">
         <div class="hero_visual_placeholder">
-          <div class="hero_visual_icon">🎨</div>
-          <strong style="font-size: 15px; color: var(--white-soft);">Ad Creative Example</strong>
-          <p style="font-size: 13px; color: var(--grey-mid); text-align: center;">Suggested: Short-form video of tattoo being applied, client reaction, healed result — with bold text overlay & CTA</p>
-          <span class="hero_visual_label">Placeholder — ad creative example</span>
+          <div style="font-size:48px; margin-bottom:8px;">🎨</div>
+          <strong style="font-size: 15px; color: var(--white-soft);">Ad Creative Beispiel</strong>
+          <p style="font-size: 13px; color: var(--grey-mid); text-align: center;">Empfehlung: Kurzfilm beim Stechen, Kundenreaktion, abgeheiltes Ergebnis — mit fettem Textoverlay &amp; CTA</p>
+          <span class="hero_visual_label">Platzhalter — Ad Creative Beispiel</span>
         </div>
       </div>
     </div>
@@ -983,7 +1056,7 @@
   <!-- LOGO BAR -->
   <div class="logos">
     <div class="logos_inner">
-      <p class="logos_label">Trusted by studios &amp; artists across Europe</p>
+      <p class="logos_label">Vertraut von Studios &amp; Artists im DACH-Raum</p>
       <div class="logos_track">
         <div class="logos_item">Darkroom Tattoo Studio</div>
         <div class="logos_item">Inklab Berlin</div>
@@ -993,7 +1066,7 @@
         <div class="logos_item">Studio Noir München</div>
         <div class="logos_item">Freehand Artists</div>
       </div>
-      <p style="text-align:center; font-size:12px; color:var(--grey-mid); margin-top:24px; font-style:italic;">↑ Placeholder logos — replace with actual client studio names &amp; logos</p>
+      <p style="text-align:center; font-size:12px; color:var(--grey-mid); margin-top:20px; font-style:italic;">↑ Platzhalter — durch echte Kundenstudios ersetzen</p>
     </div>
   </div>
 
@@ -1001,40 +1074,40 @@
   <section class="features" id="features">
     <div class="section_inner">
       <div class="section_header">
-        <div class="section_label">What we do</div>
-        <h2 class="section_title">Everything you need.<br>Nothing you don't.</h2>
-        <p class="section_subtitle">We handle your entire Meta Ads operation so you can focus on what you're actually good at — making art that gets people tattooed for life.</p>
+        <div class="section_label">Was wir tun</div>
+        <h2 class="section_title">Alles was du brauchst.<br>Nichts was du nicht brauchst.</h2>
+        <p class="section_subtitle">Wir übernehmen deinen kompletten Meta Ads Betrieb — damit du dich auf das konzentrierst, was du wirklich kannst: Kunst machen, die Menschen ein Leben lang tragen.</p>
       </div>
       <div class="features_grid">
         <div class="feature_card">
           <div class="feature_icon_wrap">🎯</div>
-          <h3 class="feature_title">Ads that bring in real clients</h3>
-          <p class="feature_text">We build and run Facebook & Instagram ad campaigns targeting people actively looking for tattoos in your city. Not random reach — actual bookings. Our targeting focuses on intent-based audiences so every euro you spend works.</p>
+          <h3 class="feature_title">Ads, die echte Kunden bringen</h3>
+          <p class="feature_text">Wir bauen und schalten Facebook- &amp; Instagram-Kampagnen, die Menschen ansprechen, die aktiv nach Tattoos in deiner Stadt suchen. Kein zufälliger Reichweiten-Boost — echte Buchungen. Unser Targeting fokussiert auf kaufbereite Zielgruppen, damit jeder Euro wirkt.</p>
         </div>
         <div class="feature_card">
           <div class="feature_icon_wrap">🎬</div>
-          <h3 class="feature_title">Done-for-you creatives</h3>
-          <p class="feature_text">We produce scroll-stopping ad creatives built specifically for the tattoo niche — short-form videos, before/after reels, bold static ads. Everything is made to convert, not just look pretty. You provide the content, we do the rest.</p>
+          <h3 class="feature_title">Creatives — komplett für dich</h3>
+          <p class="feature_text">Wir produzieren scroll-stoppende Ad Creatives speziell für die Tattoo-Nische — Kurzvideos, Vorher/Nachher-Reels, starke Statics. Alles ist auf Conversion ausgelegt, nicht nur auf Optik. Du lieferst den Content, wir machen den Rest.</p>
         </div>
         <div class="feature_card">
           <div class="feature_icon_wrap">📅</div>
-          <h3 class="feature_title">No more empty slots</h3>
-          <p class="feature_text">Imagine opening your booking calendar and finding it already filled by people who found you through ads. That's the goal — consistent, predictable demand so you're never scrambling for clients between projects again.</p>
+          <h3 class="feature_title">Keine leeren Slots mehr</h3>
+          <p class="feature_text">Stell dir vor, du öffnest deinen Buchungskalender und er ist bereits gefüllt — von Menschen, die dich über Ads gefunden haben. Das ist das Ziel: konstante, planbare Nachfrage, damit du nie mehr zwischen Projekten nach Kunden suchen musst.</p>
         </div>
         <div class="feature_card">
           <div class="feature_icon_wrap">📊</div>
-          <h3 class="feature_title">Full transparency, zero guesswork</h3>
-          <p class="feature_text">Weekly performance reports. Clear numbers. Cost per lead, cost per booking, ROAS. You always know exactly what your ad spend is doing — and we optimize relentlessly based on real data, not vibes.</p>
+          <h3 class="feature_title">Volle Transparenz, null Rätselraten</h3>
+          <p class="feature_text">Wöchentliche Performance-Reports. Klare Zahlen. Kosten pro Lead, Kosten pro Buchung, ROAS. Du weißt immer genau, was dein Werbebudget macht — und wir optimieren unermüdlich auf Basis echter Daten, nicht Bauchgefühl.</p>
         </div>
         <div class="feature_card">
           <div class="feature_icon_wrap">⚡</div>
-          <h3 class="feature_title">Live in 14 days</h3>
-          <p class="feature_text">Most agencies take months to "onboard" you. We don't. Onboarding call, strategy, creatives, launch — all within two weeks of signing. You'll see first results before the first month is out.</p>
+          <h3 class="feature_title">In 14 Tagen live</h3>
+          <p class="feature_text">Die meisten Agenturen brauchen Monate für das Onboarding. Wir nicht. Erstgespräch, Strategie, Creatives, Launch — alles innerhalb von zwei Wochen nach Vertragsstart. Du siehst erste Ergebnisse noch vor Ende des ersten Monats.</p>
         </div>
         <div class="feature_card">
           <div class="feature_icon_wrap">🔒</div>
-          <h3 class="feature_title">Tattoo-niche expertise only</h3>
-          <p class="feature_text">We don't run ads for dentists, restaurants, or crypto. We know exactly what angles work for tattoo artists, what copy converts, what visuals stop the scroll. Niche specialization means better results — period.</p>
+          <h3 class="feature_title">Nur Tattoo-Nische. Keine Ausnahme.</h3>
+          <p class="feature_text">Wir schalten keine Ads für Zahnarztpraxen, Restaurants oder Crypto. Wir wissen genau, welche Winkel für Tätowierer funktionieren, welcher Copy konvertiert, welche Visuals den Scroll stoppen. Nischenspezialisierung bedeutet bessere Ergebnisse — Punkt.</p>
         </div>
       </div>
     </div>
@@ -1044,66 +1117,66 @@
   <section class="before_after" id="results">
     <div class="section_inner">
       <div class="section_header">
-        <div class="section_label">The transformation</div>
-        <h2 class="section_title">Before YAD.<br>After YAD.</h2>
-        <p class="section_subtitle">This is the difference between grinding for clients and having clients come to you.</p>
+        <div class="section_label">Die Transformation</div>
+        <h2 class="section_title">Vor YAD.<br>Nach YAD.</h2>
+        <p class="section_subtitle">Das ist der Unterschied zwischen Kunden hinterherlaufen und Kunden, die zu dir kommen.</p>
       </div>
       <div class="before_after_grid">
         <div class="ba_card is-before">
-          <div class="ba_label">Without YAD</div>
+          <div class="ba_label">Ohne YAD</div>
           <div class="ba_items">
             <div class="ba_item">
               <span class="ba_item_icon">✗</span>
-              <span>Posting daily hoping someone reaches out — radio silence</span>
+              <span>Täglich posten in der Hoffnung, dass jemand schreibt — meistens Stille</span>
             </div>
             <div class="ba_item">
               <span class="ba_item_icon">✗</span>
-              <span>Weeks with half an empty calendar, panic-scrolling DMs</span>
+              <span>Wochen mit halbem Kalender, nervös durch die DMs scrollen</span>
             </div>
             <div class="ba_item">
               <span class="ba_item_icon">✗</span>
-              <span>Wasting money on boosted posts that bring in ghosts, not clients</span>
+              <span>Geld für geboostete Posts verbrennen, die Karteileichen bringen, keine Kunden</span>
             </div>
             <div class="ba_item">
               <span class="ba_item_icon">✗</span>
-              <span>Zero idea what's actually working or why. Just guessing</span>
+              <span>Null Ahnung, was wirklich funktioniert. Nur raten.</span>
             </div>
             <div class="ba_item">
               <span class="ba_item_icon">✗</span>
-              <span>Your dream clients are booking someone else — not because they're better, but louder</span>
+              <span>Deine Traumkunden buchen jemand anderen — nicht weil der besser ist, sondern lauter</span>
             </div>
             <div class="ba_item">
               <span class="ba_item_icon">✗</span>
-              <span>Spending hours on marketing you didn't get into tattooing to do</span>
+              <span>Stunden im Marketing versenken, für das du nicht Tätowierer geworden bist</span>
             </div>
           </div>
         </div>
         <div class="ba_card is-after">
-          <div class="ba_label">With YAD</div>
+          <div class="ba_label">Mit YAD</div>
           <div class="ba_items">
             <div class="ba_item">
               <span class="ba_item_icon" style="color:var(--red);">✦</span>
-              <span>Ads running 24/7 while you focus on the chair. Clients find you.</span>
+              <span>Ads laufen 24/7, während du am Stuhl sitzt. Kunden finden dich.</span>
             </div>
             <div class="ba_item">
               <span class="ba_item_icon" style="color:var(--red);">✦</span>
-              <span>Calendar booked 4–6 weeks out. Waitlists. Real demand.</span>
+              <span>Kalender 4–6 Wochen ausgebucht. Wartelisten. Echte Nachfrage.</span>
             </div>
             <div class="ba_item">
               <span class="ba_item_icon" style="color:var(--red);">✦</span>
-              <span>Every euro tracked. ROI-positive within the first 30 days.</span>
+              <span>Jeder Euro trackt. ROI-positiv innerhalb der ersten 30 Tage.</span>
             </div>
             <div class="ba_item">
               <span class="ba_item_icon" style="color:var(--red);">✦</span>
-              <span>Weekly reports so you know exactly how much each booking costs.</span>
+              <span>Wöchentliche Reports — du weißt genau, was jede Buchung kostet.</span>
             </div>
             <div class="ba_item">
               <span class="ba_item_icon" style="color:var(--red);">✦</span>
-              <span>Your ideal clients — people who want your exact style — booking you.</span>
+              <span>Deine Wunschkunden — Menschen, die genau deinen Stil wollen — buchen dich.</span>
             </div>
             <div class="ba_item">
               <span class="ba_item_icon" style="color:var(--red);">✦</span>
-              <span>Done-for-you. You send content, we handle everything else.</span>
+              <span>Komplett für dich erledigt. Du schickst Content, wir machen alles andere.</span>
             </div>
           </div>
         </div>
@@ -1115,25 +1188,25 @@
   <section class="hiw" id="process">
     <div class="section_inner">
       <div class="section_header">
-        <div class="section_label">The process</div>
-        <h2 class="section_title">Up and running in 14 days.</h2>
-        <p class="section_subtitle">No six-month onboarding. No 200-page strategy decks. Just a clean process that gets you results fast.</p>
+        <div class="section_label">Der Ablauf</div>
+        <h2 class="section_title">In 14 Tagen live.</h2>
+        <p class="section_subtitle">Kein sechsmonatiges Onboarding. Kein 200-seitiges Strategie-Deck. Ein klarer Prozess, der schnell Ergebnisse bringt.</p>
       </div>
       <div class="hiw_steps">
         <div class="hiw_step">
           <div class="hiw_number">01</div>
-          <h3 class="hiw_title">Strategy Call</h3>
-          <p class="hiw_text">We learn your style, your ideal client, your city and your goals. 45 minutes. We build your custom ad strategy on the spot — including targeting, budget, and angles that actually work for your niche.</p>
+          <h3 class="hiw_title">Strategiegespräch</h3>
+          <p class="hiw_text">Wir lernen deinen Stil, deinen Wunschkunden, deine Stadt und deine Ziele kennen. 45 Minuten. Wir entwickeln deine individuelle Ad-Strategie vor Ort — inklusive Targeting, Budget und Winkel, die für deine Nische wirklich funktionieren.</p>
         </div>
         <div class="hiw_step">
           <div class="hiw_number">02</div>
-          <h3 class="hiw_title">Creatives & Launch</h3>
-          <p class="hiw_text">You share your best content — healed work, studio shots, time-lapses. We turn it into scroll-stopping ad creatives, write the copy, set up the campaigns, and go live. All within 2 weeks.</p>
+          <h3 class="hiw_title">Creatives &amp; Launch</h3>
+          <p class="hiw_text">Du teilst deinen besten Content — abgeheilte Arbeiten, Studio-Shots, Time-Lapses. Wir verwandeln ihn in scroll-stoppende Ad Creatives, schreiben den Copy, richten die Kampagnen ein und gehen live. Alles innerhalb von 2 Wochen.</p>
         </div>
         <div class="hiw_step">
           <div class="hiw_number">03</div>
-          <h3 class="hiw_title">Scale & Optimize</h3>
-          <p class="hiw_text">We track every click, lead, and booking. Weekly reports. Monthly calls. We kill what doesn't work and scale what does — continuously optimizing until your calendar is full and your ad costs drop.</p>
+          <h3 class="hiw_title">Skalieren &amp; Optimieren</h3>
+          <p class="hiw_text">Wir tracken jeden Klick, Lead und jede Buchung. Wöchentliche Reports. Monatliche Calls. Wir stoppen, was nicht funktioniert, und skalieren, was wirkt — kontinuierlich, bis dein Kalender voll ist und deine Kosten sinken.</p>
         </div>
       </div>
     </div>
@@ -1143,63 +1216,63 @@
   <section class="process">
     <div class="section_inner">
       <div class="section_header">
-        <div class="section_label">What we handle</div>
-        <h2 class="section_title">Done-for-you.<br>All of it.</h2>
+        <div class="section_label">Was wir übernehmen</div>
+        <h2 class="section_title">Komplett für dich.<br>Alles davon.</h2>
       </div>
       <div class="process_tabs">
         <div class="process_tab active" onclick="switchTab(this, 'tab1')">Ad Creatives</div>
-        <div class="process_tab" onclick="switchTab(this, 'tab2')">Campaign Management</div>
-        <div class="process_tab" onclick="switchTab(this, 'tab3')">Lead Qualification</div>
+        <div class="process_tab" onclick="switchTab(this, 'tab2')">Kampagnen-Management</div>
+        <div class="process_tab" onclick="switchTab(this, 'tab3')">Lead-Qualifizierung</div>
         <div class="process_tab" onclick="switchTab(this, 'tab4')">Reporting</div>
       </div>
       <div id="tab1" class="process_content active">
         <div>
-          <h3 class="process_content_title">Creatives that make people stop scrolling</h3>
-          <p class="process_content_text">We take your raw content and produce professional ad creatives — short reels, static images, story ads. Bold copy. Hooks that hit. Everything optimized for the tattoo niche specifically. You focus on tattooing. We focus on the ads.</p>
-          <p class="process_content_text" style="margin-top:0;">We test multiple creative angles per month — so over time we know exactly what drives bookings for your studio and style.</p>
-          <a href="#contact" class="btn-primary">Start getting clients →</a>
+          <h3 class="process_content_title">Creatives, die den Scroll stoppen</h3>
+          <p class="process_content_text">Wir nehmen deinen rohen Content und produzieren professionelle Ad Creatives — kurze Reels, Statics, Story Ads. Starker Copy. Hooks, die treffen. Alles speziell für die Tattoo-Nische optimiert. Du fokussierst dich aufs Tätowieren. Wir auf die Ads.</p>
+          <p class="process_content_text" style="margin-top:0;">Wir testen jeden Monat mehrere Creative-Winkel — damit wir mit der Zeit genau wissen, was Buchungen für dein Studio und deinen Stil antreibt.</p>
+          <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="btn-whatsapp" target="_blank" rel="noopener">Jetzt Kunden gewinnen →</a>
         </div>
         <div class="process_visual">
           <div class="process_visual_icon">🎬</div>
-          <span>Ad creative mockup</span>
-          <p style="font-size:12px; color:var(--grey-mid); text-align:center; padding: 0 32px;">Suggested: Side-by-side of raw content vs. finished ad creative</p>
+          <span>Ad Creative Mockup</span>
+          <p style="font-size:12px; color:var(--grey-mid); text-align:center; padding: 0 32px;">Empfehlung: Roher Content vs. fertiges Ad Creative im Vergleich</p>
         </div>
       </div>
       <div id="tab2" class="process_content">
         <div>
-          <h3 class="process_content_title">Campaigns that run 24/7 without you lifting a finger</h3>
-          <p class="process_content_text">We set up, run, and optimize your Facebook and Instagram ad campaigns. Budget allocation, audience targeting, bid strategy — all handled. You get the results, we do the work.</p>
-          <p class="process_content_text" style="margin-top:0;">We use battle-tested targeting approaches built specifically for local tattoo studios — not generic e-commerce tactics.</p>
-          <a href="#contact" class="btn-primary">Start getting clients →</a>
+          <h3 class="process_content_title">Kampagnen, die 24/7 laufen — ohne deinen Finger zu rühren</h3>
+          <p class="process_content_text">Wir richten deine Facebook- und Instagram-Kampagnen ein, betreiben und optimieren sie. Budget-Verteilung, Zielgruppen-Targeting, Gebotsstrategie — alles übernommen. Du bekommst die Ergebnisse, wir machen die Arbeit.</p>
+          <p class="process_content_text" style="margin-top:0;">Wir nutzen erprobte Targeting-Methoden, die speziell für lokale Tattoo-Studios entwickelt wurden — keine generischen E-Commerce-Taktiken.</p>
+          <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="btn-whatsapp" target="_blank" rel="noopener">Jetzt Kunden gewinnen →</a>
         </div>
         <div class="process_visual">
           <div class="process_visual_icon">📊</div>
-          <span>Campaign dashboard</span>
-          <p style="font-size:12px; color:var(--grey-mid); text-align:center; padding: 0 32px;">Suggested: Screenshot of Meta Ads Manager dashboard showing active campaigns</p>
+          <span>Kampagnen-Dashboard</span>
+          <p style="font-size:12px; color:var(--grey-mid); text-align:center; padding: 0 32px;">Empfehlung: Screenshot des Meta Ads Manager Dashboards mit aktiven Kampagnen</p>
         </div>
       </div>
       <div id="tab3" class="process_content">
         <div>
-          <h3 class="process_content_title">Only serious clients reach your inbox</h3>
-          <p class="process_content_text">We build lead forms and qualification funnels that filter out time-wasters before they ever reach you. By the time someone lands in your DMs, they already know your price range, your style, and they're ready to book.</p>
-          <a href="#contact" class="btn-primary">Start getting clients →</a>
+          <h3 class="process_content_title">Nur ernsthafte Kunden landen in deinem Posteingang</h3>
+          <p class="process_content_text">Wir bauen Lead-Formulare und Qualifizierungs-Funnels, die Zeitverschwender herausfiltern, bevor sie dich überhaupt erreichen. Wenn jemand in deinen DMs landet, kennt er bereits deine Preisvorstellung, deinen Stil — und ist buchungsbereit.</p>
+          <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="btn-whatsapp" target="_blank" rel="noopener">Jetzt Kunden gewinnen →</a>
         </div>
         <div class="process_visual">
           <div class="process_visual_icon">✅</div>
-          <span>Lead qualification flow</span>
-          <p style="font-size:12px; color:var(--grey-mid); text-align:center; padding: 0 32px;">Suggested: Funnel diagram showing lead quality filtration steps</p>
+          <span>Lead-Qualifizierungs-Flow</span>
+          <p style="font-size:12px; color:var(--grey-mid); text-align:center; padding: 0 32px;">Empfehlung: Funnel-Diagramm mit den Qualifizierungsschritten</p>
         </div>
       </div>
       <div id="tab4" class="process_content">
         <div>
-          <h3 class="process_content_title">Weekly reports. No fluff. Just numbers.</h3>
-          <p class="process_content_text">Every Monday you get a clean performance report — leads, bookings, cost per booking, ad spend, ROAS. You always know what your ads are doing, and we're always on a call to explain what we're doing next to improve it.</p>
-          <a href="#contact" class="btn-primary">Start getting clients →</a>
+          <h3 class="process_content_title">Wöchentliche Reports. Kein Bullshit. Nur Zahlen.</h3>
+          <p class="process_content_text">Jeden Montag bekommst du einen klaren Performance-Report — Leads, Buchungen, Kosten pro Buchung, Werbeausgaben, ROAS. Du weißt immer, was deine Ads machen, und wir sind immer im Call, um zu erklären, was wir als nächstes verbessern.</p>
+          <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="btn-whatsapp" target="_blank" rel="noopener">Jetzt Kunden gewinnen →</a>
         </div>
         <div class="process_visual">
           <div class="process_visual_icon">📈</div>
-          <span>Weekly report example</span>
-          <p style="font-size:12px; color:var(--grey-mid); text-align:center; padding: 0 32px;">Suggested: Screenshot of weekly performance report PDF with key metrics highlighted</p>
+          <span>Wöchentlicher Report</span>
+          <p style="font-size:12px; color:var(--grey-mid); text-align:center; padding: 0 32px;">Empfehlung: Screenshot eines Report-PDFs mit den wichtigsten Kennzahlen</p>
         </div>
       </div>
     </div>
@@ -1209,17 +1282,16 @@
   <section class="testimonials">
     <div class="section_inner">
       <div class="testimonials_header section_header">
-        <div class="section_label">Real results</div>
-        <h2 class="section_title">What tattoo artists say.</h2>
-        <p class="section_subtitle">Results from real studios. Real numbers. Real bookings.</p>
+        <div class="section_label">Echte Ergebnisse</div>
+        <h2 class="section_title">Was Tätowierer sagen.</h2>
+        <p class="section_subtitle">Ergebnisse echter Studios. Echte Zahlen. Echte Buchungen.</p>
       </div>
     </div>
     <div class="testimonials_track_wrap">
       <div class="testimonials_track">
-        <!-- Set 1 -->
         <div class="testimonial_card">
           <div class="testimonial_stars">★★★★★</div>
-          <p class="testimonial_text">"I was fully booked within 3 weeks. Had a waitlist for the first time in 6 years of tattooing. YAD is the real deal — they actually know the tattoo industry."</p>
+          <p class="testimonial_text">„Innerhalb von 3 Wochen war ich ausgebucht. Zum ersten Mal in 6 Jahren eine Warteliste. YAD ist das Echte — die verstehen die Tattoo-Branche wirklich."</p>
           <div class="testimonial_author">
             <div class="testimonial_avatar">🎨</div>
             <div>
@@ -1230,7 +1302,7 @@
         </div>
         <div class="testimonial_card">
           <div class="testimonial_stars">★★★★★</div>
-          <p class="testimonial_text">"€14 per booked appointment. I've spent that on a coffee and a croissant. Best investment I've made for my studio, no contest."</p>
+          <p class="testimonial_text">„€14 pro gebuchtem Termin. Das hab ich schon für Kaffee und Croissant ausgegeben. Beste Investition für mein Studio, ohne Diskussion."</p>
           <div class="testimonial_author">
             <div class="testimonial_avatar">✒️</div>
             <div>
@@ -1241,40 +1313,40 @@
         </div>
         <div class="testimonial_card">
           <div class="testimonial_stars">★★★★★</div>
-          <p class="testimonial_text">"I used to dread Mondays because my calendar was half empty. Now I wake up to booking requests. The difference is insane."</p>
+          <p class="testimonial_text">„Früher hab ich Montagmorgen gefürchtet, weil der Kalender halb leer war. Jetzt wache ich mit Buchungsanfragen auf. Der Unterschied ist krass."</p>
           <div class="testimonial_author">
             <div class="testimonial_avatar">🖤</div>
             <div>
               <div class="testimonial_name">Alex P.</div>
-              <div class="testimonial_handle">Japanese &amp; Irezumi — Vienna</div>
+              <div class="testimonial_handle">Japanese &amp; Irezumi — Wien</div>
             </div>
           </div>
         </div>
         <div class="testimonial_card">
           <div class="testimonial_stars">★★★★★</div>
-          <p class="testimonial_text">"They don't just run ads — they actually understand what tattoo clients want. The creatives they made for me got a 4.2% CTR. That's insane."</p>
+          <p class="testimonial_text">„Die schalten nicht einfach Ads — die verstehen wirklich, was Tattoo-Kunden wollen. Die Creatives, die sie für mich gemacht haben, hatten 4,2% CTR. Wahnsinn."</p>
           <div class="testimonial_author">
             <div class="testimonial_avatar">⚡</div>
             <div>
               <div class="testimonial_name">Sarah M.</div>
-              <div class="testimonial_handle">Realism &amp; Portrait — Munich</div>
+              <div class="testimonial_handle">Realism &amp; Portrait — München</div>
             </div>
           </div>
         </div>
         <div class="testimonial_card">
           <div class="testimonial_stars">★★★★★</div>
-          <p class="testimonial_text">"Within 6 weeks my revenue jumped 40%. I raised my prices. Still fully booked. I wish I'd done this 2 years ago."</p>
+          <p class="testimonial_text">„Innerhalb von 6 Wochen ist mein Umsatz um 40% gestiegen. Ich hab meine Preise erhöht. Bin immer noch ausgebucht. Hätte das gern 2 Jahre früher gemacht."</p>
           <div class="testimonial_author">
             <div class="testimonial_avatar">🌿</div>
             <div>
               <div class="testimonial_name">Tom W.</div>
-              <div class="testimonial_handle">Botanical &amp; Illustrative — Frankfurt</div>
+              <div class="testimonial_handle">Botanical &amp; Illustrativ — Frankfurt</div>
             </div>
           </div>
         </div>
         <div class="testimonial_card">
           <div class="testimonial_stars">★★★★★</div>
-          <p class="testimonial_text">"I've tried other agencies. Generic. Expensive. Zero results. YAD actually knows tattoo artists. First month was profitable. That's all I needed to know."</p>
+          <p class="testimonial_text">„Ich hab andere Agenturen probiert. Generisch. Teuer. Null Ergebnis. YAD kennt Tätowierer. Der erste Monat war bereits profitabel. Mehr brauch ich nicht."</p>
           <div class="testimonial_author">
             <div class="testimonial_avatar">🔱</div>
             <div>
@@ -1283,10 +1355,10 @@
             </div>
           </div>
         </div>
-        <!-- Duplicate set for infinite loop -->
+        <!-- Duplikat für Loop -->
         <div class="testimonial_card">
           <div class="testimonial_stars">★★★★★</div>
-          <p class="testimonial_text">"I was fully booked within 3 weeks. Had a waitlist for the first time in 6 years of tattooing. YAD is the real deal — they actually know the tattoo industry."</p>
+          <p class="testimonial_text">„Innerhalb von 3 Wochen war ich ausgebucht. Zum ersten Mal in 6 Jahren eine Warteliste. YAD ist das Echte — die verstehen die Tattoo-Branche wirklich."</p>
           <div class="testimonial_author">
             <div class="testimonial_avatar">🎨</div>
             <div>
@@ -1297,7 +1369,7 @@
         </div>
         <div class="testimonial_card">
           <div class="testimonial_stars">★★★★★</div>
-          <p class="testimonial_text">"€14 per booked appointment. I've spent that on a coffee and a croissant. Best investment I've made for my studio, no contest."</p>
+          <p class="testimonial_text">„€14 pro gebuchtem Termin. Das hab ich schon für Kaffee und Croissant ausgegeben. Beste Investition für mein Studio, ohne Diskussion."</p>
           <div class="testimonial_author">
             <div class="testimonial_avatar">✒️</div>
             <div>
@@ -1308,40 +1380,40 @@
         </div>
         <div class="testimonial_card">
           <div class="testimonial_stars">★★★★★</div>
-          <p class="testimonial_text">"I used to dread Mondays because my calendar was half empty. Now I wake up to booking requests. The difference is insane."</p>
+          <p class="testimonial_text">„Früher hab ich Montagmorgen gefürchtet, weil der Kalender halb leer war. Jetzt wache ich mit Buchungsanfragen auf. Der Unterschied ist krass."</p>
           <div class="testimonial_author">
             <div class="testimonial_avatar">🖤</div>
             <div>
               <div class="testimonial_name">Alex P.</div>
-              <div class="testimonial_handle">Japanese &amp; Irezumi — Vienna</div>
+              <div class="testimonial_handle">Japanese &amp; Irezumi — Wien</div>
             </div>
           </div>
         </div>
         <div class="testimonial_card">
           <div class="testimonial_stars">★★★★★</div>
-          <p class="testimonial_text">"They don't just run ads — they actually understand what tattoo clients want. The creatives they made for me got a 4.2% CTR. That's insane."</p>
+          <p class="testimonial_text">„Die schalten nicht einfach Ads — die verstehen wirklich, was Tattoo-Kunden wollen. Die Creatives, die sie für mich gemacht haben, hatten 4,2% CTR. Wahnsinn."</p>
           <div class="testimonial_author">
             <div class="testimonial_avatar">⚡</div>
             <div>
               <div class="testimonial_name">Sarah M.</div>
-              <div class="testimonial_handle">Realism &amp; Portrait — Munich</div>
+              <div class="testimonial_handle">Realism &amp; Portrait — München</div>
             </div>
           </div>
         </div>
         <div class="testimonial_card">
           <div class="testimonial_stars">★★★★★</div>
-          <p class="testimonial_text">"Within 6 weeks my revenue jumped 40%. I raised my prices. Still fully booked. I wish I'd done this 2 years ago."</p>
+          <p class="testimonial_text">„Innerhalb von 6 Wochen ist mein Umsatz um 40% gestiegen. Ich hab meine Preise erhöht. Bin immer noch ausgebucht. Hätte das gern 2 Jahre früher gemacht."</p>
           <div class="testimonial_author">
             <div class="testimonial_avatar">🌿</div>
             <div>
               <div class="testimonial_name">Tom W.</div>
-              <div class="testimonial_handle">Botanical &amp; Illustrative — Frankfurt</div>
+              <div class="testimonial_handle">Botanical &amp; Illustrativ — Frankfurt</div>
             </div>
           </div>
         </div>
         <div class="testimonial_card">
           <div class="testimonial_stars">★★★★★</div>
-          <p class="testimonial_text">"I've tried other agencies. Generic. Expensive. Zero results. YAD actually knows tattoo artists. First month was profitable. That's all I needed to know."</p>
+          <p class="testimonial_text">„Ich hab andere Agenturen probiert. Generisch. Teuer. Null Ergebnis. YAD kennt Tätowierer. Der erste Monat war bereits profitabel. Mehr brauch ich nicht."</p>
           <div class="testimonial_author">
             <div class="testimonial_avatar">🔱</div>
             <div>
@@ -1352,52 +1424,52 @@
         </div>
       </div>
     </div>
-    <p style="text-align:center; font-size:12px; color:var(--grey-mid); margin-top:32px; font-style:italic;">↑ Placeholder testimonials — replace with real client quotes, photos, and handles</p>
+    <p style="text-align:center; font-size:12px; color:var(--grey-mid); margin-top:32px; font-style:italic;">↑ Platzhalter — durch echte Kundenzitate, Fotos &amp; Handles ersetzen</p>
   </section>
 
   <!-- COMPARISON -->
   <section class="compare">
     <div class="section_inner">
       <div class="section_header">
-        <div class="section_label">Why YAD</div>
-        <h2 class="section_title">Not your average agency.</h2>
-        <p class="section_subtitle">An honest look at what makes us different. It's not ego — it's just what a niche-specialist does vs. a generalist.</p>
+        <div class="section_label">Warum YAD</div>
+        <h2 class="section_title">Keine gewöhnliche Agentur.</h2>
+        <p class="section_subtitle">Ein ehrlicher Blick auf den Unterschied. Kein Ego — nur was ein Nischenspezialist im Vergleich zu einem Generalisten leistet.</p>
       </div>
       <div class="compare_grid">
-        <div class="compare_cell header">Feature</div>
+        <div class="compare_cell header">Leistung</div>
         <div class="compare_cell header yad">YAD</div>
-        <div class="compare_cell header">Generic Agency</div>
-        <div class="compare_cell header">Doing It Yourself</div>
+        <div class="compare_cell header">Allgemeine Agentur</div>
+        <div class="compare_cell header">Selbst machen</div>
 
-        <div class="compare_cell">Tattoo-niche expertise</div>
-        <div class="compare_cell yad"><span class="compare_yes">✓ Exclusive</span></div>
-        <div class="compare_cell"><span class="compare_no">✗ Generic</span></div>
-        <div class="compare_cell"><span class="compare_no">✗ Learning as you go</span></div>
+        <div class="compare_cell">Tattoo-Nischen-Expertise</div>
+        <div class="compare_cell yad"><span class="compare_yes">✓ Exklusiv</span></div>
+        <div class="compare_cell"><span class="compare_no">✗ Generisch</span></div>
+        <div class="compare_cell"><span class="compare_no">✗ Learning by Doing</span></div>
 
-        <div class="compare_cell">Done-for-you creatives</div>
-        <div class="compare_cell yad"><span class="compare_yes">✓ Included</span></div>
-        <div class="compare_cell"><span class="compare_no">✗ Extra cost</span></div>
-        <div class="compare_cell"><span class="compare_no">✗ Your time</span></div>
+        <div class="compare_cell">Creatives inklusive</div>
+        <div class="compare_cell yad"><span class="compare_yes">✓ Dabei</span></div>
+        <div class="compare_cell"><span class="compare_no">✗ Extra Kosten</span></div>
+        <div class="compare_cell"><span class="compare_no">✗ Deine Zeit</span></div>
 
-        <div class="compare_cell">Live within 14 days</div>
-        <div class="compare_cell yad"><span class="compare_yes">✓ Guaranteed</span></div>
-        <div class="compare_cell"><span class="compare_no">✗ 4–8 weeks</span></div>
-        <div class="compare_cell"><span class="compare_yes">✓ Whenever you figure it out</span></div>
+        <div class="compare_cell">Live in 14 Tagen</div>
+        <div class="compare_cell yad"><span class="compare_yes">✓ Garantiert</span></div>
+        <div class="compare_cell"><span class="compare_no">✗ 4–8 Wochen</span></div>
+        <div class="compare_cell"><span class="compare_yes">✓ Wenn du's rausgefunden hast</span></div>
 
-        <div class="compare_cell">Weekly performance reports</div>
-        <div class="compare_cell yad"><span class="compare_yes">✓ Every Monday</span></div>
-        <div class="compare_cell"><span class="compare_no">✗ Monthly (if lucky)</span></div>
-        <div class="compare_cell"><span class="compare_no">✗ Manual</span></div>
+        <div class="compare_cell">Wöchentliche Performance-Reports</div>
+        <div class="compare_cell yad"><span class="compare_yes">✓ Jeden Montag</span></div>
+        <div class="compare_cell"><span class="compare_no">✗ Monatlich (wenn Glück)</span></div>
+        <div class="compare_cell"><span class="compare_no">✗ Manuell</span></div>
 
-        <div class="compare_cell">ROI-focused optimization</div>
-        <div class="compare_cell yad"><span class="compare_yes">✓ Obsessive</span></div>
-        <div class="compare_cell"><span class="compare_no">✗ Reach-focused</span></div>
-        <div class="compare_cell"><span class="compare_no">✗ Guesswork</span></div>
+        <div class="compare_cell">ROI-fokussierte Optimierung</div>
+        <div class="compare_cell yad"><span class="compare_yes">✓ Obsessiv</span></div>
+        <div class="compare_cell"><span class="compare_no">✗ Reichweiten-fokussiert</span></div>
+        <div class="compare_cell"><span class="compare_no">✗ Raten</span></div>
 
-        <div class="compare_cell compare_row_last">No long-term lock-in</div>
-        <div class="compare_cell compare_row_last yad"><span class="compare_yes">✓ Monthly rolling</span></div>
-        <div class="compare_cell compare_row_last"><span class="compare_no">✗ 6–12 month contracts</span></div>
-        <div class="compare_cell compare_row_last"><span class="compare_yes">✓ Your call</span></div>
+        <div class="compare_cell compare_row_last">Kein Langzeitvertrag</div>
+        <div class="compare_cell compare_row_last yad"><span class="compare_yes">✓ Monatlich kündbar</span></div>
+        <div class="compare_cell compare_row_last"><span class="compare_no">✗ 6–12 Monate gebunden</span></div>
+        <div class="compare_cell compare_row_last"><span class="compare_yes">✓ Deine Entscheidung</span></div>
       </div>
     </div>
   </section>
@@ -1405,11 +1477,14 @@
   <!-- MID-PAGE CTA -->
   <div class="cta_banner">
     <div class="cta_banner_inner">
-      <div class="cta_banner_tag">Limited spots per city</div>
-      <h2 class="cta_banner_title">Stop leaving bookings<br>on the table.</h2>
-      <p class="cta_banner_text">Every week without ads is a week your ideal clients are booking someone else. We only work with 3 studios per city — so once your spot is taken, it's taken.</p>
-      <a href="#contact" class="btn-primary xl">Claim your city →</a>
-      <p class="cta_banner_disclaimer">Free strategy call — 45 minutes, no commitment required.</p>
+      <div class="cta_banner_tag">Begrenzte Plätze pro Stadt</div>
+      <h2 class="cta_banner_title">Hör auf, Buchungen<br>liegen zu lassen.</h2>
+      <p class="cta_banner_text">Jede Woche ohne Ads ist eine Woche, in der deine Wunschkunden jemand anderen buchen. Wir arbeiten nur mit 3 Studios pro Stadt — wenn dein Platz weg ist, ist er weg.</p>
+      <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="btn-whatsapp xl" target="_blank" rel="noopener">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Meinen Platz sichern →
+      </a>
+      <p class="cta_banner_disclaimer">Kostenloses Erstgespräch — 45 Minuten, keinerlei Verpflichtung.</p>
     </div>
   </div>
 
@@ -1417,71 +1492,71 @@
   <section class="faq" id="faq">
     <div class="section_inner">
       <div class="section_header">
-        <div class="section_label">Questions</div>
-        <h2 class="section_title">We've heard them all.</h2>
+        <div class="section_label">Fragen</div>
+        <h2 class="section_title">Wir kennen sie alle.</h2>
       </div>
       <div class="faq_list">
         <div class="faq_item open">
           <button class="faq_trigger" onclick="toggleFaq(this)">
-            How quickly will I see results?
+            Wie schnell sehe ich erste Ergebnisse?
             <div class="faq_trigger_icon">+</div>
           </button>
           <div class="faq_body">
-            <p class="faq_answer">Most artists see first inquiries within the first week of ads going live. Significant booking impact typically shows within 2–4 weeks. We're aggressive with the launch and optimize fast — we don't sit on data.</p>
+            <p class="faq_answer">Die meisten Artists sehen erste Anfragen innerhalb der ersten Woche nach dem Ad-Launch. Spürbare Buchungs-Auswirkungen zeigen sich typischerweise nach 2–4 Wochen. Wir starten aggressiv und optimieren schnell — wir sitzen nicht auf Daten.</p>
           </div>
         </div>
         <div class="faq_item">
           <button class="faq_trigger" onclick="toggleFaq(this)">
-            What's the minimum ad budget I need?
+            Wie viel Werbebudget brauche ich mindestens?
             <div class="faq_trigger_icon">+</div>
           </button>
           <div class="faq_body">
-            <p class="faq_answer">We recommend starting with €15–€25/day in ad spend. That's €450–€750/month. At our average cost per booking, that typically generates 20–40 new bookings per month — which far outweighs the cost of a single session for most artists.</p>
+            <p class="faq_answer">Wir empfehlen einen Start mit €15–€25 pro Tag an Werbebudget. Das sind €450–€750 pro Monat. Bei unseren durchschnittlichen Kosten pro Buchung generiert das typischerweise 20–40 neue Buchungen pro Monat — was die Kosten einer einzelnen Session bei den meisten Artists deutlich übersteigt.</p>
           </div>
         </div>
         <div class="faq_item">
           <button class="faq_trigger" onclick="toggleFaq(this)">
-            Do I need to provide the content for creatives?
+            Muss ich selbst Content für die Creatives liefern?
             <div class="faq_trigger_icon">+</div>
           </button>
           <div class="faq_body">
-            <p class="faq_answer">Yes — you share your existing photos, videos, and work. We handle everything else: editing, copy, hooks, captions, and production. You don't need to film anything new. Most artists already have more than enough content on their phone.</p>
+            <p class="faq_answer">Ja — du teilst deine bestehenden Fotos, Videos und Arbeiten. Wir übernehmen alles weitere: Schnitt, Copy, Hooks, Captions und Produktion. Du musst nichts Neues filmen. Die meisten Artists haben auf ihrem Handy bereits mehr als genug Content.</p>
           </div>
         </div>
         <div class="faq_item">
           <button class="faq_trigger" onclick="toggleFaq(this)">
-            Is this just "boosting posts"?
+            Ist das nicht einfach „Posts boosten"?
             <div class="faq_trigger_icon">+</div>
           </button>
           <div class="faq_body">
-            <p class="faq_answer">Absolutely not. Boosted posts are the lowest-level, most expensive way to spend on Meta. We run proper Ads Manager campaigns with conversion objectives, custom audiences, retargeting, and full creative testing. That's what drives actual bookings.</p>
+            <p class="faq_answer">Überhaupt nicht. Geboostete Posts sind die günstigste und ineffizienteste Art, Meta-Budget auszugeben. Wir schalten echte Ads Manager-Kampagnen mit Conversion-Zielen, Custom Audiences, Retargeting und vollständigem Creative-Testing. Das ist, was echte Buchungen bringt.</p>
           </div>
         </div>
         <div class="faq_item">
           <button class="faq_trigger" onclick="toggleFaq(this)">
-            Do you work with studios or solo artists?
+            Arbeitet ihr mit Studios oder Solo-Artists?
             <div class="faq_trigger_icon">+</div>
           </button>
           <div class="faq_body">
-            <p class="faq_answer">Both. We work with solo artists who want to fill their personal schedule, and with multi-artist studios that need consistent client flow across the team. The strategy is adapted based on your setup.</p>
+            <p class="faq_answer">Mit beiden. Wir arbeiten mit Solo-Artists, die ihren persönlichen Kalender füllen wollen, und mit Multi-Artist-Studios, die konstanten Kundenfluss für das gesamte Team brauchen. Die Strategie wird je nach Setup angepasst.</p>
           </div>
         </div>
         <div class="faq_item">
           <button class="faq_trigger" onclick="toggleFaq(this)">
-            Are there long-term contracts?
+            Gibt es Langzeitverträge?
             <div class="faq_trigger_icon">+</div>
           </button>
           <div class="faq_body">
-            <p class="faq_answer">No. We work month-to-month. We keep clients because the results speak for themselves — not because we locked them in. That said, ads compound over time, so most clients see better and better results the longer we work together.</p>
+            <p class="faq_answer">Nein. Wir arbeiten monatlich kündbar. Wir behalten Kunden, weil die Ergebnisse für sich sprechen — nicht weil wir sie eingesperrt haben. Dennoch: Ads werden mit der Zeit besser, also sehen die meisten Kunden mit jedem Monat stärkere Ergebnisse.</p>
           </div>
         </div>
         <div class="faq_item">
           <button class="faq_trigger" onclick="toggleFaq(this)">
-            What does the onboarding process look like?
+            Wie läuft das Onboarding ab?
             <div class="faq_trigger_icon">+</div>
           </button>
           <div class="faq_body">
-            <p class="faq_answer">Step 1: Free strategy call (45 min). Step 2: You share access to your Meta Business account and content. Step 3: We build creatives and campaigns. Step 4: We go live within 14 days. From there, it's weekly reporting and ongoing optimization.</p>
+            <p class="faq_answer">Schritt 1: Kostenloses Erstgespräch (45 Min). Schritt 2: Du gibst Zugang zu deinem Meta Business Account und teilst Content. Schritt 3: Wir bauen Creatives und Kampagnen. Schritt 4: Wir gehen innerhalb von 14 Tagen live. Danach: wöchentliche Reports und laufende Optimierung.</p>
           </div>
         </div>
       </div>
@@ -1491,29 +1566,32 @@
   <!-- FINAL CTA / CONTACT -->
   <section style="background: var(--black-2); padding: 100px 40px;" id="contact">
     <div class="section_inner" style="text-align:center;">
-      <div class="section_label" style="text-align:center;">Ready?</div>
-      <h2 class="section_title" style="max-width:640px; margin: 0 auto 20px;">Your next client<br>is one ad away.</h2>
-      <p class="section_subtitle" style="margin: 0 auto 48px;">Book a free 45-minute strategy call. We'll map out exactly how many clients we can get you, at what cost, and how fast. No pressure. Just numbers.</p>
+      <div class="section_label" style="text-align:center;">Bereit?</div>
+      <h2 class="section_title" style="max-width:640px; margin: 0 auto 20px;">Dein nächster Kunde<br>ist eine Anzeige entfernt.</h2>
+      <p class="section_subtitle" style="margin: 0 auto 48px;">Schreib uns direkt auf WhatsApp. Wir melden uns innerhalb von 24 Stunden und zeigen dir genau, wie viele Kunden wir dir bringen können, zu welchem Preis und wie schnell.</p>
       <div style="display:flex; flex-direction:column; align-items:center; gap:16px;">
-        <a href="https://calendly.com/yad" class="btn-primary xl" target="_blank" rel="noopener">Book your free strategy call →</a>
-        <p style="font-size:14px; color:var(--grey-mid);">Or email us: <a href="mailto:hello@yad.rocks" style="color:var(--grey-light); text-decoration:underline;">hello@yad.rocks</a></p>
+        <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="btn-whatsapp xl" target="_blank" rel="noopener" style="text-decoration:none;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Jetzt auf WhatsApp schreiben →
+        </a>
+        <p style="font-size:14px; color:var(--grey-mid);">Oder per E-Mail: <a href="mailto:hello@yad.rocks" style="color:var(--grey-light); text-decoration:underline;">hello@yad.rocks</a></p>
       </div>
-      <div style="display:flex; gap:48px; justify-content:center; margin-top:64px; padding-top:48px; border-top:1px solid var(--grey-border); flex-wrap:wrap;">
+      <div style="display:flex; gap:40px; justify-content:center; margin-top:64px; padding-top:48px; border-top:1px solid var(--grey-border); flex-wrap:wrap;">
         <div style="text-align:center;">
           <div style="font-size:36px; font-weight:900; letter-spacing:-1px;">100%</div>
-          <div style="font-size:14px; color:var(--grey-light); margin-top:4px;">Tattoo-niche focused</div>
+          <div style="font-size:14px; color:var(--grey-light); margin-top:4px;">Auf Tattoo-Nische fokussiert</div>
         </div>
         <div style="text-align:center;">
           <div style="font-size:36px; font-weight:900; letter-spacing:-1px;">14</div>
-          <div style="font-size:14px; color:var(--grey-light); margin-top:4px;">Days to go live</div>
+          <div style="font-size:14px; color:var(--grey-light); margin-top:4px;">Tage bis Go-Live</div>
         </div>
         <div style="text-align:center;">
           <div style="font-size:36px; font-weight:900; letter-spacing:-1px;">3×</div>
-          <div style="font-size:14px; color:var(--grey-light); margin-top:4px;">Average booking increase</div>
+          <div style="font-size:14px; color:var(--grey-light); margin-top:4px;">Mehr Buchungen im Schnitt</div>
         </div>
         <div style="text-align:center;">
           <div style="font-size:36px; font-weight:900; letter-spacing:-1px;">0</div>
-          <div style="font-size:14px; color:var(--grey-light); margin-top:4px;">Long-term contracts</div>
+          <div style="font-size:14px; color:var(--grey-light); margin-top:4px;">Langzeitverträge</div>
         </div>
       </div>
     </div>
@@ -1523,62 +1601,63 @@
   <footer class="footer">
     <div class="footer_inner">
       <div class="footer_top">
-        <div class="footer_brand">
+        <div>
           <div class="footer_logo">YAD<span>.</span></div>
-          <p class="footer_tagline">The Meta Ads agency built exclusively for tattoo artists. More bookings. Less hassle. Zero guesswork.</p>
+          <p class="footer_tagline">Die Meta Ads Agentur exklusiv für Tätowierer. Mehr Buchungen. Weniger Stress. Null Rätselraten.</p>
           <div class="footer_social">
             <a href="#" class="footer_social_link" aria-label="Instagram">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
             </a>
             <a href="#" class="footer_social_link" aria-label="TikTok">
-              <svg width="16" height="18" viewBox="0 0 16 18" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M15 3.5A3.5 3.5 0 0111.5 0h-2v12a2 2 0 11-2-2c.18 0 .35.03.5.07V7.94A6 6 0 1014 13.5V6.28A8.5 8.5 0 0015 6.5V3.5z"/></svg>
+              <svg width="16" height="18" viewBox="0 0 16 18" fill="currentColor"><path d="M15 3.5A3.5 3.5 0 0111.5 0h-2v12a2 2 0 11-2-2c.18 0 .35.03.5.07V7.94A6 6 0 1014 13.5V6.28A8.5 8.5 0 0015 6.5V3.5z"/></svg>
             </a>
-            <a href="#" class="footer_social_link" aria-label="LinkedIn">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M4.98 3.5C4.98 4.881 3.87 6 2.5 6S.02 4.881.02 3.5C.02 2.12 1.13 1 2.5 1s2.48 1.12 2.48 2.5zM5 8H0v16h5V8zm7.982 0H8.014v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0V24H24V13.869c0-7.88-8.922-7.593-11.018-3.714V8z"/></svg>
+            <a href="https://wa.me/43XXXXXXXXXX" class="footer_social_link" aria-label="WhatsApp" target="_blank" rel="noopener">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
             </a>
           </div>
         </div>
         <div>
-          <div class="footer_col_title">Services</div>
+          <div class="footer_col_title">Leistungen</div>
           <div class="footer_links">
             <a href="#features" class="footer_link">Meta Ads Management</a>
-            <a href="#features" class="footer_link">Creative Production</a>
-            <a href="#features" class="footer_link">Lead Qualification</a>
-            <a href="#features" class="footer_link">Campaign Reporting</a>
+            <a href="#features" class="footer_link">Creative Produktion</a>
+            <a href="#features" class="footer_link">Lead-Qualifizierung</a>
+            <a href="#features" class="footer_link">Kampagnen-Reporting</a>
           </div>
         </div>
         <div>
-          <div class="footer_col_title">Company</div>
+          <div class="footer_col_title">Unternehmen</div>
           <div class="footer_links">
-            <a href="#" class="footer_link">About YAD</a>
-            <a href="#results" class="footer_link">Case Studies</a>
+            <a href="#" class="footer_link">Über YAD</a>
+            <a href="#results" class="footer_link">Ergebnisse</a>
             <a href="#faq" class="footer_link">FAQ</a>
-            <a href="mailto:hello@yad.rocks" class="footer_link">Contact</a>
+            <a href="mailto:hello@yad.rocks" class="footer_link">Kontakt</a>
           </div>
         </div>
         <div>
-          <div class="footer_col_title">Get Started</div>
+          <div class="footer_col_title">Loslegen</div>
           <div class="footer_links">
-            <a href="#contact" class="footer_link">Free Strategy Call</a>
+            <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="footer_link" target="_blank" rel="noopener">Kostenloses Erstgespräch</a>
             <a href="mailto:hello@yad.rocks" class="footer_link">hello@yad.rocks</a>
           </div>
           <div style="margin-top: 24px;">
-            <a href="#contact" class="btn-primary" style="width:100%; justify-content:center;">Book a call →</a>
+            <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="btn-whatsapp" style="width:100%; justify-content:center;" target="_blank" rel="noopener">Jetzt schreiben →</a>
           </div>
         </div>
       </div>
       <div class="footer_bottom">
-        <p class="footer_copy">© 2026 YAD. All rights reserved. yad.rocks</p>
+        <p class="footer_copy">© 2026 YAD. Alle Rechte vorbehalten. yad.rocks</p>
         <div class="footer_legal">
-          <a href="#" class="footer_legal_link">Privacy Policy</a>
-          <a href="#" class="footer_legal_link">Imprint</a>
-          <a href="#" class="footer_legal_link">Terms</a>
+          <a href="#" class="footer_legal_link">Datenschutz</a>
+          <a href="#" class="footer_legal_link">Impressum</a>
+          <a href="#" class="footer_legal_link">AGB</a>
         </div>
       </div>
     </div>
   </footer>
 
   <script>
+    // FAQ Accordion
     function toggleFaq(btn) {
       const item = btn.closest('.faq_item');
       const isOpen = item.classList.contains('open');
@@ -1586,6 +1665,7 @@
       if (!isOpen) item.classList.add('open');
     }
 
+    // Process Tabs
     function switchTab(el, tabId) {
       const section = el.closest('.section_inner');
       section.querySelectorAll('.process_tab').forEach(t => t.classList.remove('active'));
@@ -1594,7 +1674,23 @@
       document.getElementById(tabId).classList.add('active');
     }
 
-    // Smooth scroll for anchor links
+    // Mobile Nav
+    function toggleMobileNav() {
+      const overlay = document.getElementById('mobileNav');
+      const btn = document.getElementById('mobileNavBtn');
+      overlay.classList.toggle('open');
+      btn.classList.toggle('open');
+      document.body.style.overflow = overlay.classList.contains('open') ? 'hidden' : '';
+    }
+    function closeMobileNav() {
+      const overlay = document.getElementById('mobileNav');
+      const btn = document.getElementById('mobileNavBtn');
+      overlay.classList.remove('open');
+      btn.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // Smooth scroll
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function(e) {
         const target = document.querySelector(this.getAttribute('href'));
@@ -1608,11 +1704,9 @@
     // Nav scroll effect
     const nav = document.querySelector('.nav');
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 20) {
-        nav.style.borderBottomColor = 'rgba(42,42,42,0.8)';
-      } else {
-        nav.style.borderBottomColor = 'var(--grey-border)';
-      }
+      nav.style.borderBottomColor = window.scrollY > 20
+        ? 'rgba(42,42,42,0.8)'
+        : 'var(--grey-border)';
     });
   </script>
 </body>
