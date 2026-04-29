@@ -851,7 +851,7 @@
     .creatives_track:hover { animation-play-state: paused; }
     @keyframes creatives-scroll {
       0% { transform: translateX(0); }
-      100% { transform: translateX(calc(-340px * 3 - 24px * 3)); }
+      100% { transform: translateX(calc(-340px * 4 - 24px * 4)); }
     }
     .creatives_card {
       flex-shrink: 0;
@@ -867,6 +867,72 @@
     @media (max-width: 600px) {
       .creatives_card { width: 260px; }
       .creatives_header { padding: 0 20px; margin-bottom: 36px; }
+    }
+
+    /* ─── MODAL ─── */
+    .modal_overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+    .modal_overlay.open { display: flex; }
+    .modal_box {
+      background: var(--black-2);
+      border: 1px solid var(--grey-border);
+      border-radius: var(--radius-lg);
+      max-width: 640px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 48px;
+      position: relative;
+    }
+    .modal_close {
+      position: absolute;
+      top: 20px; right: 20px;
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      border: 1px solid var(--grey-border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      color: var(--grey-light);
+      cursor: pointer;
+      background: var(--black-3);
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .modal_close:hover { color: var(--white); border-color: var(--grey-mid); }
+    .modal_title {
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      margin-bottom: 32px;
+    }
+    .modal_body h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--grey-light);
+      letter-spacing: 0.5px;
+      margin: 28px 0 10px;
+    }
+    .modal_body h3:first-child { margin-top: 0; }
+    .modal_body p, .modal_body li {
+      font-size: 14px;
+      color: var(--grey-light);
+      line-height: 1.7;
+    }
+    .modal_body ul {
+      padding-left: 20px;
+      margin-top: 8px;
+    }
+    .modal_body a { color: var(--white); text-decoration: underline; }
+    @media (max-width: 600px) {
+      .modal_box { padding: 32px 24px; }
     }
 
     /* ─── TICKER ─── */
@@ -1172,12 +1238,11 @@
         <div class="creatives_card"><img src="creative1.png" alt="Ad Creative 1"></div>
         <div class="creatives_card"><img src="creative2.png" alt="Ad Creative 2"></div>
         <div class="creatives_card"><img src="creative3.png" alt="Ad Creative 3"></div>
+        <div class="creatives_card"><img src="creative4.png" alt="Ad Creative 4"></div>
         <div class="creatives_card"><img src="creative1.png" alt="Ad Creative 1"></div>
         <div class="creatives_card"><img src="creative2.png" alt="Ad Creative 2"></div>
         <div class="creatives_card"><img src="creative3.png" alt="Ad Creative 3"></div>
-        <div class="creatives_card"><img src="creative1.png" alt="Ad Creative 1"></div>
-        <div class="creatives_card"><img src="creative2.png" alt="Ad Creative 2"></div>
-        <div class="creatives_card"><img src="creative3.png" alt="Ad Creative 3"></div>
+        <div class="creatives_card"><img src="creative4.png" alt="Ad Creative 4"></div>
       </div>
     </div>
   </div>
@@ -1507,14 +1572,79 @@
         <p class="footer_copy">© 2026 YAD. Alle Rechte vorbehalten. yad.rocks</p>
         <div class="footer_legal">
           <a href="#" class="footer_legal_link">Datenschutz</a>
-          <a href="#" class="footer_legal_link">Impressum</a>
+          <a href="#" class="footer_legal_link" onclick="openModal('impressum'); return false;">Impressum</a>
           <a href="#" class="footer_legal_link">AGB</a>
         </div>
       </div>
     </div>
   </footer>
 
+  <!-- IMPRESSUM MODAL -->
+  <div class="modal_overlay" id="modal-impressum" onclick="closeModalOnBg(event)">
+    <div class="modal_box">
+      <button class="modal_close" onclick="closeModal('impressum')">✕</button>
+      <div class="modal_title">Impressum</div>
+      <div class="modal_body">
+        <h3>Gesetzliche Anbieterkennung</h3>
+        <p>
+          Maximilian Schwarz<br>
+          yprint<br>
+          Rottendorfer Straße 35a<br>
+          97074 Würzburg<br>
+          Deutschland<br><br>
+          Telefon: +4915121132622<br>
+          E-Mail: max@yprint.de<br>
+          Instagram: @yprint.de
+        </p>
+
+        <h3>Beschwerdestelle des Unternehmens</h3>
+        <p>Wir möchten, dass Sie mit unseren Produkten und unserem Service rundum zufrieden sind. Sollte es dennoch Anlass zur Beschwerde geben, können Sie sich jederzeit an uns wenden.</p>
+        <p style="margin-top:10px;">📩 Bitte richten Sie Beschwerden per E-Mail an: <a href="mailto:info@yprint.de">info@yprint.de</a></p>
+        <p style="margin-top:10px;">Um eine zügige Bearbeitung zu gewährleisten, bitten wir Sie, folgende Angaben in Ihrer E-Mail zu machen:</p>
+        <ul>
+          <li>Ihren vollständigen Namen</li>
+          <li>Ihre Bestellnummer</li>
+          <li>Eine möglichst genaue Beschreibung Ihres Anliegens</li>
+          <li>Ggf. Fotoanhänge zur Veranschaulichung</li>
+        </ul>
+        <p style="margin-top:10px;">Wir prüfen jede Beschwerde individuell und melden uns so schnell wie möglich bei Ihnen zurück. Vielen Dank für Ihre Rückmeldung!</p>
+
+        <h3>Zuständige Aufsichtsbehörde für audiovisuelle Mediendienste</h3>
+        <p>
+          Bayerische Landeszentrale für neue Medien (BLM)<br>
+          Heinrich-Lübke-Str. 27<br>
+          81737 München<br>
+          Internet: <a href="https://www.blm.de/" target="_blank" rel="noopener">https://www.blm.de/</a>
+        </p>
+
+        <h3>Umsatzsteuer</h3>
+        <p>Aufgrund des Kleinunternehmerstatus wird in der Rechnung keine MwSt. ausgewiesen (umsatzsteuerfrei gem. § 19 Abs. 1 UStG).</p>
+
+        <h3>Streitbeilegung</h3>
+        <p>Wir sind nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor Verbraucherschlichtungsstellen teilzunehmen.</p>
+      </div>
+    </div>
+  </div>
+
   <script>
+    // Modal
+    function openModal(id) {
+      document.getElementById('modal-' + id).classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+      document.getElementById('modal-' + id).classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    function closeModalOnBg(e) {
+      if (e.target === e.currentTarget) closeModal(e.currentTarget.id.replace('modal-', ''));
+    }
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') document.querySelectorAll('.modal_overlay.open').forEach(m => {
+        m.classList.remove('open'); document.body.style.overflow = '';
+      });
+    });
+
     // FAQ Accordion
     function toggleFaq(btn) {
       const item = btn.closest('.faq_item');
