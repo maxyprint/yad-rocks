@@ -846,12 +846,13 @@
       display: flex;
       gap: 24px;
       width: max-content;
-      animation: creatives-scroll 18s linear infinite;
+      will-change: transform;
+      animation: creatives-scroll 24s linear infinite;
     }
     .creatives_track:hover { animation-play-state: paused; }
     @keyframes creatives-scroll {
       0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
+      100% { transform: translateX(calc(-340px * 3 - 24px * 3)); }
     }
     .creatives_card {
       flex-shrink: 0;
@@ -859,12 +860,9 @@
       border-radius: var(--radius-lg);
       overflow: hidden;
       border: 2px solid rgba(255,255,255,0.15);
-      box-shadow: 0 8px 40px rgba(0,0,0,0.3);
     }
     .creatives_card img {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
       display: block;
     }
     @media (max-width: 600px) {
@@ -1175,6 +1173,9 @@
     </div>
     <div class="creatives_track_wrap">
       <div class="creatives_track">
+        <div class="creatives_card"><img src="creative1.png" alt="Ad Creative 1"></div>
+        <div class="creatives_card"><img src="creative2.png" alt="Ad Creative 2"></div>
+        <div class="creatives_card"><img src="creative3.png" alt="Ad Creative 3"></div>
         <div class="creatives_card"><img src="creative1.png" alt="Ad Creative 1"></div>
         <div class="creatives_card"><img src="creative2.png" alt="Ad Creative 2"></div>
         <div class="creatives_card"><img src="creative3.png" alt="Ad Creative 3"></div>
