@@ -714,6 +714,7 @@
     .process_visual_icon { font-size: 44px; }
     .process_visual_img { width: 160px; height: 160px; object-fit: contain; }
     .process_tab_icon_mobile { display: none; }
+    .process_tab_icon { display: none; }
 
     /* ─── FAQ ─── */
     .faq { background: var(--black); }
@@ -1114,7 +1115,9 @@
         color: var(--white);
       }
       .process_visual { display: none; }
-      .process_tab_icon_mobile { display: block; width: 100px; height: 100px; object-fit: contain; margin: 0 auto 24px; }
+      .process_tab_icon_mobile { display: none; }
+      .process_tab_icon { display: block; width: 36px; height: 36px; object-fit: contain; margin: 0 auto 4px; }
+      .process_tab { flex-direction: column; align-items: center; gap: 2px; padding: 12px 8px; }
     }
 
     /* ─── RESPONSIVE 480px ─── */
@@ -1378,14 +1381,13 @@
         <h2 class="section_title">Komplett eigenständig.</h2>
       </div>
       <div class="process_tabs">
-        <div class="process_tab active" onclick="switchTab(this, 'tab1')">Ad Creatives</div>
-        <div class="process_tab" onclick="switchTab(this, 'tab2')">Kampagnen-Management</div>
-        <div class="process_tab" onclick="switchTab(this, 'tab3')">Lead-Qualifizierung</div>
-        <div class="process_tab" onclick="switchTab(this, 'tab4')">Reporting</div>
+        <div class="process_tab active" onclick="switchTab(this, 'tab1')"><img src="icon-camera.png" alt="" class="process_tab_icon">Ad Creatives</div>
+        <div class="process_tab" onclick="switchTab(this, 'tab2')"><img src="icon-laptop.png" alt="" class="process_tab_icon">Kampagnen-Management</div>
+        <div class="process_tab" onclick="switchTab(this, 'tab3')"><img src="icon-tattoo.png" alt="" class="process_tab_icon">Lead-Qualifizierung</div>
+        <div class="process_tab" onclick="switchTab(this, 'tab4')"><img src="icon-calculator.png" alt="" class="process_tab_icon">Reporting</div>
       </div>
       <div id="tab1" class="process_content active">
         <div>
-          <img src="icon-camera.png" alt="" class="process_tab_icon_mobile">
           <h3 class="process_content_title">Creatives, die den Scroll stoppen</h3>
           <p class="process_content_text">Wir nehmen deinen rohen Content und produzieren professionelle Ad Creatives — kurze Reels, Statics, Story Ads. Starker Copy. Hooks, die treffen. Alles speziell für die Tattoo-Nische optimiert. Du fokussierst dich aufs Tätowieren. Wir auf die Ads.</p>
           <p class="process_content_text" style="margin-top:0;">Wir testen jeden Monat mehrere Creative-Winkel — damit wir mit der Zeit genau wissen, was Buchungen für dein Studio und deinen Stil antreibt.</p>
@@ -1393,12 +1395,10 @@
         </div>
         <div class="process_visual">
           <img src="icon-camera.png" alt="Ad Creatives" class="process_visual_img">
-          <span style="font-size:14px; color:var(--grey-light);">Deine Creatives — individuell produziert</span>
         </div>
       </div>
       <div id="tab2" class="process_content">
         <div>
-          <img src="icon-laptop.png" alt="" class="process_tab_icon_mobile">
           <h3 class="process_content_title">Kampagnen, die 24/7 laufen — ohne deinen Finger zu rühren</h3>
           <p class="process_content_text">Wir richten deine Facebook- und Instagram-Kampagnen ein, betreiben und optimieren sie. Budget-Verteilung, Zielgruppen-Targeting, Gebotsstrategie — alles übernommen. Du bekommst die Ergebnisse, wir machen die Arbeit.</p>
           <p class="process_content_text" style="margin-top:0;">Wir nutzen erprobte Targeting-Methoden, die speziell für lokale Tattoo-Studios entwickelt wurden — keine generischen E-Commerce-Taktiken.</p>
@@ -1406,31 +1406,26 @@
         </div>
         <div class="process_visual">
           <img src="icon-laptop.png" alt="Kampagnen-Management" class="process_visual_img">
-          <span style="font-size:14px; color:var(--grey-light);">Täglich aktiv verwaltete Kampagnen</span>
         </div>
       </div>
       <div id="tab3" class="process_content">
         <div>
-          <img src="icon-tattoo.png" alt="" class="process_tab_icon_mobile">
           <h3 class="process_content_title">Nur ernsthafte Kunden landen in deinem Posteingang</h3>
           <p class="process_content_text">Wir bauen Lead-Formulare und Qualifizierungs-Funnels, die Zeitverschwender herausfiltern, bevor sie dich überhaupt erreichen. Wenn jemand in deinen DMs landet, kennt er bereits deine Preisvorstellung, deinen Stil — und ist buchungsbereit.</p>
           <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="btn-whatsapp" target="_blank" rel="noopener">Jetzt Kunden gewinnen →</a>
         </div>
         <div class="process_visual">
           <img src="icon-tattoo.png" alt="Lead-Qualifizierung" class="process_visual_img">
-          <span style="font-size:14px; color:var(--grey-light);">Nur buchungsbereite Kunden</span>
         </div>
       </div>
       <div id="tab4" class="process_content">
         <div>
-          <img src="icon-calculator.png" alt="" class="process_tab_icon_mobile">
           <h3 class="process_content_title">Wöchentliche Reports. Kein Bullshit. Nur Zahlen.</h3>
           <p class="process_content_text">Jeden Montag bekommst du einen klaren Performance-Report — Leads, Buchungen, Kosten pro Buchung, Werbeausgaben, ROAS. Du weißt immer, was deine Ads machen, und wir sind immer im Call, um zu erklären, was wir als nächstes verbessern.</p>
           <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="btn-whatsapp" target="_blank" rel="noopener">Jetzt Kunden gewinnen →</a>
         </div>
         <div class="process_visual">
           <img src="icon-calculator.png" alt="Reporting" class="process_visual_img">
-          <span style="font-size:14px; color:var(--grey-light);">Wöchentliche Performance-Reports</span>
         </div>
       </div>
     </div>
