@@ -1,0 +1,1619 @@
+<!DOCTYPE html>
+<html lang="en" class="w-mod-js">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <title>YAD — Meta Ads for Tattoo Artists</title>
+  <meta name="description" content="Stop chasing clients. Start getting booked. YAD runs your Meta Ads so your calendar fills itself.">
+  <meta property="og:title" content="YAD — Meta Ads for Tattoo Artists">
+  <meta property="og:description" content="Stop chasing clients. Start getting booked. YAD runs your Meta Ads so your calendar fills itself.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://yad.rocks">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0a0a0a;
+      --black-2: #111111;
+      --black-3: #1a1a1a;
+      --grey-dark: #222222;
+      --grey-mid: #444444;
+      --grey-light: #888888;
+      --grey-border: #2a2a2a;
+      --white: #ffffff;
+      --white-soft: #f5f5f5;
+      --red: #e8173a;
+      --red-dark: #c0102e;
+      --red-glow: rgba(232, 23, 58, 0.15);
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --radius: 12px;
+      --radius-lg: 20px;
+      --max-w: 1200px;
+      --nav-h: 72px;
+    }
+
+    html { background-color: var(--black); scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      background-color: var(--black);
+      color: var(--white);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    button { font-family: var(--font); cursor: pointer; border: none; background: none; }
+
+    /* ─── NAV ─── */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      height: var(--nav-h);
+      display: flex;
+      align-items: center;
+      padding: 0 40px;
+      border-bottom: 1px solid var(--grey-border);
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .nav_inner {
+      max-width: var(--max-w);
+      width: 100%;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav_logo {
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      color: var(--white);
+    }
+    .nav_logo span { color: var(--red); }
+    .nav_links {
+      display: flex;
+      gap: 36px;
+      align-items: center;
+    }
+    .nav_link {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--grey-light);
+      transition: color 0.2s;
+    }
+    .nav_link:hover { color: var(--white); }
+    .nav_cta {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .btn-ghost {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--white);
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: 1px solid var(--grey-border);
+      transition: border-color 0.2s;
+    }
+    .btn-ghost:hover { border-color: var(--grey-mid); }
+    .btn-primary {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--white);
+      padding: 10px 22px;
+      border-radius: 8px;
+      background: var(--red);
+      transition: background 0.2s, transform 0.1s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-primary:hover { background: var(--red-dark); transform: translateY(-1px); }
+    .btn-primary.large {
+      font-size: 16px;
+      padding: 16px 32px;
+      border-radius: 10px;
+    }
+    .btn-primary.xl {
+      font-size: 18px;
+      padding: 20px 40px;
+      border-radius: 12px;
+    }
+    .nav_mobile_btn { display: none; }
+
+    /* ─── HERO ─── */
+    .hero {
+      padding-top: calc(var(--nav-h) + 80px);
+      padding-bottom: 100px;
+      padding-left: 40px;
+      padding-right: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px; left: 50%;
+      transform: translateX(-50%);
+      width: 800px; height: 600px;
+      background: radial-gradient(ellipse at center, rgba(232,23,58,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero_inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .hero_badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(232,23,58,0.1);
+      border: 1px solid rgba(232,23,58,0.3);
+      color: var(--red);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+      letter-spacing: 0.3px;
+    }
+    .hero_badge_dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--red);
+      animation: pulse 2s ease infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+    .hero_title {
+      font-size: clamp(42px, 5vw, 68px);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -2px;
+      margin-bottom: 24px;
+    }
+    .hero_title .accent { color: var(--red); }
+    .hero_text {
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--grey-light);
+      line-height: 1.65;
+      margin-bottom: 40px;
+      max-width: 480px;
+    }
+    .hero_buttons {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .hero_disclaimer {
+      margin-top: 16px;
+      font-size: 13px;
+      color: var(--grey-mid);
+    }
+    .hero_visual {
+      position: relative;
+    }
+    .hero_visual_placeholder {
+      background: var(--black-3);
+      border: 1px solid var(--grey-border);
+      border-radius: var(--radius-lg);
+      aspect-ratio: 4/3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: var(--grey-mid);
+      font-size: 13px;
+      text-align: center;
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero_visual_placeholder::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(232,23,58,0.05) 0%, transparent 60%);
+    }
+    .hero_visual_icon {
+      font-size: 48px;
+      margin-bottom: 8px;
+    }
+    .hero_visual_label {
+      font-size: 12px;
+      color: var(--grey-mid);
+      font-style: italic;
+      position: absolute;
+      bottom: 16px;
+    }
+    .hero_stats {
+      display: flex;
+      gap: 40px;
+      margin-top: 60px;
+      padding-top: 40px;
+      border-top: 1px solid var(--grey-border);
+    }
+    .hero_stat_number {
+      font-size: 32px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      color: var(--white);
+    }
+    .hero_stat_label {
+      font-size: 13px;
+      color: var(--grey-light);
+      margin-top: 4px;
+    }
+
+    /* ─── LOGO BAR ─── */
+    .logos {
+      padding: 60px 40px;
+      border-top: 1px solid var(--grey-border);
+      border-bottom: 1px solid var(--grey-border);
+      background: var(--black-2);
+    }
+    .logos_inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+    .logos_label {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--grey-mid);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 40px;
+    }
+    .logos_track {
+      display: flex;
+      gap: 48px;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .logos_item {
+      padding: 12px 24px;
+      border: 1px solid var(--grey-border);
+      border-radius: 8px;
+      background: var(--black-3);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--grey-mid);
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+
+    /* ─── SECTION SHARED ─── */
+    section { padding: 100px 40px; }
+    .section_inner { max-width: var(--max-w); margin: 0 auto; }
+    .section_label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 16px;
+    }
+    .section_title {
+      font-size: clamp(34px, 4vw, 52px);
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .section_subtitle {
+      font-size: 18px;
+      color: var(--grey-light);
+      line-height: 1.65;
+      max-width: 560px;
+    }
+    .section_header { margin-bottom: 64px; }
+
+    /* ─── FEATURES ─── */
+    .features { background: var(--black); }
+    .features_grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+      border: 1px solid var(--grey-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .feature_card {
+      padding: 48px 40px;
+      background: var(--black-2);
+      transition: background 0.2s;
+      border: 1px solid transparent;
+      position: relative;
+    }
+    .feature_card:hover { background: var(--black-3); }
+    .feature_icon_wrap {
+      width: 52px; height: 52px;
+      border-radius: 12px;
+      background: var(--red-glow);
+      border: 1px solid rgba(232,23,58,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      font-size: 22px;
+    }
+    .feature_title {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+    }
+    .feature_text {
+      font-size: 15px;
+      color: var(--grey-light);
+      line-height: 1.65;
+    }
+
+    /* ─── BEFORE/AFTER ─── */
+    .before_after { background: var(--black-2); }
+    .before_after_grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .ba_card {
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .ba_card.is-before {
+      background: var(--black-3);
+      border: 1px solid var(--grey-border);
+    }
+    .ba_card.is-after {
+      background: linear-gradient(135deg, #1a0008 0%, #0a0a0a 100%);
+      border: 1px solid rgba(232,23,58,0.3);
+    }
+    .ba_card.is-after::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 2px;
+      background: var(--red);
+    }
+    .ba_label {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 4px;
+    }
+    .ba_card.is-before .ba_label {
+      background: var(--grey-dark);
+      color: var(--grey-light);
+    }
+    .ba_card.is-after .ba_label {
+      background: var(--red-glow);
+      color: var(--red);
+      border: 1px solid rgba(232,23,58,0.3);
+    }
+    .ba_items { display: flex; flex-direction: column; gap: 16px; }
+    .ba_item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+    .ba_card.is-before .ba_item { color: var(--grey-mid); }
+    .ba_card.is-after .ba_item { color: var(--white-soft); }
+    .ba_item_icon {
+      flex-shrink: 0;
+      font-size: 16px;
+      margin-top: 1px;
+    }
+
+    /* ─── HOW IT WORKS ─── */
+    .hiw { background: var(--black); }
+    .hiw_steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      position: relative;
+    }
+    .hiw_steps::before {
+      content: '';
+      position: absolute;
+      top: 36px; left: calc(16.66% + 20px); right: calc(16.66% + 20px);
+      height: 1px;
+      background: linear-gradient(to right, var(--red) 0%, rgba(232,23,58,0.3) 50%, var(--red) 100%);
+    }
+    .hiw_step { text-align: center; padding: 0 20px; }
+    .hiw_number {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      border: 2px solid var(--red);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 28px;
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--red);
+      background: var(--black);
+      position: relative;
+      z-index: 1;
+    }
+    .hiw_title {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+    }
+    .hiw_text {
+      font-size: 15px;
+      color: var(--grey-light);
+      line-height: 1.65;
+    }
+
+    /* ─── TESTIMONIALS ─── */
+    .testimonials { background: var(--black-2); overflow: hidden; }
+    .testimonials_header { margin-bottom: 64px; }
+    .testimonials_track_wrap { overflow: hidden; position: relative; }
+    .testimonials_track_wrap::before,
+    .testimonials_track_wrap::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 120px;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .testimonials_track_wrap::before {
+      left: 0;
+      background: linear-gradient(to right, var(--black-2), transparent);
+    }
+    .testimonials_track_wrap::after {
+      right: 0;
+      background: linear-gradient(to left, var(--black-2), transparent);
+    }
+    .testimonials_track {
+      display: flex;
+      gap: 20px;
+      width: max-content;
+      animation: marquee 40s linear infinite;
+    }
+    .testimonials_track:hover { animation-play-state: paused; }
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .testimonial_card {
+      width: 340px;
+      flex-shrink: 0;
+      background: var(--black-3);
+      border: 1px solid var(--grey-border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+    }
+    .testimonial_stars {
+      color: var(--red);
+      font-size: 14px;
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+    }
+    .testimonial_text {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--white-soft);
+      margin-bottom: 24px;
+    }
+    .testimonial_author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .testimonial_avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--grey-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+      border: 1px solid var(--grey-border);
+    }
+    .testimonial_name {
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .testimonial_handle {
+      font-size: 13px;
+      color: var(--grey-mid);
+    }
+
+    /* ─── CTA BANNER ─── */
+    .cta_banner {
+      background: var(--black);
+      padding: 100px 40px;
+    }
+    .cta_banner_inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      background: linear-gradient(135deg, #1a0008 0%, #0f0f0f 100%);
+      border: 1px solid rgba(232,23,58,0.3);
+      border-radius: 24px;
+      padding: 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta_banner_inner::before {
+      content: '';
+      position: absolute;
+      top: -150px; left: 50%;
+      transform: translateX(-50%);
+      width: 600px; height: 400px;
+      background: radial-gradient(ellipse, rgba(232,23,58,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta_banner_tag {
+      display: inline-block;
+      background: var(--red-glow);
+      border: 1px solid rgba(232,23,58,0.3);
+      color: var(--red);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 100px;
+      margin-bottom: 28px;
+    }
+    .cta_banner_title {
+      font-size: clamp(36px, 5vw, 60px);
+      font-weight: 900;
+      letter-spacing: -2px;
+      line-height: 1.05;
+      margin-bottom: 20px;
+    }
+    .cta_banner_text {
+      font-size: 18px;
+      color: var(--grey-light);
+      line-height: 1.65;
+      max-width: 520px;
+      margin: 0 auto 40px;
+    }
+    .cta_banner_disclaimer {
+      margin-top: 16px;
+      font-size: 13px;
+      color: var(--grey-mid);
+    }
+
+    /* ─── PROCESS TABS ─── */
+    .process { background: var(--black-2); }
+    .process_tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 48px;
+      border-bottom: 1px solid var(--grey-border);
+      padding-bottom: 0;
+      overflow-x: auto;
+    }
+    .process_tab {
+      padding: 12px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--grey-light);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      white-space: nowrap;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .process_tab.active {
+      color: var(--white);
+      border-bottom-color: var(--red);
+    }
+    .process_tab:hover { color: var(--white); }
+    .process_content { display: none; }
+    .process_content.active { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .process_content_title {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .process_content_text {
+      font-size: 16px;
+      color: var(--grey-light);
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+    .process_visual {
+      background: var(--black-3);
+      border: 1px solid var(--grey-border);
+      border-radius: var(--radius-lg);
+      aspect-ratio: 4/3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 12px;
+      color: var(--grey-mid);
+      font-size: 13px;
+      position: relative;
+      overflow: hidden;
+    }
+    .process_visual_icon { font-size: 44px; }
+
+    /* ─── FAQ ─── */
+    .faq { background: var(--black); }
+    .faq_list { display: flex; flex-direction: column; gap: 2px; }
+    .faq_item {
+      background: var(--black-2);
+      border: 1px solid var(--grey-border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .faq_trigger {
+      width: 100%;
+      padding: 24px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--white);
+      cursor: pointer;
+      text-align: left;
+      background: none;
+      transition: background 0.2s;
+    }
+    .faq_trigger:hover { background: var(--black-3); }
+    .faq_trigger_icon {
+      flex-shrink: 0;
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      border: 1px solid var(--grey-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--grey-light);
+      transition: transform 0.3s, background 0.2s;
+    }
+    .faq_item.open .faq_trigger_icon {
+      transform: rotate(45deg);
+      background: var(--red-glow);
+      border-color: rgba(232,23,58,0.3);
+      color: var(--red);
+    }
+    .faq_body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.35s ease;
+    }
+    .faq_item.open .faq_body { max-height: 300px; }
+    .faq_answer {
+      padding: 0 28px 28px;
+      font-size: 15px;
+      color: var(--grey-light);
+      line-height: 1.7;
+    }
+
+    /* ─── FOOTER ─── */
+    .footer {
+      background: var(--black-2);
+      border-top: 1px solid var(--grey-border);
+      padding: 80px 40px 40px;
+    }
+    .footer_inner { max-width: var(--max-w); margin: 0 auto; }
+    .footer_top {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 60px;
+      margin-bottom: 64px;
+    }
+    .footer_brand {}
+    .footer_logo {
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+    }
+    .footer_logo span { color: var(--red); }
+    .footer_tagline {
+      font-size: 14px;
+      color: var(--grey-light);
+      line-height: 1.65;
+      max-width: 280px;
+      margin-bottom: 28px;
+    }
+    .footer_social {
+      display: flex;
+      gap: 12px;
+    }
+    .footer_social_link {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      border: 1px solid var(--grey-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: var(--grey-light);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .footer_social_link:hover { border-color: var(--grey-mid); color: var(--white); }
+    .footer_col_title {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: var(--white);
+      margin-bottom: 20px;
+    }
+    .footer_links { display: flex; flex-direction: column; gap: 12px; }
+    .footer_link {
+      font-size: 14px;
+      color: var(--grey-light);
+      transition: color 0.2s;
+    }
+    .footer_link:hover { color: var(--white); }
+    .footer_bottom {
+      padding-top: 32px;
+      border-top: 1px solid var(--grey-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .footer_copy {
+      font-size: 13px;
+      color: var(--grey-mid);
+    }
+    .footer_legal {
+      display: flex;
+      gap: 24px;
+    }
+    .footer_legal_link {
+      font-size: 13px;
+      color: var(--grey-mid);
+      transition: color 0.2s;
+    }
+    .footer_legal_link:hover { color: var(--grey-light); }
+
+    /* ─── COMPARISON TABLE ─── */
+    .compare { background: var(--black-2); }
+    .compare_grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      border: 1px solid var(--grey-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .compare_cell {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--grey-border);
+      border-right: 1px solid var(--grey-border);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+    .compare_cell:last-child { border-right: none; }
+    .compare_cell.header {
+      background: var(--black-3);
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.3px;
+    }
+    .compare_cell.yad {
+      background: rgba(232,23,58,0.04);
+    }
+    .compare_cell.yad.header {
+      background: rgba(232,23,58,0.08);
+      color: var(--red);
+    }
+    .compare_yes { color: #4ade80; }
+    .compare_no { color: var(--grey-mid); }
+    .compare_row_last .compare_cell { border-bottom: none; }
+
+    /* ─── MARQUEE BAR ─── */
+    .ticker {
+      background: var(--red);
+      padding: 14px 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .ticker_track {
+      display: inline-block;
+      animation: ticker 20s linear infinite;
+    }
+    .ticker_item {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 0 32px;
+    }
+    .ticker_item::after {
+      content: '✦';
+      margin-left: 32px;
+    }
+    @keyframes ticker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ─── MOBILE ─── */
+    @media (max-width: 992px) {
+      .nav_links { display: none; }
+      .nav { padding: 0 20px; }
+      .hero, section, .cta_banner, .footer { padding-left: 20px; padding-right: 20px; }
+      .hero_inner { grid-template-columns: 1fr; gap: 48px; }
+      .features_grid { grid-template-columns: 1fr; }
+      .before_after_grid { grid-template-columns: 1fr; }
+      .hiw_steps { grid-template-columns: 1fr; }
+      .hiw_steps::before { display: none; }
+      .footer_top { grid-template-columns: 1fr 1fr; gap: 40px; }
+      .compare_grid { grid-template-columns: 1.5fr 1fr; }
+      .compare_cell:nth-child(3), .compare_cell:nth-child(4),
+      .compare_cell:nth-child(7), .compare_cell:nth-child(8),
+      .compare_cell:nth-child(11), .compare_cell:nth-child(12),
+      .compare_cell:nth-child(15), .compare_cell:nth-child(16),
+      .compare_cell:nth-child(19), .compare_cell:nth-child(20) { display: none; }
+      .process_content.active { grid-template-columns: 1fr; }
+      .cta_banner_inner { padding: 48px 24px; }
+      .logos_track { gap: 12px; }
+    }
+    @media (max-width: 600px) {
+      .footer_top { grid-template-columns: 1fr; }
+      .footer_bottom { flex-direction: column; align-items: flex-start; }
+      .hero_stats { flex-direction: column; gap: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav_inner">
+      <a href="/" class="nav_logo">YAD<span>.</span></a>
+      <div class="nav_links">
+        <a href="#features" class="nav_link">What We Do</a>
+        <a href="#process" class="nav_link">How It Works</a>
+        <a href="#results" class="nav_link">Results</a>
+        <a href="#faq" class="nav_link">FAQ</a>
+      </div>
+      <div class="nav_cta">
+        <a href="#contact" class="btn-ghost">Talk to us</a>
+        <a href="#contact" class="btn-primary">Get booked out →</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- TICKER -->
+  <div class="ticker" style="margin-top: var(--nav-h);">
+    <div class="ticker_track">
+      <span class="ticker_item">No more empty slots</span>
+      <span class="ticker_item">Done-for-you Meta Ads</span>
+      <span class="ticker_item">New clients on autopilot</span>
+      <span class="ticker_item">Tattoo artists only</span>
+      <span class="ticker_item">Full-service creatives</span>
+      <span class="ticker_item">Predictable bookings</span>
+      <span class="ticker_item">No more empty slots</span>
+      <span class="ticker_item">Done-for-you Meta Ads</span>
+      <span class="ticker_item">New clients on autopilot</span>
+      <span class="ticker_item">Tattoo artists only</span>
+      <span class="ticker_item">Full-service creatives</span>
+      <span class="ticker_item">Predictable bookings</span>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" style="padding-top: 80px;">
+    <div class="hero_inner">
+      <div class="hero_content">
+        <div class="hero_badge">
+          <div class="hero_badge_dot"></div>
+          Meta Ads — Exclusively for Tattoo Artists
+        </div>
+        <h1 class="hero_title">
+          Your calendar<br>
+          stays <span class="accent">full.</span><br>
+          You stay tattooing.
+        </h1>
+        <p class="hero_text">
+          Stop chasing clients on Instagram. YAD runs your Meta Ads, builds your creatives, and delivers ready-to-book clients straight to your DMs — every single week.
+        </p>
+        <div class="hero_buttons">
+          <a href="#contact" class="btn-primary large">Fill my calendar →</a>
+          <a href="#process" class="btn-ghost" style="padding: 16px 24px; font-size: 16px; border-radius: 10px;">See how it works</a>
+        </div>
+        <p class="hero_disclaimer">Free strategy call — no credit card, no bullshit.</p>
+        <div class="hero_stats">
+          <div>
+            <div class="hero_stat_number">3.2×</div>
+            <div class="hero_stat_label">Average booking increase</div>
+          </div>
+          <div>
+            <div class="hero_stat_number">€8–€24</div>
+            <div class="hero_stat_label">Cost per booked client</div>
+          </div>
+          <div>
+            <div class="hero_stat_number">14 days</div>
+            <div class="hero_stat_label">To first results</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero_visual">
+        <div class="hero_visual_placeholder">
+          <div class="hero_visual_icon">🎨</div>
+          <strong style="font-size: 15px; color: var(--white-soft);">Ad Creative Example</strong>
+          <p style="font-size: 13px; color: var(--grey-mid); text-align: center;">Suggested: Short-form video of tattoo being applied, client reaction, healed result — with bold text overlay & CTA</p>
+          <span class="hero_visual_label">Placeholder — ad creative example</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOGO BAR -->
+  <div class="logos">
+    <div class="logos_inner">
+      <p class="logos_label">Trusted by studios &amp; artists across Europe</p>
+      <div class="logos_track">
+        <div class="logos_item">Darkroom Tattoo Studio</div>
+        <div class="logos_item">Inklab Berlin</div>
+        <div class="logos_item">Sacred Skin Vienna</div>
+        <div class="logos_item">Nordstich Hamburg</div>
+        <div class="logos_item">Black Tide Ink</div>
+        <div class="logos_item">Studio Noir München</div>
+        <div class="logos_item">Freehand Artists</div>
+      </div>
+      <p style="text-align:center; font-size:12px; color:var(--grey-mid); margin-top:24px; font-style:italic;">↑ Placeholder logos — replace with actual client studio names &amp; logos</p>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <section class="features" id="features">
+    <div class="section_inner">
+      <div class="section_header">
+        <div class="section_label">What we do</div>
+        <h2 class="section_title">Everything you need.<br>Nothing you don't.</h2>
+        <p class="section_subtitle">We handle your entire Meta Ads operation so you can focus on what you're actually good at — making art that gets people tattooed for life.</p>
+      </div>
+      <div class="features_grid">
+        <div class="feature_card">
+          <div class="feature_icon_wrap">🎯</div>
+          <h3 class="feature_title">Ads that bring in real clients</h3>
+          <p class="feature_text">We build and run Facebook & Instagram ad campaigns targeting people actively looking for tattoos in your city. Not random reach — actual bookings. Our targeting focuses on intent-based audiences so every euro you spend works.</p>
+        </div>
+        <div class="feature_card">
+          <div class="feature_icon_wrap">🎬</div>
+          <h3 class="feature_title">Done-for-you creatives</h3>
+          <p class="feature_text">We produce scroll-stopping ad creatives built specifically for the tattoo niche — short-form videos, before/after reels, bold static ads. Everything is made to convert, not just look pretty. You provide the content, we do the rest.</p>
+        </div>
+        <div class="feature_card">
+          <div class="feature_icon_wrap">📅</div>
+          <h3 class="feature_title">No more empty slots</h3>
+          <p class="feature_text">Imagine opening your booking calendar and finding it already filled by people who found you through ads. That's the goal — consistent, predictable demand so you're never scrambling for clients between projects again.</p>
+        </div>
+        <div class="feature_card">
+          <div class="feature_icon_wrap">📊</div>
+          <h3 class="feature_title">Full transparency, zero guesswork</h3>
+          <p class="feature_text">Weekly performance reports. Clear numbers. Cost per lead, cost per booking, ROAS. You always know exactly what your ad spend is doing — and we optimize relentlessly based on real data, not vibes.</p>
+        </div>
+        <div class="feature_card">
+          <div class="feature_icon_wrap">⚡</div>
+          <h3 class="feature_title">Live in 14 days</h3>
+          <p class="feature_text">Most agencies take months to "onboard" you. We don't. Onboarding call, strategy, creatives, launch — all within two weeks of signing. You'll see first results before the first month is out.</p>
+        </div>
+        <div class="feature_card">
+          <div class="feature_icon_wrap">🔒</div>
+          <h3 class="feature_title">Tattoo-niche expertise only</h3>
+          <p class="feature_text">We don't run ads for dentists, restaurants, or crypto. We know exactly what angles work for tattoo artists, what copy converts, what visuals stop the scroll. Niche specialization means better results — period.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BEFORE / AFTER -->
+  <section class="before_after" id="results">
+    <div class="section_inner">
+      <div class="section_header">
+        <div class="section_label">The transformation</div>
+        <h2 class="section_title">Before YAD.<br>After YAD.</h2>
+        <p class="section_subtitle">This is the difference between grinding for clients and having clients come to you.</p>
+      </div>
+      <div class="before_after_grid">
+        <div class="ba_card is-before">
+          <div class="ba_label">Without YAD</div>
+          <div class="ba_items">
+            <div class="ba_item">
+              <span class="ba_item_icon">✗</span>
+              <span>Posting daily hoping someone reaches out — radio silence</span>
+            </div>
+            <div class="ba_item">
+              <span class="ba_item_icon">✗</span>
+              <span>Weeks with half an empty calendar, panic-scrolling DMs</span>
+            </div>
+            <div class="ba_item">
+              <span class="ba_item_icon">✗</span>
+              <span>Wasting money on boosted posts that bring in ghosts, not clients</span>
+            </div>
+            <div class="ba_item">
+              <span class="ba_item_icon">✗</span>
+              <span>Zero idea what's actually working or why. Just guessing</span>
+            </div>
+            <div class="ba_item">
+              <span class="ba_item_icon">✗</span>
+              <span>Your dream clients are booking someone else — not because they're better, but louder</span>
+            </div>
+            <div class="ba_item">
+              <span class="ba_item_icon">✗</span>
+              <span>Spending hours on marketing you didn't get into tattooing to do</span>
+            </div>
+          </div>
+        </div>
+        <div class="ba_card is-after">
+          <div class="ba_label">With YAD</div>
+          <div class="ba_items">
+            <div class="ba_item">
+              <span class="ba_item_icon" style="color:var(--red);">✦</span>
+              <span>Ads running 24/7 while you focus on the chair. Clients find you.</span>
+            </div>
+            <div class="ba_item">
+              <span class="ba_item_icon" style="color:var(--red);">✦</span>
+              <span>Calendar booked 4–6 weeks out. Waitlists. Real demand.</span>
+            </div>
+            <div class="ba_item">
+              <span class="ba_item_icon" style="color:var(--red);">✦</span>
+              <span>Every euro tracked. ROI-positive within the first 30 days.</span>
+            </div>
+            <div class="ba_item">
+              <span class="ba_item_icon" style="color:var(--red);">✦</span>
+              <span>Weekly reports so you know exactly how much each booking costs.</span>
+            </div>
+            <div class="ba_item">
+              <span class="ba_item_icon" style="color:var(--red);">✦</span>
+              <span>Your ideal clients — people who want your exact style — booking you.</span>
+            </div>
+            <div class="ba_item">
+              <span class="ba_item_icon" style="color:var(--red);">✦</span>
+              <span>Done-for-you. You send content, we handle everything else.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="hiw" id="process">
+    <div class="section_inner">
+      <div class="section_header">
+        <div class="section_label">The process</div>
+        <h2 class="section_title">Up and running in 14 days.</h2>
+        <p class="section_subtitle">No six-month onboarding. No 200-page strategy decks. Just a clean process that gets you results fast.</p>
+      </div>
+      <div class="hiw_steps">
+        <div class="hiw_step">
+          <div class="hiw_number">01</div>
+          <h3 class="hiw_title">Strategy Call</h3>
+          <p class="hiw_text">We learn your style, your ideal client, your city and your goals. 45 minutes. We build your custom ad strategy on the spot — including targeting, budget, and angles that actually work for your niche.</p>
+        </div>
+        <div class="hiw_step">
+          <div class="hiw_number">02</div>
+          <h3 class="hiw_title">Creatives & Launch</h3>
+          <p class="hiw_text">You share your best content — healed work, studio shots, time-lapses. We turn it into scroll-stopping ad creatives, write the copy, set up the campaigns, and go live. All within 2 weeks.</p>
+        </div>
+        <div class="hiw_step">
+          <div class="hiw_number">03</div>
+          <h3 class="hiw_title">Scale & Optimize</h3>
+          <p class="hiw_text">We track every click, lead, and booking. Weekly reports. Monthly calls. We kill what doesn't work and scale what does — continuously optimizing until your calendar is full and your ad costs drop.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS TABS -->
+  <section class="process">
+    <div class="section_inner">
+      <div class="section_header">
+        <div class="section_label">What we handle</div>
+        <h2 class="section_title">Done-for-you.<br>All of it.</h2>
+      </div>
+      <div class="process_tabs">
+        <div class="process_tab active" onclick="switchTab(this, 'tab1')">Ad Creatives</div>
+        <div class="process_tab" onclick="switchTab(this, 'tab2')">Campaign Management</div>
+        <div class="process_tab" onclick="switchTab(this, 'tab3')">Lead Qualification</div>
+        <div class="process_tab" onclick="switchTab(this, 'tab4')">Reporting</div>
+      </div>
+      <div id="tab1" class="process_content active">
+        <div>
+          <h3 class="process_content_title">Creatives that make people stop scrolling</h3>
+          <p class="process_content_text">We take your raw content and produce professional ad creatives — short reels, static images, story ads. Bold copy. Hooks that hit. Everything optimized for the tattoo niche specifically. You focus on tattooing. We focus on the ads.</p>
+          <p class="process_content_text" style="margin-top:0;">We test multiple creative angles per month — so over time we know exactly what drives bookings for your studio and style.</p>
+          <a href="#contact" class="btn-primary">Start getting clients →</a>
+        </div>
+        <div class="process_visual">
+          <div class="process_visual_icon">🎬</div>
+          <span>Ad creative mockup</span>
+          <p style="font-size:12px; color:var(--grey-mid); text-align:center; padding: 0 32px;">Suggested: Side-by-side of raw content vs. finished ad creative</p>
+        </div>
+      </div>
+      <div id="tab2" class="process_content">
+        <div>
+          <h3 class="process_content_title">Campaigns that run 24/7 without you lifting a finger</h3>
+          <p class="process_content_text">We set up, run, and optimize your Facebook and Instagram ad campaigns. Budget allocation, audience targeting, bid strategy — all handled. You get the results, we do the work.</p>
+          <p class="process_content_text" style="margin-top:0;">We use battle-tested targeting approaches built specifically for local tattoo studios — not generic e-commerce tactics.</p>
+          <a href="#contact" class="btn-primary">Start getting clients →</a>
+        </div>
+        <div class="process_visual">
+          <div class="process_visual_icon">📊</div>
+          <span>Campaign dashboard</span>
+          <p style="font-size:12px; color:var(--grey-mid); text-align:center; padding: 0 32px;">Suggested: Screenshot of Meta Ads Manager dashboard showing active campaigns</p>
+        </div>
+      </div>
+      <div id="tab3" class="process_content">
+        <div>
+          <h3 class="process_content_title">Only serious clients reach your inbox</h3>
+          <p class="process_content_text">We build lead forms and qualification funnels that filter out time-wasters before they ever reach you. By the time someone lands in your DMs, they already know your price range, your style, and they're ready to book.</p>
+          <a href="#contact" class="btn-primary">Start getting clients →</a>
+        </div>
+        <div class="process_visual">
+          <div class="process_visual_icon">✅</div>
+          <span>Lead qualification flow</span>
+          <p style="font-size:12px; color:var(--grey-mid); text-align:center; padding: 0 32px;">Suggested: Funnel diagram showing lead quality filtration steps</p>
+        </div>
+      </div>
+      <div id="tab4" class="process_content">
+        <div>
+          <h3 class="process_content_title">Weekly reports. No fluff. Just numbers.</h3>
+          <p class="process_content_text">Every Monday you get a clean performance report — leads, bookings, cost per booking, ad spend, ROAS. You always know what your ads are doing, and we're always on a call to explain what we're doing next to improve it.</p>
+          <a href="#contact" class="btn-primary">Start getting clients →</a>
+        </div>
+        <div class="process_visual">
+          <div class="process_visual_icon">📈</div>
+          <span>Weekly report example</span>
+          <p style="font-size:12px; color:var(--grey-mid); text-align:center; padding: 0 32px;">Suggested: Screenshot of weekly performance report PDF with key metrics highlighted</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials">
+    <div class="section_inner">
+      <div class="testimonials_header section_header">
+        <div class="section_label">Real results</div>
+        <h2 class="section_title">What tattoo artists say.</h2>
+        <p class="section_subtitle">Results from real studios. Real numbers. Real bookings.</p>
+      </div>
+    </div>
+    <div class="testimonials_track_wrap">
+      <div class="testimonials_track">
+        <!-- Set 1 -->
+        <div class="testimonial_card">
+          <div class="testimonial_stars">★★★★★</div>
+          <p class="testimonial_text">"I was fully booked within 3 weeks. Had a waitlist for the first time in 6 years of tattooing. YAD is the real deal — they actually know the tattoo industry."</p>
+          <div class="testimonial_author">
+            <div class="testimonial_avatar">🎨</div>
+            <div>
+              <div class="testimonial_name">Marco V.</div>
+              <div class="testimonial_handle">Fineline &amp; Blackwork — Berlin</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial_card">
+          <div class="testimonial_stars">★★★★★</div>
+          <p class="testimonial_text">"€14 per booked appointment. I've spent that on a coffee and a croissant. Best investment I've made for my studio, no contest."</p>
+          <div class="testimonial_author">
+            <div class="testimonial_avatar">✒️</div>
+            <div>
+              <div class="testimonial_name">Lena K.</div>
+              <div class="testimonial_handle">Traditional &amp; Neo-Trad — Hamburg</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial_card">
+          <div class="testimonial_stars">★★★★★</div>
+          <p class="testimonial_text">"I used to dread Mondays because my calendar was half empty. Now I wake up to booking requests. The difference is insane."</p>
+          <div class="testimonial_author">
+            <div class="testimonial_avatar">🖤</div>
+            <div>
+              <div class="testimonial_name">Alex P.</div>
+              <div class="testimonial_handle">Japanese &amp; Irezumi — Vienna</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial_card">
+          <div class="testimonial_stars">★★★★★</div>
+          <p class="testimonial_text">"They don't just run ads — they actually understand what tattoo clients want. The creatives they made for me got a 4.2% CTR. That's insane."</p>
+          <div class="testimonial_author">
+            <div class="testimonial_avatar">⚡</div>
+            <div>
+              <div class="testimonial_name">Sarah M.</div>
+              <div class="testimonial_handle">Realism &amp; Portrait — Munich</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial_card">
+          <div class="testimonial_stars">★★★★★</div>
+          <p class="testimonial_text">"Within 6 weeks my revenue jumped 40%. I raised my prices. Still fully booked. I wish I'd done this 2 years ago."</p>
+          <div class="testimonial_author">
+            <div class="testimonial_avatar">🌿</div>
+            <div>
+              <div class="testimonial_name">Tom W.</div>
+              <div class="testimonial_handle">Botanical &amp; Illustrative — Frankfurt</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial_card">
+          <div class="testimonial_stars">★★★★★</div>
+          <p class="testimonial_text">"I've tried other agencies. Generic. Expensive. Zero results. YAD actually knows tattoo artists. First month was profitable. That's all I needed to know."</p>
+          <div class="testimonial_author">
+            <div class="testimonial_avatar">🔱</div>
+            <div>
+              <div class="testimonial_name">Nina B.</div>
+              <div class="testimonial_handle">Geometric &amp; Mandala — Stuttgart</div>
+            </div>
+          </div>
+        </div>
+        <!-- Duplicate set for infinite loop -->
+        <div class="testimonial_card">
+          <div class="testimonial_stars">★★★★★</div>
+          <p class="testimonial_text">"I was fully booked within 3 weeks. Had a waitlist for the first time in 6 years of tattooing. YAD is the real deal — they actually know the tattoo industry."</p>
+          <div class="testimonial_author">
+            <div class="testimonial_avatar">🎨</div>
+            <div>
+              <div class="testimonial_name">Marco V.</div>
+              <div class="testimonial_handle">Fineline &amp; Blackwork — Berlin</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial_card">
+          <div class="testimonial_stars">★★★★★</div>
+          <p class="testimonial_text">"€14 per booked appointment. I've spent that on a coffee and a croissant. Best investment I've made for my studio, no contest."</p>
+          <div class="testimonial_author">
+            <div class="testimonial_avatar">✒️</div>
+            <div>
+              <div class="testimonial_name">Lena K.</div>
+              <div class="testimonial_handle">Traditional &amp; Neo-Trad — Hamburg</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial_card">
+          <div class="testimonial_stars">★★★★★</div>
+          <p class="testimonial_text">"I used to dread Mondays because my calendar was half empty. Now I wake up to booking requests. The difference is insane."</p>
+          <div class="testimonial_author">
+            <div class="testimonial_avatar">🖤</div>
+            <div>
+              <div class="testimonial_name">Alex P.</div>
+              <div class="testimonial_handle">Japanese &amp; Irezumi — Vienna</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial_card">
+          <div class="testimonial_stars">★★★★★</div>
+          <p class="testimonial_text">"They don't just run ads — they actually understand what tattoo clients want. The creatives they made for me got a 4.2% CTR. That's insane."</p>
+          <div class="testimonial_author">
+            <div class="testimonial_avatar">⚡</div>
+            <div>
+              <div class="testimonial_name">Sarah M.</div>
+              <div class="testimonial_handle">Realism &amp; Portrait — Munich</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial_card">
+          <div class="testimonial_stars">★★★★★</div>
+          <p class="testimonial_text">"Within 6 weeks my revenue jumped 40%. I raised my prices. Still fully booked. I wish I'd done this 2 years ago."</p>
+          <div class="testimonial_author">
+            <div class="testimonial_avatar">🌿</div>
+            <div>
+              <div class="testimonial_name">Tom W.</div>
+              <div class="testimonial_handle">Botanical &amp; Illustrative — Frankfurt</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial_card">
+          <div class="testimonial_stars">★★★★★</div>
+          <p class="testimonial_text">"I've tried other agencies. Generic. Expensive. Zero results. YAD actually knows tattoo artists. First month was profitable. That's all I needed to know."</p>
+          <div class="testimonial_author">
+            <div class="testimonial_avatar">🔱</div>
+            <div>
+              <div class="testimonial_name">Nina B.</div>
+              <div class="testimonial_handle">Geometric &amp; Mandala — Stuttgart</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p style="text-align:center; font-size:12px; color:var(--grey-mid); margin-top:32px; font-style:italic;">↑ Placeholder testimonials — replace with real client quotes, photos, and handles</p>
+  </section>
+
+  <!-- COMPARISON -->
+  <section class="compare">
+    <div class="section_inner">
+      <div class="section_header">
+        <div class="section_label">Why YAD</div>
+        <h2 class="section_title">Not your average agency.</h2>
+        <p class="section_subtitle">An honest look at what makes us different. It's not ego — it's just what a niche-specialist does vs. a generalist.</p>
+      </div>
+      <div class="compare_grid">
+        <div class="compare_cell header">Feature</div>
+        <div class="compare_cell header yad">YAD</div>
+        <div class="compare_cell header">Generic Agency</div>
+        <div class="compare_cell header">Doing It Yourself</div>
+
+        <div class="compare_cell">Tattoo-niche expertise</div>
+        <div class="compare_cell yad"><span class="compare_yes">✓ Exclusive</span></div>
+        <div class="compare_cell"><span class="compare_no">✗ Generic</span></div>
+        <div class="compare_cell"><span class="compare_no">✗ Learning as you go</span></div>
+
+        <div class="compare_cell">Done-for-you creatives</div>
+        <div class="compare_cell yad"><span class="compare_yes">✓ Included</span></div>
+        <div class="compare_cell"><span class="compare_no">✗ Extra cost</span></div>
+        <div class="compare_cell"><span class="compare_no">✗ Your time</span></div>
+
+        <div class="compare_cell">Live within 14 days</div>
+        <div class="compare_cell yad"><span class="compare_yes">✓ Guaranteed</span></div>
+        <div class="compare_cell"><span class="compare_no">✗ 4–8 weeks</span></div>
+        <div class="compare_cell"><span class="compare_yes">✓ Whenever you figure it out</span></div>
+
+        <div class="compare_cell">Weekly performance reports</div>
+        <div class="compare_cell yad"><span class="compare_yes">✓ Every Monday</span></div>
+        <div class="compare_cell"><span class="compare_no">✗ Monthly (if lucky)</span></div>
+        <div class="compare_cell"><span class="compare_no">✗ Manual</span></div>
+
+        <div class="compare_cell">ROI-focused optimization</div>
+        <div class="compare_cell yad"><span class="compare_yes">✓ Obsessive</span></div>
+        <div class="compare_cell"><span class="compare_no">✗ Reach-focused</span></div>
+        <div class="compare_cell"><span class="compare_no">✗ Guesswork</span></div>
+
+        <div class="compare_cell compare_row_last">No long-term lock-in</div>
+        <div class="compare_cell compare_row_last yad"><span class="compare_yes">✓ Monthly rolling</span></div>
+        <div class="compare_cell compare_row_last"><span class="compare_no">✗ 6–12 month contracts</span></div>
+        <div class="compare_cell compare_row_last"><span class="compare_yes">✓ Your call</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MID-PAGE CTA -->
+  <div class="cta_banner">
+    <div class="cta_banner_inner">
+      <div class="cta_banner_tag">Limited spots per city</div>
+      <h2 class="cta_banner_title">Stop leaving bookings<br>on the table.</h2>
+      <p class="cta_banner_text">Every week without ads is a week your ideal clients are booking someone else. We only work with 3 studios per city — so once your spot is taken, it's taken.</p>
+      <a href="#contact" class="btn-primary xl">Claim your city →</a>
+      <p class="cta_banner_disclaimer">Free strategy call — 45 minutes, no commitment required.</p>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <section class="faq" id="faq">
+    <div class="section_inner">
+      <div class="section_header">
+        <div class="section_label">Questions</div>
+        <h2 class="section_title">We've heard them all.</h2>
+      </div>
+      <div class="faq_list">
+        <div class="faq_item open">
+          <button class="faq_trigger" onclick="toggleFaq(this)">
+            How quickly will I see results?
+            <div class="faq_trigger_icon">+</div>
+          </button>
+          <div class="faq_body">
+            <p class="faq_answer">Most artists see first inquiries within the first week of ads going live. Significant booking impact typically shows within 2–4 weeks. We're aggressive with the launch and optimize fast — we don't sit on data.</p>
+          </div>
+        </div>
+        <div class="faq_item">
+          <button class="faq_trigger" onclick="toggleFaq(this)">
+            What's the minimum ad budget I need?
+            <div class="faq_trigger_icon">+</div>
+          </button>
+          <div class="faq_body">
+            <p class="faq_answer">We recommend starting with €15–€25/day in ad spend. That's €450–€750/month. At our average cost per booking, that typically generates 20–40 new bookings per month — which far outweighs the cost of a single session for most artists.</p>
+          </div>
+        </div>
+        <div class="faq_item">
+          <button class="faq_trigger" onclick="toggleFaq(this)">
+            Do I need to provide the content for creatives?
+            <div class="faq_trigger_icon">+</div>
+          </button>
+          <div class="faq_body">
+            <p class="faq_answer">Yes — you share your existing photos, videos, and work. We handle everything else: editing, copy, hooks, captions, and production. You don't need to film anything new. Most artists already have more than enough content on their phone.</p>
+          </div>
+        </div>
+        <div class="faq_item">
+          <button class="faq_trigger" onclick="toggleFaq(this)">
+            Is this just "boosting posts"?
+            <div class="faq_trigger_icon">+</div>
+          </button>
+          <div class="faq_body">
+            <p class="faq_answer">Absolutely not. Boosted posts are the lowest-level, most expensive way to spend on Meta. We run proper Ads Manager campaigns with conversion objectives, custom audiences, retargeting, and full creative testing. That's what drives actual bookings.</p>
+          </div>
+        </div>
+        <div class="faq_item">
+          <button class="faq_trigger" onclick="toggleFaq(this)">
+            Do you work with studios or solo artists?
+            <div class="faq_trigger_icon">+</div>
+          </button>
+          <div class="faq_body">
+            <p class="faq_answer">Both. We work with solo artists who want to fill their personal schedule, and with multi-artist studios that need consistent client flow across the team. The strategy is adapted based on your setup.</p>
+          </div>
+        </div>
+        <div class="faq_item">
+          <button class="faq_trigger" onclick="toggleFaq(this)">
+            Are there long-term contracts?
+            <div class="faq_trigger_icon">+</div>
+          </button>
+          <div class="faq_body">
+            <p class="faq_answer">No. We work month-to-month. We keep clients because the results speak for themselves — not because we locked them in. That said, ads compound over time, so most clients see better and better results the longer we work together.</p>
+          </div>
+        </div>
+        <div class="faq_item">
+          <button class="faq_trigger" onclick="toggleFaq(this)">
+            What does the onboarding process look like?
+            <div class="faq_trigger_icon">+</div>
+          </button>
+          <div class="faq_body">
+            <p class="faq_answer">Step 1: Free strategy call (45 min). Step 2: You share access to your Meta Business account and content. Step 3: We build creatives and campaigns. Step 4: We go live within 14 days. From there, it's weekly reporting and ongoing optimization.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA / CONTACT -->
+  <section style="background: var(--black-2); padding: 100px 40px;" id="contact">
+    <div class="section_inner" style="text-align:center;">
+      <div class="section_label" style="text-align:center;">Ready?</div>
+      <h2 class="section_title" style="max-width:640px; margin: 0 auto 20px;">Your next client<br>is one ad away.</h2>
+      <p class="section_subtitle" style="margin: 0 auto 48px;">Book a free 45-minute strategy call. We'll map out exactly how many clients we can get you, at what cost, and how fast. No pressure. Just numbers.</p>
+      <div style="display:flex; flex-direction:column; align-items:center; gap:16px;">
+        <a href="https://calendly.com/yad" class="btn-primary xl" target="_blank" rel="noopener">Book your free strategy call →</a>
+        <p style="font-size:14px; color:var(--grey-mid);">Or email us: <a href="mailto:hello@yad.rocks" style="color:var(--grey-light); text-decoration:underline;">hello@yad.rocks</a></p>
+      </div>
+      <div style="display:flex; gap:48px; justify-content:center; margin-top:64px; padding-top:48px; border-top:1px solid var(--grey-border); flex-wrap:wrap;">
+        <div style="text-align:center;">
+          <div style="font-size:36px; font-weight:900; letter-spacing:-1px;">100%</div>
+          <div style="font-size:14px; color:var(--grey-light); margin-top:4px;">Tattoo-niche focused</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:36px; font-weight:900; letter-spacing:-1px;">14</div>
+          <div style="font-size:14px; color:var(--grey-light); margin-top:4px;">Days to go live</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:36px; font-weight:900; letter-spacing:-1px;">3×</div>
+          <div style="font-size:14px; color:var(--grey-light); margin-top:4px;">Average booking increase</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:36px; font-weight:900; letter-spacing:-1px;">0</div>
+          <div style="font-size:14px; color:var(--grey-light); margin-top:4px;">Long-term contracts</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer_inner">
+      <div class="footer_top">
+        <div class="footer_brand">
+          <div class="footer_logo">YAD<span>.</span></div>
+          <p class="footer_tagline">The Meta Ads agency built exclusively for tattoo artists. More bookings. Less hassle. Zero guesswork.</p>
+          <div class="footer_social">
+            <a href="#" class="footer_social_link" aria-label="Instagram">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+            </a>
+            <a href="#" class="footer_social_link" aria-label="TikTok">
+              <svg width="16" height="18" viewBox="0 0 16 18" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M15 3.5A3.5 3.5 0 0111.5 0h-2v12a2 2 0 11-2-2c.18 0 .35.03.5.07V7.94A6 6 0 1014 13.5V6.28A8.5 8.5 0 0015 6.5V3.5z"/></svg>
+            </a>
+            <a href="#" class="footer_social_link" aria-label="LinkedIn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M4.98 3.5C4.98 4.881 3.87 6 2.5 6S.02 4.881.02 3.5C.02 2.12 1.13 1 2.5 1s2.48 1.12 2.48 2.5zM5 8H0v16h5V8zm7.982 0H8.014v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0V24H24V13.869c0-7.88-8.922-7.593-11.018-3.714V8z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div>
+          <div class="footer_col_title">Services</div>
+          <div class="footer_links">
+            <a href="#features" class="footer_link">Meta Ads Management</a>
+            <a href="#features" class="footer_link">Creative Production</a>
+            <a href="#features" class="footer_link">Lead Qualification</a>
+            <a href="#features" class="footer_link">Campaign Reporting</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer_col_title">Company</div>
+          <div class="footer_links">
+            <a href="#" class="footer_link">About YAD</a>
+            <a href="#results" class="footer_link">Case Studies</a>
+            <a href="#faq" class="footer_link">FAQ</a>
+            <a href="mailto:hello@yad.rocks" class="footer_link">Contact</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer_col_title">Get Started</div>
+          <div class="footer_links">
+            <a href="#contact" class="footer_link">Free Strategy Call</a>
+            <a href="mailto:hello@yad.rocks" class="footer_link">hello@yad.rocks</a>
+          </div>
+          <div style="margin-top: 24px;">
+            <a href="#contact" class="btn-primary" style="width:100%; justify-content:center;">Book a call →</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer_bottom">
+        <p class="footer_copy">© 2026 YAD. All rights reserved. yad.rocks</p>
+        <div class="footer_legal">
+          <a href="#" class="footer_legal_link">Privacy Policy</a>
+          <a href="#" class="footer_legal_link">Imprint</a>
+          <a href="#" class="footer_legal_link">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq_item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq_item.open').forEach(el => el.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    }
+
+    function switchTab(el, tabId) {
+      const section = el.closest('.section_inner');
+      section.querySelectorAll('.process_tab').forEach(t => t.classList.remove('active'));
+      section.querySelectorAll('.process_content').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+    }
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Nav scroll effect
+    const nav = document.querySelector('.nav');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 20) {
+        nav.style.borderBottomColor = 'rgba(42,42,42,0.8)';
+      } else {
+        nav.style.borderBottomColor = 'var(--grey-border)';
+      }
+    });
+  </script>
+</body>
+</html>
