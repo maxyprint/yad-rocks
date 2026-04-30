@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <title>YAD — Du hast dich qualifiziert 🎯</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #0a0a0a; --black-2: #111111; --black-3: #1a1a1a;
+      --grey-border: #2a2a2a; --grey-mid: #444444; --grey-light: #888888;
+      --white: #ffffff; --red: #e8173a; --red-dark: #c0102e;
+      --red-glow: rgba(232,23,58,0.15);
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --radius: 12px; --radius-lg: 20px;
+    }
+    html { background: var(--black); scroll-behavior: smooth; }
+    body { font-family: var(--font); background: var(--black); color: var(--white);
+      -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    button { font-family: var(--font); cursor: pointer; border: none; background: none; }
+
+    /* NAV */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: 72px;
+      display: flex; align-items: center; padding: 0 40px;
+      border-bottom: 1px solid var(--grey-border);
+      background: rgba(10,10,10,0.92); backdrop-filter: blur(12px);
+    }
+    .nav_inner { max-width: 1000px; width: 100%; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between; }
+    .nav_logo { font-size: 26px; font-weight: 900; letter-spacing: -1px; }
+    .nav_logo span { color: var(--red); }
+    .nav_back { font-size: 14px; color: var(--grey-light); display: flex;
+      align-items: center; gap: 6px; transition: color 0.2s; }
+    .nav_back:hover { color: var(--white); }
+
+    /* HERO */
+    .hero { padding: 140px 40px 100px; text-align: center; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; top: -200px; left: 50%;
+      transform: translateX(-50%); width: 800px; height: 600px;
+      background: radial-gradient(ellipse, rgba(232,23,58,0.12) 0%, transparent 70%);
+      pointer-events: none; }
+    .hero_inner { max-width: 720px; margin: 0 auto; position: relative; }
+    .hero_badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(232,23,58,0.1); border: 1px solid rgba(232,23,58,0.3);
+      color: var(--red); font-size: 13px; font-weight: 600;
+      padding: 6px 14px; border-radius: 100px; margin-bottom: 28px; letter-spacing: 0.3px;
+    }
+    .hero_title { font-size: clamp(36px, 5vw, 60px); font-weight: 900;
+      letter-spacing: -2px; line-height: 1.08; margin-bottom: 20px; }
+    .hero_sub { font-size: 18px; color: var(--grey-light); margin-bottom: 40px; }
+    .hero_video {
+      background: var(--black-3); border: 1px solid var(--grey-border);
+      border-radius: var(--radius-lg); aspect-ratio: 16/9;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 16px; margin: 0 auto 40px; max-width: 640px; position: relative; overflow: hidden;
+    }
+    .hero_video::before { content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(232,23,58,0.05) 0%, transparent 60%); }
+    .hero_video_play {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: var(--red); display: flex; align-items: center; justify-content: center;
+      font-size: 28px; position: relative; z-index: 1; transition: transform 0.2s;
+      cursor: default;
+    }
+    .hero_video_label { font-size: 14px; color: var(--grey-light); position: relative; z-index: 1; }
+    .btn-cta {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--red); color: var(--white); font-size: 18px; font-weight: 700;
+      padding: 20px 44px; border-radius: 12px; transition: background 0.2s, transform 0.1s;
+      text-decoration: none; cursor: pointer; border: none; font-family: var(--font);
+    }
+    .btn-cta:hover { background: var(--red-dark); transform: translateY(-1px); }
+    .hero_note { font-size: 14px; color: var(--red); font-weight: 600; margin-top: 16px; }
+    .hero_meta { font-size: 13px; color: var(--grey-mid); margin-top: 8px; }
+
+    /* GAME SECTION */
+    .game_section { background: var(--black-2); padding: 80px 40px;
+      border-top: 1px solid var(--grey-border); }
+    .game_inner { max-width: 680px; margin: 0 auto; }
+    .game_label { font-size: 12px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--red); margin-bottom: 12px; }
+    .game_title { font-size: clamp(24px, 3vw, 36px); font-weight: 900;
+      letter-spacing: -1px; margin-bottom: 12px; }
+    .game_hint { font-size: 14px; color: var(--grey-light); margin-bottom: 32px; }
+    .game_wrap {
+      position: relative; border-radius: var(--radius-lg); overflow: hidden;
+      border: 1px solid var(--grey-border); background: var(--black);
+      cursor: pointer; user-select: none;
+    }
+    #gameCanvas { display: block; width: 100%; height: auto; }
+    .game_overlay {
+      display: none; position: absolute; inset: 0;
+      background: rgba(10,10,10,0.88); backdrop-filter: blur(4px);
+      align-items: center; justify-content: center; flex-direction: column; gap: 16px;
+    }
+    .game_overlay.visible { display: flex; }
+    .game_over_title { font-size: 28px; font-weight: 900; letter-spacing: -0.5px; }
+    .game_over_score { font-size: 16px; color: var(--grey-light); }
+    .game_restart {
+      background: var(--red); color: var(--white); font-size: 15px; font-weight: 700;
+      padding: 12px 28px; border-radius: var(--radius); transition: background 0.2s;
+      font-family: var(--font); border: none; cursor: pointer; margin-top: 4px;
+    }
+    .game_restart:hover { background: var(--red-dark); }
+    .game_start_hint { font-size: 13px; color: var(--grey-mid); margin-top: 16px; }
+
+    /* FOOTER */
+    .footer_mini { padding: 32px 40px; border-top: 1px solid var(--grey-border);
+      text-align: center; font-size: 13px; color: var(--grey-mid); }
+    .footer_mini a { color: var(--grey-light); transition: color 0.2s; }
+    .footer_mini a:hover { color: var(--white); }
+
+    @media (max-width: 600px) {
+      .nav { padding: 0 20px; }
+      .hero { padding: 100px 20px 64px; }
+      .hero_title { letter-spacing: -1.5px; }
+      .hero_sub { font-size: 16px; }
+      .btn-cta { width: 100%; justify-content: center; font-size: 16px; padding: 16px 24px; }
+      .game_section { padding: 64px 20px; }
+      .footer_mini { padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav_inner">
+      <a href="./" class="nav_logo">YAD<span>.</span></a>
+      <a href="./" class="nav_back">← Zurück zur Webseite</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero_inner">
+      <div class="hero_badge">🎯 Du hast dich qualifiziert.</div>
+      <h1 class="hero_title">Gespräch buchen —<br>wir zeigen dir live wie's läuft.</h1>
+      <p class="hero_sub">45 Min. Kostenlos. Kein Bullshit.</p>
+
+      <div class="hero_video">
+        <div class="hero_video_play">▶</div>
+        <span class="hero_video_label">Video folgt bald — wir arbeiten daran.</span>
+      </div>
+
+      <a href="https://calendly.com/yad" class="btn-cta" target="_blank" rel="noopener">
+        Kostenloses Gespräch buchen →
+      </a>
+      <p class="hero_note">Wir haben noch einen Platz in deiner Stadt frei.</p>
+      <p class="hero_meta">Nach dem Buchen bekommst du eine Bestätigung per E-Mail.</p>
+    </div>
+  </section>
+
+  <!-- GAME -->
+  <section class="game_section">
+    <div class="game_inner">
+      <div class="game_label">Während du wartest…</div>
+      <h2 class="game_title">Kein Internet-Dino?<br>Hier ist unser Dino.</h2>
+      <p class="game_hint">Leertaste, Klick oder Tippen zum Springen.</p>
+      <div class="game_wrap" id="gameWrap">
+        <canvas id="gameCanvas" width="600" height="180"></canvas>
+        <div class="game_overlay" id="gameOverlay">
+          <div class="game_over_title" id="overlayTitle">Bereit?</div>
+          <div class="game_over_score" id="overlayScore">Drücke Leertaste oder tippe zum Starten</div>
+          <button class="game_restart" id="gameRestartBtn">Los →</button>
+        </div>
+      </div>
+      <p class="game_start_hint">Tipp: Geschwindigkeit steigt mit der Zeit. Wie weit kommst du?</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <div class="footer_mini">
+    © 2026 YAD. — <a href="./">yad.rocks</a>
+  </div>
+
+  <script>
+    // ─── GAME ENGINE ───
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const overlay = document.getElementById('gameOverlay');
+    const overlayTitle = document.getElementById('overlayTitle');
+    const overlayScore = document.getElementById('overlayScore');
+    const restartBtn = document.getElementById('gameRestartBtn');
+
+    const W = canvas.width, H = canvas.height;
+    const GROUND = H - 30;
+    const RED = '#e8173a';
+    const WHITE = '#ffffff';
+    const GREY = '#2a2a2a';
+
+    let player, obstacles, score, speed, frame, animId, running, started;
+
+    function initGame() {
+      player = { x: 70, y: GROUND - 40, w: 36, h: 36, vy: 0, jumping: false };
+      obstacles = [];
+      score = 0;
+      speed = 4.5;
+      frame = 0;
+      running = false;
+      started = false;
+      overlay.classList.add('visible');
+      overlayTitle.textContent = 'Bereit?';
+      overlayScore.textContent = 'Drücke Leertaste oder tippe zum Starten';
+      restartBtn.textContent = 'Los →';
+      drawStatic();
+    }
+
+    function drawStatic() {
+      ctx.fillStyle = '#0a0a0a';
+      ctx.fillRect(0, 0, W, H);
+      ctx.fillStyle = GREY;
+      ctx.fillRect(0, GROUND + 36, W, 2);
+      // Player
+      ctx.fillStyle = WHITE;
+      ctx.beginPath();
+      ctx.roundRect(player.x, player.y, player.w, player.h, 4);
+      ctx.fill();
+    }
+
+    function startGame() {
+      overlay.classList.remove('visible');
+      running = true;
+      started = true;
+      if (animId) cancelAnimationFrame(animId);
+      loop();
+    }
+
+    function gameOver() {
+      running = false;
+      overlay.classList.add('visible');
+      overlayTitle.textContent = 'Game Over';
+      overlayScore.textContent = 'Score: ' + Math.floor(score);
+      restartBtn.textContent = 'Nochmal →';
+    }
+
+    function jump() {
+      if (!started) { initGame(); startGame(); return; }
+      if (!running) { initGame(); startGame(); return; }
+      if (!player.jumping) {
+        player.vy = -12;
+        player.jumping = true;
+      }
+    }
+
+    function spawnObstacle() {
+      const h = 28 + Math.random() * 30;
+      const w = 14 + Math.random() * 16;
+      obstacles.push({ x: W, y: GROUND - h + 36, w, h });
+    }
+
+    function loop() {
+      if (!running) return;
+      animId = requestAnimationFrame(loop);
+      frame++;
+
+      // Background
+      ctx.fillStyle = '#0a0a0a';
+      ctx.fillRect(0, 0, W, H);
+
+      // Ground line
+      ctx.fillStyle = GREY;
+      ctx.fillRect(0, GROUND + 36, W, 2);
+
+      // Score
+      score += 0.08;
+      ctx.fillStyle = WHITE;
+      ctx.font = '700 14px Inter, sans-serif';
+      ctx.textAlign = 'right';
+      ctx.fillText(Math.floor(score), W - 16, 24);
+      ctx.textAlign = 'left';
+
+      // Speed ramp
+      speed = 4.5 + Math.floor(score / 200) * 0.6;
+
+      // Spawn
+      const gap = Math.max(55, 90 - Math.floor(score / 100) * 5);
+      if (frame % gap === 0) spawnObstacle();
+
+      // Player physics
+      player.vy += 0.65;
+      player.y += player.vy;
+      if (player.y >= GROUND - player.h + 36) {
+        player.y = GROUND - player.h + 36;
+        player.vy = 0;
+        player.jumping = false;
+      }
+
+      // Draw player (white square with slight rounding)
+      ctx.fillStyle = WHITE;
+      ctx.beginPath();
+      ctx.roundRect(player.x, player.y, player.w, player.h, 4);
+      ctx.fill();
+
+      // Obstacles
+      obstacles.forEach((o, i) => {
+        o.x -= speed;
+        ctx.fillStyle = RED;
+        ctx.beginPath();
+        ctx.roundRect(o.x, o.y, o.w, o.h, 3);
+        ctx.fill();
+
+        // Collision (with small padding)
+        const pad = 4;
+        if (
+          player.x + pad < o.x + o.w &&
+          player.x + player.w - pad > o.x &&
+          player.y + pad < o.y + o.h &&
+          player.y + player.h - pad > o.y
+        ) { gameOver(); }
+      });
+
+      // Remove off-screen obstacles
+      obstacles = obstacles.filter(o => o.x + o.w > 0);
+    }
+
+    // Controls
+    document.addEventListener('keydown', e => {
+      if (e.code === 'Space' || e.code === 'ArrowUp') { e.preventDefault(); jump(); }
+    });
+    document.getElementById('gameWrap').addEventListener('click', jump);
+    document.getElementById('gameWrap').addEventListener('touchstart', e => {
+      e.preventDefault(); jump();
+    }, { passive: false });
+    restartBtn.addEventListener('click', e => {
+      e.stopPropagation(); initGame(); startGame();
+    });
+
+    // Polyfill roundRect for older browsers
+    if (!ctx.roundRect) {
+      ctx.roundRect = function(x, y, w, h, r) {
+        this.beginPath();
+        this.moveTo(x + r, y);
+        this.lineTo(x + w - r, y);
+        this.arcTo(x + w, y, x + w, y + r, r);
+        this.lineTo(x + w, y + h - r);
+        this.arcTo(x + w, y + h, x + w - r, y + h, r);
+        this.lineTo(x + r, y + h);
+        this.arcTo(x, y + h, x, y + h - r, r);
+        this.lineTo(x, y + r);
+        this.arcTo(x, y, x + r, y, r);
+        this.closePath();
+      };
+    }
+
+    initGame();
+  </script>
+</body>
+</html>

@@ -13,6 +13,19 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <!-- Meta Pixel — replace YOUR_PIXEL_ID with your actual Pixel ID -->
+  <script>
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
+  (window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init','YOUR_PIXEL_ID');
+  fbq('track','PageView');
+  fbq('track','ViewContent',{content_name:'YAD Landing Page'});
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1"/></noscript>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -963,6 +976,68 @@
     .form_error { display: none; font-size: 13px; color: var(--red); margin-top: 12px; text-align: center; }
     .form_field_error { font-size: 12px; color: var(--red); margin-top: 4px; display: block; }
 
+    /* ─── QUALIFY FORM ─── */
+    .qform_overlay {
+      display: none; position: fixed; inset: 0; z-index: 300;
+      background: rgba(10,10,10,0.96); backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      align-items: center; justify-content: center; padding: 24px; overflow-y: auto;
+    }
+    .qform_overlay.open { display: flex; }
+    .qform_box {
+      background: var(--black-2); border: 1px solid var(--grey-border);
+      border-radius: var(--radius-lg); max-width: 540px; width: 100%;
+      max-height: 90vh; overflow-y: auto; padding: 48px; position: relative;
+    }
+    .qform_close {
+      position: absolute; top: 20px; right: 20px; width: 32px; height: 32px;
+      border-radius: 50%; border: 1px solid var(--grey-border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; color: var(--grey-light); background: var(--black-3);
+      transition: color 0.2s, border-color 0.2s; cursor: pointer;
+    }
+    .qform_close:hover { color: var(--white); border-color: var(--grey-mid); }
+    .qform_progress_wrap {
+      height: 3px; background: var(--grey-border); border-radius: 2px;
+      margin-bottom: 32px; overflow: hidden;
+    }
+    .qform_progress_bar {
+      height: 100%; background: var(--red); border-radius: 2px;
+      transition: width 0.4s ease; width: 0%;
+    }
+    .qform_back {
+      display: none; font-size: 13px; color: var(--grey-mid);
+      margin-bottom: 20px; cursor: pointer; transition: color 0.2s;
+      background: none; border: none; font-family: var(--font); padding: 0;
+    }
+    .qform_back:hover { color: var(--grey-light); }
+    .qform_step { display: none; }
+    .qform_step.active { display: block; }
+    .qform_step_label {
+      font-size: 12px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--red); margin-bottom: 16px;
+    }
+    .qform_question {
+      font-size: 24px; font-weight: 800; letter-spacing: -0.5px; line-height: 1.25;
+    }
+    .qform_options {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 28px;
+    }
+    .qform_option {
+      border: 1px solid var(--grey-border); border-radius: var(--radius);
+      padding: 16px 20px; cursor: pointer; text-align: center;
+      font-size: 15px; font-weight: 600; color: var(--grey-light);
+      background: var(--black-3); transition: all 0.15s;
+      font-family: var(--font); line-height: 1.4;
+    }
+    .qform_option:hover { border-color: rgba(232,23,58,0.5); color: var(--white); }
+    .qform_option.selected { border-color: var(--red); background: var(--red-glow); color: var(--white); }
+    @media (max-width: 600px) {
+      .qform_box { padding: 32px 20px; }
+      .qform_question { font-size: 20px; }
+      .qform_option { padding: 14px 10px; font-size: 14px; }
+    }
+
     /* ─── TICKER ─── */
     .ticker { background: var(--red); padding: 14px 0; overflow: hidden; white-space: nowrap; }
     .ticker_track { display: inline-block; animation: ticker 22s linear infinite; }
@@ -1161,10 +1236,7 @@
     <a href="#process" class="nav_link" onclick="closeMobileNav()">Ablauf</a>
     <a href="#results" class="nav_link" onclick="closeMobileNav()">Ergebnisse</a>
     <a href="#faq" class="nav_link" onclick="closeMobileNav()">FAQ</a>
-    <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="btn-whatsapp" target="_blank" rel="noopener" onclick="closeMobileNav()">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      Jetzt schreiben
-    </a>
+    <button class="btn-whatsapp" onclick="openQualifyForm(); closeMobileNav()">Passt YAD zu mir? →</button>
   </div>
 
   <!-- NAV -->
@@ -1178,8 +1250,8 @@
         <a href="#faq" class="nav_link">FAQ</a>
       </div>
       <div class="nav_cta">
-        <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="btn-ghost" target="_blank" rel="noopener">Schreib uns</a>
-        <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="btn-whatsapp" target="_blank" rel="noopener">Jetzt buchen →</a>
+        <button class="btn-ghost" onclick="openQualifyForm()">Bewerben</button>
+        <button class="btn-whatsapp" onclick="openQualifyForm()">Jetzt prüfen →</button>
       </div>
       <button class="nav_mobile_btn" id="mobileNavBtn" onclick="toggleMobileNav()" aria-label="Menü öffnen">
         <span></span><span></span><span></span>
@@ -1219,16 +1291,13 @@
           Du kümmerst dich um die Tats.
         </h1>
         <p class="hero_text">
-          Das Instagram Game brauchst du nicht mehr — wir kümmern uns um deine Neukunden &amp; schicken buchungsbereite Kunden direkt in deine DMs.
+          Das Instagram Game brauchst du nicht mehr — wir kümmern uns um deine Neukunden &amp; schicken buchungsbereite Kunden direkt in deine DMs. Nur für Artists, die wirklich wachsen wollen.
         </p>
         <div class="hero_buttons">
-          <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="btn-whatsapp large" target="_blank" rel="noopener">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-            Kalender füllen →
-          </a>
+          <button class="btn-whatsapp large" onclick="openQualifyForm()">Passt YAD zu mir? →</button>
           <a href="#process" class="btn-ghost" style="padding: 16px 24px; font-size: 16px; border-radius: 10px;">So funktioniert's</a>
         </div>
-        <p class="hero_disclaimer">Kostenloses Erstgespräch — kein Risiko, keine Verpflichtung.</p>
+        <p class="hero_disclaimer">Wir arbeiten nicht mit jedem — erst prüfen, dann loslegen.</p>
         <div class="hero_stats">
           <div>
             <div class="hero_stat_number">3,2×</div>
@@ -1416,7 +1485,7 @@
           <h3 class="process_content_title">Creatives, die den Scroll stoppen</h3>
           <p class="process_content_text">Wir nehmen deinen rohen Content und produzieren professionelle Ad Creatives — kurze Reels, Statics, Story Ads. Starker Copy. Hooks, die treffen. Alles speziell für die Tattoo-Nische optimiert. Du fokussierst dich aufs Tätowieren. Wir auf die Ads.</p>
           <p class="process_content_text" style="margin-top:0;">Wir testen jeden Monat mehrere Creative-Winkel — damit wir mit der Zeit genau wissen, was Buchungen für dein Studio und deinen Stil antreibt.</p>
-          <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="btn-whatsapp" target="_blank" rel="noopener">Jetzt Kunden gewinnen →</a>
+          <button class="btn-whatsapp" onclick="openQualifyForm()">Prüfen ob wir passen →</button>
         </div>
         <div class="process_visual">
           <img src="icon-camera.png" alt="Ad Creatives" class="process_visual_img">
@@ -1427,7 +1496,7 @@
           <h3 class="process_content_title">Kampagnen, die 24/7 laufen — ohne deinen Finger zu rühren</h3>
           <p class="process_content_text">Wir richten deine Facebook- und Instagram-Kampagnen ein, betreiben und optimieren sie. Budget-Verteilung, Zielgruppen-Targeting, Gebotsstrategie — alles übernommen. Du bekommst die Ergebnisse, wir machen die Arbeit.</p>
           <p class="process_content_text" style="margin-top:0;">Wir nutzen erprobte Targeting-Methoden, die speziell für lokale Tattoo-Studios entwickelt wurden — keine generischen E-Commerce-Taktiken.</p>
-          <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="btn-whatsapp" target="_blank" rel="noopener">Jetzt Kunden gewinnen →</a>
+          <button class="btn-whatsapp" onclick="openQualifyForm()">Prüfen ob wir passen →</button>
         </div>
         <div class="process_visual">
           <img src="icon-laptop.png" alt="Kampagnen-Management" class="process_visual_img">
@@ -1437,7 +1506,7 @@
         <div>
           <h3 class="process_content_title">Nur ernsthafte Kunden landen in deinem Posteingang</h3>
           <p class="process_content_text">Wir bauen Lead-Formulare und Qualifizierungs-Funnels, die Zeitverschwender herausfiltern, bevor sie dich überhaupt erreichen. Wenn jemand in deinen DMs landet, kennt er bereits deine Preisvorstellung, deinen Stil — und ist buchungsbereit.</p>
-          <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="btn-whatsapp" target="_blank" rel="noopener">Jetzt Kunden gewinnen →</a>
+          <button class="btn-whatsapp" onclick="openQualifyForm()">Prüfen ob wir passen →</button>
         </div>
         <div class="process_visual">
           <img src="icon-tattoo.png" alt="Lead-Qualifizierung" class="process_visual_img">
@@ -1447,7 +1516,7 @@
         <div>
           <h3 class="process_content_title">Wöchentliche Reports. Kein Bullshit. Nur Zahlen.</h3>
           <p class="process_content_text">Jeden Montag bekommst du einen klaren Performance-Report — Leads, Buchungen, Kosten pro Buchung, Werbeausgaben, ROAS. Du weißt immer, was deine Ads machen, und wir sind immer im Call, um zu erklären, was wir als nächstes verbessern.</p>
-          <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="btn-whatsapp" target="_blank" rel="noopener">Jetzt Kunden gewinnen →</a>
+          <button class="btn-whatsapp" onclick="openQualifyForm()">Prüfen ob wir passen →</button>
         </div>
         <div class="process_visual">
           <img src="icon-calculator.png" alt="Reporting" class="process_visual_img">
@@ -1462,11 +1531,8 @@
     <div class="cta_banner_inner">
       <div class="cta_banner_tag">Begrenzte Plätze pro Stadt</div>
       <h2 class="cta_banner_title">Hör auf, Buchungen<br>liegen zu lassen.</h2>
-      <p class="cta_banner_text">Jede Woche ohne Ads ist eine Woche, in der deine Wunschkunden jemand anderen buchen. Wir arbeiten nur mit 3 Studios pro Stadt — wenn dein Platz weg ist, ist er weg.</p>
-      <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="btn-whatsapp xl" target="_blank" rel="noopener">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        Meinen Platz sichern →
-      </a>
+      <p class="cta_banner_text">Wir arbeiten nicht mit jedem. Jede Woche ohne Ads ist eine Woche, in der deine Wunschkunden jemand anderen buchen — wir arbeiten nur mit 3 Studios pro Stadt.</p>
+      <button class="btn-whatsapp xl" onclick="openQualifyForm()">Meinen Platz prüfen →</button>
       <p class="cta_banner_disclaimer">Kostenloses Erstgespräch — 45 Minuten, keinerlei Verpflichtung.</p>
     </div>
   </div>
@@ -1549,14 +1615,11 @@
   <!-- FINAL CTA / CONTACT -->
   <section style="background: var(--black-2); padding: 100px 40px;" id="contact">
     <div class="section_inner" style="text-align:center;">
-      <div class="section_label" style="text-align:center;">Bereit?</div>
+      <div class="section_label" style="text-align:center;">Nur für Artists, die bereit sind.</div>
       <h2 class="section_title" style="max-width:640px; margin: 0 auto 20px;">Dein nächster Kunde<br>ist eine Anzeige entfernt.</h2>
-      <p class="section_subtitle" style="margin: 0 auto 48px;">Schreib uns direkt auf WhatsApp. Wir melden uns innerhalb von 24 Stunden und zeigen dir genau, wie viele Kunden wir dir bringen können, zu welchem Preis und wie schnell.</p>
+      <p class="section_subtitle" style="margin: 0 auto 48px;">Wir nehmen nicht jeden. Beantworte 4 kurze Fragen — wir prüfen, ob wir zusammenpassen und melden uns innerhalb von 24 Stunden.</p>
       <div style="display:flex; flex-direction:column; align-items:center; gap:16px;">
-        <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="btn-whatsapp xl" target="_blank" rel="noopener" style="text-decoration:none;">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          Jetzt auf WhatsApp schreiben →
-        </a>
+        <button class="btn-whatsapp xl" onclick="openQualifyForm()" style="font-family:var(--font);">Jetzt prüfen, ob wir zusammenpassen →</button>
         <a href="#" class="btn-ghost" onclick="openModal('contact'); return false;" style="font-size:15px; padding:12px 28px;">Oder per E-Mail schreiben</a>
       </div>
       <div style="display:flex; gap:40px; justify-content:center; margin-top:64px; padding-top:48px; border-top:1px solid var(--grey-border); flex-wrap:wrap;">
@@ -1620,11 +1683,11 @@
         <div>
           <div class="footer_col_title">Loslegen</div>
           <div class="footer_links">
-            <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="footer_link" target="_blank" rel="noopener">Kostenloses Erstgespräch</a>
+            <a href="#" class="footer_link" onclick="openQualifyForm(); return false;">Kostenloses Erstgespräch</a>
             <a href="#" class="footer_link" onclick="openModal('contact'); return false;">hello@yad.rocks</a>
           </div>
           <div style="margin-top: 24px;">
-            <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="btn-whatsapp" style="width:100%; justify-content:center;" target="_blank" rel="noopener">Jetzt schreiben →</a>
+            <button class="btn-whatsapp" style="width:100%; justify-content:center;" onclick="openQualifyForm()">Jetzt bewerben →</button>
           </div>
         </div>
       </div>
@@ -1641,6 +1704,88 @@
 
   <!-- IMPRESSUM MODAL -->
   <!-- CONTACT FORM MODAL -->
+  <!-- QUALIFY FORM OVERLAY -->
+  <div class="qform_overlay" id="qform">
+    <div class="qform_box">
+      <button class="qform_close" onclick="closeQualifyForm()">✕</button>
+      <div class="qform_progress_wrap">
+        <div class="qform_progress_bar" id="qprogress"></div>
+      </div>
+      <button class="qform_back" id="qback" onclick="qBack()">← Zurück</button>
+
+      <!-- Step 1: Revenue -->
+      <div class="qform_step active" id="qstep-1">
+        <div class="qform_step_label">Schritt 1 von 5</div>
+        <h2 class="qform_question">Wie hoch ist dein monatlicher Umsatz aktuell?</h2>
+        <div class="qform_options">
+          <button class="qform_option" onclick="qSelect('revenue','unter1k',this)">Unter 1.000€</button>
+          <button class="qform_option" onclick="qSelect('revenue','1-3k',this)">1.000 – 3.000€</button>
+          <button class="qform_option" onclick="qSelect('revenue','3-5k',this)">3.000 – 5.000€</button>
+          <button class="qform_option" onclick="qSelect('revenue','5kplus',this)">5.000€+</button>
+        </div>
+      </div>
+
+      <!-- Step 2: Budget -->
+      <div class="qform_step" id="qstep-2">
+        <div class="qform_step_label">Schritt 2 von 5</div>
+        <h2 class="qform_question">Wie viel möchtest du monatlich in Ads investieren?</h2>
+        <div class="qform_options">
+          <button class="qform_option" onclick="qSelect('budget','unter300',this)">Unter 300€</button>
+          <button class="qform_option" onclick="qSelect('budget','300-800',this)">300 – 800€</button>
+          <button class="qform_option" onclick="qSelect('budget','800-1500',this)">800 – 1.500€</button>
+          <button class="qform_option" onclick="qSelect('budget','1500plus',this)">1.500€+</button>
+        </div>
+      </div>
+
+      <!-- Step 3: Goal -->
+      <div class="qform_step" id="qstep-3">
+        <div class="qform_step_label">Schritt 3 von 5</div>
+        <h2 class="qform_question">Was ist dein wichtigstes Ziel?</h2>
+        <div class="qform_options" style="grid-template-columns:1fr;">
+          <button class="qform_option" onclick="qSelect('goal','mehr-anfragen',this)">Mehr Anfragen bekommen</button>
+          <button class="qform_option" onclick="qSelect('goal','ausgebucht',this)">Regelmäßig ausgebucht sein</button>
+          <button class="qform_option" onclick="qSelect('goal','skalieren',this)">Studio skalieren</button>
+        </div>
+      </div>
+
+      <!-- Step 4: Timeline -->
+      <div class="qform_step" id="qstep-4">
+        <div class="qform_step_label">Schritt 4 von 5</div>
+        <h2 class="qform_question">Wann möchtest du starten?</h2>
+        <div class="qform_options" style="grid-template-columns:1fr;">
+          <button class="qform_option" onclick="qSelect('start','sofort',this)">Sofort — ich bin bereit</button>
+          <button class="qform_option" onclick="qSelect('start','1-3monate',this)">In 1–3 Monaten</button>
+          <button class="qform_option" onclick="qSelect('start','later',this)">Später / nur informieren</button>
+        </div>
+      </div>
+
+      <!-- Step 5: Email -->
+      <div class="qform_step" id="qstep-5">
+        <div class="qform_step_label">Schritt 5 von 5</div>
+        <h2 class="qform_question">Fast fertig. Wohin sollen wir dein Ergebnis schicken?</h2>
+        <p style="color:var(--grey-light); font-size:14px; margin-top:10px; margin-bottom:24px;">Wir prüfen dein Profil und melden uns innerhalb von 24h.</p>
+        <form onsubmit="qSubmit(event)" style="display:flex; flex-direction:column; gap:14px;">
+          <input type="email" id="qemail" class="form_input" required placeholder="deine@email.com">
+          <button type="submit" class="btn-whatsapp" style="width:100%; justify-content:center; font-size:16px; padding:16px 24px; border:none; cursor:pointer; font-family:var(--font); display:flex;">
+            Ergebnis prüfen →
+          </button>
+        </form>
+        <p style="font-size:12px; color:var(--grey-mid); margin-top:12px; text-align:center;">Kein Spam. Keinerlei Verpflichtung.</p>
+      </div>
+
+      <!-- Result: Unqualified -->
+      <div class="qform_step" id="qresult-unqualified">
+        <div style="text-align:center; padding:12px 0;">
+          <div style="font-size:52px; margin-bottom:20px;">⏳</div>
+          <h2 style="font-size:24px; font-weight:900; letter-spacing:-0.5px; margin-bottom:14px;">Noch nicht ganz soweit.</h2>
+          <p style="color:var(--grey-light); font-size:15px; line-height:1.65; margin-bottom:12px;">Meta Ads sind am stärksten, wenn die Basis steht. Aktuell passen deine Angaben noch nicht zu unserem Modell — aber das kann sich schnell ändern.</p>
+          <p style="color:var(--grey-light); font-size:15px; line-height:1.65; margin-bottom:32px;">Wir haben deine E-Mail gespeichert. Sobald du bereit bist, sind wir da.</p>
+          <button class="btn-ghost" onclick="closeQualifyForm()" style="font-size:15px; padding:12px 28px;">Verstanden</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- CONTACT FORM MODAL — Formspree endpoint: mojrazar → max@yprint.de -->
   <div class="modal_overlay" id="modal-contact" onclick="closeModalOnBg(event)">
     <div class="modal_box">
@@ -1733,6 +1878,65 @@
     window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
     formspree('initForm', { formElement: '#contact-form', formId: 'mojrazar' });
 
+    // ─── QUALIFY FORM ───
+    const qA = {}; let qStep = 1, qLeadFired = false;
+    function openQualifyForm() {
+      // reset form state
+      Object.keys(qA).forEach(k => delete qA[k]);
+      qLeadFired = false;
+      document.querySelectorAll('.qform_option').forEach(o => o.classList.remove('selected'));
+      document.getElementById('qemail').value = '';
+      document.getElementById('qform').classList.add('open');
+      document.body.style.overflow = 'hidden';
+      qGoStep(1);
+    }
+    function closeQualifyForm() {
+      document.getElementById('qform').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    function qGoStep(n) {
+      document.querySelectorAll('.qform_step').forEach(s => s.classList.remove('active'));
+      const target = document.getElementById('qstep-' + n);
+      if (target) target.classList.add('active');
+      qStep = n;
+      document.getElementById('qprogress').style.width = ((n - 1) / 5 * 100) + '%';
+      document.getElementById('qback').style.display = (n > 1 && n <= 4) ? 'block' : 'none';
+    }
+    function qBack() { if (qStep > 1) qGoStep(qStep - 1); }
+    function qSelect(field, value, el) {
+      qA[field] = value;
+      el.closest('.qform_options').querySelectorAll('.qform_option').forEach(o => o.classList.remove('selected'));
+      el.classList.add('selected');
+      if (!qLeadFired && typeof fbq !== 'undefined') { fbq('track', 'Lead'); qLeadFired = true; }
+      const next = { revenue: 2, budget: 3, goal: 4, start: 5 };
+      setTimeout(() => qGoStep(next[field]), 280);
+    }
+    async function qSubmit(e) {
+      e.preventDefault();
+      qA.email = document.getElementById('qemail').value;
+      const qualified =
+        ['3-5k', '5kplus'].includes(qA.revenue) &&
+        ['800-1500', '1500plus'].includes(qA.budget) &&
+        ['sofort', '1-3monate'].includes(qA.start);
+      if (typeof fbq !== 'undefined')
+        fbq('trackCustom', qualified ? 'QualifiedLead' : 'UnqualifiedLead',
+          { revenue: qA.revenue, budget: qA.budget, start: qA.start });
+      fetch('https://formspree.io/f/mojrazar', {
+        method: 'POST',
+        body: JSON.stringify({ email: qA.email, umsatz: qA.revenue, budget: qA.budget,
+          ziel: qA.goal, start: qA.start, qualifiziert: qualified ? 'Ja' : 'Nein' }),
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+      }).catch(() => {});
+      document.getElementById('qprogress').style.width = '100%';
+      document.getElementById('qback').style.display = 'none';
+      document.querySelectorAll('.qform_step').forEach(s => s.classList.remove('active'));
+      if (qualified) {
+        window.location.href = 'danke.html';
+      } else {
+        document.getElementById('qresult-unqualified').classList.add('active');
+      }
+    }
+
     function openModal(id) {
       document.getElementById('modal-' + id).classList.add('open');
       document.body.style.overflow = 'hidden';
@@ -1745,9 +1949,12 @@
       if (e.target === e.currentTarget) closeModal(e.currentTarget.id.replace('modal-', ''));
     }
     document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') document.querySelectorAll('.modal_overlay.open').forEach(m => {
-        m.classList.remove('open'); document.body.style.overflow = '';
-      });
+      if (e.key === 'Escape') {
+        closeQualifyForm();
+        document.querySelectorAll('.modal_overlay.open').forEach(m => {
+          m.classList.remove('open'); document.body.style.overflow = '';
+        });
+      }
     });
 
     // FAQ Accordion
