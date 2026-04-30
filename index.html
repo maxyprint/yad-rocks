@@ -961,6 +961,7 @@
     .form_success_title { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
     .form_success_text { font-size: 14px; color: var(--grey-light); }
     .form_error { display: none; font-size: 13px; color: var(--red); margin-top: 12px; text-align: center; }
+    .form_field_error { font-size: 12px; color: var(--red); margin-top: 4px; display: block; }
 
     /* ─── TICKER ─── */
     .ticker { background: var(--red); padding: 14px 0; overflow: hidden; white-space: nowrap; }
@@ -1640,39 +1641,44 @@
 
   <!-- IMPRESSUM MODAL -->
   <!-- CONTACT FORM MODAL -->
-  <!-- Formspree: go to formspree.io → sign up → new form → set email to max@yprint.de → replace YOUR_FORMSPREE_ID below -->
+  <!-- CONTACT FORM MODAL — Formspree endpoint: mojrazar → max@yprint.de -->
   <div class="modal_overlay" id="modal-contact" onclick="closeModalOnBg(event)">
     <div class="modal_box">
       <button class="modal_close" onclick="closeModal('contact')">✕</button>
-      <div id="contact-form-wrap">
-        <h2 class="modal_title">Schreib uns</h2>
-        <form id="contact-form" onsubmit="submitContactForm(event)">
-          <div class="form_group">
-            <label class="form_label">Name *</label>
-            <input type="text" name="name" class="form_input" required placeholder="Dein Name">
-          </div>
-          <div class="form_group">
-            <label class="form_label">E-Mail *</label>
-            <input type="email" name="email" class="form_input" required placeholder="deine@email.com">
-          </div>
-          <div class="form_group">
-            <label class="form_label">Studio / Instagram</label>
-            <input type="text" name="studio" class="form_input" placeholder="@deinstudio (optional)">
-          </div>
-          <div class="form_group">
-            <label class="form_label">Nachricht</label>
-            <textarea name="message" class="form_textarea" placeholder="Was möchtest du wissen? (optional)"></textarea>
-          </div>
-          <a class="btn-whatsapp" style="display:flex; width:100%; justify-content:center; cursor:pointer;" onclick="document.getElementById('contact-form').requestSubmit()">Absenden →</a>
-          <button type="submit" style="display:none;"></button>
-          <p class="form_error" id="form-error">Fehler beim Senden. Bitte versuche es erneut.</p>
-        </form>
-      </div>
-      <div class="form_success" id="form-success">
+
+      <div data-fs-success class="form_success">
         <div class="form_success_icon">✓</div>
         <div class="form_success_title">Nachricht gesendet!</div>
         <p class="form_success_text">Wir melden uns innerhalb von 24 Stunden bei dir.</p>
       </div>
+
+      <div data-fs-error class="form_error" style="margin-bottom:16px;"></div>
+
+      <h2 class="modal_title">Schreib uns</h2>
+      <form id="contact-form">
+        <div class="form_group">
+          <label class="form_label">Name *</label>
+          <input type="text" name="name" class="form_input" required placeholder="Dein Name" data-fs-field>
+          <span data-fs-error="name" class="form_field_error"></span>
+        </div>
+        <div class="form_group">
+          <label class="form_label">E-Mail *</label>
+          <input type="email" name="email" class="form_input" required placeholder="deine@email.com" data-fs-field>
+          <span data-fs-error="email" class="form_field_error"></span>
+        </div>
+        <div class="form_group">
+          <label class="form_label">Studio / Instagram</label>
+          <input type="text" name="studio" class="form_input" placeholder="@deinstudio (optional)" data-fs-field>
+        </div>
+        <div class="form_group">
+          <label class="form_label">Nachricht</label>
+          <textarea name="message" class="form_textarea" placeholder="Was möchtest du wissen? (optional)" data-fs-field></textarea>
+        </div>
+        <button type="submit" class="btn-whatsapp" data-fs-submit-btn
+          style="display:flex; width:100%; justify-content:center; border:none; cursor:pointer; font-family:inherit; font-size:16px;">
+          Absenden →
+        </button>
+      </form>
     </div>
   </div>
 
@@ -1724,32 +1730,8 @@
 
   <script>
     // Modal
-    async function submitContactForm(e) {
-      e.preventDefault();
-      const form = e.target;
-      const btn = form.previousElementSibling;
-      const errorEl = document.getElementById('form-error');
-      btn.textContent = 'Wird gesendet…';
-      btn.style.opacity = '0.7';
-      btn.style.pointerEvents = 'none';
-      errorEl.style.display = 'none';
-      try {
-        const res = await fetch('https://formspree.io/f/YOUR_FORMSPREE_ID', {
-          method: 'POST',
-          body: new FormData(form),
-          headers: { 'Accept': 'application/json' }
-        });
-        if (res.ok) {
-          document.getElementById('contact-form-wrap').style.display = 'none';
-          document.getElementById('form-success').style.display = 'block';
-        } else { throw new Error(); }
-      } catch {
-        errorEl.style.display = 'block';
-        btn.textContent = 'Absenden →';
-        btn.style.opacity = '';
-        btn.style.pointerEvents = '';
-      }
-    }
+    window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+    formspree('initForm', { formElement: '#contact-form', formId: 'mojrazar' });
 
     function openModal(id) {
       document.getElementById('modal-' + id).classList.add('open');
@@ -1820,5 +1802,6 @@
         : 'var(--grey-border)';
     });
   </script>
+  <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
 </body>
 </html>
