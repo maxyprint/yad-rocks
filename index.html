@@ -1103,6 +1103,75 @@
     .footer_legal_link { font-size: 13px; color: var(--grey-mid); transition: color 0.2s; }
     .footer_legal_link:hover { color: var(--grey-light); }
 
+    /* ─── FOUNDER ─── */
+    .founder { background: var(--black); position: relative; overflow: hidden; }
+    .founder::before {
+      content: ''; position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 700px; height: 700px;
+      background: radial-gradient(ellipse, rgba(232,23,58,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .founder_layout {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 48px;
+      align-items: center;
+      justify-items: center;
+    }
+    .founder_photo_wrap {
+      position: relative; width: 300px;
+      opacity: 0; transform: translateY(50px);
+      transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1), transform 0.8s cubic-bezier(0.22,1,0.36,1);
+      transition-delay: 0.1s;
+    }
+    .founder_photo_wrap.founder-visible { opacity: 1; transform: translateY(0); }
+    .founder_photo_wrap::after {
+      content: ''; position: absolute; bottom: -60px; left: 50%;
+      transform: translateX(-50%);
+      width: 80%; height: 120px;
+      background: radial-gradient(ellipse, rgba(232,23,58,0.3) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+    .founder_photo {
+      width: 100%; border-radius: 20px; object-fit: cover;
+      display: block; border: 1px solid var(--grey-border);
+      position: relative; z-index: 1;
+    }
+    .founder_name_badge {
+      position: absolute; bottom: -22px; left: 50%;
+      transform: translateX(-50%);
+      background: var(--black-2); border: 1px solid var(--grey-border);
+      border-radius: 100px; padding: 10px 24px;
+      text-align: center; white-space: nowrap;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+      z-index: 2;
+    }
+    .founder_badge_name { font-size: 15px; font-weight: 800; letter-spacing: -0.3px; }
+    .founder_badge_role { font-size: 12px; color: var(--grey-light); margin-top: 2px; }
+    .founder_stats { display: flex; flex-direction: column; gap: 20px; width: 100%; }
+    .founder_card {
+      background: var(--black-2); border: 1px solid var(--grey-border);
+      border-radius: var(--radius-lg); padding: 32px;
+      opacity: 0; transform: translateY(40px);
+      transition: opacity 0.6s cubic-bezier(0.22,1,0.36,1), transform 0.6s cubic-bezier(0.22,1,0.36,1),
+                  background 0.2s, border-color 0.2s;
+      position: relative; overflow: hidden;
+    }
+    .founder_card::after {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(to right, transparent, var(--red), transparent);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .founder_card:hover { background: var(--black-3); border-color: rgba(232,23,58,0.25); }
+    .founder_card:hover::after { opacity: 1; }
+    .founder_card.founder-visible { opacity: 1; transform: translateY(0); }
+    .founder_card_number {
+      font-size: 52px; font-weight: 900; letter-spacing: -2px;
+      line-height: 1; margin-bottom: 10px; color: var(--white);
+    }
+    .founder_card_label { font-size: 14px; color: var(--grey-light); line-height: 1.5; }
+
     /* ─── RESPONSIVE 992px ─── */
     @media (max-width: 992px) {
       .nav { padding: 0 20px; }
@@ -1113,6 +1182,11 @@
       .hero_inner { grid-template-columns: 1fr; gap: 48px; }
       .features_grid { grid-template-columns: 1fr; }
       .feature_icon_wrap { margin-left: auto; margin-right: auto; }
+      .founder_layout { grid-template-columns: 1fr; gap: 40px; }
+      .founder_photo_wrap { width: 260px; margin: 0 auto 16px; }
+      .founder_stats { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 16px; }
+      .founder_card { flex: 1; min-width: 200px; }
+      .founder_card_number { font-size: 40px; }
       .before_after_grid { grid-template-columns: 1fr; }
       .hiw_steps { grid-template-columns: 1fr; gap: 48px; }
       .hiw_steps::before { display: none; }
@@ -1152,6 +1226,9 @@
       .ticker_item { font-size: 11px; padding: 0 16px; }
       .ticker_item::after { margin-left: 16px; }
 
+      .founder_photo_wrap { width: 220px; }
+      .founder_card { min-width: 140px; padding: 24px 20px; }
+      .founder_card_number { font-size: 34px; }
       .feature_card { padding: 32px 24px; text-align: center; }
       .ba_card { padding: 28px 20px; }
 
@@ -1350,6 +1427,47 @@
           <div class="feature_icon_wrap">🔒</div>
           <h3 class="feature_title">Nur Tattoo-Nische. Keine Ausnahme.</h3>
           <p class="feature_text">Ads von Tattoo Heads für Tattoo Heads. Wir schalten keine Ads für Zahnarztpraxen oder sonst wen. Wir wissen genau, was die Tattoo-Nische sehen will — und fokussieren uns deshalb nur darauf.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOUNDER -->
+  <section class="founder" id="about">
+    <div class="section_inner">
+      <div class="section_header" style="text-align:center;">
+        <div class="section_label">Wer steckt dahinter</div>
+        <h2 class="section_title">Keine Riesen-Agentur.<br><span class="accent">Für uns bist du nicht nur eine Kundennummer.</span></h2>
+      </div>
+      <div class="founder_layout">
+        <div class="founder_stats">
+          <div class="founder_card" data-founder-delay="0">
+            <div class="founder_card_number">
+              <span class="founder-counter" data-format="50k+" data-target="50">€ 0</span>
+            </div>
+            <div class="founder_card_label">verwaltetes<br>Ad-Budget pro Monat</div>
+          </div>
+          <div class="founder_card" data-founder-delay="1">
+            <div class="founder_card_number">
+              <span class="founder-counter" data-target="3" data-suffix=" Jahre">0</span>
+            </div>
+            <div class="founder_card_label">Performance<br>Marketing Erfahrung</div>
+          </div>
+        </div>
+        <div class="founder_photo_wrap">
+          <img src="me-img.png" alt="Max Schwarz — Gründer YAD" class="founder_photo">
+          <div class="founder_name_badge">
+            <div class="founder_badge_name">Max Schwarz</div>
+            <div class="founder_badge_role">Gründer, YAD</div>
+          </div>
+        </div>
+        <div class="founder_stats">
+          <div class="founder_card" data-founder-delay="2">
+            <div class="founder_card_number">
+              <span class="founder-counter" data-target="80" data-suffix="+">0</span>
+            </div>
+            <div class="founder_card_label">betreute<br>Partner & Studios</div>
+          </div>
         </div>
       </div>
     </div>
@@ -2008,5 +2126,59 @@
     });
   </script>
   <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
+  <script>
+  (function() {
+    var section = document.querySelector('.founder');
+    if (!section) return;
+    var photoWrap = section.querySelector('.founder_photo_wrap');
+    var cards = section.querySelectorAll('.founder_card');
+    var counters = section.querySelectorAll('.founder-counter');
+    var counted = false;
+
+    function easeOutExpo(t) { return t === 1 ? 1 : 1 - Math.pow(2, -10 * t); }
+
+    function runCounter(el) {
+      var target = parseInt(el.dataset.target);
+      var suffix = el.dataset.suffix || '';
+      var format = el.dataset.format;
+      var dur = 1800;
+      var s = performance.now();
+
+      if (format === '50k+') {
+        (function tick(now) {
+          var p = Math.min((now - s) / dur, 1);
+          var v = Math.floor(easeOutExpo(p) * target);
+          el.textContent = '€ ' + v + 'k+';
+          if (p < 1) requestAnimationFrame(tick);
+        })(s);
+        return;
+      }
+      (function tick(now) {
+        var p = Math.min((now - s) / dur, 1);
+        var v = Math.floor(easeOutExpo(p) * target);
+        el.textContent = v + suffix;
+        if (p < 1) requestAnimationFrame(tick);
+      })(s);
+    }
+
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (!entry.isIntersecting) return;
+        photoWrap.classList.add('founder-visible');
+        cards.forEach(function(card) {
+          var delay = parseInt(card.dataset.founderDelay || 0) * 130;
+          setTimeout(function() { card.classList.add('founder-visible'); }, delay);
+        });
+        if (!counted) {
+          counted = true;
+          setTimeout(function() { counters.forEach(runCounter); }, 350);
+        }
+        obs.disconnect();
+      });
+    }, { threshold: 0.2 });
+
+    obs.observe(section);
+  })();
+  </script>
 </body>
 </html>
