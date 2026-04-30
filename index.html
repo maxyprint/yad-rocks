@@ -321,21 +321,53 @@
     }
     .hero_stats {
       display: flex;
-      gap: 40px;
-      margin-top: 60px;
-      padding-top: 40px;
-      border-top: 1px solid var(--grey-border);
+      gap: 12px;
+      margin-top: 48px;
     }
+    .hero_stat_card {
+      flex: 1;
+      background: var(--black-2);
+      border: 1px solid var(--grey-border);
+      border-radius: 16px;
+      padding: 24px 20px 22px;
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(28px);
+      animation: heroStatIn 0.65s cubic-bezier(0.22,1,0.36,1) forwards;
+      transition: border-color 0.25s, background 0.25s;
+    }
+    .hero_stat_card:nth-child(1) { animation-delay: 0.45s; }
+    .hero_stat_card:nth-child(2) { animation-delay: 0.6s; }
+    .hero_stat_card:nth-child(3) { animation-delay: 0.75s; }
+    @keyframes heroStatIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero_stat_card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(to right, transparent, var(--red), transparent);
+      opacity: 0.6;
+    }
+    .hero_stat_card:hover {
+      border-color: rgba(232,23,58,0.35);
+      background: var(--black-3);
+    }
+    .hero_stat_card:hover::before { opacity: 1; }
     .hero_stat_number {
-      font-size: 32px;
+      font-size: 34px;
       font-weight: 900;
-      letter-spacing: -1px;
+      letter-spacing: -1.5px;
       color: var(--white);
+      line-height: 1;
+      margin-bottom: 8px;
     }
+    .hero_stat_number .stat-red { color: var(--red); }
     .hero_stat_label {
-      font-size: 13px;
+      font-size: 12px;
       color: var(--grey-light);
-      margin-top: 4px;
+      line-height: 1.45;
     }
 
     /* ─── LOGO BAR ─── */
@@ -1221,7 +1253,9 @@
       .hero_buttons .btn-whatsapp.large,
       .hero_buttons .btn-ghost { width: 100%; justify-content: center; text-align: center; font-size: 15px; padding: 14px 20px; }
       .hero_visual_placeholder { aspect-ratio: 16/9; padding: 24px; }
-      .hero_stats { flex-direction: column; gap: 20px; padding-top: 28px; margin-top: 40px; }
+      .hero_stats { flex-direction: column; gap: 10px; margin-top: 32px; }
+      .hero_stat_card { padding: 20px 16px; }
+      .hero_stat_number { font-size: 28px; }
 
       .ticker_item { font-size: 11px; padding: 0 16px; }
       .ticker_item::after { margin-left: 16px; }
@@ -1371,17 +1405,17 @@
         </div>
         <p class="hero_disclaimer">Kostenloses Erstgespräch — kein Risiko, keine Verpflichtung.</p>
         <div class="hero_stats">
-          <div>
-            <div class="hero_stat_number">3,2×</div>
-            <div class="hero_stat_label">Mehr Buchungen im Schnitt</div>
+          <div class="hero_stat_card">
+            <div class="hero_stat_number"><span class="hero-stat-num" data-from="0" data-to="3.2" data-suffix="×" data-decimal="1">0×</span></div>
+            <div class="hero_stat_label">Mehr Buchungen<br>im Schnitt</div>
           </div>
-          <div>
-            <div class="hero_stat_number">€8–€24</div>
-            <div class="hero_stat_label">Kosten pro Buchung</div>
+          <div class="hero_stat_card">
+            <div class="hero_stat_number">€8–<span class="stat-red">€24</span></div>
+            <div class="hero_stat_label">Kosten pro<br>Buchung</div>
           </div>
-          <div>
-            <div class="hero_stat_number">7 Tage</div>
-            <div class="hero_stat_label">Bis zu ersten Ergebnissen</div>
+          <div class="hero_stat_card">
+            <div class="hero_stat_number"><span class="hero-stat-num" data-from="0" data-to="7" data-suffix=" Tage">0</span></div>
+            <div class="hero_stat_label">Bis zu ersten<br>Ergebnissen</div>
           </div>
         </div>
       </div>
@@ -2127,6 +2161,27 @@
   </script>
   <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
   <script>
+  (function() {
+    function easeOutExpo(t) { return t === 1 ? 1 : 1 - Math.pow(2, -10 * t); }
+    var heroNums = document.querySelectorAll('.hero-stat-num');
+    heroNums.forEach(function(el) {
+      var to = parseFloat(el.dataset.to);
+      var suffix = el.dataset.suffix || '';
+      var dec = parseInt(el.dataset.decimal || '0');
+      var dur = 1600;
+      var delay = 900;
+      setTimeout(function() {
+        var s = performance.now();
+        (function tick(now) {
+          var p = Math.min((now - s) / dur, 1);
+          var v = easeOutExpo(p) * to;
+          el.textContent = v.toFixed(dec).replace('.', ',') + suffix;
+          if (p < 1) requestAnimationFrame(tick);
+        })(performance.now());
+      }, delay);
+    });
+  })();
+
   (function() {
     var section = document.querySelector('.founder');
     if (!section) return;
