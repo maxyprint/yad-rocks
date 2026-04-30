@@ -13,19 +13,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <!-- Meta Pixel — replace YOUR_PIXEL_ID with your actual Pixel ID -->
+  <!-- Meta Pixel SDK — kein init, keine Events für normale Besucher -->
   <script>
   !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
   n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
   n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
   t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
   (window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init','YOUR_PIXEL_ID');
-  fbq('track','PageView');
-  fbq('track','ViewContent',{content_name:'YAD Landing Page'});
   </script>
-  <noscript><img height="1" width="1" style="display:none"
-  src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1"/></noscript>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -1909,7 +1904,6 @@
       qA[field] = value;
       el.closest('.qform_options').querySelectorAll('.qform_option').forEach(o => o.classList.remove('selected'));
       el.classList.add('selected');
-      if (!qLeadFired && typeof fbq !== 'undefined') { fbq('track', 'Lead'); qLeadFired = true; }
       const next = { revenue: 2, budget: 3, goal: 4, start: 5 };
       setTimeout(() => qGoStep(next[field]), 280);
     }
@@ -1921,9 +1915,10 @@
         ['1-3k', '3-5k', '5kplus'].includes(qA.revenue) &&
         ['300-800', '800-1500', '1500plus'].includes(qA.budget) &&
         ['sofort', '1-3monate'].includes(qA.start);
-      if (typeof fbq !== 'undefined')
-        fbq('trackCustom', qualified ? 'QualifiedLead' : 'UnqualifiedLead',
-          { revenue: qA.revenue, budget: qA.budget, start: qA.start });
+      if (qualified && typeof fbq !== 'undefined') {
+        fbq('init', '1333209151957622');
+        fbq('track', 'Lead');
+      }
       fetch('https://formspree.io/f/mojrazar', {
         method: 'POST',
         body: JSON.stringify({ email: qA.email, telefon: qA.phone, umsatz: qA.revenue, budget: qA.budget,
