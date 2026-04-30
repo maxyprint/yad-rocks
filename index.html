@@ -1766,6 +1766,7 @@
         <p style="color:var(--grey-light); font-size:14px; margin-top:10px; margin-bottom:24px;">Wir prüfen dein Profil und melden uns innerhalb von 24h.</p>
         <form onsubmit="qSubmit(event)" style="display:flex; flex-direction:column; gap:14px;">
           <input type="email" id="qemail" class="form_input" required placeholder="deine@email.com">
+          <input type="tel" id="qphone" class="form_input" required placeholder="+43 123 456 78">
           <button type="submit" class="btn-whatsapp" style="width:100%; justify-content:center; font-size:16px; padding:16px 24px; border:none; cursor:pointer; font-family:var(--font); display:flex;">
             Ergebnis prüfen →
           </button>
@@ -1886,6 +1887,7 @@
       qLeadFired = false;
       document.querySelectorAll('.qform_option').forEach(o => o.classList.remove('selected'));
       document.getElementById('qemail').value = '';
+      document.getElementById('qphone').value = '';
       document.getElementById('qform').classList.add('open');
       document.body.style.overflow = 'hidden';
       qGoStep(1);
@@ -1914,16 +1916,17 @@
     async function qSubmit(e) {
       e.preventDefault();
       qA.email = document.getElementById('qemail').value;
+      qA.phone = document.getElementById('qphone').value;
       const qualified =
-        ['3-5k', '5kplus'].includes(qA.revenue) &&
-        ['800-1500', '1500plus'].includes(qA.budget) &&
+        ['1-3k', '3-5k', '5kplus'].includes(qA.revenue) &&
+        ['300-800', '800-1500', '1500plus'].includes(qA.budget) &&
         ['sofort', '1-3monate'].includes(qA.start);
       if (typeof fbq !== 'undefined')
         fbq('trackCustom', qualified ? 'QualifiedLead' : 'UnqualifiedLead',
           { revenue: qA.revenue, budget: qA.budget, start: qA.start });
       fetch('https://formspree.io/f/mojrazar', {
         method: 'POST',
-        body: JSON.stringify({ email: qA.email, umsatz: qA.revenue, budget: qA.budget,
+        body: JSON.stringify({ email: qA.email, telefon: qA.phone, umsatz: qA.revenue, budget: qA.budget,
           ziel: qA.goal, start: qA.start, qualifiziert: qualified ? 'Ja' : 'Nein' }),
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
       }).catch(() => {});
