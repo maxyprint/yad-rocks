@@ -1553,29 +1553,6 @@
 
     /* ── Icons ───────────────────────────────────────────────── */
     /* ── Swipe-Hint (mobile only) ────────────────────────────── */
-    .yf-swipe-hint {
-      display: none;
-      position: absolute; bottom: 68px; left: 50%;
-      transform: translateX(-50%);
-      font-size: 11px; font-weight: 600; letter-spacing: 2px;
-      text-transform: uppercase; color: rgba(255,255,255,0.22);
-      white-space: nowrap; pointer-events: none; z-index: 20;
-      transition: opacity 0.6s;
-    }
-    .yf-swipe-hint.hidden { opacity: 0; }
-    @media (max-width: 768px) { .yf-swipe-hint { display: block; } }
-
-    #yfContinue {
-      display: none;
-      position: absolute; bottom: 22px; left: 50%;
-      transform: translateX(-50%);
-      font-size: 11px; font-weight: 700; letter-spacing: 3px;
-      text-transform: uppercase; color: var(--red);
-      white-space: nowrap; pointer-events: none; z-index: 20;
-      opacity: 0; transition: opacity 0.5s;
-    }
-    #yfContinue.on { opacity: 1; }
-    @media (max-width: 768px) { #yfContinue { display: block; } }
 
     /* ── Dots ─────────────────────────────────────────────────── */
     .yf-dots {
@@ -1605,8 +1582,6 @@
         </div>
       </div>
       <div class="yf-dots" id="yfDots"></div>
-      <div class="yf-swipe-hint" id="yfSwipeHint">← Wischen →</div>
-      <div id="yfContinue">Weiter ↓</div>
     </div>
     <div id="yfSpacer"></div>
   </section>
@@ -2481,7 +2456,6 @@
     ];
 
     const section  = document.getElementById('yfSection');
-    const scene    = document.getElementById('yfScene');
     const card     = document.getElementById('yfCard');
     const textEl   = document.getElementById('yfText');
     const numEl    = document.getElementById('yfNum');
@@ -2493,7 +2467,7 @@
 
     const isMobile = window.matchMedia('(max-width: 768px)').matches;
     const N        = steps.length;
-    const STEP_H   = Math.max(320, window.innerHeight * 0.44);
+    const STEP_H   = isMobile ? window.innerHeight : Math.max(320, window.innerHeight * 0.44);
     spacer.style.height = N * STEP_H + 'px';
 
     let current = 0, flipping = false;
@@ -2547,68 +2521,8 @@
       }, 295);
     }
 
-    /* ── Mobile: Scroll-Lock + TouchMove steuert Karten ────── */
-    if (isMobile) {
-      var mTouchY = 0, mAccum = 0, mLocked = false, mReleased = false;
-      var FLIP_PX = 85;
-
-      function sceneAtTop() {
-        var r = scene.getBoundingClientRect();
-        return r.top <= 4 && r.top >= -4;
-      }
-
-      function releaseLock() {
-        mLocked   = false;
-        mReleased = true; /* verhindert sofortiges Wieder-Einrasten */
-      }
-
-      /* Sobald Scene wegscrollt: Released-Flag zurücksetzen */
-      window.addEventListener('scroll', function() {
-        if (mReleased && !sceneAtTop()) mReleased = false;
-        if (!mReleased) mLocked = sceneAtTop();
-      }, { passive: true });
-
-      document.addEventListener('touchstart', function(e) {
-        mTouchY = e.touches[0].clientY;
-        mAccum  = 0;
-        if (!mReleased) mLocked = sceneAtTop();
-      }, { passive: true });
-
-      document.addEventListener('touchmove', function(e) {
-        if (!mLocked) return;
-        e.preventDefault();
-
-        var delta = mTouchY - e.touches[0].clientY;
-        mTouchY   = e.touches[0].clientY;
-        mAccum   += delta;
-
-        if (mAccum >= FLIP_PX) {
-          mAccum = 0;
-          if (current < N - 1) {
-            flipTo(current + 1);
-            document.getElementById('yfSwipeHint').classList.add('hidden');
-            /* letzte Karte erreicht → "Weiter" anzeigen */
-            if (current + 1 === N - 1) {
-              document.getElementById('yfContinue').classList.add('on');
-            }
-          } else {
-            releaseLock();
-          }
-        } else if (mAccum <= -FLIP_PX) {
-          mAccum = 0;
-          if (current > 0) {
-            flipTo(current - 1);
-            document.getElementById('yfContinue').classList.remove('on');
-          } else {
-            releaseLock();
-          }
-        }
-      }, { passive: false });
-    }
-
-    /* ── Scroll – Desktop ───────────────────────────────────── */
+    /* ── Scroll ─────────────────────────────────────────────── */
     window.addEventListener('scroll', function() {
-      if (isMobile) return;
       var sTop      = section.getBoundingClientRect().top + window.scrollY;
       var inSection = window.scrollY - sTop;
       var next      = Math.max(0, Math.min(N - 1, Math.floor(inSection / STEP_H)));
