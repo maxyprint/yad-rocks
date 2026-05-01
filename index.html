@@ -1422,6 +1422,133 @@
     </div>
   </section>
 
+  <!-- ═══════════════════════════════════════════════════════════
+       FLIP STORY SECTION
+  ════════════════════════════════════════════════════════════ -->
+  <style>
+    /* ── YF: Flip Story ─────────────────────────────────────── */
+    .yf-section {
+      position: relative;
+      background: var(--black);
+    }
+    .yf-scene {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /* NO overflow: hidden — würde preserve-3d zerstören */
+    }
+    .yf-glow {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 52% 42% at 50% 46%,
+        rgba(232,23,58,0.10) 0%, transparent 68%);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 2s ease;
+    }
+    .yf-glow.on { opacity: 1; }
+
+    .yf-persp { perspective: 1400px; perspective-origin: 50% 45%; }
+
+    .yf-card {
+      width: min(560px, 88vw);
+      height: clamp(235px, 34vw, 305px);
+      position: relative;
+      /* transition via JS (zwei Phasen) */
+    }
+
+    .yf-face {
+      position: absolute; inset: 0;
+      border-radius: 20px;
+      background: linear-gradient(148deg, #161616 0%, #111 55%, #0d0d0d 100%);
+      border: 1px solid rgba(255,255,255,0.07);
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.025),
+        0 32px 80px rgba(0,0,0,0.62),
+        0 0 60px rgba(232,23,58,0.05),
+        inset 0 1px 0 rgba(255,255,255,0.06);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      padding: clamp(28px, 5vw, 48px);
+    }
+    .yf-face::before { /* Top-Glanzlinie */
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent 5%, rgba(255,255,255,0.1) 50%, transparent 95%);
+      border-radius: 20px 20px 0 0;
+    }
+    .yf-face::after { /* Dot-Grid */
+      content: '';
+      position: absolute; inset: 0; border-radius: 20px; pointer-events: none;
+      background-image: radial-gradient(rgba(255,255,255,0.055) 1px, transparent 1px);
+      background-size: 22px 22px;
+      mask-image: radial-gradient(ellipse 65% 65% at 50% 50%, black 0%, transparent 80%);
+      -webkit-mask-image: radial-gradient(ellipse 65% 65% at 50% 50%, black 0%, transparent 80%);
+    }
+    .yf-shimmer {
+      position: absolute; inset: 0; border-radius: 20px; overflow: hidden; pointer-events: none;
+    }
+    .yf-shimmer::after {
+      content: '';
+      position: absolute; top: 0; left: -110%; bottom: 0; width: 50%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.038), transparent);
+      animation: yf-sweep 9s ease infinite;
+    }
+    @keyframes yf-sweep { 0% { left: -110%; } 30%, 100% { left: 160%; } }
+
+    .yf-num {
+      font-size: 10px; font-weight: 700; letter-spacing: 2.5px;
+      text-transform: uppercase; color: var(--red); opacity: 0.75; margin-bottom: 16px;
+    }
+    .yf-text {
+      font-size: clamp(16px, 2.5vw, 26px);
+      font-weight: 800; line-height: 1.3; letter-spacing: -0.4px; color: #fff;
+    }
+    .yf-text .yf-hl { color: var(--red); }
+    .yf-bar {
+      margin-top: 22px; height: 3px; width: 30px;
+      background: var(--red); border-radius: 2px;
+      box-shadow: 0 0 8px var(--red);
+    }
+
+    /* ── Icons ───────────────────────────────────────────────── */
+    /* ── Dots ─────────────────────────────────────────────────── */
+    .yf-dots {
+      position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+      display: flex; gap: 7px; z-index: 20; pointer-events: none;
+    }
+    .yf-dot {
+      width: 4px; height: 4px; border-radius: 50%;
+      background: rgba(255,255,255,0.18);
+      transition: background .35s, transform .35s, box-shadow .35s;
+    }
+    .yf-dot.on { background: var(--red); transform: scale(1.5); box-shadow: 0 0 7px var(--red); }
+
+  </style>
+
+  <section class="yf-section" id="yfSection">
+    <div class="yf-scene" id="yfScene">
+      <div class="yf-glow" id="yfGlow"></div>
+      <div class="yf-persp">
+        <div class="yf-card" id="yfCard">
+          <div class="yf-face">
+            <div class="yf-shimmer"></div>
+            <div class="yf-num"  id="yfNum">01 / 08</div>
+            <div class="yf-text" id="yfText">Ohne Budget sieht dich niemand.</div>
+            <div class="yf-bar"></div>
+          </div>
+        </div>
+      </div>
+      <div class="yf-dots" id="yfDots"></div>
+    </div>
+    <div id="yfSpacer"></div>
+  </section>
+  <!-- ═══════════════════════════════════════════════════════════ -->
+
 
   <!-- FEATURES -->
   <section class="features" id="features">
@@ -2233,6 +2360,105 @@
     }, { threshold: 0.2 });
 
     obs.observe(section);
+  })();
+  </script>
+
+  <!-- YF Flip Story Script -->
+  <script>
+  (() => {
+    const steps = [
+      { text: 'Du willst mehr Leute erreichen?' },
+      { text: 'Um erfolgreich zu werben brauchst du mindestens ein Werbebudget von <span class="yf-hl">15 € täglich.</span>' },
+      { text: 'Wir bringen das ganze Wissen mit.' },
+      { text: '<span class="yf-hl">Kostenlos</span> für die ersten 7 Tage.' },
+      { text: 'Wir geben dir so viel Bedenkzeit wie du brauchst.' },
+      { text: 'Danach zahlst du <span class="yf-hl">15 € je Kontakt</span> oder 300 € Agenturpauschale/mtl.' },
+      { text: 'Dieses Invest rechnet sich schon ab <span class="yf-hl">2 zahlenden Kunden</span> monatlich.' },
+      { text: 'Wir garantieren dir das <span class="yf-hl">Fünffache</span> in den ersten 7 Tagen.' },
+    ];
+
+    const section = document.getElementById('yfSection');
+    const card    = document.getElementById('yfCard');
+    const textEl  = document.getElementById('yfText');
+    const numEl   = document.getElementById('yfNum');
+    const glowEl  = document.getElementById('yfGlow');
+    const dotsEl  = document.getElementById('yfDots');
+    const spacer  = document.getElementById('yfSpacer');
+
+    if (!section) return;
+
+    const N      = steps.length;
+    const STEP_H = Math.max(320, window.innerHeight * 0.44);
+    spacer.style.height = N * STEP_H + 'px';
+
+    let current = 0, flipping = false;
+
+    function fmt(n) {
+      return String(n + 1).padStart(2, '0') + ' / ' + String(N).padStart(2, '0');
+    }
+
+    /* ── Init dots ─────────────────────────────────────────── */
+    for (var i = 0; i < N; i++) {
+      var d = document.createElement('div');
+      d.className = 'yf-dot' + (i === 0 ? ' on' : '');
+      d.id = 'yfd' + i;
+      dotsEl.appendChild(d);
+    }
+
+    /* ── Coin-flip (single face, zwei Phasen) ──────────────── */
+    function flipTo(next) {
+      if (flipping || next === current) return;
+      flipping = true;
+
+      /* Phase 1: klapp weg nach rechts (90°) */
+      card.style.transition = 'transform 0.28s cubic-bezier(0.4, 0, 1, 1)';
+      card.style.transform  = 'perspective(1400px) rotateY(90deg)';
+
+      setTimeout(function() {
+        /* Karte unsichtbar → Text tauschen */
+        textEl.innerHTML  = steps[next].text;
+        numEl.textContent = fmt(next);
+
+        /* Sprung auf -90° (andere Seite, noch unsichtbar) */
+        card.style.transition = 'none';
+        card.style.transform  = 'perspective(1400px) rotateY(-90deg)';
+
+        /* Zwei Frames warten, dann einfedern */
+        requestAnimationFrame(function() {
+          requestAnimationFrame(function() {
+            card.style.transition = 'transform 0.5s cubic-bezier(0.22, 1, 0.36, 1.45)';
+            card.style.transform  = 'perspective(1400px) rotateY(0deg)';
+          });
+        });
+
+        current = next;
+
+        /* Dots */
+        document.querySelectorAll('.yf-dot').forEach(function(d, i) {
+          d.classList.toggle('on', i === next);
+        });
+
+        setTimeout(function() { flipping = false; }, 560);
+      }, 295);
+    }
+
+    /* ── Scroll ─────────────────────────────────────────────── */
+    window.addEventListener('scroll', function() {
+      var sTop      = section.getBoundingClientRect().top + window.scrollY;
+      var inSection = window.scrollY - sTop;
+      var next      = Math.max(0, Math.min(N - 1, Math.floor(inSection / STEP_H)));
+
+      if (inSection < 0 && current !== 0) {
+        flipTo(0);
+      } else if (next !== current) {
+        flipTo(next);
+      }
+    }, { passive: true });
+
+    /* ── Init ───────────────────────────────────────────────── */
+    setTimeout(function() { glowEl.classList.add('on'); }, 400);
+    textEl.innerHTML  = steps[0].text;
+    numEl.textContent = fmt(0);
   })();
   </script>
 </body>
