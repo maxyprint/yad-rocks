@@ -2480,7 +2480,7 @@
 
     const isMobile = window.matchMedia('(max-width: 768px)').matches;
     const N        = steps.length;
-    const STEP_H   = isMobile ? 60 : Math.max(320, window.innerHeight * 0.44);
+    const STEP_H   = Math.max(320, window.innerHeight * 0.44);
     spacer.style.height = N * STEP_H + 'px';
 
     let current = 0, flipping = false;
@@ -2534,23 +2534,56 @@
       }, 295);
     }
 
-    /* ── Touch-Navigation (Mobile) ──────────────────────────── */
+    /* ── Mobile: Scroll-Lock + TouchMove steuert Karten ────── */
     if (isMobile) {
-      var touchStartY = 0;
-      scene.addEventListener('touchstart', function(e) {
-        touchStartY = e.touches[0].clientY;
+      var mTouchY = 0, mAccum = 0, mLocked = false;
+      var FLIP_PX = 85; // px Fingerbewegung pro Kartenwechsel
+
+      function sceneAtTop() {
+        var r = scene.getBoundingClientRect();
+        return r.top <= 4 && r.top >= -4;
+      }
+
+      /* Scroll-Event: Lock setzen sobald Scene oben klebt */
+      window.addEventListener('scroll', function() {
+        mLocked = sceneAtTop();
       }, { passive: true });
-      scene.addEventListener('touchend', function(e) {
-        var dy = touchStartY - e.changedTouches[0].clientY;
-        if (Math.abs(dy) > 30) {
-          flipTo(dy > 0 ? Math.min(current + 1, N - 1) : Math.max(current - 1, 0));
-          var hint = document.getElementById('yfSwipeHint');
-          if (hint) hint.classList.add('hidden');
+
+      document.addEventListener('touchstart', function(e) {
+        mTouchY = e.touches[0].clientY;
+        mAccum  = 0;
+        mLocked = sceneAtTop();
+      }, { passive: true });
+
+      document.addEventListener('touchmove', function(e) {
+        if (!mLocked) return;
+        e.preventDefault(); /* Seiten-Scroll stoppen */
+
+        var delta = mTouchY - e.touches[0].clientY;
+        mTouchY   = e.touches[0].clientY;
+        mAccum   += delta;
+
+        if (mAccum >= FLIP_PX) {
+          mAccum = 0;
+          if (current < N - 1) {
+            flipTo(current + 1);
+            var hint = document.getElementById('yfSwipeHint');
+            if (hint) hint.classList.add('hidden');
+          } else {
+            mLocked = false; /* letzte Karte: weiter scrollen lassen */
+          }
+        } else if (mAccum <= -FLIP_PX) {
+          mAccum = 0;
+          if (current > 0) {
+            flipTo(current - 1);
+          } else {
+            mLocked = false; /* erste Karte: nach oben scrollen lassen */
+          }
         }
-      }, { passive: true });
+      }, { passive: false });
     }
 
-    /* ── Scroll (Desktop only) ──────────────────────────────── */
+    /* ── Scroll – Desktop ───────────────────────────────────── */
     window.addEventListener('scroll', function() {
       if (isMobile) return;
       var sTop      = section.getBoundingClientRect().top + window.scrollY;
