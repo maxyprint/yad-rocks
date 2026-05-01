@@ -2255,6 +2255,10 @@
       document.getElementById('qform').classList.add('open');
       document.body.style.overflow = 'hidden';
       qGoStep(1);
+      if (typeof fbq !== 'undefined') {
+        fbq('init', '1333209151957622');
+        fbq('track', 'InitiateCheckout');
+      }
     }
     function closeQualifyForm() {
       document.getElementById('qform').classList.remove('open');
@@ -2294,7 +2298,6 @@
         ['300-800', '800-1500', '1500plus'].includes(qA.budget) &&
         ['sofort', '1-3monate'].includes(qA.start);
       if (qualified && typeof fbq !== 'undefined') {
-        fbq('init', '1333209151957622');
         fbq('track', 'Lead');
       }
       fetch('https://formspree.io/f/mojrazar', {
