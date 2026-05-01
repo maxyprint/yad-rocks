@@ -229,11 +229,25 @@
       pointer-events: none;
     }
     .hero_inner {
-      max-width: var(--max-w);
+      max-width: 1100px;
       margin: 0 auto;
       display: flex;
-      flex-direction: column;
-      max-width: 760px;
+      flex-direction: row;
+      align-items: center;
+      gap: 60px;
+    }
+    .hero_content { flex: 1 1 0; min-width: 0; }
+    .hero_video_wrap {
+      flex: 0 0 240px;
+      width: 240px;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.07);
+      aspect-ratio: 9/16;
+    }
+    .hero_video_wrap video {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
     }
     .hero_badge {
       display: inline-flex;
@@ -1246,7 +1260,8 @@
       .nav_mobile_btn { display: flex; }
 
       .hero, section, .cta_banner, .footer, .logos { padding-left: 20px; padding-right: 20px; }
-      .hero_inner { grid-template-columns: 1fr; gap: 48px; }
+      .hero_inner { flex-direction: column; max-width: 760px; }
+      .hero_video_wrap { display: none; }
       .features_grid { grid-template-columns: 1fr; }
       .feature_icon_wrap { margin-left: auto; margin-right: auto; }
       .founder_layout { grid-template-columns: 1fr; gap: 40px; }
@@ -1453,6 +1468,13 @@
             <div class="hero_stat_label">Bis zu ersten<br>Ergebnissen</div>
           </div>
         </div>
+      </div>
+      <div class="hero_video_wrap">
+        <video id="heroVideo" muted loop playsinline preload="none"
+               poster="creative-hero-poster.jpg">
+          <source src="creative-hero.webm" type="video/webm">
+          <source src="creative-hero.mp4"  type="video/mp4">
+        </video>
       </div>
     </div>
   </section>
@@ -2538,6 +2560,18 @@
     setTimeout(function() { glowEl.classList.add('on'); }, 400);
     textEl.innerHTML  = steps[0].text;
     numEl.textContent = fmt(0);
+  })();
+  </script>
+  <script>
+  (function() {
+    var vid = document.getElementById('heroVideo');
+    if (!vid) return;
+    new IntersectionObserver(function(entries, obs) {
+      if (entries[0].isIntersecting) {
+        vid.play().catch(function(){});
+        obs.disconnect();
+      }
+    }, { threshold: 0.2 }).observe(vid);
   })();
   </script>
 </body>
