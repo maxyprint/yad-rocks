@@ -1059,6 +1059,41 @@
     }
     .qform_option:hover { border-color: rgba(232,23,58,0.5); color: var(--white); }
     .qform_option.selected { border-color: var(--red); background: var(--red-glow); color: var(--white); }
+
+    /* ── Wochentag-Picker ── */
+    .qday_wrap { margin-top: 22px; }
+    .qday_toggle {
+      background: none; border: none;
+      color: var(--grey-light); font-family: var(--font);
+      font-size: 13px; font-weight: 600; cursor: pointer;
+      padding: 0; display: flex; align-items: center; gap: 6px;
+      transition: color 0.2s;
+    }
+    .qday_toggle:hover { color: var(--white); }
+    .qday_arrow {
+      display: inline-block;
+      transition: transform 0.22s cubic-bezier(0.4,0,0.2,1);
+    }
+    .qday_toggle.open .qday_arrow { transform: rotate(90deg); }
+    .qday_picker {
+      overflow: hidden; max-height: 0;
+      transition: max-height 0.3s cubic-bezier(0.4,0,0.2,1), opacity 0.25s;
+      opacity: 0;
+    }
+    .qday_picker.open { max-height: 80px; opacity: 1; }
+    .qday_grid {
+      display: flex; gap: 8px; flex-wrap: wrap; padding-top: 14px;
+    }
+    .qday_btn {
+      font-family: var(--font); font-size: 13px; font-weight: 600;
+      color: var(--grey-light);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--grey-border);
+      border-radius: 8px; padding: 9px 13px; cursor: pointer;
+      transition: border-color 0.18s, color 0.18s, background 0.18s;
+    }
+    .qday_btn:hover { border-color: rgba(232,23,58,0.45); color: var(--white); }
+    .qday_btn.selected { border-color: var(--red); background: var(--red-glow); color: var(--white); }
     @media (max-width: 600px) {
       .qform_box { padding: 32px 20px; }
       .qform_question { font-size: 20px; }
@@ -1430,6 +1465,7 @@
     .yf-section {
       position: relative;
       background: var(--black);
+      padding: 0;
     }
     .yf-scene {
       position: sticky;
@@ -1516,6 +1552,19 @@
     }
 
     /* ── Icons ───────────────────────────────────────────────── */
+    /* ── Swipe-Hint (mobile only) ────────────────────────────── */
+    .yf-swipe-hint {
+      display: none;
+      position: absolute; bottom: 68px; left: 50%;
+      transform: translateX(-50%);
+      font-size: 11px; font-weight: 600; letter-spacing: 2px;
+      text-transform: uppercase; color: rgba(255,255,255,0.22);
+      white-space: nowrap; pointer-events: none; z-index: 20;
+      transition: opacity 0.6s;
+    }
+    .yf-swipe-hint.hidden { opacity: 0; }
+    @media (max-width: 768px) { .yf-swipe-hint { display: block; } }
+
     /* ── Dots ─────────────────────────────────────────────────── */
     .yf-dots {
       position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
@@ -1544,6 +1593,7 @@
         </div>
       </div>
       <div class="yf-dots" id="yfDots"></div>
+      <div class="yf-swipe-hint" id="yfSwipeHint">← Wischen →</div>
     </div>
     <div id="yfSpacer"></div>
   </section>
@@ -1989,7 +2039,7 @@
 
       <!-- Step 1: Revenue -->
       <div class="qform_step active" id="qstep-1">
-        <div class="qform_step_label">Schritt 1 von 5</div>
+        <div class="qform_step_label">Schritt 1 von 6</div>
         <h2 class="qform_question">Wie hoch ist dein monatlicher Umsatz aktuell?</h2>
         <div class="qform_options">
           <button class="qform_option" onclick="qSelect('revenue','unter1k',this)">Unter 1.000€</button>
@@ -2001,7 +2051,7 @@
 
       <!-- Step 2: Budget -->
       <div class="qform_step" id="qstep-2">
-        <div class="qform_step_label">Schritt 2 von 5</div>
+        <div class="qform_step_label">Schritt 2 von 6</div>
         <h2 class="qform_question">Wie viel möchtest du monatlich in Ads investieren?</h2>
         <div class="qform_options">
           <button class="qform_option" onclick="qSelect('budget','unter300',this)">Unter 300€</button>
@@ -2013,7 +2063,7 @@
 
       <!-- Step 3: Goal -->
       <div class="qform_step" id="qstep-3">
-        <div class="qform_step_label">Schritt 3 von 5</div>
+        <div class="qform_step_label">Schritt 3 von 6</div>
         <h2 class="qform_question">Was ist dein wichtigstes Ziel?</h2>
         <div class="qform_options" style="grid-template-columns:1fr;">
           <button class="qform_option" onclick="qSelect('goal','mehr-anfragen',this)">Mehr Anfragen bekommen</button>
@@ -2024,7 +2074,7 @@
 
       <!-- Step 4: Timeline -->
       <div class="qform_step" id="qstep-4">
-        <div class="qform_step_label">Schritt 4 von 5</div>
+        <div class="qform_step_label">Schritt 4 von 6</div>
         <h2 class="qform_question">Wann möchtest du starten?</h2>
         <div class="qform_options" style="grid-template-columns:1fr;">
           <button class="qform_option" onclick="qSelect('start','sofort',this)">Sofort — ich bin bereit</button>
@@ -2033,9 +2083,35 @@
         </div>
       </div>
 
-      <!-- Step 5: Email -->
+      <!-- Step 5: Erreichbarkeit -->
       <div class="qform_step" id="qstep-5">
-        <div class="qform_step_label">Schritt 5 von 5</div>
+        <div class="qform_step_label">Schritt 5 von 6</div>
+        <h2 class="qform_question">Wann bist du am besten zu erreichen?</h2>
+        <div class="qform_options">
+          <button class="qform_option" onclick="qSelect('erreichbar','morgens',this)">Morgens</button>
+          <button class="qform_option" onclick="qSelect('erreichbar','nachmittags',this)">Nachmittags</button>
+        </div>
+        <div class="qday_wrap">
+          <button class="qday_toggle" onclick="toggleDayPicker(this)" type="button">
+            <span class="qday_arrow">›</span> Wochentag festlegen
+          </button>
+          <div class="qday_picker" id="qDayPicker">
+            <div class="qday_grid">
+              <button class="qday_btn" onclick="qDaySelect('Mo',this)" type="button">Mo</button>
+              <button class="qday_btn" onclick="qDaySelect('Di',this)" type="button">Di</button>
+              <button class="qday_btn" onclick="qDaySelect('Mi',this)" type="button">Mi</button>
+              <button class="qday_btn" onclick="qDaySelect('Do',this)" type="button">Do</button>
+              <button class="qday_btn" onclick="qDaySelect('Fr',this)" type="button">Fr</button>
+              <button class="qday_btn" onclick="qDaySelect('Sa',this)" type="button">Sa</button>
+              <button class="qday_btn" onclick="qDaySelect('So',this)" type="button">So</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 6: Email -->
+      <div class="qform_step" id="qstep-6">
+        <div class="qform_step_label">Schritt 6 von 6</div>
         <h2 class="qform_question">Fast fertig. Wohin sollen wir dein Ergebnis schicken?</h2>
         <p style="color:var(--grey-light); font-size:14px; margin-top:10px; margin-bottom:24px;">Wir prüfen dein Profil und melden uns innerhalb von 24h.</p>
         <form onsubmit="qSubmit(event)" style="display:flex; flex-direction:column; gap:14px;">
@@ -2160,6 +2236,10 @@
       Object.keys(qA).forEach(k => delete qA[k]);
       qLeadFired = false;
       document.querySelectorAll('.qform_option').forEach(o => o.classList.remove('selected'));
+      document.querySelectorAll('.qday_btn').forEach(b => b.classList.remove('selected'));
+      document.querySelectorAll('.qday_toggle').forEach(t => t.classList.remove('open'));
+      const dp = document.getElementById('qDayPicker');
+      if (dp) dp.classList.remove('open');
       document.getElementById('qemail').value = '';
       document.getElementById('qphone').value = '';
       document.getElementById('qform').classList.add('open');
@@ -2175,16 +2255,25 @@
       const target = document.getElementById('qstep-' + n);
       if (target) target.classList.add('active');
       qStep = n;
-      document.getElementById('qprogress').style.width = ((n - 1) / 5 * 100) + '%';
-      document.getElementById('qback').style.display = (n > 1 && n <= 4) ? 'block' : 'none';
+      document.getElementById('qprogress').style.width = ((n - 1) / 6 * 100) + '%';
+      document.getElementById('qback').style.display = (n > 1 && n <= 5) ? 'block' : 'none';
     }
     function qBack() { if (qStep > 1) qGoStep(qStep - 1); }
     function qSelect(field, value, el) {
       qA[field] = value;
       el.closest('.qform_options').querySelectorAll('.qform_option').forEach(o => o.classList.remove('selected'));
       el.classList.add('selected');
-      const next = { revenue: 2, budget: 3, goal: 4, start: 5 };
+      const next = { revenue: 2, budget: 3, goal: 4, start: 5, erreichbar: 6 };
       setTimeout(() => qGoStep(next[field]), 280);
+    }
+    function toggleDayPicker(btn) {
+      btn.classList.toggle('open');
+      document.getElementById('qDayPicker').classList.toggle('open');
+    }
+    function qDaySelect(day, el) {
+      qA.wochentag = day;
+      document.querySelectorAll('.qday_btn').forEach(b => b.classList.remove('selected'));
+      el.classList.add('selected');
     }
     async function qSubmit(e) {
       e.preventDefault();
@@ -2201,7 +2290,8 @@
       fetch('https://formspree.io/f/mojrazar', {
         method: 'POST',
         body: JSON.stringify({ email: qA.email, telefon: qA.phone, umsatz: qA.revenue, budget: qA.budget,
-          ziel: qA.goal, start: qA.start, qualifiziert: qualified ? 'Ja' : 'Nein' }),
+          ziel: qA.goal, start: qA.start, erreichbar: qA.erreichbar || '',
+          wochentag: qA.wochentag || '', qualifiziert: qualified ? 'Ja' : 'Nein' }),
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
       }).catch(() => {});
       document.getElementById('qprogress').style.width = '100%';
@@ -2377,18 +2467,20 @@
       { text: 'Wir garantieren dir das <span class="yf-hl">Fünffache</span> in den ersten 7 Tagen.' },
     ];
 
-    const section = document.getElementById('yfSection');
-    const card    = document.getElementById('yfCard');
-    const textEl  = document.getElementById('yfText');
-    const numEl   = document.getElementById('yfNum');
-    const glowEl  = document.getElementById('yfGlow');
-    const dotsEl  = document.getElementById('yfDots');
-    const spacer  = document.getElementById('yfSpacer');
+    const section  = document.getElementById('yfSection');
+    const scene    = document.getElementById('yfScene');
+    const card     = document.getElementById('yfCard');
+    const textEl   = document.getElementById('yfText');
+    const numEl    = document.getElementById('yfNum');
+    const glowEl   = document.getElementById('yfGlow');
+    const dotsEl   = document.getElementById('yfDots');
+    const spacer   = document.getElementById('yfSpacer');
 
     if (!section) return;
 
-    const N      = steps.length;
-    const STEP_H = Math.max(320, window.innerHeight * 0.44);
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    const N        = steps.length;
+    const STEP_H   = isMobile ? 60 : Math.max(320, window.innerHeight * 0.44);
     spacer.style.height = N * STEP_H + 'px';
 
     let current = 0, flipping = false;
@@ -2442,8 +2534,25 @@
       }, 295);
     }
 
-    /* ── Scroll ─────────────────────────────────────────────── */
+    /* ── Touch-Navigation (Mobile) ──────────────────────────── */
+    if (isMobile) {
+      var touchStartY = 0;
+      scene.addEventListener('touchstart', function(e) {
+        touchStartY = e.touches[0].clientY;
+      }, { passive: true });
+      scene.addEventListener('touchend', function(e) {
+        var dy = touchStartY - e.changedTouches[0].clientY;
+        if (Math.abs(dy) > 30) {
+          flipTo(dy > 0 ? Math.min(current + 1, N - 1) : Math.max(current - 1, 0));
+          var hint = document.getElementById('yfSwipeHint');
+          if (hint) hint.classList.add('hidden');
+        }
+      }, { passive: true });
+    }
+
+    /* ── Scroll (Desktop only) ──────────────────────────────── */
     window.addEventListener('scroll', function() {
+      if (isMobile) return;
       var sTop      = section.getBoundingClientRect().top + window.scrollY;
       var inSection = window.scrollY - sTop;
       var next      = Math.max(0, Math.min(N - 1, Math.floor(inSection / STEP_H)));
