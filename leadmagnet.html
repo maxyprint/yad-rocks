@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lead Magnet: Tattoo Studio Anfragen | YAD</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #0a0a0a; --black-2: #111111; --black-3: #1a1a1a;
+      --grey-border: #2a2a2a; --grey-mid: #555555; --grey-light: #888888;
+      --white: #ffffff; --red: #e8173a; --red-dark: #c0102e;
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    html { background: var(--black); }
+    body {
+      font-family: var(--font); background: var(--black); color: var(--white);
+      -webkit-font-smoothing: antialiased; max-width: 800px; margin: 0 auto;
+      padding: 60px 48px;
+    }
+
+    /* COVER */
+    .cover {
+      min-height: 100vh; display: flex; flex-direction: column;
+      justify-content: center; padding: 80px 0;
+      border-bottom: 1px solid var(--grey-border);
+      page-break-after: always;
+    }
+    .cover_brand {
+      font-size: 14px; font-weight: 800; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--red); margin-bottom: 48px;
+    }
+    .cover_tag {
+      display: inline-block; background: rgba(232,23,58,0.12);
+      border: 1px solid rgba(232,23,58,0.3); color: var(--red);
+      font-size: 11px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; padding: 6px 14px; border-radius: 100px;
+      margin-bottom: 32px;
+    }
+    .cover h1 {
+      font-size: clamp(32px, 5vw, 54px); font-weight: 900;
+      letter-spacing: -2px; line-height: 1.06; margin-bottom: 28px;
+    }
+    .cover h1 .accent { color: var(--red); }
+    .cover_sub {
+      font-size: 18px; color: var(--grey-light); line-height: 1.7;
+      max-width: 580px; margin-bottom: 56px;
+    }
+    .cover_author {
+      display: flex; align-items: center; gap: 16px;
+      padding-top: 40px; border-top: 1px solid var(--grey-border);
+    }
+    .cover_author_dot {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--red); display: flex; align-items: center;
+      justify-content: center; font-weight: 900; font-size: 16px; flex-shrink: 0;
+    }
+    .cover_author_name { font-size: 15px; font-weight: 700; }
+    .cover_author_role { font-size: 13px; color: var(--grey-light); margin-top: 2px; }
+
+    /* PAGE */
+    .page { padding: 72px 0; border-bottom: 1px solid var(--grey-border); page-break-after: always; }
+    .page:last-child { border-bottom: none; }
+
+    /* CHAPTER HEADER */
+    .chapter_num {
+      font-size: 11px; font-weight: 700; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--red); margin-bottom: 12px;
+    }
+    h2.chapter_title {
+      font-size: clamp(26px, 3.5vw, 40px); font-weight: 900;
+      letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 32px;
+    }
+    h2.chapter_title .accent { color: var(--red); }
+
+    /* TYPOGRAPHY */
+    h3 {
+      font-size: 20px; font-weight: 800; letter-spacing: -0.5px;
+      margin-top: 40px; margin-bottom: 14px; color: var(--white);
+    }
+    h4 {
+      font-size: 15px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1px; color: var(--red); margin-top: 28px; margin-bottom: 10px;
+    }
+    p { font-size: 16px; line-height: 1.78; color: #cccccc; margin-bottom: 18px; }
+    p strong { color: var(--white); }
+    p.lead {
+      font-size: 19px; color: var(--grey-light); line-height: 1.7;
+      border-left: 3px solid var(--red); padding-left: 20px; margin-bottom: 40px;
+    }
+    ul, ol { padding-left: 22px; margin-bottom: 20px; }
+    li { font-size: 16px; line-height: 1.75; color: #cccccc; margin-bottom: 8px; }
+    li strong { color: var(--white); }
+
+    /* HIGHLIGHT */
+    .highlight {
+      background: var(--black-2); border-left: 3px solid var(--red);
+      border-radius: 0 10px 10px 0; padding: 20px 24px; margin: 28px 0;
+    }
+    .highlight p { margin-bottom: 0; font-size: 15px; }
+
+    /* BOX */
+    .box {
+      background: var(--black-2); border: 1px solid var(--grey-border);
+      border-radius: 14px; padding: 28px 32px; margin: 32px 0;
+    }
+    .box_title {
+      font-size: 11px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--red); margin-bottom: 16px;
+    }
+
+    /* CHECKLIST */
+    .checklist { list-style: none; padding-left: 0; margin: 20px 0; }
+    .checklist li {
+      display: flex; gap: 12px; align-items: flex-start;
+      padding: 10px 0; border-bottom: 1px solid var(--grey-border);
+      font-size: 15px;
+    }
+    .checklist li:last-child { border-bottom: none; }
+    .check_icon {
+      width: 20px; height: 20px; border: 2px solid var(--grey-border);
+      border-radius: 4px; flex-shrink: 0; margin-top: 1px;
+    }
+
+    /* EXAMPLE BOX */
+    .example {
+      background: #0d0d0d; border: 1px solid var(--grey-border);
+      border-top: 2px solid var(--red); border-radius: 12px;
+      padding: 24px 28px; margin: 28px 0;
+    }
+    .example_label {
+      font-size: 11px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--red); margin-bottom: 14px;
+    }
+    .example_bad { color: var(--grey-light); text-decoration: line-through; font-size: 15px; margin-bottom: 8px; }
+    .example_good { color: var(--white); font-size: 15px; font-weight: 600; }
+
+    /* GRID */
+    .grid_2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 28px 0; }
+    .grid_card {
+      background: var(--black-2); border: 1px solid var(--grey-border);
+      border-radius: 12px; padding: 20px;
+    }
+    .grid_card_title {
+      font-size: 13px; font-weight: 700; color: var(--white); margin-bottom: 8px;
+    }
+    .grid_card p { font-size: 14px; margin-bottom: 0; color: #aaaaaa; }
+
+    /* CASE STUDY */
+    .case_study {
+      background: var(--black-2); border: 1px solid rgba(232,23,58,0.2);
+      border-radius: 16px; padding: 32px; margin: 36px 0;
+    }
+    .case_study_tag {
+      font-size: 11px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--red); margin-bottom: 12px;
+    }
+    .case_study_name { font-size: 20px; font-weight: 800; margin-bottom: 6px; }
+    .case_study_location { font-size: 13px; color: var(--grey-light); margin-bottom: 20px; }
+    .case_study_result {
+      background: rgba(232,23,58,0.08); border-radius: 8px;
+      padding: 14px 18px; margin-top: 20px;
+    }
+    .case_study_result strong { color: var(--red); font-size: 15px; }
+
+    /* STEP */
+    .steps { margin: 28px 0; }
+    .step {
+      display: flex; gap: 20px; align-items: flex-start;
+      padding: 20px 0; border-bottom: 1px solid var(--grey-border);
+    }
+    .step:last-child { border-bottom: none; }
+    .step_num {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: var(--red); color: var(--white); font-weight: 900;
+      font-size: 16px; display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .step_content { }
+    .step_title { font-size: 16px; font-weight: 700; color: var(--white); margin-bottom: 6px; }
+    .step_desc { font-size: 15px; color: #aaaaaa; margin-bottom: 0; line-height: 1.6; }
+
+    /* CTA PAGE */
+    .cta_page {
+      text-align: center; padding: 80px 0;
+    }
+    .cta_page h2 {
+      font-size: clamp(28px, 4vw, 44px); font-weight: 900;
+      letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 20px;
+    }
+    .cta_page h2 .accent { color: var(--red); }
+    .cta_page p { font-size: 17px; color: var(--grey-light); max-width: 520px; margin: 0 auto 32px; }
+    .cta_box {
+      background: var(--black-2); border: 1px solid rgba(232,23,58,0.25);
+      border-radius: 20px; padding: 48px 40px; display: inline-block;
+      max-width: 520px; width: 100%; text-align: left; margin-top: 16px;
+    }
+    .cta_url {
+      font-size: 22px; font-weight: 900; color: var(--red); letter-spacing: -0.5px;
+      margin-bottom: 12px;
+    }
+    .cta_note { font-size: 14px; color: var(--grey-light); }
+
+    /* DIVIDER */
+    .divider { border: none; border-top: 1px solid var(--grey-border); margin: 40px 0; }
+
+    /* PRINT */
+    @media print {
+      @page { size: A4; margin: 18mm 20mm; }
+      html, body {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+        background: #0a0a0a !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        font-size: 10pt;
+      }
+      .cover {
+        min-height: 0;
+        padding: 40px 0 60px;
+        page-break-after: always;
+      }
+      .page {
+        page-break-after: always;
+        page-break-inside: avoid;
+        padding: 40px 0;
+      }
+      .box, .highlight, .example, .case_study, .grid_card {
+        page-break-inside: avoid;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      .step { page-break-inside: avoid; }
+      .grid_2 { grid-template-columns: 1fr 1fr; }
+      h2.chapter_title { font-size: 22pt; }
+      h3 { font-size: 13pt; }
+      p, li { font-size: 10pt; }
+      .cover h1 { font-size: 26pt; }
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 40px 24px; }
+      .grid_2 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ======================== COVER ======================== -->
+<div class="cover">
+  <div class="cover_brand">YAD — Meta Ads für Tattoo Studios</div>
+  <div class="cover_tag">Kostenloser Guide · 2026</div>
+  <h1>Wie Tattoo Studios<br><span class="accent">10–30 qualifizierte Anfragen</span><br>pro Monat bekommen —<br>ohne von Empfehlungen abhängig zu sein</h1>
+  <p class="cover_sub">Das komplette System: von Instagram Bio bis Meta Ads — praxisnah erklärt für Tattoo Artists, die planbar ausgebucht sein wollen.</p>
+  <div class="cover_author">
+    <div class="cover_author_dot">M</div>
+    <div>
+      <div class="cover_author_name">Max Schwarz</div>
+      <div class="cover_author_role">Gründer YAD · Meta Ads für Tattoo Studios · yad.rocks</div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== INHALTSÜBERSICHT ======================== -->
+<div class="page" style="padding:56px 0;">
+  <div class="chapter_num">Inhalt</div>
+  <h2 class="chapter_title" style="margin-bottom:36px;">Was dich erwartet</h2>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+    <div class="grid_card" style="border-left:3px solid var(--red);">
+      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--grey-light);margin-bottom:6px;">Einleitung</div>
+      <div class="grid_card_title">Das Problem</div>
+      <p>Warum die meisten Studios keine planbaren Kunden haben — und was das mit dem System zu tun hat.</p>
+    </div>
+    <div class="grid_card">
+      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--grey-light);margin-bottom:6px;">Kapitel 1</div>
+      <div class="grid_card_title">Die echten Gründe</div>
+      <p>Algorithmus-Abhängigkeit, kein Funnel, kein klares Angebot — die 4 Ursachen für unplanbare Anfragen.</p>
+    </div>
+    <div class="grid_card">
+      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--grey-light);margin-bottom:6px;">Kapitel 2</div>
+      <div class="grid_card_title">Das Grundsystem</div>
+      <p>Aufmerksamkeit → Vertrauen → Anfrage. Das einzige System, das du wirklich brauchst.</p>
+    </div>
+    <div class="grid_card">
+      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--grey-light);margin-bottom:6px;">Kapitel 3</div>
+      <div class="grid_card_title">Instagram organisch</div>
+      <p>Bio-Formel, welcher Content Anfragen bringt, 5 Fehler die du heute beheben kannst + CTA-Vorlagen.</p>
+    </div>
+    <div class="grid_card">
+      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--grey-light);margin-bottom:6px;">Kapitel 4</div>
+      <div class="grid_card_title">Meta Ads</div>
+      <p>Boost vs. Ads Manager. Lokales Targeting. Budget. 4 Ad-Hooks die du direkt verwenden kannst.</p>
+    </div>
+    <div class="grid_card">
+      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--grey-light);margin-bottom:6px;">Kapitel 5</div>
+      <div class="grid_card_title">Die 3 Hebel</div>
+      <p>Creatives, Angebot und Reaktionsgeschwindigkeit — die einzigen drei Dinge die wirklich den Unterschied machen.</p>
+    </div>
+    <div class="grid_card" style="border-left:3px solid var(--red);">
+      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:6px;">Kapitel 6 · Neu</div>
+      <div class="grid_card_title">KI & ChatGPT</div>
+      <p>4 direkt einsetzbare Prompts für Content, Ads, Anfragen-Antworten und deine Instagram Bio.</p>
+    </div>
+    <div class="grid_card">
+      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--grey-light);margin-bottom:6px;">Kapitel 7</div>
+      <div class="grid_card_title">Step-by-Step Plan</div>
+      <p>6 konkrete Schritte — von heute bis zu den ersten planbaren Anfragen. Mit Zeitplan.</p>
+    </div>
+    <div class="grid_card">
+      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--grey-light);margin-bottom:6px;">Praxis</div>
+      <div class="grid_card_title">3 Case Studies</div>
+      <p>Wien, Berlin, München — drei reale Szenarien mit konkreten Ergebnissen.</p>
+    </div>
+    <div class="grid_card">
+      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--grey-light);margin-bottom:6px;">Angebot</div>
+      <div class="grid_card_title">Nächster Schritt</div>
+      <p>Was du jetzt tun kannst — alleine oder mit Unterstützung.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== EINLEITUNG ======================== -->
+<div class="page">
+  <div class="chapter_num">Einleitung</div>
+  <h2 class="chapter_title">Das Problem, das kaum jemand offen anspricht</h2>
+
+  <p class="lead">Manche Wochen ist der Kalender voll. Andere Wochen halb leer. Und du weißt nicht genau warum — und noch weniger, wie du es änderst.</p>
+
+  <p>Das ist keine Ausnahme. Das ist der Normalzustand für die meisten Tattoo Studios in Deutschland, Österreich und der Schweiz.</p>
+
+  <p>Die gute Arbeit ist da. Der Stil ist einzigartig. Die Fotos auf Instagram sehen gut aus. Trotzdem kommen Anfragen unregelmäßig — abhängig davon, ob gerade jemand empfohlen hat, ob ein Post viral gegangen ist, oder ob der Algorithmus gnädig war.</p>
+
+  <h3>Warum die meisten Studios Marketing falsch machen</h3>
+
+  <p>Das liegt nicht an fehlendem Talent und nicht an schlechtem Content. Es liegt daran, dass <strong>Instagram kein Buchungssystem ist</strong> — es ist ein Portfolio-Tool. Wer ausschließlich auf organische Reichweite und Empfehlungen setzt, hat keinen Hebel.</p>
+
+  <p>Kein Hebel bedeutet: Du kannst nicht entscheiden, dass du nächsten Monat 15 neue Anfragen mehr brauchst. Du kannst nur hoffen und posten.</p>
+
+  <div class="highlight">
+    <p><strong>Dieser Guide zeigt dir das komplette System</strong> — von der Instagram Bio bis zu bezahlten Anzeigen — damit Anfragen planbar werden statt zufällig.</p>
+  </div>
+
+  <h3>Was du in diesem Guide lernst</h3>
+  <ul>
+    <li>Warum dein Instagram aktuell keine planbaren Anfragen bringt — und was du konkret änderst</li>
+    <li>Wie das einfache System hinter planbarer Kundengewinnung aussieht</li>
+    <li>Wie du dein Instagram-Profil als echten Conversion-Kanal aufbaust</li>
+    <li>Wie Meta Ads für Tattoo Studios konkret funktionieren — ohne technisches Vorwissen</li>
+    <li>Die 3 Hebel, die den größten Unterschied machen</li>
+    <li>Wie du KI nutzt, um Marketing-Aufwand zu halbieren</li>
+    <li>Ein konkreter Step-by-Step-Plan, den du sofort umsetzen kannst</li>
+  </ul>
+</div>
+
+<!-- ======================== KAPITEL 1 ======================== -->
+<div class="page">
+  <div class="chapter_num">Kapitel 1</div>
+  <h2 class="chapter_title">Warum die meisten Studios keine <span class="accent">planbaren Kunden</span> bekommen</h2>
+
+  <p class="lead">Die häufigste Aussage, die ich von Tattoo Artists höre: „Ich poste regelmäßig, aber es bringt nicht wirklich was." Das Problem ist nicht das Posting — es ist das System dahinter.</p>
+
+  <h3>Problem 1: Abhängigkeit vom Algorithmus</h3>
+  <p>Instagram entscheidet, wie viele Menschen deinen Post sehen. Für Business-Accounts liegt die organische Reichweite oft bei 3–8 % der Follower. Bei 500 Followern sehen deinen Post also vielleicht 15–40 Personen — und davon wohnt nur ein Bruchteil in deiner Stadt.</p>
+  <p>Das bedeutet: Selbst mit gutem Content bist du abhängig davon, ob der Algorithmus deinen Post gerade mag oder nicht. Das ist kein Business-Fundament.</p>
+
+  <h3>Problem 2: Kein Funnel — kein klarer nächster Schritt</h3>
+  <p>Ein „Funnel" klingt technisch, ist aber einfach das: Jemand sieht dein Studio → wird neugierig → versteht, was du machst → weiß, wie er buchen soll → bucht.</p>
+  <p>Bei den meisten Studios fehlt der letzte Schritt. Jemand sieht ein Tattoo-Foto, findet es gut — und dann? Die Bio sagt „DM für Anfragen", aber kein Mensch schreibt gerne eine DM ins Blaue wenn er nicht weiß, was es kostet, wie es funktioniert, oder ob überhaupt freie Termine verfügbar sind.</p>
+
+  <div class="example">
+    <div class="example_label">Typischer Fehler</div>
+    <div class="example_bad">Bilder posten → warten → hoffen → gelegentlich Anfragen</div>
+    <div class="example_good" style="margin-top:12px;">→ Bild posten → klare CTA → Profil mit Antworten auf häufige Fragen → einfacher Buchungsweg</div>
+  </div>
+
+  <h3>Problem 3: Kein klares Angebot</h3>
+  <p>„Tattoo Artist in München" ist keine Botschaft. Es beantwortet keine der Fragen, die ein potenzieller Kunde hat: Welchen Stil machst du? Was kostet eine Session ungefähr? Machst du Custom-Designs? Wie ist der Ablauf?</p>
+  <p>Wer diese Fragen nicht beantwortet, verliert Interessenten — nicht weil sie kein Interesse haben, sondern weil sie sich nicht trauen zu fragen und einfach zum nächsten Studio weiterziehen.</p>
+
+  <h3>Problem 4: Kein planbarer Kanal</h3>
+  <p>Organisches Instagram, Empfehlungen und Google-Suche haben eine gemeinsame Schwäche: Du kannst sie nicht aufdrehen, wenn du mehr brauchst. Du kannst keinen „Mehr-Anfragen-Knopf" drücken.</p>
+  <p>Das einzige Werkzeug, das das ändert: bezahlte Werbung. Nicht weil sie magisch ist — sondern weil du damit die Reichweite direkt steuerst.</p>
+
+  <div class="box">
+    <div class="box_title">Kurz-Diagnose: Wo stehst du?</div>
+    <ul class="checklist">
+      <li><span class="check_icon"></span>Ich weiß nicht, wie viele meiner Follower in meiner Stadt wohnen</li>
+      <li><span class="check_icon"></span>Meine Bio hat keinen klaren Call-to-Action</li>
+      <li><span class="check_icon"></span>Ich habe noch nie bezahlte Werbung geschaltet (oder nur den Boost-Button genutzt)</li>
+      <li><span class="check_icon"></span>Ich habe keinen festen Prozess, wie aus einem Interesse eine Buchung wird</li>
+      <li><span class="check_icon"></span>Meine Anfragen variieren stark von Woche zu Woche ohne klaren Grund</li>
+    </ul>
+    <p style="font-size:14px; color:var(--grey-light); margin-top:12px; margin-bottom:0;">Wenn du 3 oder mehr angekreuzt hast, bist du genau richtig hier.</p>
+  </div>
+</div>
+
+<!-- ======================== KAPITEL 2 ======================== -->
+<div class="page">
+  <div class="chapter_num">Kapitel 2</div>
+  <h2 class="chapter_title">Das <span class="accent">Grundsystem</span> für planbare Anfragen</h2>
+
+  <p class="lead">Du brauchst kein kompliziertes Marketing-Konzept. Du brauchst drei Dinge, die aufeinander aufbauen: Aufmerksamkeit, Vertrauen, Anfrage.</p>
+
+  <h3>Schritt 1: Aufmerksamkeit</h3>
+  <p>Menschen in deiner Stadt müssen wissen, dass es dich gibt. Das passiert entweder organisch (jemand sieht deinen Post oder wird empfohlen) oder bezahlt (du spielst ihnen eine Anzeige aus).</p>
+  <p>Organisch ist langsam und schwer zu kontrollieren. Bezahlt ist schnell, steuerbar und messbar. Für ein wachsendes Studio brauchst du beides.</p>
+
+  <h3>Schritt 2: Vertrauen aufbauen</h3>
+  <p>Jemand kennt dich jetzt. Aber ein Tattoo ist eine große Entscheidung — es bleibt für immer. Dein Post überzeugt nur einen Bruchteil zur Terminbuchung.</p>
+  <p>Vertrauen entsteht durch:</p>
+  <ul>
+    <li>Qualität der Arbeit, die sichtbar ist (Fotos, Healing Shots, Videos)</li>
+    <li>Persönlichkeit und Stil, der erkennbar ist</li>
+    <li>Bewertungen und Kundenfeedback</li>
+    <li>Klare Kommunikation: Was machst du? Für wen? Wie läuft es ab?</li>
+  </ul>
+
+  <h3>Schritt 3: Conversion — aus Interesse wird Anfrage</h3>
+  <p>Das ist der Schritt, den die meisten Studios vergessen. Jemand vertraut dir, will ein Tattoo — aber der Weg zur Buchung ist unklar oder zu aufwändig.</p>
+
+  <div class="example">
+    <div class="example_label">Conversion-Vergleich</div>
+    <div class="example_bad">Bio: „DM für Buchungen" — kein Kontext, keine nächsten Schritte</div>
+    <div class="example_good" style="margin-top:12px;">→ „Kostenloses Beratungsgespräch → Link in Bio → kurzes Formular: Motiv, Größe, Termin"</div>
+  </div>
+
+  <p>Die einfachste Verbesserung: <strong>mach den nächsten Schritt für den Interessenten so einfach wie möglich.</strong> Ein Link zum Formular schlägt „schreib uns eine DM" fast immer.</p>
+
+  <div class="box">
+    <div class="box_title">Das System in einem Satz</div>
+    <p style="font-size:17px; color:var(--white); font-weight:600; margin-bottom:0; line-height:1.6;">Ads bringen Aufmerksamkeit → dein Profil baut Vertrauen → ein klarer CTA macht aus Interesse eine Anfrage.</p>
+  </div>
+
+  <h3>Warum das funktioniert — egal für welches Studio</h3>
+  <p>Dieses System ist nicht für Mega-Studios gemacht. Es funktioniert gerade für kleinere Studios besonders gut, weil:</p>
+  <ul>
+    <li>Du lokal bist — die Zielgruppe ist definiert und erreichbar</li>
+    <li>Dein Produkt visuell ist — perfekt für Social Media und Ads</li>
+    <li>Die Entscheidung emotional ist — guter Content baut schnell Vertrauen</li>
+    <li>Dein Markt oft unterdurchschnittlich gut im Marketing ist — du stichst schnell hervor</li>
+  </ul>
+</div>
+
+<!-- ======================== KAPITEL 3 ======================== -->
+<div class="page">
+  <div class="chapter_num">Kapitel 3</div>
+  <h2 class="chapter_title">Instagram richtig nutzen — <span class="accent">organisch</span></h2>
+
+  <p class="lead">Bevor du Geld in Werbung steckst, muss dein Profil funktionieren. Eine Anzeige schickt Menschen auf dein Profil — wenn das Profil schwach ist, verlierst du sie dort.</p>
+
+  <h3>Die Tattoo Studio Bio-Formel</h3>
+  <p>Deine Bio hat ca. 3 Sekunden. In dieser Zeit muss ein Fremder verstehen: Wer bist du? Was machst du? Wo bist du? Wie komme ich an einen Termin?</p>
+
+  <div class="example">
+    <div class="example_label">Bio-Vergleich</div>
+    <div class="example_bad">🖤 Tattoo Artist | München | Booking via DM</div>
+    <div class="example_good" style="margin-top:16px; line-height:1.8;">
+      Custom &amp; Fineline Tattoos · München 📍<br>
+      Termine verfügbar — jetzt anfragen:<br>
+      🔗 [Link zum Buchungsformular]
+    </div>
+  </div>
+
+  <p>Die Formel: <strong>[Stil] · [Stadt] · [Was du anbietest] · [Klare CTA mit Link]</strong></p>
+  <p>Optional: Eine Zahl die Vertrauen schafft — z. B. „über 500 Tattoos in 4 Jahren" oder eine Spezialität: „Custom Only · kein Flash".</p>
+
+  <h3>Content, der wirklich Anfragen bringt</h3>
+  <p>Tattoos posten ist gut. Aber Tattoos posten alleine reicht nicht. Was zusätzlich funktioniert:</p>
+
+  <div class="grid_2">
+    <div class="grid_card">
+      <div class="grid_card_title">Prozess-Videos</div>
+      <p>Vom leeren Arm bis zum fertigen Tattoo. Oder nur 30 Sekunden aus der Session. Menschen wollen sehen wie es gemacht wird.</p>
+    </div>
+    <div class="grid_card">
+      <div class="grid_card_title">Healing Shots</div>
+      <p>Abgeheilte Tattoos überzeugen mehr als frische. Sie zeigen wie die Arbeit langfristig aussieht — das ist oft der ausschlaggebende Faktor.</p>
+    </div>
+    <div class="grid_card">
+      <div class="grid_card_title">FAQ als Post</div>
+      <p>„Was kostet ein Sleeve?" „Wie lange dauert ein A5 Tattoo?" Diese Posts bekommen hohe Saves — und beantworten die Fragen, die viele nicht zu stellen trauen.</p>
+    </div>
+    <div class="grid_card">
+      <div class="grid_card_title">Behind the Scenes</div>
+      <p>Studio-Alltag, Skizzen, Vorbereitung. Das baut Persönlichkeit auf — und Persönlichkeit baut Vertrauen schneller als jedes Tattoo-Foto.</p>
+    </div>
+  </div>
+
+  <h3>Die 5 häufigsten Instagram-Fehler bei Tattoo Studios</h3>
+  <ul>
+    <li><strong>Kein Link in der Bio.</strong> „DM für Anfragen" bedeutet: der Interessent muss aktiv werden ohne zu wissen, was ihn erwartet. Ein Buchungslink senkt diese Hürde enorm.</li>
+    <li><strong>Captions ohne Text.</strong> Nur Emojis oder ein Hashtag-Block bringt keinen Mehrwert und keine Interaktion. Zwei bis drei Sätze zum Tattoo, zum Prozess oder zur Idee dahinter reichen.</li>
+    <li><strong>Nur Finishtattoos posten.</strong> Variiere mit Prozessen, Heilungsverläufen, Skizzen, Studio-Einblicken — das macht einen Account lebendig.</li>
+    <li><strong>Keine Stories.</strong> Stories halten bestehende Follower warm und machen dich sichtbar. Wer keine Stories postet, verschwindet im Feed anderer.</li>
+    <li><strong>Posting ohne Strategie.</strong> Wer unregelmäßig postet oder immer dieselbe Art von Content bringt, verliert Reichweite. 3× pro Woche, variiert, reicht aus.</li>
+  </ul>
+
+  <hr class="divider">
+
+  <div class="box">
+    <div class="box_title">Konkrete Formulierungen für deinen CTA</div>
+    <ul style="list-style:none; padding-left:0;">
+      <li style="padding:8px 0; border-bottom:1px solid var(--grey-border); color:#cccccc; font-size:15px;">→ „Kostenloses Beratungsgespräch — Link in Bio"</li>
+      <li style="padding:8px 0; border-bottom:1px solid var(--grey-border); color:#cccccc; font-size:15px;">→ „Termine verfügbar. Jetzt anfragen: [Link]"</li>
+      <li style="padding:8px 0; border-bottom:1px solid var(--grey-border); color:#cccccc; font-size:15px;">→ „Du hast ein Motiv im Kopf? Schreib uns kurz — wir melden uns innerhalb von 24h"</li>
+      <li style="padding:8px 0; color:#cccccc; font-size:15px;">→ „Noch 3 Slots frei im [Monat]. Einfach anfragen →"</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ======================== KAPITEL 4 ======================== -->
+<div class="page">
+  <div class="chapter_num">Kapitel 4</div>
+  <h2 class="chapter_title">Meta Ads für Tattoo Studios — <span class="accent">einfach erklärt</span></h2>
+
+  <p class="lead">„Ich habe mal einen Post geboostet und nichts ist passiert." Das höre ich oft. Boosten und echte Ads sind aber zwei verschiedene Dinge.</p>
+
+  <h3>Boost-Button vs. Meta Ads Manager</h3>
+  <p>Der Boost-Button erhöht die Reichweite eines Beitrags. Das war's. Kein präzises Targeting, kein Conversion-Ziel, kein Tracking. Du bekommst vielleicht 200 neue Profilbesuche und 3 Likes mehr — und das war dein Budget.</p>
+  <p>Echte Meta Ads werden über den <strong>Ads Manager</strong> erstellt. Damit kannst du:</p>
+  <ul>
+    <li>Genau festlegen, wer deine Anzeige sieht (Radius, Alter, Interessen)</li>
+    <li>Das Kampagnenziel definieren — z. B. „Ich will Leads" statt „ich will Likes"</li>
+    <li>Messen, welche Anzeige wie viele Anfragen gebracht hat</li>
+    <li>Retargeting aufsetzen — also Menschen ansprechen, die dein Profil schon besucht haben</li>
+  </ul>
+
+  <h3>Welche Ads für Tattoo Studios funktionieren</h3>
+  <p>Das Prinzip ist einfach: zeig deine beste Arbeit, mit einem klaren Text-Hook und einem einfachen nächsten Schritt.</p>
+
+  <div class="grid_2">
+    <div class="grid_card">
+      <div class="grid_card_title">Was funktioniert</div>
+      <ul style="padding-left:16px; margin-bottom:0;">
+        <li style="font-size:14px; margin-bottom:6px;">Echte Fotos abgeheilter Tattoos</li>
+        <li style="font-size:14px; margin-bottom:6px;">Kurze Process-Videos (15–30 Sek.)</li>
+        <li style="font-size:14px; margin-bottom:6px;">Klarer regionaler Text-Hook</li>
+        <li style="font-size:14px; margin-bottom:6px;">Einfache, direkte CTA</li>
+        <li style="font-size:14px;">Erkennbarer Stil</li>
+      </ul>
+    </div>
+    <div class="grid_card">
+      <div class="grid_card_title">Was nicht funktioniert</div>
+      <ul style="padding-left:16px; margin-bottom:0;">
+        <li style="font-size:14px; margin-bottom:6px;">Stock-Fotos oder generische Bilder</li>
+        <li style="font-size:14px; margin-bottom:6px;">Zu viel Text im Bild</li>
+        <li style="font-size:14px; margin-bottom:6px;">Unklares Angebot</li>
+        <li style="font-size:14px; margin-bottom:6px;">Kein lokaler Bezug</li>
+        <li style="font-size:14px;">Schlechte Bildqualität</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Lokales Targeting — dein größter Vorteil</h3>
+  <p>Du bist ein lokales Business. Das ist kein Nachteil — es ist ein riesiger Vorteil bei Meta Ads. Du kannst:</p>
+  <ul>
+    <li><strong>Radius definieren:</strong> nur Menschen im Umkreis von 15–25 km um dein Studio</li>
+    <li><strong>Alter eingrenzen:</strong> z. B. 21–40 Jahre</li>
+    <li><strong>Interessen ergänzen:</strong> Tattoos, Körperschmuck, Streetwear</li>
+  </ul>
+  <p>Das Ergebnis: dein Budget landet nicht bei irgendjemandem in Deutschland, sondern bei Menschen, die wahrscheinlich Interesse haben und in deiner Stadt wohnen.</p>
+
+  <h3>Budget — was ist realistisch?</h3>
+  <p>Ein sinnvoller Einstieg liegt bei <strong>€15 pro Tag</strong> — das sind ca. €450 im Monat. Kein riesiges Investment, aber genug um zu testen was funktioniert.</p>
+  <p>Wichtig zu verstehen: Das Werbebudget geht direkt an Meta. Es ist kein Honorar für eine Agentur. Es ist das Geld, mit dem deine Anzeige ausgespielt wird.</p>
+
+  <div class="highlight">
+    <p>In den ersten 7–14 Tagen lernt der Algorithmus, wer auf deine Anzeigen reagiert. <strong>Erst danach beginnt die Optimierung.</strong> Wer nach 3 Tagen aufgibt weil noch keine Anfrage kam, macht den häufigsten Fehler.</p>
+  </div>
+
+  <div class="box">
+    <div class="box_title">Ad Hook Beispiele — direkt verwendbar</div>
+    <ul style="list-style:none; padding-left:0;">
+      <li style="padding:8px 0; border-bottom:1px solid var(--grey-border); color:#cccccc; font-size:15px;">→ „Tattoo Artist in [Stadt] — Termine verfügbar. Jetzt Motiv besprechen →"</li>
+      <li style="padding:8px 0; border-bottom:1px solid var(--grey-border); color:#cccccc; font-size:15px;">→ „Du hast ein Motiv im Kopf, weißt aber nicht ob es umsetzbar ist? Kostenloses Erstgespräch →"</li>
+      <li style="padding:8px 0; border-bottom:1px solid var(--grey-border); color:#cccccc; font-size:15px;">→ „[Fineline / Realism / Neo Traditional] Tattoos in [Stadt] — noch Slots im [Monat]"</li>
+      <li style="padding:8px 0; color:#cccccc; font-size:15px;">→ „Keine Wartenliste. Kein Minimum. Einfach anfragen →"</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ======================== KAPITEL 5 ======================== -->
+<div class="page">
+  <div class="chapter_num">Kapitel 5</div>
+  <h2 class="chapter_title">Die 3 wichtigsten Hebel für <span class="accent">mehr Anfragen</span></h2>
+
+  <p class="lead">Von allem, was ich bei Tattoo Studios getestet und analysiert habe, kommen 80 % der Ergebnisse von drei Faktoren. Nicht zehn. Drei.</p>
+
+  <h3>Hebel 1: Creatives — Emotion schlägt Perfektion</h3>
+  <p>Ein gutes Creative ist nicht das technisch perfekteste Foto. Es ist das Bild oder Video, das eine emotionale Reaktion auslöst — Bewunderung, Neugier, oder: „Genau das will ich auch."</p>
+  <p>Was das in der Praxis bedeutet:</p>
+  <ul>
+    <li><strong>Abgeheilte Tattoos</strong> zeigen das echte Endresultat — ehrlicher und überzeugender als frische Arbeit</li>
+    <li><strong>Kundenreaktionen</strong> im Video (wenn der Kunde das Ergebnis sieht) sind emotional stark</li>
+    <li><strong>Close-Up Detail-Shots</strong> zeigen Qualität besser als Ganzkörper-Fotos</li>
+    <li><strong>Zeitraffer-Videos</strong> von Arbeitsprozessen bekommen überdurchschnittliche Retention</li>
+  </ul>
+
+  <h3>Hebel 2: Angebot — mach den ersten Schritt einfach</h3>
+  <p>„Buch einen Termin" ist eine große Entscheidung. „Kostenloses Beratungsgespräch" oder „schick uns dein Motiv — wir sagen dir in 24h ob es machbar ist" ist eine kleine Entscheidung.</p>
+  <p>Kleine erste Schritte senken die Hürde zur Anfrage massiv. Du kannst im Gespräch dann qualifizieren — aber erst muss jemand überhaupt bei dir anklopfen.</p>
+
+  <div class="example">
+    <div class="example_label">Angebot-Vergleich</div>
+    <div class="example_bad">„Buche jetzt deinen Tattoo-Termin"</div>
+    <div class="example_good" style="margin-top:12px;">→ „Kostenloses 10-Min Motivgespräch — kein Commitment, kein Druck"</div>
+  </div>
+
+  <h3>Hebel 3: Geschwindigkeit — Anfragen verfallen</h3>
+  <p>Das ist der am meisten unterschätzte Faktor. Eine Person fragt an — und hört 48 Stunden nichts. Bis dahin hat sie sich beim nächsten Studio gemeldet.</p>
+  <p>Studien zeigen: Die Conversion-Rate bei Anfragen, die innerhalb von 1 Stunde beantwortet werden, ist 7× höher als bei Antworten nach 24 Stunden.</p>
+  <p>Das bedeutet nicht, dass du 24/7 verfügbar sein musst. Aber:</p>
+  <ul>
+    <li>Automatische Erstantwort via Instagram oder E-Mail einrichten</li>
+    <li>Klare Reaktionszeit kommunizieren: „Wir antworten innerhalb von 24h"</li>
+    <li>Anfragen-Formular verwenden, das dir sofort eine Benachrichtigung schickt</li>
+  </ul>
+
+  <div class="box">
+    <div class="box_title">Automatische Erstantwort — Vorlage</div>
+    <p style="font-size:15px; color:#cccccc; line-height:1.7; margin-bottom:0;">„Hey! Danke für deine Anfrage 🖤 Wir haben sie erhalten und melden uns innerhalb von 24 Stunden. Falls du schon ein Motiv oder eine Idee hast, gerne kurz beschreiben — dann können wir beim ersten Gespräch direkt loslegen."</p>
+  </div>
+</div>
+
+<!-- ======================== KAPITEL 6 ======================== -->
+<div class="page">
+  <div class="chapter_num">Kapitel 6</div>
+  <h2 class="chapter_title">KI nutzen — <span class="accent">weniger Aufwand</span>, mehr Output</h2>
+
+  <p class="lead">ChatGPT ist kein Ersatz für deine Kreativität. Aber es ist ein brutaler Zeitsparer für alle Marketing-Aufgaben, die du vor dir herschiebst.</p>
+
+  <h3>Prompt 1 — 10 Content-Ideen die Anfragen bringen</h3>
+  <p>Nicht einfach „gib mir Post-Ideen" — sondern ein strukturierter Prompt der gezielt auf Conversion ausgelegt ist.</p>
+
+  <div class="box">
+    <div class="box_title">Prompt — direkt kopieren &amp; Klammern ausfüllen</div>
+    <p style="font-size:13px; color:#cccccc; font-family:monospace; line-height:1.9; margin-bottom:0; white-space:pre-line;">Du bist ein Performance Marketing Experte für Tattoo Studios.
+
+Ich bin Tattoo Artist in [Stadt], spezialisiert auf [Stil, z. B. Fineline / Realism / Neo Traditional]. Ich bekomme zu wenig Anfragen und meine Posts bringen kaum neue Kunden.
+
+Erstelle 10 Instagram Post-Ideen, die:
+- potenzielle Kunden ansprechen (nicht andere Artists)
+- Vertrauen aufbauen (abgeheilte Tattoos, Prozess, Ablauf)
+- häufige Einwände vorwegnehmen (Schmerz, Preis, Unsicherheit)
+- klar auf eine Anfrage oder einen Termin hinführen
+
+Für jede Idee:
+1. Hook (erste Zeile des Posts)
+2. Inhalt (2–3 Sätze)
+3. Call-to-Action (konkreter Satz)
+
+Ton: direkt, lokal, verständlich — kein Marketing-Blabla.
+Ziel: echte Anfragen, nicht Likes.</p>
+  </div>
+
+  <h3>Prompt 2 — Ad-Texte für Meta Anzeigen</h3>
+  <p>Dieser Prompt liefert fertige Hook + Text + CTA Kombinationen, die du direkt in den Ads Manager einfügen kannst.</p>
+
+  <div class="box">
+    <div class="box_title">Prompt — direkt kopieren &amp; Klammern ausfüllen</div>
+    <p style="font-size:13px; color:#cccccc; font-family:monospace; line-height:1.9; margin-bottom:0; white-space:pre-line;">Du bist Meta Ads Experte für lokale Tattoo Studios.
+
+Ich betreibe ein Tattoo Studio in [Stadt], spezialisiert auf [Stil]. Zielgruppe: 21–38 Jahre, Umkreis 20 km, denken über ein Tattoo nach aber haben noch nicht gebucht.
+
+Erstelle 5 Facebook/Instagram Ad-Texte mit dem Ziel: eine direkte Anfrage (Formular oder DM) auslösen — kein Klick auf eine Website, kein Like.
+
+Für jedes Ad:
+1. Hook (erste Zeile, max. 8 Wörter)
+2. Haupttext (max. 3 Sätze)
+3. Call-to-Action (ein Satz)
+
+Ton: lokal, menschlich, keine Superlative.
+Wichtig: Jedes Ad braucht einen Grund, JETZT zu handeln.</p>
+  </div>
+
+  <h3>Prompt 3 — Kundenanfragen professionell beantworten</h3>
+  <p>Vage Anfragen richtig qualifizieren ohne den Interessenten zu verlieren.</p>
+
+  <div class="box">
+    <div class="box_title">Prompt — direkt kopieren &amp; Anfrage einfügen</div>
+    <p style="font-size:13px; color:#cccccc; font-family:monospace; line-height:1.9; margin-bottom:0; white-space:pre-line;">Du hilfst Tattoo Artists dabei, Kundenanfragen konversionsstark zu beantworten.
+
+Ich habe folgende Anfrage erhalten:
+[Anfrage hier einfügen]
+
+Schreib eine Antwort, die:
+- persönlich klingt (kein Copy-Paste-Ton)
+- die wichtigsten Qualifizierungsfragen stellt: Motiv, Größe, Körperstelle, Wunschtermin
+- neugierig macht ohne zu drängen
+- einen klaren nächsten Schritt vorschlägt
+
+Max. 6 Sätze. Ton: direkt und warm — wie eine echte Person schreibt.</p>
+  </div>
+
+  <h3>Prompt 4 — Instagram Bio in 3 Varianten</h3>
+  <p>Nicht eine Bio, sondern drei zum Vergleichen — dann wählst du die beste aus.</p>
+
+  <div class="box">
+    <div class="box_title">Prompt — direkt kopieren &amp; Klammern ausfüllen</div>
+    <p style="font-size:13px; color:#cccccc; font-family:monospace; line-height:1.9; margin-bottom:0; white-space:pre-line;">Du bist spezialisiert auf Instagram Profile für Tattoo Studios.
+
+Meine Infos:
+- Stil: [z. B. Fineline / Realism / Blackwork]
+- Stadt: [Stadt]
+- Angebot: kostenlose Erstberatung, Custom Designs
+- Besonderheit: [z. B. keine lange Warteliste / nur Custom / spezialisiert auf XY]
+
+Schreib 3 Versionen meiner Instagram Bio. Jede muss:
+- in max. 3 Zeilen passen (150 Zeichen)
+- Stil und Standort klar nennen
+- einen spezifischen CTA enthalten (kein generisches „Booking via DM")
+- unterschiedlich im Tonfall sein (Version 1: direkt, Version 2: persönlich, Version 3: provokant)
+
+Füge jeweils einen passenden Link-Button-Text dazu.
+Keine Hashtags. Maximal 2 Emojis pro Version.</p>
+  </div>
+
+  <div class="highlight">
+    <p><strong>Regel:</strong> KI liefert Entwürfe — du lieferst die letzte Hand. Füge immer deinen Stil, deinen Standort und deine echte Sprache ein. Das dauert 2 Minuten und macht den Unterschied zwischen generisch und authentisch.</p>
+  </div>
+</div>
+
+<!-- ======================== KAPITEL 7 ======================== -->
+<div class="page">
+  <div class="chapter_num">Kapitel 7</div>
+  <h2 class="chapter_title">Dein <span class="accent">Step-by-Step System</span> — von 0 zu ersten Anfragen</h2>
+
+  <p class="lead">Hier ist der konkrete Plan. Kein Theoriegerüst. Eine Reihenfolge, die funktioniert — auch wenn du kein Marketing-Vorwissen hast.</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step_num">1</div>
+      <div class="step_content">
+        <div class="step_title">Profil-Audit (Tag 1 — 60 Minuten)</div>
+        <p class="step_desc">Bio nach der Formel [Stil · Stadt · CTA] umschreiben. Link in Bio setzen — mindestens eine Kontaktseite oder ein einfaches Formular. Highlights anlegen: Preise / Stil / Ablauf / FAQ.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step_num">2</div>
+      <div class="step_content">
+        <div class="step_title">Content-Basis aufbauen (Woche 1 — 3 Posts)</div>
+        <p class="step_desc">1× abgeheiltes Tattoo mit Kontext-Caption. 1× Prozess-Video oder Skizze. 1× persönlicher Post — wer du bist, wie du arbeitest, was dich antreibt. Dann: tägliche Stories (einfach, 1–2 pro Tag).</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step_num">3</div>
+      <div class="step_content">
+        <div class="step_title">Erste bezahlte Kampagne aufsetzen (Woche 2)</div>
+        <p class="step_desc">Ads Manager öffnen. Kampagnenziel: Leads. Targeting: 15–20 km Radius, 21–40 Jahre, Tattoo-Interessen. Budget: €15/Tag. Creative: dein stärkstes Tattoo-Foto mit kurzem Hook-Text. 14 Tage laufen lassen ohne zu pausieren.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step_num">4</div>
+      <div class="step_content">
+        <div class="step_title">Anfragen schnell beantworten (laufend)</div>
+        <p class="step_desc">Automatische Erstantwort einrichten. Ziel: jede Anfrage innerhalb von 2 Stunden beantworten. Vorlage bereit haben. Qualifizierungsfragen stellen (Größe, Stil, Platzierung).</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step_num">5</div>
+      <div class="step_content">
+        <div class="step_title">Auswerten und optimieren (nach Woche 2)</div>
+        <p class="step_desc">Wie viele Anfragen aus der Kampagne? Welcher Post hatte die meiste Reichweite? Was hat funktioniert — mehr davon. Was nicht — austauschen. Budget bei guten Ergebnissen schrittweise erhöhen.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step_num">6</div>
+      <div class="step_content">
+        <div class="step_title">System stabilisieren (Monat 2+)</div>
+        <p class="step_desc">Content-Rhythmus halten (3× Woche). Kampagne läuft dauerhaft, wird monatlich angepasst. Kundenfeedback für neue Creatives nutzen. Google Business Profil pflegen für organische lokale Suche.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight">
+    <p>Der größte Fehler: alles auf einmal starten wollen und dann aufgeben weil es nicht sofort perfekt läuft. <strong>Fang mit Schritt 1 an. Heute.</strong></p>
+  </div>
+</div>
+
+<!-- ======================== MINI CASE STUDIES ======================== -->
+<div class="page">
+  <div class="chapter_num">Aus der Praxis</div>
+  <h2 class="chapter_title">3 Studios — <span class="accent">3 Wege</span> zu mehr Anfragen</h2>
+
+  <div class="case_study">
+    <div class="case_study_tag">Case Study 01</div>
+    <div class="case_study_name">Kleines Fineline Studio · Wien</div>
+    <div class="case_study_location">Einzelperson, Mietstudio, ca. 400 Instagram Follower</div>
+    <p><strong>Ausgangslage:</strong> 2–4 Anfragen pro Woche, stark schwankend. Bio: „Tattoo Artist 🖤 Wien". Kein Link, kein CTA. Nur Fertig-Tattoos gepostet.</p>
+    <p><strong>Was geändert wurde:</strong> Bio nach Formel umgeschrieben. Buchungsformular (Google Forms) verlinkt. Content um Prozess-Reels erweitert. Einmalige Meta Ads Kampagne mit €200 Budget über 2 Wochen.</p>
+    <div class="case_study_result">
+      <strong>Ergebnis nach 4 Wochen:</strong> 11 qualifizierte Anfragen über den Formular-Link, 7 davon in Buchungen umgewandelt. Organische Reichweite +40 % durch Reels.
+    </div>
+  </div>
+
+  <div class="case_study">
+    <div class="case_study_tag">Case Study 02</div>
+    <div class="case_study_name">2-Personen Studio · Berlin Neukölln</div>
+    <div class="case_study_location">Festes Studio, Realism &amp; Japanese Style, ca. 1.200 Follower</div>
+    <p><strong>Ausgangslage:</strong> Gute Instagram-Präsenz, aber Anfragen kamen hauptsächlich über Empfehlungen. Keine Ads, kein Google Business Profil, keine Öffnungszeiten-Info öffentlich sichtbar.</p>
+    <p><strong>Was geändert wurde:</strong> Google Business Profil vollständig ausgefüllt inkl. Fotos. Laufende Meta Ads Kampagne mit €450/Monat. Lead-Formular statt DM.</p>
+    <div class="case_study_result">
+      <strong>Ergebnis nach 6 Wochen:</strong> 18–22 neue Anfragen pro Monat. Anteil Empfehlungen: von 80 % auf 50 % gesunken — Anteil geplanter Akquise auf 50 % gestiegen. Kalender erstmals 6 Wochen im Voraus voll.
+    </div>
+  </div>
+
+  <div class="case_study">
+    <div class="case_study_tag">Case Study 03</div>
+    <div class="case_study_name">Newcomer Artist · München</div>
+    <div class="case_study_location">Neu im Markt, 180 Follower, kein festes Studio (gemietet)</div>
+    <p><strong>Ausgangslage:</strong> Sehr gutes Portfolio, aber quasi keine Sichtbarkeit. Zu wenig Follower für organische Reichweite. Kein Budget für große Kampagnen.</p>
+    <p><strong>Was geändert wurde:</strong> Bio komplett neu. Konsequente Stories täglich. KI für Caption-Texte genutzt (2h/Woche gespart). Mini-Kampagne mit €10/Tag, Zielgruppe 18–30 km Radius.</p>
+    <div class="case_study_result">
+      <strong>Ergebnis nach 8 Wochen:</strong> Follower auf 520 gewachsen. 6–9 Anfragen pro Monat aus Ads. 3 Stammkunden aufgebaut. ROI der Kampagne: jede Buchung brachte im Schnitt das 8-fache des investierten Werbebudgets zurück.
+    </div>
+  </div>
+</div>
+
+<!-- ======================== SOFT PITCH ======================== -->
+<div class="page">
+  <div class="cta_page">
+    <div class="chapter_num" style="text-align:center;">Das Angebot</div>
+    <h2>Du weißt jetzt wie es geht.<br>Die Frage ist nur: <span class="accent">machst du es selbst?</span></h2>
+    <p>Alles in diesem Guide funktioniert. Es erfordert aber Zeit, Lernkurve und konsequente Umsetzung. Wenn du das willst und kannst — tu es. Dieser Guide ist dein Startpunkt.</p>
+    <p>Wenn du die Lernkurve überspringen und direkt mit einer Kampagne starten willst, die von Anfang an auf Tattoo Studios ausgelegt ist:</p>
+
+    <div class="cta_box">
+      <div class="box_title">Kostenloses Erstgespräch mit YAD</div>
+      <p style="font-size:15px; color:#cccccc; line-height:1.7; margin-bottom:20px;">In einem kurzen Gespräch schauen wir gemeinsam an, ob Meta Ads für dein Studio Sinn ergeben — ohne Verkaufsdruck, ohne Commitment. Nur ehrliches Feedback.</p>
+      <ul style="list-style:none; padding-left:0; margin-bottom:24px;">
+        <li style="font-size:14px; color:var(--grey-light); padding:6px 0; border-bottom:1px solid var(--grey-border);">✓ Kein Langzeitvertrag</li>
+        <li style="font-size:14px; color:var(--grey-light); padding:6px 0; border-bottom:1px solid var(--grey-border);">✓ Nur für Tattoo Studios</li>
+        <li style="font-size:14px; color:var(--grey-light); padding:6px 0;">✓ Kostenloses Erstgespräch, keine Verpflichtung</li>
+      </ul>
+      <div class="cta_url">yad.rocks</div>
+      <div class="cta_note">→ Kontaktformular unter yad.rocks/#kontakt</div>
+    </div>
+
+    <p style="margin-top:48px; font-size:13px; color:var(--grey-mid);">© 2026 YAD · Max Schwarz · yad.rocks<br>Dieser Guide darf geteilt werden, solange Quelle und Autorschaft erhalten bleiben.</p>
+  </div>
+</div>
+
+</body>
+</html>
