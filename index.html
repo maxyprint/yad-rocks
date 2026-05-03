@@ -2015,22 +2015,45 @@
   </section>
 
   <!-- RATGEBER -->
+  <style>
+    .guides_grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 880px; margin: 0 auto; }
+    .guide_card { display: block; background: var(--black-2); border: 1px solid var(--grey-border); border-radius: 16px; padding: 28px; transition: border-color 0.2s; text-decoration: none; }
+    .guide_card:hover { border-color: rgba(232,23,58,0.35); }
+    .guide_card_tag { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--red); margin-bottom: 12px; }
+    .guide_card_title { font-size: 18px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 10px; line-height: 1.3; color: var(--white); }
+    .guide_card_desc { font-size: 14px; color: var(--grey-light); line-height: 1.6; margin-bottom: 16px; }
+    .guide_card_link { font-size: 13px; font-weight: 700; color: var(--red); }
+    @media (max-width: 768px) { .guides_grid { grid-template-columns: 1fr; } }
+  </style>
   <section style="background: var(--black); padding: 80px 40px; border-top: 1px solid var(--grey-border);">
     <div class="section_inner">
       <div class="section_label" style="text-align:center;">Ratgeber</div>
-      <h2 class="section_title" style="text-align:center; margin-bottom:12px;">Wissen für Tattoo Studios</h2>
-      <p style="text-align:center; color:var(--grey-light); font-size:16px; margin-bottom:48px; max-width:500px; margin-left:auto; margin-right:auto;">Kostenlose Guides — direkt anwendbar, kein Marketing-Bullshit.</p>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; max-width:880px; margin:0 auto;">
-        <a href="/tattoo-studio-marketing.html" style="display:block; background:var(--black-2); border:1px solid var(--grey-border); border-radius:16px; padding:28px; transition:border-color 0.2s; text-decoration:none;" onmouseover="this.style.borderColor='rgba(232,23,58,0.35)'" onmouseout="this.style.borderColor='var(--grey-border)'">
-          <div style="font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--red); margin-bottom:12px;">Marketing Guide</div>
-          <div style="font-size:18px; font-weight:800; letter-spacing:-0.5px; margin-bottom:10px; line-height:1.3;">Tattoo Studio Marketing 2026: Wie du konstant neue Kunden gewinnst</div>
-          <div style="font-size:14px; color:var(--grey-light); line-height:1.6;">Instagram, TikTok, Empfehlungen — was funktioniert noch? Und was bringt wirklich planbare Buchungen?</div>
-          <div style="margin-top:16px; font-size:13px; font-weight:700; color:var(--red);">Jetzt lesen →</div>
+      <h2 class="section_title" style="text-align:center; margin-bottom:12px;">Wie Tattoo Studios 2026 konstant Kunden gewinnen</h2>
+      <p style="text-align:center; color:var(--grey-light); font-size:16px; margin-bottom:48px; max-width:580px; margin-left:auto; margin-right:auto;">Wenn du verstehen willst, wie Tattoo Studios heute konstant neue Kunden gewinnen, findest du hier die wichtigsten Guides.</p>
+      <div class="guides_grid">
+        <a href="/tattoo-studio-marketing" class="guide_card">
+          <div class="guide_card_tag">Strategie &amp; Überblick</div>
+          <div class="guide_card_title">Tattoo Studio Marketing</div>
+          <div class="guide_card_desc">Alle Kanäle im Überblick — was funktioniert, was nicht, und in welcher Reihenfolge du vorgehst.</div>
+          <div class="guide_card_link">Tattoo Studio Marketing lesen →</div>
         </a>
-        <a href="/tattoo-studio-marketing.html" style="display:block; background:var(--black-2); border:1px solid var(--grey-border); border-radius:16px; padding:28px; transition:border-color 0.2s; text-decoration:none; opacity:0.5; pointer-events:none;">
-          <div style="font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--grey-mid); margin-bottom:12px;">Bald verfügbar</div>
-          <div style="font-size:18px; font-weight:800; letter-spacing:-0.5px; margin-bottom:10px; line-height:1.3; color:var(--grey-light);">Meta Ads selbst schalten oder Agentur? Was sich für Tattoo Studios wirklich lohnt</div>
-          <div style="font-size:14px; color:var(--grey-mid); line-height:1.6;">Ein ehrlicher Vergleich — mit Zahlen.</div>
+        <a href="/tattoo-studio-kunden-gewinnen" class="guide_card">
+          <div class="guide_card_tag">Diagnose &amp; Lösung</div>
+          <div class="guide_card_title">Tattoo Studio Kunden gewinnen</div>
+          <div class="guide_card_desc">Warum du zu wenig Anfragen hast — und was konkret dagegen hilft.</div>
+          <div class="guide_card_link">Tattoo Studio Kunden gewinnen lesen →</div>
+        </a>
+        <a href="/tattoo-studio-werbung" class="guide_card">
+          <div class="guide_card_tag">Kanal-Vergleich</div>
+          <div class="guide_card_title">Tattoo Studio Werbung</div>
+          <div class="guide_card_desc">Welche Werbekanäle 2026 wirklich Buchungen bringen — und welche Budget verbrennen.</div>
+          <div class="guide_card_link">Tattoo Studio Werbung lesen →</div>
+        </a>
+        <a href="/meta-ads-tattoo-studio" class="guide_card">
+          <div class="guide_card_tag">Deep Dive</div>
+          <div class="guide_card_title">Meta Ads für Tattoo Studios</div>
+          <div class="guide_card_desc">Wie Facebook &amp; Instagram Werbung für planbare Kundenanfragen funktioniert.</div>
+          <div class="guide_card_link">Meta Ads für Tattoo Studios lesen →</div>
         </a>
       </div>
     </div>
