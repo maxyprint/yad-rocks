@@ -1492,20 +1492,6 @@
           <a href="#process" class="btn-ghost" style="padding: 16px 24px; font-size: 16px; border-radius: 10px;">So funktioniert's</a>
         </div>
         <p class="hero_disclaimer">Kostenloses Erstgespräch — kein Risiko, keine Verpflichtung.</p>
-        <div class="hero_stats">
-          <div class="hero_stat_card">
-            <div class="hero_stat_number"><span class="hero-stat-num" data-from="0" data-to="3.2" data-suffix="×" data-decimal="1">0×</span></div>
-            <div class="hero_stat_label">Mehr Buchungen<br>im Schnitt</div>
-          </div>
-          <div class="hero_stat_card">
-            <div class="hero_stat_number">€8–€24</div>
-            <div class="hero_stat_label">Kosten pro<br>Buchung</div>
-          </div>
-          <div class="hero_stat_card">
-            <div class="hero_stat_number"><span class="hero-stat-num" data-from="0" data-to="7" data-suffix=" Tage">0</span></div>
-            <div class="hero_stat_label">Bis zu ersten<br>Ergebnissen</div>
-          </div>
-        </div>
       </div>
       <div class="hero_video_wrap">
         <video id="heroVideo" muted loop playsinline preload="none"
@@ -1516,6 +1502,67 @@
       </div>
     </div>
   </section>
+
+  <!-- GRAPH SECTION -->
+  <div id="graphWrapper" class="graph-wrapper">
+    <div id="graphSticky" class="graph-sticky">
+      <div class="graph-inner">
+        <p class="graph-eyebrow">Was YAD messbar verändert</p>
+        <div class="graph-chart-wrap" id="graphChartWrap">
+          <svg id="graphSVG" viewBox="0 0 900 260" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="areaGrad" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="#e8173a" stop-opacity="0.18"/>
+                <stop offset="100%" stop-color="#e8173a" stop-opacity="0.0"/>
+              </linearGradient>
+              <clipPath id="progressClip">
+                <rect id="progressRect" x="0" y="0" width="0" height="260"/>
+              </clipPath>
+            </defs>
+            <line x1="0" y1="65" x2="900" y2="65" stroke="#1c1c1c" stroke-width="1"/>
+            <line x1="0" y1="130" x2="900" y2="130" stroke="#1c1c1c" stroke-width="1"/>
+            <line x1="0" y1="195" x2="900" y2="195" stroke="#1c1c1c" stroke-width="1"/>
+            <path id="areaPath"
+              d="M 0 210 C 25 208,50 220,75 215 S 115 205,145 198 S 165 202,185 192 S 215 182,245 172 S 262 162,280 155 S 308 148,335 140 S 358 134,378 127 S 398 122,418 114 S 443 106,467 99 S 492 92,540 90 S 582 84,612 74 S 637 67,662 60 S 692 50,722 44 S 752 38,782 35 S 802 34,832 30 S 862 26,900 24 L 900 260 L 0 260 Z"
+              fill="url(#areaGrad)" clip-path="url(#progressClip)"/>
+            <path id="graphPath"
+              d="M 0 210 C 25 208,50 220,75 215 S 115 205,145 198 S 165 202,185 192 S 215 182,245 172 S 262 162,280 155 S 308 148,335 140 S 358 134,378 127 S 398 122,418 114 S 443 106,467 99 S 492 92,540 90 S 582 84,612 74 S 637 67,662 60 S 692 50,722 44 S 752 38,782 35 S 802 34,832 30 S 862 26,900 24"
+              fill="none" stroke="#e8173a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <!-- Marker 1 @ 31.1% left, 59.6% top -->
+          <div class="graph-marker" id="gm1" style="left:31.1%;top:59.6%;">
+            <div class="gm-dot">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+            </div>
+            <div class="gm-label" id="gl1">
+              <span class="gm-val">3.2×</span>
+              <span class="gm-text">Mehr Buchungen</span>
+            </div>
+          </div>
+          <!-- Marker 2 @ 60% left, 34.6% top -->
+          <div class="graph-marker" id="gm2" style="left:60%;top:34.6%;">
+            <div class="gm-dot">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12"/><path d="M4 14h9"/><path d="M19 6a7.7 7.7 0 0 0-5.2-2A7.9 7.9 0 0 0 6 12c0 4.4 3.5 8 7.8 8 2 0 3.8-.8 5.2-2"/></svg>
+            </div>
+            <div class="gm-label" id="gl2">
+              <span class="gm-val">€8–€24</span>
+              <span class="gm-text">Kosten pro Buchung</span>
+            </div>
+          </div>
+          <!-- Marker 3 @ 88.9% left, 13.1% top — label goes LEFT -->
+          <div class="graph-marker graph-marker-left" id="gm3" style="left:88.9%;top:13.1%;">
+            <div class="gm-label gm-label-left" id="gl3">
+              <span class="gm-val">7 Tage</span>
+              <span class="gm-text">Bis erste Ergebnisse</span>
+            </div>
+            <div class="gm-dot">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="10" x2="14" y1="2" y2="2"/><line x1="12" x2="15" y1="14" y2="11"/><circle cx="12" cy="14" r="8"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- ═══════════════════════════════════════════════════════════
        FLIP STORY SECTION
@@ -2025,6 +2072,66 @@
     .guide_card_desc { font-size: 14px; color: var(--grey-light); line-height: 1.6; margin-bottom: 16px; }
     .guide_card_link { font-size: 13px; font-weight: 700; color: var(--red); }
     @media (max-width: 768px) { .guides_grid { grid-template-columns: 1fr; } }
+
+    /* GRAPH SECTION */
+    .graph-wrapper { height: 260vh; position: relative; }
+    .graph-sticky {
+      position: sticky; top: 0; height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .graph-inner {
+      width: 100%; max-width: 860px; padding: 0 40px;
+    }
+    .graph-eyebrow {
+      font-size: 11px; font-weight: 700; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--red);
+      margin-bottom: 24px; text-align: center;
+    }
+    .graph-chart-wrap {
+      position: relative; width: 100%;
+      padding-bottom: 28.9%; /* 260/900 */
+    }
+    .graph-chart-wrap svg {
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%;
+    }
+    .graph-marker {
+      position: absolute;
+      transform: translate(-50%, -50%) scale(0.5);
+      opacity: 0;
+      display: flex; align-items: center; gap: 10px;
+      transition: none;
+      z-index: 2;
+    }
+    .graph-marker-left { flex-direction: row-reverse; }
+    .gm-dot {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: var(--red); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 0 0 6px rgba(232,23,58,0.15), 0 0 20px rgba(232,23,58,0.3);
+    }
+    .gm-label {
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(17,17,17,0.92);
+      border: 1px solid var(--grey-border);
+      border-radius: 8px; padding: 7px 12px;
+      overflow: hidden; width: 0; opacity: 0;
+      white-space: nowrap;
+    }
+    .gm-val {
+      font-size: 15px; font-weight: 900; color: var(--white);
+      letter-spacing: -0.5px;
+    }
+    .gm-text {
+      font-size: 12px; color: var(--grey-light); font-weight: 500;
+    }
+    @media (max-width: 768px) {
+      .graph-wrapper { height: 220vh; }
+      .graph-inner { padding: 0 20px; }
+      .gm-text { display: none; }
+    }
   </style>
   <section style="background: var(--black); padding: 80px 40px; border-top: 1px solid var(--grey-border);">
     <div class="section_inner">
@@ -2514,6 +2621,76 @@
         })(performance.now());
       }, delay);
     });
+  })();
+
+  /* ── Graph scroll animation ─────────────────────────────── */
+  (function () {
+    var wrapper = document.getElementById('graphWrapper');
+    if (!wrapper) return;
+    var graphPath = document.getElementById('graphPath');
+    var progressRect = document.getElementById('progressRect');
+    var markers = [
+      { el: document.getElementById('gm1'), label: document.getElementById('gl1'), trigger: 0.30, next: 0.60 },
+      { el: document.getElementById('gm2'), label: document.getElementById('gl2'), trigger: 0.60, next: 0.89 },
+      { el: document.getElementById('gm3'), label: document.getElementById('gl3'), trigger: 0.89, next: 1.00 }
+    ];
+    var pathLen = 0;
+
+    function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+    function invlerp(a, b, v) { if (b === a) return 0; return clamp((v - a) / (b - a), 0, 1); }
+
+    function init() {
+      if (!graphPath) return;
+      pathLen = graphPath.getTotalLength();
+      graphPath.style.strokeDasharray = pathLen;
+      graphPath.style.strokeDashoffset = pathLen;
+      markers.forEach(function (m) {
+        if (m.el) { m.el.style.opacity = '0'; m.el.style.transform = 'translate(-50%,-50%) scale(0.5)'; }
+        if (m.label) { m.label.style.width = '0'; m.label.style.opacity = '0'; }
+      });
+    }
+
+    function getProgress() {
+      var rect = wrapper.getBoundingClientRect();
+      var total = wrapper.offsetHeight - window.innerHeight;
+      if (total <= 0) return 0;
+      return clamp(-rect.top / total, 0, 1);
+    }
+
+    function update() {
+      var p = getProgress();
+      if (!pathLen) return;
+      graphPath.style.strokeDashoffset = pathLen * (1 - p);
+      progressRect.setAttribute('width', 900 * p);
+
+      markers.forEach(function (m) {
+        if (!m.el || !m.label) return;
+        var appeared = p >= m.trigger;
+        var iconT = invlerp(m.trigger - 0.02, m.trigger + 0.04, p);
+        m.el.style.opacity = appeared ? '1' : String(clamp(iconT, 0, 1));
+        var sc = appeared ? 1 : clamp(0.5 + iconT * 0.5, 0.5, 1);
+        m.el.style.transform = 'translate(-50%,-50%) scale(' + sc + ')';
+
+        if (!appeared) { m.label.style.width = '0px'; m.label.style.opacity = '0'; return; }
+
+        var hideAt = m.trigger + 0.25 * (m.next - m.trigger);
+        var maxW = 170;
+        var expandT = invlerp(m.trigger, m.trigger + 0.04, p);
+        var collapseT = invlerp(hideAt, hideAt + 0.04, p);
+        var w, o;
+        if (p < hideAt) {
+          w = expandT * maxW; o = expandT;
+        } else {
+          w = (1 - collapseT) * maxW; o = 1 - collapseT;
+        }
+        m.label.style.width = Math.max(0, w) + 'px';
+        m.label.style.opacity = String(clamp(o, 0, 1));
+      });
+    }
+
+    window.addEventListener('load', function () { init(); update(); });
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', function () { init(); update(); }, { passive: true });
   })();
 
   (function() {
