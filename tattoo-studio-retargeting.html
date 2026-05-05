@@ -208,12 +208,9 @@
       display: flex; align-items: center; gap: 16px;
       border-top: 1px solid var(--grey-border); margin-top: 56px; padding-top: 32px;
     }
-    .author_avatar {
-      width: 48px; height: 48px; border-radius: 50%; background: var(--black-3);
-      border: 2px solid var(--grey-border); overflow: hidden; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px; font-weight: 900; color: var(--red);
-    }
+    .author_img { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+    .author_info_name { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .author_info_role { font-size: 13px; color: var(--grey-light); line-height: 1.5; }
     .author_info { font-size: 13px; color: var(--grey-light); }
     .author_info strong { color: var(--white); font-size: 15px; display: block; margin-bottom: 2px; }
     @media (max-width: 600px) {
@@ -396,10 +393,10 @@
   </div>
 
   <div class="author_strip">
-    <div class="author_avatar">M</div>
+    <img src="author-max.png" alt="Max Schwarz, Gründer YAD Meta Ads Agentur für Tattoo Studios" class="author_img">
     <div class="author_info">
-      <strong>Max Schwarz</strong>
-      Gründer, YAD — Meta Ads Agentur für Tattoo Studios
+      <div class="author_info_name">Max Schwarz</div>
+      <div class="author_info_role">Gründer YAD · Meta Ads Agentur für Tattoo Studios</div>
     </div>
   </div>
 
