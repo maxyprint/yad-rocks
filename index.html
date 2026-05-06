@@ -1168,23 +1168,6 @@
       .qform_option { padding: 14px 10px; font-size: 14px; }
     }
 
-    /* ─── TICKER ─── */
-    .ticker { background: var(--red); padding: 14px 0; overflow: hidden; white-space: nowrap; }
-    .ticker_track { display: inline-block; animation: ticker 22s linear infinite; }
-    .ticker_item {
-      display: inline-block;
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      padding: 0 28px;
-    }
-    .ticker_item::after { content: '✦'; margin-left: 28px; }
-    @keyframes ticker {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-
     /* ─── FOOTER ─── */
     .footer {
       background: var(--black-2);
@@ -1361,9 +1344,6 @@
       .hero_stat_card { padding: 20px 16px; }
       .hero_stat_number { font-size: 28px; }
 
-      .ticker_item { font-size: 11px; padding: 0 16px; }
-      .ticker_item::after { margin-left: 16px; }
-
       .founder_photo_wrap { width: 220px; }
       .founder_card { min-width: 140px; padding: 24px 20px; }
       .founder_card_number { font-size: 34px; }
@@ -1469,26 +1449,9 @@
     </div>
   </nav>
 
-  <!-- TICKER -->
-  <div class="ticker" style="margin-top: var(--nav-h);">
-    <div class="ticker_track">
-      <span class="ticker_item">Keine leeren Slots mehr</span>
-      <span class="ticker_item">Meta Ads komplett für dich</span>
-      <span class="ticker_item">Neue Kunden auf Autopilot</span>
-      <span class="ticker_item">Nur für Tätowierer</span>
-      <span class="ticker_item">Creatives inklusive</span>
-      <span class="ticker_item">Planbare Buchungen</span>
-      <span class="ticker_item">Keine leeren Slots mehr</span>
-      <span class="ticker_item">Meta Ads komplett für dich</span>
-      <span class="ticker_item">Neue Kunden auf Autopilot</span>
-      <span class="ticker_item">Nur für Tätowierer</span>
-      <span class="ticker_item">Creatives inklusive</span>
-      <span class="ticker_item">Planbare Buchungen</span>
-    </div>
-  </div>
 
   <!-- HERO -->
-  <section class="hero">
+  <section class="hero" style="margin-top: var(--nav-h);">
     <div class="hero_inner">
       <div class="hero_content">
         <div class="hero_badge">
