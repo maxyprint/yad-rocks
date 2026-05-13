@@ -28,7 +28,7 @@
   "@id": "https://yad.rocks/#organization",
   "name": "YAD",
   "alternateName": "YAD Meta Ads Agentur",
-  "description": "Meta Ads Agentur exklusiv für Tattoo Studios in Deutschland. Facebook & Instagram Werbung für planbare Buchungen.",
+  "description": "Meta Ads Agentur exklusiv für Tattoo Studios in DACH. Facebook & Instagram Werbung, WhatsApp Automation und Instagram Chatbot für planbare Buchungen.",
   "url": "https://yad.rocks",
   "logo": "https://yad.rocks/creative-hero-poster.jpg",
   "founder": {
@@ -1614,8 +1614,8 @@
     <div class="section_inner">
       <div class="section_header">
         <div class="section_label">Was wir tun</div>
-        <h2 class="section_title">Meta Werbung für<br>dein Tattoo Studio.</h2>
-        <p class="section_subtitle">Wir schalten Meta Werbung (Facebook &amp; Instagram) für dein Tattoo Studio. Auf dich zugeschnitten — Kunden sehen deinen Stil und <span style="text-decoration:underline;">entscheiden sich für dich</span>. Du fokussierst dich auf deine Kunst.</p>
+        <h2 class="section_title">Alles was du brauchst,<br>damit Anfragen kommen.</h2>
+        <p class="section_subtitle">Meta Ads, Creatives, automatische Lead-Antwort via WhatsApp und Instagram — alles aus einer Hand. Du fokussierst dich auf deine Kunst, wir auf alles drumherum.</p>
       </div>
       <div class="features_grid">
         <div class="feature_card">
@@ -1629,9 +1629,9 @@
           <p class="feature_text">Wir produzieren scroll-stoppende Ad Creatives speziell für deine Tattoo-Nische — Kurzvideos, Vorher/Nachher-Reels, starke Statics. Alles auf Conversion ausgelegt, nicht nur auf Optik. Du lieferst den Content, wir machen den Rest.</p>
         </div>
         <div class="feature_card">
-          <div class="feature_icon_wrap">📅</div>
-          <h3 class="feature_title">Keine leeren Slots mehr</h3>
-          <p class="feature_text">Stell dir vor, du kommst ins Studio und machst nur noch das, wofür du dich eigentlich entschieden hast: Tätowieren. Keine lästige dauerhafte Self-Promotion mehr.</p>
+          <div class="feature_icon_wrap">💬</div>
+          <h3 class="feature_title">Automatische Lead-Antwort — WhatsApp &amp; Instagram</h3>
+          <p class="feature_text">Jeder Lead bekommt innerhalb von Sekunden eine personalisierte Erstantwort — automatisch via WhatsApp und Instagram DM. Kein Lead geht verloren weil du gerade tätowierst. Kein manuelles Tippen mehr für Standardanfragen.</p>
         </div>
         <div class="feature_card">
           <div class="feature_icon_wrap">📊</div>
@@ -1811,6 +1811,8 @@
         <div class="process_tab active" onclick="switchTab(this, 'tab1')"><img src="icon-camera.png" alt="" class="process_tab_icon">Ad Creatives</div>
         <div class="process_tab" onclick="switchTab(this, 'tab2')"><img src="icon-laptop.png" alt="" class="process_tab_icon">Kampagnen-Management</div>
         <div class="process_tab" onclick="switchTab(this, 'tab3')"><img src="icon-tattoo.png" alt="" class="process_tab_icon">Lead-Qualifizierung</div>
+        <div class="process_tab" onclick="switchTab(this, 'tab5')"><img src="icon-laptop.png" alt="" class="process_tab_icon">WhatsApp Automation</div>
+        <div class="process_tab" onclick="switchTab(this, 'tab6')"><img src="icon-tattoo.png" alt="" class="process_tab_icon">Instagram Chatbot</div>
         <div class="process_tab" onclick="switchTab(this, 'tab4')"><img src="icon-calculator.png" alt="" class="process_tab_icon">Reporting</div>
       </div>
       <div id="tab1" class="process_content active">
@@ -1845,6 +1847,28 @@
           <img src="icon-tattoo.png" alt="Lead-Qualifizierung" class="process_visual_img">
         </div>
       </div>
+      <div id="tab5" class="process_content">
+        <div>
+          <h3 class="process_content_title">Kein Lead wartet auf deine Antwort — auch nicht um 23 Uhr</h3>
+          <p class="process_content_text">Sobald jemand auf deine Anzeige reagiert, bekommt er automatisch eine personalisierte WhatsApp-Nachricht. Qualifizierungsfragen, Stilabfrage, Terminvorschlag — alles läuft automatisch, bevor du auch nur auf dein Handy schaust.</p>
+          <p class="process_content_text" style="margin-top:0;">Studios die sofort auf Leads antworten, konvertieren deutlich mehr Anfragen zu echten Buchungen. Wir richten das System einmalig ein — danach läuft es ohne deinen Eingriff.</p>
+          <button class="btn-whatsapp" onclick="openQualifyForm()">Prüfen ob wir passen →</button>
+        </div>
+        <div class="process_visual">
+          <img src="icon-laptop.png" alt="WhatsApp Automation" class="process_visual_img">
+        </div>
+      </div>
+      <div id="tab6" class="process_content">
+        <div>
+          <h3 class="process_content_title">Dein Instagram arbeitet 24/7 — auch wenn du schläfst</h3>
+          <p class="process_content_text">Jede Story-Reply, jede Anfrage in deinen DMs bekommt sofort eine smarte Erstantwort. Der Chatbot fragt Stil, Budget und Wunschtermin ab — und leitet nur ernsthafte Interessenten an dich weiter.</p>
+          <p class="process_content_text" style="margin-top:0;">Du sparst dir täglich das Beantworten von Anfragen die sowieso nicht passen. Und du verlierst keine Buchung mehr weil jemand keine Antwort bekommen hat.</p>
+          <button class="btn-whatsapp" onclick="openQualifyForm()">Prüfen ob wir passen →</button>
+        </div>
+        <div class="process_visual">
+          <img src="icon-tattoo.png" alt="Instagram Chatbot" class="process_visual_img">
+        </div>
+      </div>
       <div id="tab4" class="process_content">
         <div>
           <h3 class="process_content_title">Wöchentliche Reports. Kein Bullshit. Nur Zahlen.</h3>
@@ -1873,7 +1897,7 @@
   <div style="background:var(--black); border-top:1px solid var(--grey-border); padding:40px 40px 0;">
     <div style="max-width:880px; margin:0 auto; background:rgba(232,23,58,0.06); border:1px solid rgba(232,23,58,0.2); border-radius:12px; padding:20px 24px;">
       <div style="font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--red); margin-bottom:10px;">Kurz gesagt</div>
-      <p style="font-size:15px; color:var(--grey-light); line-height:1.65; margin:0;">Wir schalten Meta Ads (Facebook &amp; Instagram) für Tattoo Studios. Du bekommst buchungsbereite Anfragen direkt — ohne Langzeitverträge, ohne selbst Ads zu lernen.</p>
+      <p style="font-size:15px; color:var(--grey-light); line-height:1.65; margin:0;">Wir schalten Meta Ads für Tattoo Studios und automatisieren den gesamten Anfrageprozess — WhatsApp-Sofortantwort, Instagram Chatbot, Lead-Qualifizierung. Du bekommst buchungsbereite Anfragen direkt, ohne Langzeitverträge, ohne selbst etwas zu lernen.</p>
     </div>
   </div>
 
@@ -2076,6 +2100,8 @@
             <a href="#features" class="footer_link">Meta Ads Management</a>
             <a href="#features" class="footer_link">Creative Produktion</a>
             <a href="#features" class="footer_link">Lead-Qualifizierung</a>
+            <a href="#features" class="footer_link">WhatsApp Automation</a>
+            <a href="#features" class="footer_link">Instagram Chatbot</a>
             <a href="#features" class="footer_link">Kampagnen-Reporting</a>
           </div>
         </div>
