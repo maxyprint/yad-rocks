@@ -2,7 +2,7 @@
 
 ## Overview
 - **Website:** https://yad.rocks
-- **One-liner:** Meta Ads Agentur die ausschließlich Tattoo Studios in DACH betreut — Facebook & Instagram Kampagnen, Creative-Produktion und Lead-Qualifizierung für planbare Buchungsanfragen.
+- **One-liner:** Meta Ads Agentur die ausschließlich Tattoo Studios in DACH betreut — Facebook & Instagram Kampagnen, Creative-Produktion, WhatsApp Automation und Instagram Chatbot für planbare Buchungsanfragen.
 - **Category:** Performance Marketing Agentur / Nischen-Agentur
 - **Stage:** Early-stage / Bootstrapped
 - **Funding:** Not disclosed
@@ -11,17 +11,19 @@
 
 ## What It Does
 
-YAD übernimmt die komplette Meta Ads Betreuung für Tattoo Studios: Kampagnen-Setup, Creative-Produktion (Reels, Before/After, Static), tägliche Optimierung und Lead-Vorqualifizierung. Studios erhalten buchungsbereite Anfragen direkt in die DMs — ohne selbst Social Media zu managen oder generischen Agenturen ihre Nische erklären zu müssen.
+YAD übernimmt die komplette Lead-Generierung für Tattoo Studios: Meta Ads Kampagnen-Setup, Creative-Produktion (Reels, Before/After, Static), tägliche Optimierung, Lead-Vorqualifizierung, WhatsApp Automation (automatische Erst-Antwort auf Leads innerhalb Sekunden) und Instagram Chatbot (KI-basierte DM-Qualifizierung 24/7). Studios erhalten buchungsbereite Anfragen direkt ins CRM — ohne selbst Social Media zu managen oder generischen Agenturen ihre Nische erklären zu müssen.
 
 ## Key Features
 1. **7-Tage-Setup** — Erste Ads live innerhalb einer Woche, kein monatelanger Onboarding-Prozess
 2. **Tattoo-spezifische Creatives** — Reels, Before/After-Content, Static Ads speziell für Tattoo-Ästhetik produziert
 3. **Tägliche Kampagnen-Optimierung** — A/B-Testing und Conversion-basierte Anpassungen
 4. **Lead-Qualifizierung** — Vorfilterung: kein Budget, kein Termin; nur echte Anfragen landen beim Studio
-5. **Wöchentliches Reporting** — Transparente Metriken: Cost-per-Booking, Impressionen, CTR
-6. **Monatlich kündbar** — Keine Langzeitverträge; Kundenbindung durch Ergebnisse
-7. **Getestete Audience-Kombinationen** — Aus Dutzenden von Tattoo-Studio-Kampagnen voroptimierte Zielgruppen
-8. **DACH-Coverage** — Deutschland, Österreich, Schweiz
+5. **WhatsApp Automation** — Automatische personalisierte Erstantwort innerhalb von Sekunden nach Lead-Eingang; Qualifizierungsfragen, Stilabfrage, Terminvorschlag läuft vollautomatisch
+6. **Instagram Chatbot** — KI-basierte Erstkommunikation für Story-Replies und DMs; filtert Budget/Stil/Termin vor und übergibt nur ernsthafte Interessenten
+7. **Wöchentliches Reporting** — Transparente Metriken: Cost-per-Booking, Impressionen, CTR
+8. **Monatlich kündbar** — Keine Langzeitverträge; Kundenbindung durch Ergebnisse
+9. **Getestete Audience-Kombinationen** — Aus Dutzenden von Tattoo-Studio-Kampagnen voroptimierte Zielgruppen
+10. **DACH-Coverage** — Deutschland, Österreich, Schweiz
 
 ## Target Customer
 - **Solo-Tätowierer** (1 Person) — will Kalender vollhalten ohne täglich Instagram zu bespielen; braucht planbare Anfragen statt Social-Media-Abhängigkeit

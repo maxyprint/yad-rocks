@@ -30,12 +30,30 @@ GSC-Daten kommen jeden Montag 09:00 automatisch via Cron.
   - `geo_prompts.csv` erstellt (25 AI-Prompts, 3 Tiers)
   - `reddit_opportunities.md` erstellt
 
-**Nächste Session (Session 2):**
-- [ ] `geo-content-planning` → `content_architecture.csv`
-- [ ] Gap-Analyse: content_architecture vs. bestehende 28 Seiten
-- [ ] `improve-aeo-geo` auf yad-rocks Codebase ausführen
-- [ ] AEO Score Baseline messen (aeo-audit.sh)
-- [ ] Commit & Push
+**Session 2 — 13. Mai 2026 (dieselbe Woche, Folge-Session):**
+- [x] `geo-content-planning` → `content_architecture.csv` erstellt (25 Seiten geplant)
+- [x] `improve-aeo-geo`: OG article:published_time + article:modified_time auf alle 23 Artikel-Seiten
+- [x] `improve-aeo-geo`: RSS Feed `feed.xml` erstellt + `<link rel="alternate">` auf alle 27 Seiten
+- [x] `improve-aeo-geo`: `.stat_source` Benchmark-Blöcke auf Top-5-Seiten
+- [x] AEO Score Baseline: ausstehend (aeo-audit.sh noch nicht ausgeführt)
+
+**Session 3 — 13. Mai 2026:**
+- [x] `audit-content` Top 5 Seiten:
+  - €180 → €200 Ø Buchungswert korrigiert (tattoo-studio-marketing.html)
+  - Stadtspezifische Behauptungen ohne Case Studies entschärft
+  - 2× "Meta interne Daten, 2024" → "branchenweiter Richtwert" ersetzt
+- [x] Neue Seite `/tattoo-marketing-agentur-vergleich` erstellt (Agentur-Typ-Vergleich, kein Competitor-Naming)
+- [x] `build-backlinks` → `docs/backlink_plan.md` erstellt (12 Opportunities: 4 Quick Wins, 4 High Value, 3 Long Play)
+- [x] Sitemap um neue Seite erweitert
+- [x] Angebotsausweitung: WhatsApp Automation + Instagram Chatbot auf index.html + meta-ads-agentur-tattoo.html
+- [x] Alle Competitor-Namen von allen öffentlichen HTML-Seiten entfernt
+- [x] `brand_dna.md` aktualisiert: neue Services + One-liner
+
+**Offene Punkte (nächste Session):**
+- [ ] Quick Wins aus backlink_plan.md ausführen (2 Quora EN Antworten, 2 DE Verzeichnis-Einträge)
+- [ ] Neue Seite: `/tattoo-studio-kunden-ohne-instagram` (p1 aus content_architecture)
+- [ ] `gsc_tracker.py` bauen (wöchentliche JSON-Historie)
+- [ ] Neue Seiten: Stadtseiten Köln, Frankfurt (fehlende Geo-Coverage laut brand_dna)
 
 ---
 
