@@ -1,0 +1,31 @@
+keyword,volume,kd,intent,priority,cluster,is_pillar,ai_overview_present,source,notes
+tattoo werbung,800,25,commercial,target,tattoo_werbung,true,,autocomplete,Breitestes Werbung-Keyword; Pillar-Page vorhanden
+tattoo marketing,1200,35,commercial,target,tattoo_marketing,true,,autocomplete,Höchstes Volumen im Nischen-Cluster
+meta ads tattoo,200,20,transactional,target,meta_ads_tattoo,true,,competitor,Kernservice; direkte Kaufintention
+facebook ads tattoo,300,25,transactional,target,facebook_ads_tattoo,true,,competitor,Starke Kaufintention; Seite vorhanden
+instagram ads tattoo,150,20,transactional,target,instagram_ads_tattoo,true,,autocomplete,Wachsender Kanal; Seite vorhanden
+tattoo studio werbung,400,20,commercial,target,tattoo_werbung,false,,autocomplete,Starkes Exact-Match-Keyword
+tattoo marketing agentur,150,15,transactional,easy_win,tattoo_marketing,false,,competitor,Direkte Agentur-Suche; geringer KD
+tattoo kunden gewinnen,100,12,commercial,easy_win,tattoo_marketing,false,,paa,Konversion-orientierte Suchanfrage
+tattoo leadgenerierung,50,8,research,easy_win,performance_channels,true,,manual,Eigene Seite vorhanden; fast kein Wettbewerb
+tattoo retargeting,30,5,research,easy_win,performance_channels,false,,manual,Eigene Seite vorhanden; Long-Tail-Traffic
+tattoo creatives,20,5,research,easy_win,performance_channels,false,,manual,Eigene Seite vorhanden; sehr geringer KD
+tattoo social media,200,30,informational,content,tattoo_marketing,false,,autocomplete,Informativer Traffic; Seite vorhanden
+tätowierer werbung,100,15,commercial,easy_win,tattoo_werbung,false,,autocomplete,Alternativer Suchbegriff für Einzelkünstler
+tattoo anfragen,80,10,commercial,easy_win,tattoo_marketing,false,,paa,Problem-Keyword; passt zu keine-anfragen-Seite
+tattoo studio berlin,1500,45,commercial,hard,lokal_tattoo,true,,competitor,Hohes Volumen; starke lokale Konkurrenz
+tattoo studio münchen,1200,40,commercial,hard,lokal_tattoo,false,,competitor,Zweitgrößter lokaler Markt DE
+tattoo studio hamburg,900,38,commercial,hard,lokal_tattoo,false,,competitor,Drittgrößter Markt; Seite vorhanden
+tattoo studio wien,800,35,commercial,hard,lokal_tattoo,false,,competitor,Österreich-Hauptmarkt; Seite vorhanden
+tattoo marketing kosten,60,10,research,easy_win,kosten,true,,paa,Eigene Kosten-Seite vorhanden
+tattoo werbung kosten,40,8,research,easy_win,kosten,false,,paa,Variante zu Kosten-Seite
+tattoo studio branding,30,8,research,content,performance_channels,false,,manual,Eigene Seite vorhanden; Nischen-Topic
+tattoo convention marketing,20,5,informational,easy_win,performance_channels,false,,manual,Eigene Seite; sehr spezifisch
+meta ads agentur,1500,55,transactional,hard,meta_ads_tattoo,false,,competitor,Breites Keyword mit hohem KD; trotzdem relevant
+tattoo ads agentur,50,10,transactional,easy_win,meta_ads_tattoo,false,,autocomplete,Direkter Agentur-Suchbegriff
+tattoo studio marketing,300,25,commercial,target,tattoo_marketing,false,,autocomplete,Variante des Pillar-Keywords
+tattoo kundenbewertungen,30,5,research,easy_win,performance_channels,false,,manual,Eigene Seite; Trust-Signal-Topic
+google ads tattoo,150,25,transactional,target,facebook_ads_tattoo,false,,competitor,Meta-vs-Google Vergleichsseite vorhanden
+tattoo studio köln,700,35,commercial,target,lokal_tattoo,false,,competitor,Noch keine Seite vorhanden; Lücke
+tattoo studio zürich,600,30,commercial,target,lokal_tattoo,false,,competitor,CH-Markt; noch keine Seite
+tattoo studio instagram,300,22,commercial,target,instagram_ads_tattoo,false,,autocomplete,Instagram-spezifische Suche
