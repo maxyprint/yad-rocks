@@ -1436,6 +1436,111 @@
       .testimonial_card { width: 280px; padding: 20px; }
       .cta_banner_inner { border-radius: 16px; }
     }
+
+    /* ─── COMPACT OVERRIDES ─── */
+    section { padding: 72px 40px; }
+    .section_header { margin-bottom: 48px; }
+    .feature_card { padding: 36px 32px; }
+    @media (max-width: 600px) {
+      section { padding: 52px 16px; }
+      .section_header { margin-bottom: 32px; }
+      .feature_card { padding: 28px 20px; }
+    }
+
+    /* ─── PROCESS MOCKUPS ─── */
+    .process_visual.mock-chat,
+    .process_visual.mock-db,
+    .process_visual.mock-lead,
+    .process_visual.mock-ad,
+    .process_visual.mock-report {
+      align-items: stretch;
+      justify-content: flex-start;
+      gap: 0;
+      padding: 0;
+      color: var(--white);
+      background: #0e0e0e;
+      font-size: 13px;
+    }
+
+    /* ── Chat (WhatsApp / Instagram) ── */
+    .mock-chat-hdr {
+      display: flex; align-items: center; gap: 10px;
+      padding: 11px 14px;
+      background: #1a1a1a;
+      border-bottom: 1px solid #222;
+      flex-shrink: 0;
+    }
+    .mock-wa-dot {
+      width: 30px; height: 30px; border-radius: 50%;
+      background: #25D366;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; flex-shrink: 0;
+    }
+    .mock-ig-dot {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+      flex-shrink: 0;
+    }
+    .mock-chat-name { font-size: 12px; font-weight: 700; line-height: 1.2; }
+    .mock-chat-sub { font-size: 10px; color: #25D366; margin-top: 1px; }
+    .mock-chat-sub-ig { font-size: 10px; color: var(--grey-mid); margin-top: 1px; }
+    .mock-bubbles {
+      flex: 1; overflow: hidden;
+      padding: 11px 12px;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .mb {
+      padding: 7px 10px; border-radius: 14px;
+      font-size: 11.5px; line-height: 1.4;
+      max-width: 80%;
+    }
+    .mb-in { background: #252525; color: #ddd; align-self: flex-start; border-bottom-left-radius: 3px; }
+    .mb-wa { background: #1F5C31; color: #fff; align-self: flex-end; border-bottom-right-radius: 3px; }
+    .mb-ig { background: #3797f0; color: #fff; align-self: flex-end; border-bottom-right-radius: 3px; }
+    .mock-foot { text-align: center; font-size: 10px; color: var(--grey-mid); padding: 7px 12px; border-top: 1px solid #1e1e1e; flex-shrink: 0; }
+
+    /* ── Dashboard ── */
+    .mock-db-inner { display: flex; flex-direction: column; gap: 12px; width: 100%; height: 100%; padding: 16px; }
+    .mock-db-hdr { display: flex; align-items: center; justify-content: space-between; }
+    .mock-live-dot { font-size: 11px; font-weight: 700; color: #4ade80; }
+    .mock-db-label { font-size: 10px; color: var(--grey-mid); }
+    .mock-kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
+    .mock-kpi { background: #181818; border: 1px solid #242424; border-radius: 8px; padding: 9px 7px; text-align: center; }
+    .mock-kpi-v { font-size: 15px; font-weight: 900; letter-spacing: -0.3px; line-height: 1; }
+    .mock-kpi-l { font-size: 9px; color: var(--grey-mid); margin-top: 3px; }
+    .mock-bars { display: flex; gap: 5px; align-items: flex-end; flex: 1; }
+    .mock-bar { flex: 1; background: var(--red); border-radius: 3px 3px 0 0; opacity: 0.55; min-height: 4px; }
+    .mock-bar:last-child { opacity: 1; }
+
+    /* ── Lead card ── */
+    .mock-lead-inner { display: flex; flex-direction: column; gap: 9px; width: 100%; height: 100%; padding: 16px; }
+    .mock-lead-ttl { font-size: 9.5px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--grey-mid); }
+    .mock-lead-row { display: flex; align-items: center; justify-content: space-between; padding: 9px 11px; background: #181818; border: 1px solid #232323; border-radius: 7px; font-size: 12px; }
+    .mock-lead-k { color: var(--grey-light); }
+    .mock-lead-v { font-weight: 600; }
+    .mock-ok { color: #4ade80; margin-left: 3px; }
+    .mock-badge-green { margin-top: auto; align-self: flex-start; display: inline-flex; align-items: center; gap: 5px; background: rgba(74,222,128,0.08); border: 1px solid rgba(74,222,128,0.25); color: #4ade80; font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 5px 11px; border-radius: 100px; }
+
+    /* ── Ad preview ── */
+    .mock-ad-hdr { display: flex; align-items: center; gap: 8px; padding: 10px 12px; background: #1a1a1a; border-bottom: 1px solid #222; flex-shrink: 0; font-size: 10px; color: var(--grey-mid); }
+    .mock-ad-logo { width: 22px; height: 22px; border-radius: 4px; background: var(--red); display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 900; color: #fff; flex-shrink: 0; }
+    .mock-ad-img { flex: 1; background: linear-gradient(145deg, #200010 0%, #1a1a1a 100%); display: flex; align-items: center; justify-content: center; font-size: 40px; position: relative; }
+    .mock-ad-img::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 35% 65%, rgba(232,23,58,0.28) 0%, transparent 65%); }
+    .mock-ad-cap { padding: 10px 12px; background: #181818; border-top: 1px solid #222; flex-shrink: 0; }
+    .mock-ad-hl { font-size: 11px; font-weight: 700; margin-bottom: 3px; }
+    .mock-ad-sl { font-size: 10px; color: var(--grey-mid); }
+    .mock-ad-btn { display: inline-block; margin-top: 7px; background: var(--red); color: #fff; font-size: 9px; font-weight: 700; padding: 4px 10px; border-radius: 4px; }
+
+    /* ── Report ── */
+    .mock-report-inner { display: flex; flex-direction: column; width: 100%; height: 100%; padding: 16px; }
+    .mock-report-hdr { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    .mock-report-wk { font-size: 11px; color: var(--grey-mid); }
+    .mock-report-tag { font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; background: rgba(232,23,58,0.08); color: var(--red); border: 1px solid rgba(232,23,58,0.2); padding: 3px 8px; border-radius: 4px; }
+    .mock-report-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #1a1a1a; font-size: 12px; }
+    .mock-report-row:last-child { border-bottom: none; }
+    .mock-rk { color: var(--grey-mid); }
+    .mock-rv { font-weight: 700; }
+    .mock-up { color: #4ade80; font-size: 10px; margin-left: 4px; }
   </style>
 </head>
 <body>
@@ -1626,7 +1731,7 @@
         <div class="feature_card">
           <div class="feature_icon_wrap">🎬</div>
           <h3 class="feature_title">Creatives — personalisiert</h3>
-          <p class="feature_text">Wir produzieren scroll-stoppende Ad Creatives speziell für deine Tattoo-Nische — Kurzvideos, Vorher/Nachher-Reels, starke Statics. Alles auf Conversion ausgelegt, nicht nur auf Optik. Du lieferst den Content, wir machen den Rest.</p>
+          <p class="feature_text">Wir produzieren scroll-stoppende Ad Creatives speziell für deine Tattoo-Nische — Kurzvideos, Vorher/Nachher-Reels, starke Statics. Du lieferst den Content, wir machen den Rest.</p>
         </div>
         <div class="feature_card">
           <div class="feature_icon_wrap">💬</div>
@@ -1636,12 +1741,12 @@
         <div class="feature_card">
           <div class="feature_icon_wrap">📊</div>
           <h3 class="feature_title">Volle Transparenz, offene Kommunikation</h3>
-          <p class="feature_text">Wöchentliche Performance-Reports. Klare Zahlen. Kosten pro Lead, Kosten pro Buchung, ROAS. Du weißt immer genau, was dein Werbebudget macht — und wir optimieren unermüdlich auf Basis echter Daten, nicht Bauchgefühl.</p>
+          <p class="feature_text">Wöchentliche Performance-Reports. Klare Zahlen: Kosten pro Lead, Kosten pro Buchung, ROAS. Du weißt immer, was dein Werbebudget macht.</p>
         </div>
         <div class="feature_card">
           <div class="feature_icon_wrap">⚡</div>
           <h3 class="feature_title">In 7 Tagen live</h3>
-          <p class="feature_text">Die meisten Agenturen brauchen Monate für das Onboarding. Wir nicht. Erstgespräch, Strategie, Creatives, Launch — alles innerhalb einer Woche nach Vertragsstart. Du siehst erste Ergebnisse noch vor Ende des ersten Monats.</p>
+          <p class="feature_text">Erstgespräch, Strategie, Creatives, Launch — alles innerhalb einer Woche nach Vertragsstart. Du siehst erste Ergebnisse noch vor Ende des ersten Monats.</p>
         </div>
         <div class="feature_card">
           <div class="feature_icon_wrap">🔒</div>
@@ -1822,8 +1927,17 @@
           <p class="process_content_text" style="margin-top:0;">Wir testen jeden Monat mehrere Creative-Winkel — damit wir mit der Zeit genau wissen, was Buchungen für dein Studio und deinen Stil antreibt.</p>
           <button class="btn-whatsapp" onclick="openQualifyForm()">Prüfen ob wir passen →</button>
         </div>
-        <div class="process_visual">
-          <img src="icon-camera.png" alt="Ad Creatives" class="process_visual_img">
+        <div class="process_visual mock-ad">
+          <div class="mock-ad-hdr">
+            <div class="mock-ad-logo">YAD</div>
+            <span>Tattoo Studio Berlin · <strong style="color:#aaa;font-weight:400;">Gesponsert</strong></span>
+          </div>
+          <div class="mock-ad-img">🎨</div>
+          <div class="mock-ad-cap">
+            <div class="mock-ad-hl">Mehr Buchungen ohne täglich zu posten.</div>
+            <div class="mock-ad-sl">Meta Ads für Tattoo Studios — 7 Tage bis Live</div>
+            <div class="mock-ad-btn">Mehr erfahren</div>
+          </div>
         </div>
       </div>
       <div id="tab2" class="process_content">
@@ -1833,8 +1947,27 @@
           <p class="process_content_text" style="margin-top:0;">Wir nutzen erprobte Targeting-Methoden, die speziell für lokale Tattoo-Studios entwickelt wurden — keine generischen E-Commerce-Taktiken.</p>
           <button class="btn-whatsapp" onclick="openQualifyForm()">Prüfen ob wir passen →</button>
         </div>
-        <div class="process_visual">
-          <img src="icon-laptop.png" alt="Kampagnen-Management" class="process_visual_img">
+        <div class="process_visual mock-db">
+          <div class="mock-db-inner">
+            <div class="mock-db-hdr">
+              <span class="mock-live-dot">● LIVE</span>
+              <span class="mock-db-label">Kampagne läuft</span>
+            </div>
+            <div class="mock-kpis">
+              <div class="mock-kpi"><div class="mock-kpi-v">34</div><div class="mock-kpi-l">Leads / 30d</div></div>
+              <div class="mock-kpi"><div class="mock-kpi-v">€13.80</div><div class="mock-kpi-l">CPL</div></div>
+              <div class="mock-kpi"><div class="mock-kpi-v">3.4%</div><div class="mock-kpi-l">CTR</div></div>
+            </div>
+            <div class="mock-bars">
+              <div class="mock-bar" style="height:35%"></div>
+              <div class="mock-bar" style="height:50%"></div>
+              <div class="mock-bar" style="height:42%"></div>
+              <div class="mock-bar" style="height:78%"></div>
+              <div class="mock-bar" style="height:62%"></div>
+              <div class="mock-bar" style="height:88%"></div>
+              <div class="mock-bar" style="height:100%"></div>
+            </div>
+          </div>
         </div>
       </div>
       <div id="tab3" class="process_content">
@@ -1843,8 +1976,15 @@
           <p class="process_content_text">Wir bauen Lead-Formulare und Qualifizierungs-Funnels, die Zeitverschwender herausfiltern, bevor sie dich überhaupt erreichen. Wenn jemand in deinen DMs landet, kennt er bereits deine Preisvorstellung, deinen Stil — und ist buchungsbereit.</p>
           <button class="btn-whatsapp" onclick="openQualifyForm()">Prüfen ob wir passen →</button>
         </div>
-        <div class="process_visual">
-          <img src="icon-tattoo.png" alt="Lead-Qualifizierung" class="process_visual_img">
+        <div class="process_visual mock-lead">
+          <div class="mock-lead-inner">
+            <div class="mock-lead-ttl">Eingehender Lead</div>
+            <div class="mock-lead-row"><span class="mock-lead-k">Stil</span><span class="mock-lead-v">Realistisch <span class="mock-ok">✓</span></span></div>
+            <div class="mock-lead-row"><span class="mock-lead-k">Budget</span><span class="mock-lead-v">€300+ <span class="mock-ok">✓</span></span></div>
+            <div class="mock-lead-row"><span class="mock-lead-k">Ort</span><span class="mock-lead-v">München <span class="mock-ok">✓</span></span></div>
+            <div class="mock-lead-row"><span class="mock-lead-k">Termin</span><span class="mock-lead-v">Nächste Woche <span class="mock-ok">✓</span></span></div>
+            <div class="mock-badge-green">✦ Qualifiziert</div>
+          </div>
         </div>
       </div>
       <div id="tab5" class="process_content">
@@ -1854,8 +1994,22 @@
           <p class="process_content_text" style="margin-top:0;">Studios die sofort auf Leads antworten, konvertieren deutlich mehr Anfragen zu echten Buchungen. Wir richten das System einmalig ein — danach läuft es ohne deinen Eingriff.</p>
           <button class="btn-whatsapp" onclick="openQualifyForm()">Prüfen ob wir passen →</button>
         </div>
-        <div class="process_visual">
-          <img src="icon-laptop.png" alt="WhatsApp Automation" class="process_visual_img">
+        <div class="process_visual mock-chat">
+          <div class="mock-chat-hdr">
+            <div class="mock-wa-dot">💬</div>
+            <div>
+              <div class="mock-chat-name">YAD Automation</div>
+              <div class="mock-chat-sub">● Online</div>
+            </div>
+          </div>
+          <div class="mock-bubbles">
+            <div class="mb mb-in">Danke für dein Interesse! 🎨<br>Welchen Stil möchtest du?</div>
+            <div class="mb mb-wa">Realistisch, ca. €350 Budget</div>
+            <div class="mb mb-in">Super! Wann passt dir ein Termin?</div>
+            <div class="mb mb-wa">Nächste Woche gerne</div>
+            <div class="mb mb-in">Perfekt — wir melden uns! ✓</div>
+          </div>
+          <div class="mock-foot">Automatisch gesendet · 22:47 Uhr</div>
         </div>
       </div>
       <div id="tab6" class="process_content">
@@ -1865,8 +2019,21 @@
           <p class="process_content_text" style="margin-top:0;">Du sparst dir täglich das Beantworten von Anfragen die sowieso nicht passen. Und du verlierst keine Buchung mehr weil jemand keine Antwort bekommen hat.</p>
           <button class="btn-whatsapp" onclick="openQualifyForm()">Prüfen ob wir passen →</button>
         </div>
-        <div class="process_visual">
-          <img src="icon-tattoo.png" alt="Instagram Chatbot" class="process_visual_img">
+        <div class="process_visual mock-chat">
+          <div class="mock-chat-hdr">
+            <div class="mock-ig-dot"></div>
+            <div>
+              <div class="mock-chat-name">@yad.studio</div>
+              <div class="mock-chat-sub-ig">Antwortet sofort</div>
+            </div>
+          </div>
+          <div class="mock-bubbles">
+            <div class="mb mb-in">Hey, ich interessiere mich für ein Tattoo 🖤</div>
+            <div class="mb mb-ig">Hi! 🎨 Welchen Stil hast du in mind?</div>
+            <div class="mb mb-in">Fineline — Blumen und Botanik</div>
+            <div class="mb mb-ig">Perfekt! Klick hier für deinen Termin 👇</div>
+          </div>
+          <div class="mock-foot">Automatisch · Instagram DM</div>
         </div>
       </div>
       <div id="tab4" class="process_content">
@@ -1875,8 +2042,18 @@
           <p class="process_content_text">Jeden Montag bekommst du einen klaren Performance-Report — Leads, Buchungen, Kosten pro Buchung, Werbeausgaben, ROAS. Du weißt immer, was deine Ads machen, und wir sind immer im Call, um zu erklären, was wir als nächstes verbessern.</p>
           <button class="btn-whatsapp" onclick="openQualifyForm()">Prüfen ob wir passen →</button>
         </div>
-        <div class="process_visual">
-          <img src="icon-calculator.png" alt="Reporting" class="process_visual_img">
+        <div class="process_visual mock-report">
+          <div class="mock-report-inner">
+            <div class="mock-report-hdr">
+              <span class="mock-report-wk">KW 20 — Wochenbericht</span>
+              <span class="mock-report-tag">Performance</span>
+            </div>
+            <div class="mock-report-row"><span class="mock-rk">Anfragen</span><span><span class="mock-rv">24</span><span class="mock-up">▲ 8%</span></span></div>
+            <div class="mock-report-row"><span class="mock-rk">Buchungen</span><span><span class="mock-rv">9</span><span class="mock-up">▲ 12%</span></span></div>
+            <div class="mock-report-row"><span class="mock-rk">CPL</span><span><span class="mock-rv">€14.20</span><span class="mock-up">▼ €1.80</span></span></div>
+            <div class="mock-report-row"><span class="mock-rk">ROAS</span><span class="mock-rv">3.1×</span></div>
+            <div class="mock-report-row"><span class="mock-rk">Ad-Budget</span><span class="mock-rv">€341</span></div>
+          </div>
         </div>
       </div>
     </div>
