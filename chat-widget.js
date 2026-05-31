@@ -53,8 +53,7 @@
       budget: 'Kein Monatsabo · Kein Werbebudget',
       items: [
         'Google Business Setup & Optimierung',
-        'Instagram-Profil aufgesetzt',
-        'Buchungslink integriert (Booksy / Fresha / Calendly)',
+        'Buchungslink über das YAD CRM System integriert',
         'WhatsApp Business Einrichtung',
         'Basis-Chatbot für Story-Replies'
       ],
