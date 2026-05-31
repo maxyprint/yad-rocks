@@ -53,6 +53,7 @@
       budget: 'Kein Monatsabo · Kein Werbebudget',
       items: [
         'Google Business Setup & Optimierung',
+        'Simple Landingpage (1 Seite: Studio, Stile, Buchungs-CTA)',
         'Buchungslink über das YAD CRM System integriert',
         'WhatsApp Business Einrichtung',
         'Basis-Chatbot für Story-Replies'
