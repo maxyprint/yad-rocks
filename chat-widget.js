@@ -48,9 +48,9 @@
     {
       name: 'LOKAL',
       tagline: 'Digital sichtbar werden',
-      setup: '€ 590 einmalig',
-      monatlich: '€ 149 / Monat',
-      budget: '',
+      setup: '',
+      monatlich: '€ 290 einmalig',
+      budget: 'Kein Monatsabo · Kein Werbebudget',
       items: [
         'Google Business Setup & Optimierung',
         'Instagram-Profil aufgesetzt',
