@@ -2,99 +2,25 @@
 <html lang="de" class="w-mod-js">
 <head>
   <meta charset="utf-8">
-  <link rel="icon" type="image/x-icon" href="/favicon.ico">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <meta content="width=device-width, initial-scale=1" name="viewport">
-  <title>Meta Ads für Tattoo Studios – Mehr Buchungen | YAD</title>
-  <meta name="description" content="Meta Ads für Tattoo Studios: Planbare Kundenanfragen statt Terminlücken. Wir bringen dir buchungsbereite Kunden direkt in deine DMs – ohne Langzeitvertrag.">
-  <meta property="og:title" content="Meta Ads für Tattoo Studios – Mehr Kunden ohne Stress | YAD">
-  <meta property="og:description" content="Meta Ads für Tattoo Studios: Planbare Kundenanfragen statt Terminlücken. Buchungsbereite Kunden direkt in deine DMs.">
+  <title>YAD — Meta Ads für Tätowierer</title>
+  <meta name="description" content="Hör auf, Kunden hinterherzulaufen. YAD schaltet deine Meta Ads, damit dein Kalender sich von selbst füllt.">
+  <meta property="og:title" content="YAD — Meta Ads für Tätowierer">
+  <meta property="og:description" content="Hör auf, Kunden hinterherzulaufen. YAD schaltet deine Meta Ads, damit dein Kalender sich von selbst füllt.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://yad.rocks">
-  <meta property="og:image" content="https://yad.rocks/creative-hero-poster.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://yad.rocks/creative-hero-poster.jpg">
-  <meta property="og:site_name" content="YAD">
-  <meta property="og:locale" content="de_DE">
-  <meta name="twitter:title" content="Meta Ads für Tattoo Studios – Mehr Kunden ohne Stress | YAD">
-  <meta name="twitter:description" content="Meta Ads für Tattoo Studios: Planbare Kundenanfragen statt Terminlücken. Buchungsbereite Kunden direkt in deine DMs.">
-  <link rel="canonical" href="https://yad.rocks/">
-  <link rel="alternate" type="application/rss+xml" title="YAD.rocks Blog" href="/feed.xml">
-  <script type="application/ld+json">
-  {
-  "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  "@id": "https://yad.rocks/#organization",
-  "name": "YAD",
-  "alternateName": "YAD Meta Ads Agentur",
-  "description": "Meta Ads Agentur exklusiv für Tattoo Studios in DACH. Facebook & Instagram Werbung, WhatsApp Automation und Instagram Chatbot für planbare Buchungen.",
-  "url": "https://yad.rocks",
-  "logo": "https://yad.rocks/creative-hero-poster.jpg",
-  "founder": {
-    "@type": "Person",
-    "name": "Max Schwarz"
-  },
-  "areaServed": [
-    "DE",
-    "AT",
-    "CH"
-  ],
-  "serviceType": "Meta Ads für Tattoo Studios",
-  "knowsAbout": [
-    "Meta Ads",
-    "Facebook Ads",
-    "Instagram Ads",
-    "Tattoo Studio Marketing",
-    "Leadgenerierung",
-    "Performance Marketing"
-  ],
-  "makesOffer": {
-    "@type": "Offer",
-    "itemOffered": {
-      "@type": "Service",
-      "name": "Meta Ads Management für Tattoo Studios",
-      "description": "Wir schalten Facebook & Instagram Werbung (Meta Ads) für Tattoo Studios in Deutschland, Österreich und der Schweiz — mit dem Ziel planbare Buchungsanfragen zu erzeugen. Monatlich kündbar, keine Langzeitverträge."
-    }
-  },
-  "sameAs": [
-    "https://www.instagram.com/yad.rocks"
-  ],
-  "contactPoint": {
-    "@type": "ContactPoint",
-    "email": "hello@yad.rocks",
-    "contactType": "customer service"
-  }
-}
-  </script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "@id": "https://yad.rocks/#website",
-    "name": "YAD",
-    "url": "https://yad.rocks/",
-    "inLanguage": "de",
-    "publisher": {
-      "@id": "https://yad.rocks/#organization"
-    }
-  }
-  </script>
+  <link rel="canonical" href="https://yad.rocks">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <!-- Meta Pixel -->
+  <!-- Meta Pixel SDK — kein init, keine Events für normale Besucher -->
   <script>
   !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
   n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
   n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
   t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
   (window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init','1419975432380195');
-  fbq('track','PageView');
   </script>
-  <noscript><img height="1" width="1" style="display:none"
-  src="https://www.facebook.com/tr?id=1419975432380195&ev=PageView&noscript=1"/></noscript>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -303,25 +229,11 @@
       pointer-events: none;
     }
     .hero_inner {
-      max-width: 1100px;
+      max-width: var(--max-w);
       margin: 0 auto;
       display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap: 60px;
-    }
-    .hero_content { flex: 1 1 0; min-width: 0; }
-    .hero_video_wrap {
-      flex: 0 0 240px;
-      width: 240px;
-      border-radius: 24px;
-      overflow: hidden;
-      box-shadow: 0 24px 64px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.07);
-      aspect-ratio: 9/16;
-    }
-    .hero_video_wrap video {
-      width: 100%; height: 100%;
-      object-fit: cover; display: block;
+      flex-direction: column;
+      max-width: 760px;
     }
     .hero_badge {
       display: inline-flex;
@@ -1147,45 +1059,27 @@
     }
     .qform_option:hover { border-color: rgba(232,23,58,0.5); color: var(--white); }
     .qform_option.selected { border-color: var(--red); background: var(--red-glow); color: var(--white); }
-
-    /* ── Wochentag-Picker ── */
-    .qday_wrap { margin-top: 22px; }
-    .qday_toggle {
-      background: none; border: none;
-      color: var(--grey-light); font-family: var(--font);
-      font-size: 13px; font-weight: 600; cursor: pointer;
-      padding: 0; display: flex; align-items: center; gap: 6px;
-      transition: color 0.2s;
-    }
-    .qday_toggle:hover { color: var(--white); }
-    .qday_arrow {
-      display: inline-block;
-      transition: transform 0.22s cubic-bezier(0.4,0,0.2,1);
-    }
-    .qday_toggle.open .qday_arrow { transform: rotate(90deg); }
-    .qday_picker {
-      overflow: hidden; max-height: 0;
-      transition: max-height 0.3s cubic-bezier(0.4,0,0.2,1), opacity 0.25s;
-      opacity: 0;
-    }
-    .qday_picker.open { max-height: 80px; opacity: 1; }
-    .qday_grid {
-      display: flex; gap: 8px; flex-wrap: wrap; padding-top: 14px;
-    }
-    .qday_btn {
-      font-family: var(--font); font-size: 13px; font-weight: 600;
-      color: var(--grey-light);
-      background: rgba(255,255,255,0.04);
-      border: 1px solid var(--grey-border);
-      border-radius: 8px; padding: 9px 13px; cursor: pointer;
-      transition: border-color 0.18s, color 0.18s, background 0.18s;
-    }
-    .qday_btn:hover { border-color: rgba(232,23,58,0.45); color: var(--white); }
-    .qday_btn.selected { border-color: var(--red); background: var(--red-glow); color: var(--white); }
     @media (max-width: 600px) {
       .qform_box { padding: 32px 20px; }
       .qform_question { font-size: 20px; }
       .qform_option { padding: 14px 10px; font-size: 14px; }
+    }
+
+    /* ─── TICKER ─── */
+    .ticker { background: var(--red); padding: 14px 0; overflow: hidden; white-space: nowrap; }
+    .ticker_track { display: inline-block; animation: ticker 22s linear infinite; }
+    .ticker_item {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 0 28px;
+    }
+    .ticker_item::after { content: '✦'; margin-left: 28px; }
+    @keyframes ticker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
     }
 
     /* ─── FOOTER ─── */
@@ -1317,8 +1211,7 @@
       .nav_mobile_btn { display: flex; }
 
       .hero, section, .cta_banner, .footer, .logos { padding-left: 20px; padding-right: 20px; }
-      .hero_inner { flex-direction: column; max-width: 760px; }
-      .hero_video_wrap { display: none; }
+      .hero_inner { grid-template-columns: 1fr; gap: 48px; }
       .features_grid { grid-template-columns: 1fr; }
       .feature_icon_wrap { margin-left: auto; margin-right: auto; }
       .founder_layout { grid-template-columns: 1fr; gap: 40px; }
@@ -1364,6 +1257,9 @@
       .hero_stat_card { padding: 20px 16px; }
       .hero_stat_number { font-size: 28px; }
 
+      .ticker_item { font-size: 11px; padding: 0 16px; }
+      .ticker_item::after { margin-left: 16px; }
+
       .founder_photo_wrap { width: 220px; }
       .founder_card { min-width: 140px; padding: 24px 20px; }
       .founder_card_number { font-size: 34px; }
@@ -1398,7 +1294,7 @@
       .section_header { text-align: center; }
       .hero_badge { align-self: center; }
       .hero_disclaimer { text-align: center; }
-      .hero_stats { align-items: stretch; text-align: center; }
+      .hero_stats { align-items: center; text-align: center; }
       .process_content .btn-whatsapp { width: 100%; justify-content: center; }
       .process_content_title, .process_content_text { text-align: center; }
 
@@ -1436,120 +1332,16 @@
       .testimonial_card { width: 280px; padding: 20px; }
       .cta_banner_inner { border-radius: 16px; }
     }
-
-    /* ─── COMPACT OVERRIDES ─── */
-    section { padding: 72px 40px; }
-    .section_header { margin-bottom: 48px; }
-    .feature_card { padding: 36px 32px; }
-    @media (max-width: 600px) {
-      section { padding: 52px 16px; }
-      .section_header { margin-bottom: 32px; }
-      .feature_card { padding: 28px 20px; }
-    }
-
-    /* ─── PROCESS MOCKUPS ─── */
-    .process_visual.mock-chat,
-    .process_visual.mock-db,
-    .process_visual.mock-lead,
-    .process_visual.mock-ad,
-    .process_visual.mock-report {
-      align-items: stretch;
-      justify-content: flex-start;
-      gap: 0;
-      padding: 0;
-      color: var(--white);
-      background: #0e0e0e;
-      font-size: 13px;
-    }
-
-    /* ── Chat (WhatsApp / Instagram) ── */
-    .mock-chat-hdr {
-      display: flex; align-items: center; gap: 10px;
-      padding: 11px 14px;
-      background: #1a1a1a;
-      border-bottom: 1px solid #222;
-      flex-shrink: 0;
-    }
-    .mock-wa-dot {
-      width: 30px; height: 30px; border-radius: 50%;
-      background: #25D366;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 14px; flex-shrink: 0;
-    }
-    .mock-ig-dot {
-      width: 28px; height: 28px; border-radius: 50%;
-      background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-      flex-shrink: 0;
-    }
-    .mock-chat-name { font-size: 12px; font-weight: 700; line-height: 1.2; }
-    .mock-chat-sub { font-size: 10px; color: #25D366; margin-top: 1px; }
-    .mock-chat-sub-ig { font-size: 10px; color: var(--grey-mid); margin-top: 1px; }
-    .mock-bubbles {
-      flex: 1; overflow: hidden;
-      padding: 11px 12px;
-      display: flex; flex-direction: column; gap: 6px;
-    }
-    .mb {
-      padding: 7px 10px; border-radius: 14px;
-      font-size: 11.5px; line-height: 1.4;
-      max-width: 80%;
-    }
-    .mb-in { background: #252525; color: #ddd; align-self: flex-start; border-bottom-left-radius: 3px; }
-    .mb-wa { background: #1F5C31; color: #fff; align-self: flex-end; border-bottom-right-radius: 3px; }
-    .mb-ig { background: #3797f0; color: #fff; align-self: flex-end; border-bottom-right-radius: 3px; }
-    .mock-foot { text-align: center; font-size: 10px; color: var(--grey-mid); padding: 7px 12px; border-top: 1px solid #1e1e1e; flex-shrink: 0; }
-
-    /* ── Dashboard ── */
-    .mock-db-inner { display: flex; flex-direction: column; gap: 12px; width: 100%; height: 100%; padding: 16px; }
-    .mock-db-hdr { display: flex; align-items: center; justify-content: space-between; }
-    .mock-live-dot { font-size: 11px; font-weight: 700; color: #4ade80; }
-    .mock-db-label { font-size: 10px; color: var(--grey-mid); }
-    .mock-kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
-    .mock-kpi { background: #181818; border: 1px solid #242424; border-radius: 8px; padding: 9px 7px; text-align: center; }
-    .mock-kpi-v { font-size: 15px; font-weight: 900; letter-spacing: -0.3px; line-height: 1; }
-    .mock-kpi-l { font-size: 9px; color: var(--grey-mid); margin-top: 3px; }
-    .mock-bars { display: flex; gap: 5px; align-items: flex-end; flex: 1; }
-    .mock-bar { flex: 1; background: var(--red); border-radius: 3px 3px 0 0; opacity: 0.55; min-height: 4px; }
-    .mock-bar:last-child { opacity: 1; }
-
-    /* ── Lead card ── */
-    .mock-lead-inner { display: flex; flex-direction: column; gap: 9px; width: 100%; height: 100%; padding: 16px; }
-    .mock-lead-ttl { font-size: 9.5px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--grey-mid); }
-    .mock-lead-row { display: flex; align-items: center; justify-content: space-between; padding: 9px 11px; background: #181818; border: 1px solid #232323; border-radius: 7px; font-size: 12px; }
-    .mock-lead-k { color: var(--grey-light); }
-    .mock-lead-v { font-weight: 600; }
-    .mock-ok { color: #4ade80; margin-left: 3px; }
-    .mock-badge-green { margin-top: auto; align-self: flex-start; display: inline-flex; align-items: center; gap: 5px; background: rgba(74,222,128,0.08); border: 1px solid rgba(74,222,128,0.25); color: #4ade80; font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 5px 11px; border-radius: 100px; }
-
-    /* ── Ad preview ── */
-    .mock-ad-hdr { display: flex; align-items: center; gap: 8px; padding: 10px 12px; background: #1a1a1a; border-bottom: 1px solid #222; flex-shrink: 0; font-size: 10px; color: var(--grey-mid); }
-    .mock-ad-logo { width: 22px; height: 22px; border-radius: 4px; background: var(--red); display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 900; color: #fff; flex-shrink: 0; }
-    .mock-ad-img { flex: 1; background: linear-gradient(145deg, #200010 0%, #1a1a1a 100%); display: flex; align-items: center; justify-content: center; font-size: 40px; position: relative; }
-    .mock-ad-img::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 35% 65%, rgba(232,23,58,0.28) 0%, transparent 65%); }
-    .mock-ad-cap { padding: 10px 12px; background: #181818; border-top: 1px solid #222; flex-shrink: 0; }
-    .mock-ad-hl { font-size: 11px; font-weight: 700; margin-bottom: 3px; }
-    .mock-ad-sl { font-size: 10px; color: var(--grey-mid); }
-    .mock-ad-btn { display: inline-block; margin-top: 7px; background: var(--red); color: #fff; font-size: 9px; font-weight: 700; padding: 4px 10px; border-radius: 4px; }
-
-    /* ── Report ── */
-    .mock-report-inner { display: flex; flex-direction: column; width: 100%; height: 100%; padding: 16px; }
-    .mock-report-hdr { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
-    .mock-report-wk { font-size: 11px; color: var(--grey-mid); }
-    .mock-report-tag { font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; background: rgba(232,23,58,0.08); color: var(--red); border: 1px solid rgba(232,23,58,0.2); padding: 3px 8px; border-radius: 4px; }
-    .mock-report-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #1a1a1a; font-size: 12px; }
-    .mock-report-row:last-child { border-bottom: none; }
-    .mock-rk { color: var(--grey-mid); }
-    .mock-rv { font-weight: 700; }
-    .mock-up { color: #4ade80; font-size: 10px; margin-left: 4px; }
   </style>
 </head>
 <body>
 
   <!-- MOBILE NAV OVERLAY -->
   <div class="nav_mobile_overlay" id="mobileNav">
-    <a href="#about" class="nav_link" onclick="closeMobileNav()">Über YAD</a>
+    <a href="#features" class="nav_link" onclick="closeMobileNav()">Was wir tun</a>
+    <a href="#process" class="nav_link" onclick="closeMobileNav()">Ablauf</a>
+    <a href="#about" class="nav_link" onclick="closeMobileNav()">Wer wir sind</a>
     <a href="#faq" class="nav_link" onclick="closeMobileNav()">FAQ</a>
-    <a href="/guide" class="nav_link" onclick="closeMobileNav()">Ratgeber</a>
     <button class="btn-whatsapp" onclick="openQualifyForm(); closeMobileNav()">Passt YAD zu mir? →</button>
   </div>
 
@@ -1558,9 +1350,10 @@
     <div class="nav_inner">
       <a href="/" class="nav_logo">YAD<span>.</span></a>
       <div class="nav_links">
-        <a href="#about" class="nav_link">Über YAD</a>
+        <a href="#features" class="nav_link">Was wir tun</a>
+        <a href="#process" class="nav_link">Ablauf</a>
+        <a href="#about" class="nav_link">Wer wir sind</a>
         <a href="#faq" class="nav_link">FAQ</a>
-        <a href="/guide" class="nav_link">Ratgeber</a>
       </div>
       <div class="nav_cta">
         <button class="btn-ghost" onclick="openModal('contact')">Ich brauche noch Informationen</button>
@@ -1572,8 +1365,26 @@
     </div>
   </nav>
 
+  <!-- TICKER -->
+  <div class="ticker" style="margin-top: var(--nav-h);">
+    <div class="ticker_track">
+      <span class="ticker_item">Keine leeren Slots mehr</span>
+      <span class="ticker_item">Meta Ads komplett für dich</span>
+      <span class="ticker_item">Neue Kunden auf Autopilot</span>
+      <span class="ticker_item">Nur für Tätowierer</span>
+      <span class="ticker_item">Creatives inklusive</span>
+      <span class="ticker_item">Planbare Buchungen</span>
+      <span class="ticker_item">Keine leeren Slots mehr</span>
+      <span class="ticker_item">Meta Ads komplett für dich</span>
+      <span class="ticker_item">Neue Kunden auf Autopilot</span>
+      <span class="ticker_item">Nur für Tätowierer</span>
+      <span class="ticker_item">Creatives inklusive</span>
+      <span class="ticker_item">Planbare Buchungen</span>
+    </div>
+  </div>
+
   <!-- HERO -->
-  <section class="hero" style="margin-top: var(--nav-h);">
+  <section class="hero">
     <div class="hero_inner">
       <div class="hero_content">
         <div class="hero_badge">
@@ -1590,127 +1401,70 @@
         </p>
         <div class="hero_buttons">
           <button class="btn-whatsapp large" onclick="openQualifyForm()">Passt YAD zu mir? →</button>
-          <a href="/guide" class="btn-ghost" style="padding: 16px 24px; font-size: 16px; border-radius: 10px;">Guide kostenlos laden →</a>
+          <a href="#process" class="btn-ghost" style="padding: 16px 24px; font-size: 16px; border-radius: 10px;">So funktioniert's</a>
         </div>
         <p class="hero_disclaimer">Kostenloses Erstgespräch — kein Risiko, keine Verpflichtung.</p>
-      </div>
-      <div class="hero_video_wrap">
-        <video id="heroVideo" muted loop playsinline preload="none"
-               poster="creative-hero-poster.jpg">
-          <source src="creative-hero.webm" type="video/webm">
-          <source src="creative-hero.mp4"  type="video/mp4">
-        </video>
+        <div class="hero_stats">
+          <div class="hero_stat_card">
+            <div class="hero_stat_number"><span class="hero-stat-num" data-from="0" data-to="3.2" data-suffix="×" data-decimal="1">0×</span></div>
+            <div class="hero_stat_label">Mehr Buchungen<br>im Schnitt</div>
+          </div>
+          <div class="hero_stat_card">
+            <div class="hero_stat_number">€8–€24</div>
+            <div class="hero_stat_label">Kosten pro<br>Buchung</div>
+          </div>
+          <div class="hero_stat_card">
+            <div class="hero_stat_number"><span class="hero-stat-num" data-from="0" data-to="7" data-suffix=" Tage">0</span></div>
+            <div class="hero_stat_label">Bis zu ersten<br>Ergebnissen</div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       FLIP STORY SECTION
-  ════════════════════════════════════════════════════════════ -->
-  <style>
-    /* ── YF: Story Section ─────────────────────────────────── */
-    .yf-section {
-      position: relative;
-      background: var(--black);
-      padding: 0;
-    }
-    .yf-scene {
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-    .yf-glow {
-      position: absolute; inset: 0;
-      background: radial-gradient(ellipse 52% 42% at 50% 46%,
-        rgba(232,23,58,0.10) 0%, transparent 68%);
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 2s ease;
-    }
-    .yf-glow.on { opacity: 1; }
 
-    .yf-bg-graph {
-      position: absolute;
-      bottom: 0; left: 0; width: 100%; height: 40%;
-      pointer-events: none; opacity: 0.35;
-    }
-
-    .yf-card {
-      width: min(580px, 88vw);
-      background: var(--black-2);
-      border: 1px solid var(--grey-border);
-      border-radius: 20px;
-      padding: 44px 48px;
-      position: relative;
-      overflow: hidden;
-    }
-    .yf-card::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0; height: 2px;
-      background: var(--red);
-    }
-
-    .yf-num {
-      font-size: 11px; font-weight: 700; letter-spacing: 2.5px;
-      text-transform: uppercase; color: var(--red); margin-bottom: 20px;
-    }
-    .yf-text {
-      font-size: clamp(18px, 2.8vw, 28px);
-      font-weight: 800; line-height: 1.3; letter-spacing: -0.3px; color: #fff;
-    }
-    .yf-text .yf-hl { color: var(--red); }
-    .yf-bar {
-      margin-top: 24px; height: 3px; width: 32px;
-      background: var(--red); border-radius: 2px;
-    }
-
-    .yf-dots {
-      position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
-      display: flex; gap: 7px; z-index: 20; pointer-events: none;
-    }
-    .yf-dot {
-      width: 4px; height: 4px; border-radius: 50%;
-      background: rgba(255,255,255,0.18);
-      transition: background .35s, transform .35s, box-shadow .35s;
-    }
-    .yf-dot.on { background: var(--red); transform: scale(1.5); box-shadow: 0 0 7px var(--red); }
-
-    @media (max-width: 600px) {
-      .yf-card { padding: 28px 24px; }
-    }
-  </style>
-
-  <section class="yf-section" id="yfSection">
-    <div class="yf-scene" id="yfScene">
-      <div class="yf-glow" id="yfGlow"></div>
-      <svg id="bgGraph" class="yf-bg-graph" viewBox="0 0 900 260" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="bgAreaGrad" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0%" stop-color="#e8173a" stop-opacity="0.14"/>
-            <stop offset="100%" stop-color="#e8173a" stop-opacity="0.0"/>
-          </linearGradient>
-          <clipPath id="bgClip"><rect id="bgClipRect" x="0" y="0" width="0" height="260"/></clipPath>
-        </defs>
-        <path d="M 0 210 C 25 208,50 220,75 215 S 115 205,145 198 S 165 202,185 192 S 215 182,245 172 S 262 162,280 155 S 308 148,335 140 S 358 134,378 127 S 398 122,418 114 S 443 106,467 99 S 492 92,540 90 S 582 84,612 74 S 637 67,662 60 S 692 50,722 44 S 752 38,782 35 S 802 34,832 30 S 862 26,900 24 L 900 260 L 0 260 Z"
-          fill="url(#bgAreaGrad)" clip-path="url(#bgClip)"/>
-        <path id="bgLinePath"
-          d="M 0 210 C 25 208,50 220,75 215 S 115 205,145 198 S 165 202,185 192 S 215 182,245 172 S 262 162,280 155 S 308 148,335 140 S 358 134,378 127 S 398 122,418 114 S 443 106,467 99 S 492 92,540 90 S 582 84,612 74 S 637 67,662 60 S 692 50,722 44 S 752 38,782 35 S 802 34,832 30 S 862 26,900 24"
-          fill="none" stroke="#e8173a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      <div class="yf-card" id="yfCard">
-        <div class="yf-num" id="yfNum">01 / 08</div>
-        <div class="yf-text" id="yfText">Du willst mehr Leute erreichen?</div>
-        <div class="yf-bar"></div>
+  <!-- FEATURES -->
+  <section class="features" id="features">
+    <div class="section_inner">
+      <div class="section_header">
+        <div class="section_label">Was wir tun</div>
+        <h2 class="section_title">Meta Werbung für<br>dein Tattoo Studio.</h2>
+        <p class="section_subtitle">Wir schalten Meta Werbung (Facebook &amp; Instagram) für dein Tattoo Studio. Auf dich zugeschnitten — Kunden sehen deinen Stil und <span style="text-decoration:underline;">entscheiden sich für dich</span>. Du fokussierst dich auf deine Kunst.</p>
       </div>
-      <div class="yf-dots" id="yfDots"></div>
+      <div class="features_grid">
+        <div class="feature_card">
+          <div class="feature_icon_wrap">🎯</div>
+          <h3 class="feature_title">Ads, die echte Kunden bringen</h3>
+          <p class="feature_text">Unser Targeting fokussiert sich ausschließlich auf kaufbereite Kunden — jeder Euro soll sich lohnen.</p>
+        </div>
+        <div class="feature_card">
+          <div class="feature_icon_wrap">🎬</div>
+          <h3 class="feature_title">Creatives — personalisiert</h3>
+          <p class="feature_text">Wir produzieren scroll-stoppende Ad Creatives speziell für deine Tattoo-Nische — Kurzvideos, Vorher/Nachher-Reels, starke Statics. Alles auf Conversion ausgelegt, nicht nur auf Optik. Du lieferst den Content, wir machen den Rest.</p>
+        </div>
+        <div class="feature_card">
+          <div class="feature_icon_wrap">📅</div>
+          <h3 class="feature_title">Keine leeren Slots mehr</h3>
+          <p class="feature_text">Stell dir vor, du kommst ins Studio und machst nur noch das, wofür du dich eigentlich entschieden hast: Tätowieren. Keine lästige dauerhafte Self-Promotion mehr.</p>
+        </div>
+        <div class="feature_card">
+          <div class="feature_icon_wrap">📊</div>
+          <h3 class="feature_title">Volle Transparenz, offene Kommunikation</h3>
+          <p class="feature_text">Wöchentliche Performance-Reports. Klare Zahlen. Kosten pro Lead, Kosten pro Buchung, ROAS. Du weißt immer genau, was dein Werbebudget macht — und wir optimieren unermüdlich auf Basis echter Daten, nicht Bauchgefühl.</p>
+        </div>
+        <div class="feature_card">
+          <div class="feature_icon_wrap">⚡</div>
+          <h3 class="feature_title">In 7 Tagen live</h3>
+          <p class="feature_text">Die meisten Agenturen brauchen Monate für das Onboarding. Wir nicht. Erstgespräch, Strategie, Creatives, Launch — alles innerhalb einer Woche nach Vertragsstart. Du siehst erste Ergebnisse noch vor Ende des ersten Monats.</p>
+        </div>
+        <div class="feature_card">
+          <div class="feature_icon_wrap">🔒</div>
+          <h3 class="feature_title">Nur Tattoo-Nische. Keine Ausnahme.</h3>
+          <p class="feature_text">Ads von Tattoo Heads für Tattoo Heads. Wir schalten keine Ads für Zahnarztpraxen oder sonst wen. Wir wissen genau, was die Tattoo-Nische sehen will — und fokussieren uns deshalb nur darauf.</p>
+        </div>
+      </div>
     </div>
-    <div id="yfSpacer"></div>
   </section>
-  <!-- ═══════════════════════════════════════════════════════════ -->
 
   <!-- FOUNDER -->
   <section class="founder" id="about">
@@ -1735,7 +1489,7 @@
           </div>
         </div>
         <div class="founder_photo_wrap">
-          <img src="me-img.png" alt="Max Schwarz, Gründer YAD Meta Ads Agentur für Tattoo Studios" class="founder_photo">
+          <img src="me-img.png" alt="Max Schwarz — Gründer YAD" class="founder_photo">
           <div class="founder_name_badge">
             <div class="founder_badge_name">Max Schwarz</div>
             <div class="founder_badge_role">Gründer, YAD</div>
@@ -1761,289 +1515,107 @@
     </div>
     <div class="creatives_track_wrap">
       <div class="creatives_track">
-        <div class="creatives_card"><img src="creative1.png" alt="Meta Ad Creative für Tattoo Studio – Beispiel 1"></div>
-        <div class="creatives_card"><img src="creative2.png" alt="Meta Ad Creative für Tattoo Studio – Beispiel 2"></div>
-        <div class="creatives_card"><img src="creative3.png" alt="Meta Ad Creative für Tattoo Studio – Beispiel 3"></div>
-        <div class="creatives_card"><img src="creative4.png" alt="Meta Ad Creative für Tattoo Studio – Beispiel 4"></div>
-        <div class="creatives_card"><img src="creative1.png" alt="Meta Ad Creative für Tattoo Studio – Beispiel 1"></div>
-        <div class="creatives_card"><img src="creative2.png" alt="Meta Ad Creative für Tattoo Studio – Beispiel 2"></div>
-        <div class="creatives_card"><img src="creative3.png" alt="Meta Ad Creative für Tattoo Studio – Beispiel 3"></div>
-        <div class="creatives_card"><img src="creative4.png" alt="Meta Ad Creative für Tattoo Studio – Beispiel 4"></div>
+        <div class="creatives_card"><img src="creative1.png" alt="Ad Creative 1"></div>
+        <div class="creatives_card"><img src="creative2.png" alt="Ad Creative 2"></div>
+        <div class="creatives_card"><img src="creative3.png" alt="Ad Creative 3"></div>
+        <div class="creatives_card"><img src="creative4.png" alt="Ad Creative 4"></div>
+        <div class="creatives_card"><img src="creative1.png" alt="Ad Creative 1"></div>
+        <div class="creatives_card"><img src="creative2.png" alt="Ad Creative 2"></div>
+        <div class="creatives_card"><img src="creative3.png" alt="Ad Creative 3"></div>
+        <div class="creatives_card"><img src="creative4.png" alt="Ad Creative 4"></div>
       </div>
     </div>
   </div>
 
-  <!-- SYSTEM SECTION -->
-  <style>
-    .sys { background: var(--black); }
-    .sys_cinema { display:flex; flex-direction:column; align-items:center; gap:28px; margin:60px 0 48px; }
-    .sys_phone2 {
-      width:300px;
-      background:#0d0d0d;
-      border:2px solid #2a2a2a;
-      border-radius:44px;
-      overflow:hidden;
-      box-shadow:0 0 0 8px #111, 0 40px 80px rgba(0,0,0,0.8), 0 0 80px rgba(232,23,58,0.06);
-      position:relative;
-    }
-    .sys_sb2 { display:flex; justify-content:space-between; align-items:center; padding:14px 20px 8px; font-size:11px; font-weight:600; color:#888; background:#0d0d0d; }
-    .sys_signal2 { display:flex; gap:2px; align-items:flex-end; }
-    .sys_signal2 em { display:block; width:3px; background:#666; border-radius:1px; font-style:normal; }
-    .sys_signal2 em:nth-child(1) { height:4px; }
-    .sys_signal2 em:nth-child(2) { height:7px; }
-    .sys_signal2 em:nth-child(3) { height:10px; }
-    .sys_screens { height:480px; position:relative; overflow:hidden; }
-    .sys_screen { position:absolute; inset:0; opacity:0; transition:opacity 0.4s ease, transform 0.4s ease; transform:translateY(10px); overflow:hidden; }
-    .sys_screen.active { opacity:1; transform:none; }
-    .sys_homeind2 { height:30px; display:flex; align-items:center; justify-content:center; background:#0d0d0d; }
-    .sys_homeind2::before { content:''; width:100px; height:4px; background:#222; border-radius:4px; }
-    .sys_dots { display:flex; gap:8px; align-items:center; }
-    .sys_dot { width:8px; height:8px; border-radius:50%; background:#2a2a2a; border:none; cursor:pointer; transition:all 0.25s; padding:0; }
-    .sys_dot.active { background:var(--red); width:28px; border-radius:4px; }
-    .sys_steps { display:flex; align-items:center; justify-content:center; gap:8px; flex-wrap:wrap; margin-top:8px; }
-    .sys_step { text-align:center; font-size:11px; color:#444; line-height:1.7; letter-spacing:0.3px; transition:color 0.3s; }
-    .sys_step.active { color:var(--grey-light); font-weight:600; }
-    .sys_step_arrow { color:#2a2a2a; font-size:13px; }
-    @media (max-width:480px) {
-      .sys_phone2 { width:260px; }
-      .sys_screens { height:420px; }
-      .sys_step_arrow { display:none; }
-      .sys_steps { gap:14px; }
-    }
-  </style>
-
-  <section class="sys" id="system">
+  <!-- BEFORE / AFTER -->
+  <section class="before_after" id="results">
     <div class="section_inner">
-      <div class="section_header" style="text-align:center;">
-        <div class="section_label">YAD System</div>
-        <h2 class="section_title">Wir geben deinem Studio System.</h2>
-        <p class="section_subtitle" style="margin:0 auto;">Von der ersten Ad bis zur Buchungsbestätigung — ein System, das für dich läuft.</p>
+      <div class="section_header">
+        <div class="section_label">Die Transformation</div>
+        <h2 class="section_title">Vor YAD.<br>Nach YAD.</h2>
+        <p class="section_subtitle">Das ist der Unterschied zwischen Kunden hinterherlaufen und Kunden, die zu dir kommen.</p>
       </div>
-
-      <div class="sys_cinema">
-        <!-- Phone -->
-        <div class="sys_phone2">
-          <div class="sys_sb2">
-            <span>9:41</span>
-            <span style="font-size:13px;font-weight:900;letter-spacing:-0.5px;color:#fff;">YAD<span style="color:var(--red);">.</span></span>
-            <div class="sys_signal2"><em></em><em></em><em></em></div>
+      <div class="before_after_grid">
+        <div class="ba_card is-before">
+          <div class="ba_label">Ohne YAD</div>
+          <div class="ba_items">
+            <div class="ba_item">
+              <span class="ba_item_icon">✗</span>
+              <span>Täglich posten ohne DMs und Views</span>
+            </div>
+            <div class="ba_item">
+              <span class="ba_item_icon">✗</span>
+              <span>Frustriert mit halb vollem Terminkalender schauen, wie man die nächste Miete reinbekommt</span>
+            </div>
+            <div class="ba_item">
+              <span class="ba_item_icon">✗</span>
+              <span>Geld in Boosted Posts verbrennen, weil du nicht weißt was du machen sollst</span>
+            </div>
+            <div class="ba_item">
+              <span class="ba_item_icon">✗</span>
+              <span>Reel Hooks studieren frisst mehr Zeit als das Tätowieren selbst</span>
+            </div>
           </div>
-
-          <div class="sys_screens">
-
-            <!-- Screen 1: Instagram Ad -->
-            <div class="sys_screen active" id="sc-ad">
-              <div style="background:#000;height:100%;display:flex;flex-direction:column;">
-                <div style="padding:10px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #1a1a1a;">
-                  <span style="font-size:16px;font-weight:800;font-style:italic;color:#fff;letter-spacing:-0.5px;">Instagram</span>
-                  <div style="display:flex;gap:14px;font-size:16px;">❤️ 💬</div>
-                </div>
-                <div style="display:flex;gap:10px;padding:10px 14px 10px;border-bottom:1px solid #1a1a1a;overflow:hidden;">
-                  <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;">
-                    <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);padding:2px;">
-                      <div style="width:100%;height:100%;border-radius:50%;background:#0a0a0a;border:1.5px solid #000;display:flex;align-items:center;justify-content:center;font-size:14px;">🎨</div>
-                    </div>
-                    <span style="font-size:8px;color:#777;">dein_studio</span>
-                  </div>
-                  <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;">
-                    <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);padding:2px;">
-                      <div style="width:100%;height:100%;border-radius:50%;background:#0a0a0a;border:1.5px solid #000;display:flex;align-items:center;justify-content:center;font-size:14px;">✏️</div>
-                    </div>
-                    <span style="font-size:8px;color:#777;">inkstories</span>
-                  </div>
-                  <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;">
-                    <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#f09433,#e6683c,#dc2743);padding:2px;">
-                      <div style="width:100%;height:100%;border-radius:50%;background:#0a0a0a;border:1.5px solid #000;display:flex;align-items:center;justify-content:center;font-size:14px;">🐉</div>
-                    </div>
-                    <span style="font-size:8px;color:#777;">tattoofan</span>
-                  </div>
-                </div>
-                <div style="padding:8px 14px;display:flex;align-items:center;gap:8px;">
-                  <div style="width:26px;height:26px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#fff;flex-shrink:0;">S</div>
-                  <div style="flex:1;">
-                    <div style="font-size:11px;font-weight:700;color:#fff;">Studio Ink</div>
-                    <div style="font-size:9px;color:#555;">Gesponsert · 🌍</div>
-                  </div>
-                  <span style="font-size:14px;color:#444;">···</span>
-                </div>
-                <div style="background:linear-gradient(160deg,#1a0008 0%,#0f0f0f 60%,#1a0008 100%);flex:1;position:relative;display:flex;align-items:flex-end;">
-                  <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0.12;font-size:64px;filter:grayscale(1);">🐉</div>
-                  <div style="padding:12px 14px;width:100%;background:linear-gradient(transparent,rgba(0,0,0,0.9));box-sizing:border-box;">
-                    <div style="font-size:14px;font-weight:800;color:#fff;line-height:1.3;">Dein nächstes Tattoo wartet.</div>
-                    <div style="font-size:9px;color:#aaa;margin-top:3px;">Studio Ink Berlin · Jetzt Termin anfragen</div>
-                  </div>
-                </div>
-                <div style="padding:8px 14px;">
-                  <div style="background:var(--red);color:#fff;font-size:11px;font-weight:700;text-align:center;padding:7px;border-radius:7px;">Mehr erfahren →</div>
-                </div>
-                <div style="display:flex;justify-content:space-around;padding:8px 14px 10px;border-top:1px solid #1a1a1a;font-size:16px;">
-                  <span>🏠</span><span style="color:#333;">🔍</span><span style="color:#333;">➕</span><span style="color:#333;">💬</span><span style="color:#333;">👤</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Screen 2: Landing Page -->
-            <div class="sys_screen" id="sc-site">
-              <div style="background:#0d0d0d;height:100%;display:flex;flex-direction:column;">
-                <div style="background:#1a1a1a;padding:8px 12px;display:flex;align-items:center;gap:8px;border-bottom:1px solid #2a2a2a;">
-                  <span style="font-size:10px;">🔒</span>
-                  <div style="flex:1;background:#111;border-radius:7px;padding:4px 10px;font-size:10px;color:#555;text-align:center;">studio-ink.de</div>
-                </div>
-                <div style="flex:1;overflow:hidden;background:linear-gradient(160deg,#120008 0%,#0d0d0d 60%);">
-                  <div style="padding:24px 20px 16px;">
-                    <div style="font-size:8px;color:var(--red);letter-spacing:2px;font-weight:700;text-transform:uppercase;margin-bottom:8px;">Berlin · Prenzlauer Berg</div>
-                    <div style="font-size:26px;font-weight:900;color:#fff;line-height:1.1;margin-bottom:6px;letter-spacing:-1px;">STUDIO<br>INK</div>
-                    <div style="font-size:12px;color:#666;margin-bottom:18px;">Dein Tattoo. Dein Stil.</div>
-                    <div style="background:var(--red);color:#fff;font-size:12px;font-weight:700;text-align:center;padding:11px;border-radius:10px;margin-bottom:14px;">Jetzt Termin anfragen →</div>
-                    <div style="display:flex;align-items:center;gap:6px;margin-bottom:16px;">
-                      <span style="color:#f59e0b;font-size:12px;">★★★★★</span>
-                      <span style="font-size:10px;color:#666;">4.9 · 200+ Bewertungen</span>
-                    </div>
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-                      <div style="background:#181818;border:1px solid #222;border-radius:8px;padding:9px;text-align:center;">
-                        <div style="font-size:10px;font-weight:700;color:#fff;">Realism</div>
-                        <div style="font-size:8px;color:#444;margin-top:2px;">Lisa · ab €200</div>
-                      </div>
-                      <div style="background:#181818;border:1px solid #222;border-radius:8px;padding:9px;text-align:center;">
-                        <div style="font-size:10px;font-weight:700;color:#fff;">Blackwork</div>
-                        <div style="font-size:8px;color:#444;margin-top:2px;">Tom · ab €150</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Screen 3: Chatbot -->
-            <div class="sys_screen" id="sc-chat">
-              <div style="background:#0d0d0d;height:100%;display:flex;flex-direction:column;">
-                <div style="background:#111;padding:10px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #1e1e1e;">
-                  <div style="width:32px;height:32px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:#fff;flex-shrink:0;">S</div>
-                  <div>
-                    <div style="font-size:12px;font-weight:700;color:#fff;">Studio Ink · Bot</div>
-                    <div style="font-size:10px;color:#4ade80;">● Online · antwortet sofort</div>
-                  </div>
-                </div>
-                <div style="flex:1;padding:14px;display:flex;flex-direction:column;gap:10px;overflow:hidden;">
-                  <div style="background:#1e1e1e;border-radius:12px 12px 12px 3px;padding:9px 12px;font-size:11px;color:#ddd;max-width:84%;line-height:1.5;">Hey! Lust auf ein Tattoo? 🎨<br>Was für einen Stil magst du?</div>
-                  <div style="background:var(--red);border-radius:12px 12px 3px 12px;padding:9px 12px;font-size:11px;color:#fff;max-width:80%;align-self:flex-end;line-height:1.5;">Realistisch, ca. €300 Budget</div>
-                  <div style="background:#1e1e1e;border-radius:12px 12px 12px 3px;padding:9px 12px;font-size:11px;color:#ddd;max-width:84%;line-height:1.5;">Wohin soll das Tattoo?</div>
-                  <div style="background:var(--red);border-radius:12px 12px 3px 12px;padding:9px 12px;font-size:11px;color:#fff;max-width:80%;align-self:flex-end;line-height:1.5;">Unterarm</div>
-                  <div style="background:#1e1e1e;border-radius:12px 12px 12px 3px;padding:9px 12px;font-size:11px;color:#ddd;max-width:90%;line-height:1.5;">Perfekt! Lisa ist bei uns spezialisiert auf Realistic. Soll ich einen Termin vorschlagen? 📅</div>
-                </div>
-                <div style="padding:10px 14px;border-top:1px solid #1e1e1e;display:flex;gap:8px;align-items:center;">
-                  <div style="flex:1;background:#1a1a1a;border-radius:20px;padding:8px 14px;font-size:10px;color:#333;">Nachricht...</div>
-                  <div style="width:28px;height:28px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;font-weight:700;flex-shrink:0;">→</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Screen 4: Booking -->
-            <div class="sys_screen" id="sc-book">
-              <div style="background:#0d0d0d;height:100%;display:flex;flex-direction:column;">
-                <div style="padding:14px 16px;border-bottom:1px solid #1e1e1e;">
-                  <div style="font-size:13px;font-weight:800;color:#fff;">Termin buchen</div>
-                  <div style="font-size:10px;color:#555;margin-top:2px;">Studio Ink · Lisa · Realistic</div>
-                </div>
-                <div style="padding:14px 16px;flex:1;">
-                  <div style="font-size:10px;color:#666;font-weight:600;margin-bottom:10px;text-align:center;">← Mai 2026 →</div>
-                  <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center;font-size:9px;color:#444;margin-bottom:4px;">
-                    <span>Mo</span><span>Di</span><span>Mi</span><span>Do</span><span>Fr</span><span>Sa</span><span>So</span>
-                  </div>
-                  <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center;font-size:10px;margin-bottom:14px;">
-                    <span></span><span></span><span></span><span style="color:#444;padding:3px 0;">1</span><span style="color:#444;padding:3px 0;">2</span><span style="color:#444;padding:3px 0;">3</span><span style="color:#444;padding:3px 0;">4</span>
-                    <span style="color:#444;padding:3px 0;">5</span><span style="color:#444;padding:3px 0;">6</span><span style="color:#444;padding:3px 0;">7</span><span style="color:#444;padding:3px 0;">8</span><span style="color:#444;padding:3px 0;">9</span><span style="color:#444;padding:3px 0;">10</span><span style="color:#444;padding:3px 0;">11</span>
-                    <span style="color:#444;padding:3px 0;">12</span><span style="color:#444;padding:3px 0;">13</span><span style="color:#444;padding:3px 0;">14</span><span style="color:#444;padding:3px 0;">15</span><span style="color:#444;padding:3px 0;">16</span><span style="background:rgba(232,23,58,0.2);border-radius:4px;padding:3px 0;color:var(--red);font-weight:800;">17</span><span style="color:#444;padding:3px 0;">18</span>
-                    <span style="color:#444;padding:3px 0;">19</span><span style="color:#444;padding:3px 0;">20</span><span style="color:#444;padding:3px 0;">21</span><span style="color:#444;padding:3px 0;">22</span><span style="color:#444;padding:3px 0;">23</span><span style="color:#444;padding:3px 0;">24</span><span style="color:#444;padding:3px 0;">25</span>
-                  </div>
-                  <div style="background:#181818;border:1px solid #2a2a2a;border-radius:10px;padding:12px 14px;margin-bottom:14px;">
-                    <div style="font-size:10px;color:#555;margin-bottom:4px;">Ausgewählter Termin</div>
-                    <div style="font-size:13px;font-weight:700;color:#fff;">Fr 17. Mai · 14:00 Uhr</div>
-                    <div style="font-size:10px;color:#666;margin-top:4px;">Lisa · Realistic · ca. 2h</div>
-                  </div>
-                  <div style="background:var(--red);color:#fff;font-size:12px;font-weight:700;text-align:center;padding:12px;border-radius:10px;">✓ Termin bestätigen</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Screen 5: Notification -->
-            <div class="sys_screen" id="sc-done">
-              <div style="background:#080808;height:100%;display:flex;flex-direction:column;position:relative;">
-                <div style="padding:12px 16px;border-bottom:1px solid #161616;">
-                  <div style="font-size:10px;color:#333;font-weight:600;letter-spacing:0.5px;">STUDIO DASHBOARD</div>
-                </div>
-                <div style="padding:14px 16px;display:flex;flex-direction:column;gap:8px;opacity:0.25;filter:blur(1.5px);">
-                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-                    <div style="background:#141414;border:1px solid #1e1e1e;border-radius:8px;padding:10px;text-align:center;">
-                      <div style="font-size:18px;font-weight:900;color:#fff;">3</div>
-                      <div style="font-size:8px;color:#333;margin-top:2px;">Termine heute</div>
-                    </div>
-                    <div style="background:#141414;border:1px solid #1e1e1e;border-radius:8px;padding:10px;text-align:center;">
-                      <div style="font-size:18px;font-weight:900;color:#fff;">€680</div>
-                      <div style="font-size:8px;color:#333;margin-top:2px;">Tagesumsatz</div>
-                    </div>
-                  </div>
-                </div>
-                <!-- Notification overlay -->
-                <div style="position:absolute;top:52px;left:12px;right:12px;background:#1c1c1e;border:1px solid #2c2c2e;border-radius:14px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.9);">
-                  <div style="background:var(--red);height:3px;"></div>
-                  <div style="padding:12px 14px;display:flex;gap:12px;align-items:flex-start;">
-                    <div style="width:38px;height:38px;border-radius:9px;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">🔔</div>
-                    <div>
-                      <div style="font-size:12px;font-weight:800;color:#fff;margin-bottom:4px;">Neuer Tattoo-Termin</div>
-                      <div style="font-size:11px;color:#bbb;line-height:1.6;">Anna M. · Fr 17. Mai · 14:00 Uhr<br><span style="color:#888;">Realistic · Unterarm</span></div>
-                      <div style="font-size:10px;color:#444;margin-top:6px;">Studio Ink · gerade eben</div>
-                    </div>
-                  </div>
-                </div>
-                <!-- Stats below notification -->
-                <div style="position:absolute;bottom:0;left:0;right:0;padding:14px 16px;display:flex;flex-direction:column;gap:8px;">
-                  <div style="background:#141414;border:1px solid #1e1e1e;border-radius:10px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;">
-                    <div style="font-size:11px;color:#666;">Termine heute</div>
-                    <div style="font-size:14px;font-weight:800;color:#fff;">4 <span style="font-size:10px;color:#4ade80;font-weight:700;">+1</span></div>
-                  </div>
-                  <div style="background:#141414;border:1px solid #1e1e1e;border-radius:10px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;">
-                    <div style="font-size:11px;color:#666;">Tagesumsatz</div>
-                    <div style="font-size:14px;font-weight:800;color:#fff;">€880 <span style="font-size:10px;color:#4ade80;font-weight:700;">+€200</span></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div><!-- /sys_screens -->
-
-          <div class="sys_homeind2"></div>
-        </div><!-- /sys_phone2 -->
-
-        <!-- Dot indicators -->
-        <div class="sys_dots">
-          <button class="sys_dot active" data-idx="0"></button>
-          <button class="sys_dot" data-idx="1"></button>
-          <button class="sys_dot" data-idx="2"></button>
-          <button class="sys_dot" data-idx="3"></button>
-          <button class="sys_dot" data-idx="4"></button>
         </div>
-      </div><!-- /sys_cinema -->
-
-      <!-- Step labels -->
-      <div class="sys_steps">
-        <div class="sys_step active">📱<br>Ad</div>
-        <div class="sys_step_arrow">→</div>
-        <div class="sys_step">🌐<br>Landingpage</div>
-        <div class="sys_step_arrow">→</div>
-        <div class="sys_step">💬<br>Chatbot</div>
-        <div class="sys_step_arrow">→</div>
-        <div class="sys_step">📅<br>Termin</div>
-        <div class="sys_step_arrow">→</div>
-        <div class="sys_step">🔔<br>Benachrichtigung</div>
+        <div class="ba_card is-after">
+          <div class="ba_label">Mit YAD</div>
+          <div class="ba_items">
+            <div class="ba_item">
+              <span class="ba_item_icon" style="color:var(--red);">✦</span>
+              <span>Kalender füllt sich automatisch. Täglich kommen neue Anfragen rein, ohne dass du etwas dafür tun musst.</span>
+            </div>
+            <div class="ba_item">
+              <span class="ba_item_icon" style="color:var(--red);">✦</span>
+              <span>Jeder Euro Ad Spend wird getracked — ROI-positiv in den ersten 30 Tagen.</span>
+            </div>
+            <div class="ba_item">
+              <span class="ba_item_icon" style="color:var(--red);">✦</span>
+              <span>Wöchentliches Reporting.</span>
+            </div>
+            <div class="ba_item">
+              <span class="ba_item_icon" style="color:var(--red);">✦</span>
+              <span>Marketing läuft für dich wie auf Autopilot — du schickst uns nur Bilder deiner neuen Tattoos.</span>
+            </div>
+            <div class="ba_item">
+              <span class="ba_item_icon" style="color:var(--red);">✦</span>
+              <span>Wir fragen sogar automatisch nach den abgeheilten Bildern.</span>
+            </div>
+          </div>
+        </div>
       </div>
-      <p style="text-align:center;color:var(--grey-mid);font-size:14px;margin-top:16px;letter-spacing:0.3px;">Wir machen alles rund um dein Tattoo Studio.</p>
-
     </div>
   </section>
 
-  <!-- (process tabs removed) -->
-  <section class="process" style="display:none">
+  <!-- HOW IT WORKS -->
+  <section class="hiw" id="process">
+    <div class="section_inner">
+      <div class="section_header">
+        <div class="section_label">Der Ablauf</div>
+        <h2 class="section_title">In 7 Tagen live.</h2>
+        <p class="section_subtitle">Kein wochenlanger Onboarding-Prozess. Ein klarer Ablauf, der schnell Ergebnisse bringt.</p>
+      </div>
+      <div class="hiw_steps">
+        <div class="hiw_step">
+          <div class="hiw_number">01</div>
+          <h3 class="hiw_title">Strategiegespräch</h3>
+          <p class="hiw_text">Wir lernen deinen Stil, deinen Wunschkunden, deine Stadt und deine Ziele kennen. 45 Minuten. Wir entwickeln deine individuelle Ad-Strategie vor Ort — inklusive Targeting, Budget und Winkel, die für deine Nische wirklich funktionieren.</p>
+        </div>
+        <div class="hiw_step">
+          <div class="hiw_number">02</div>
+          <h3 class="hiw_title">Creatives &amp; Launch</h3>
+          <p class="hiw_text">Du teilst deinen besten Content — abgeheilte Arbeiten, Studio-Shots, Time-Lapses. Wir verwandeln ihn in scroll-stoppende Ad Creatives, schreiben den Copy, richten die Kampagnen ein und gehen live. Alles innerhalb von 2 Wochen.</p>
+        </div>
+        <div class="hiw_step">
+          <div class="hiw_number">03</div>
+          <h3 class="hiw_title">Skalieren &amp; Optimieren</h3>
+          <p class="hiw_text">Wir tracken jeden Klick, Lead und jede Buchung. Wir updaten dich wöchentlich, verwalten deine Kampagnen täglich und sorgen dafür, dass sie stabil konvertieren — skalieren was funktioniert, stoppen was nicht.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS TABS -->
+  <section class="process">
     <div class="section_inner">
       <div class="section_header">
         <div class="section_label">Was wir übernehmen</div>
@@ -2053,8 +1625,6 @@
         <div class="process_tab active" onclick="switchTab(this, 'tab1')"><img src="icon-camera.png" alt="" class="process_tab_icon">Ad Creatives</div>
         <div class="process_tab" onclick="switchTab(this, 'tab2')"><img src="icon-laptop.png" alt="" class="process_tab_icon">Kampagnen-Management</div>
         <div class="process_tab" onclick="switchTab(this, 'tab3')"><img src="icon-tattoo.png" alt="" class="process_tab_icon">Lead-Qualifizierung</div>
-        <div class="process_tab" onclick="switchTab(this, 'tab5')"><img src="icon-laptop.png" alt="" class="process_tab_icon">WhatsApp Automation</div>
-        <div class="process_tab" onclick="switchTab(this, 'tab6')"><img src="icon-tattoo.png" alt="" class="process_tab_icon">Instagram Chatbot</div>
         <div class="process_tab" onclick="switchTab(this, 'tab4')"><img src="icon-calculator.png" alt="" class="process_tab_icon">Reporting</div>
       </div>
       <div id="tab1" class="process_content active">
@@ -2064,17 +1634,8 @@
           <p class="process_content_text" style="margin-top:0;">Wir testen jeden Monat mehrere Creative-Winkel — damit wir mit der Zeit genau wissen, was Buchungen für dein Studio und deinen Stil antreibt.</p>
           <button class="btn-whatsapp" onclick="openQualifyForm()">Prüfen ob wir passen →</button>
         </div>
-        <div class="process_visual mock-ad">
-          <div class="mock-ad-hdr">
-            <div class="mock-ad-logo">YAD</div>
-            <span>Tattoo Studio Berlin · <strong style="color:#aaa;font-weight:400;">Gesponsert</strong></span>
-          </div>
-          <div class="mock-ad-img">🎨</div>
-          <div class="mock-ad-cap">
-            <div class="mock-ad-hl">Mehr Buchungen ohne täglich zu posten.</div>
-            <div class="mock-ad-sl">Meta Ads für Tattoo Studios — 7 Tage bis Live</div>
-            <div class="mock-ad-btn">Mehr erfahren</div>
-          </div>
+        <div class="process_visual">
+          <img src="icon-camera.png" alt="Ad Creatives" class="process_visual_img">
         </div>
       </div>
       <div id="tab2" class="process_content">
@@ -2084,27 +1645,8 @@
           <p class="process_content_text" style="margin-top:0;">Wir nutzen erprobte Targeting-Methoden, die speziell für lokale Tattoo-Studios entwickelt wurden — keine generischen E-Commerce-Taktiken.</p>
           <button class="btn-whatsapp" onclick="openQualifyForm()">Prüfen ob wir passen →</button>
         </div>
-        <div class="process_visual mock-db">
-          <div class="mock-db-inner">
-            <div class="mock-db-hdr">
-              <span class="mock-live-dot">● LIVE</span>
-              <span class="mock-db-label">Kampagne läuft</span>
-            </div>
-            <div class="mock-kpis">
-              <div class="mock-kpi"><div class="mock-kpi-v">34</div><div class="mock-kpi-l">Leads / 30d</div></div>
-              <div class="mock-kpi"><div class="mock-kpi-v">€13.80</div><div class="mock-kpi-l">CPL</div></div>
-              <div class="mock-kpi"><div class="mock-kpi-v">3.4%</div><div class="mock-kpi-l">CTR</div></div>
-            </div>
-            <div class="mock-bars">
-              <div class="mock-bar" style="height:35%"></div>
-              <div class="mock-bar" style="height:50%"></div>
-              <div class="mock-bar" style="height:42%"></div>
-              <div class="mock-bar" style="height:78%"></div>
-              <div class="mock-bar" style="height:62%"></div>
-              <div class="mock-bar" style="height:88%"></div>
-              <div class="mock-bar" style="height:100%"></div>
-            </div>
-          </div>
+        <div class="process_visual">
+          <img src="icon-laptop.png" alt="Kampagnen-Management" class="process_visual_img">
         </div>
       </div>
       <div id="tab3" class="process_content">
@@ -2113,64 +1655,8 @@
           <p class="process_content_text">Wir bauen Lead-Formulare und Qualifizierungs-Funnels, die Zeitverschwender herausfiltern, bevor sie dich überhaupt erreichen. Wenn jemand in deinen DMs landet, kennt er bereits deine Preisvorstellung, deinen Stil — und ist buchungsbereit.</p>
           <button class="btn-whatsapp" onclick="openQualifyForm()">Prüfen ob wir passen →</button>
         </div>
-        <div class="process_visual mock-lead">
-          <div class="mock-lead-inner">
-            <div class="mock-lead-ttl">Eingehender Lead</div>
-            <div class="mock-lead-row"><span class="mock-lead-k">Stil</span><span class="mock-lead-v">Realistisch <span class="mock-ok">✓</span></span></div>
-            <div class="mock-lead-row"><span class="mock-lead-k">Budget</span><span class="mock-lead-v">€300+ <span class="mock-ok">✓</span></span></div>
-            <div class="mock-lead-row"><span class="mock-lead-k">Ort</span><span class="mock-lead-v">München <span class="mock-ok">✓</span></span></div>
-            <div class="mock-lead-row"><span class="mock-lead-k">Termin</span><span class="mock-lead-v">Nächste Woche <span class="mock-ok">✓</span></span></div>
-            <div class="mock-badge-green">✦ Qualifiziert</div>
-          </div>
-        </div>
-      </div>
-      <div id="tab5" class="process_content">
-        <div>
-          <h3 class="process_content_title">Kein Lead wartet auf deine Antwort — auch nicht um 23 Uhr</h3>
-          <p class="process_content_text">Sobald jemand auf deine Anzeige reagiert, bekommt er automatisch eine personalisierte WhatsApp-Nachricht. Qualifizierungsfragen, Stilabfrage, Terminvorschlag — alles läuft automatisch, bevor du auch nur auf dein Handy schaust.</p>
-          <p class="process_content_text" style="margin-top:0;">Studios die sofort auf Leads antworten, konvertieren deutlich mehr Anfragen zu echten Buchungen. Wir richten das System einmalig ein — danach läuft es ohne deinen Eingriff.</p>
-          <button class="btn-whatsapp" onclick="openQualifyForm()">Prüfen ob wir passen →</button>
-        </div>
-        <div class="process_visual mock-chat">
-          <div class="mock-chat-hdr">
-            <div class="mock-wa-dot">💬</div>
-            <div>
-              <div class="mock-chat-name">YAD Automation</div>
-              <div class="mock-chat-sub">● Online</div>
-            </div>
-          </div>
-          <div class="mock-bubbles">
-            <div class="mb mb-in">Danke für dein Interesse! 🎨<br>Welchen Stil möchtest du?</div>
-            <div class="mb mb-wa">Realistisch, ca. €350 Budget</div>
-            <div class="mb mb-in">Super! Wann passt dir ein Termin?</div>
-            <div class="mb mb-wa">Nächste Woche gerne</div>
-            <div class="mb mb-in">Perfekt — wir melden uns! ✓</div>
-          </div>
-          <div class="mock-foot">Automatisch gesendet · 22:47 Uhr</div>
-        </div>
-      </div>
-      <div id="tab6" class="process_content">
-        <div>
-          <h3 class="process_content_title">Dein Instagram arbeitet 24/7 — auch wenn du schläfst</h3>
-          <p class="process_content_text">Jede Story-Reply, jede Anfrage in deinen DMs bekommt sofort eine smarte Erstantwort. Der Chatbot fragt Stil, Budget und Wunschtermin ab — und leitet nur ernsthafte Interessenten an dich weiter.</p>
-          <p class="process_content_text" style="margin-top:0;">Du sparst dir täglich das Beantworten von Anfragen die sowieso nicht passen. Und du verlierst keine Buchung mehr weil jemand keine Antwort bekommen hat.</p>
-          <button class="btn-whatsapp" onclick="openQualifyForm()">Prüfen ob wir passen →</button>
-        </div>
-        <div class="process_visual mock-chat">
-          <div class="mock-chat-hdr">
-            <div class="mock-ig-dot"></div>
-            <div>
-              <div class="mock-chat-name">@yad.studio</div>
-              <div class="mock-chat-sub-ig">Antwortet sofort</div>
-            </div>
-          </div>
-          <div class="mock-bubbles">
-            <div class="mb mb-in">Hey, ich interessiere mich für ein Tattoo 🖤</div>
-            <div class="mb mb-ig">Hi! 🎨 Welchen Stil hast du in mind?</div>
-            <div class="mb mb-in">Fineline — Blumen und Botanik</div>
-            <div class="mb mb-ig">Perfekt! Klick hier für deinen Termin 👇</div>
-          </div>
-          <div class="mock-foot">Automatisch · Instagram DM</div>
+        <div class="process_visual">
+          <img src="icon-tattoo.png" alt="Lead-Qualifizierung" class="process_visual_img">
         </div>
       </div>
       <div id="tab4" class="process_content">
@@ -2179,22 +1665,24 @@
           <p class="process_content_text">Jeden Montag bekommst du einen klaren Performance-Report — Leads, Buchungen, Kosten pro Buchung, Werbeausgaben, ROAS. Du weißt immer, was deine Ads machen, und wir sind immer im Call, um zu erklären, was wir als nächstes verbessern.</p>
           <button class="btn-whatsapp" onclick="openQualifyForm()">Prüfen ob wir passen →</button>
         </div>
-        <div class="process_visual mock-report">
-          <div class="mock-report-inner">
-            <div class="mock-report-hdr">
-              <span class="mock-report-wk">KW 20 — Wochenbericht</span>
-              <span class="mock-report-tag">Performance</span>
-            </div>
-            <div class="mock-report-row"><span class="mock-rk">Anfragen</span><span><span class="mock-rv">24</span><span class="mock-up">▲ 8%</span></span></div>
-            <div class="mock-report-row"><span class="mock-rk">Buchungen</span><span><span class="mock-rv">9</span><span class="mock-up">▲ 12%</span></span></div>
-            <div class="mock-report-row"><span class="mock-rk">CPL</span><span><span class="mock-rv">€14.20</span><span class="mock-up">▼ €1.80</span></span></div>
-            <div class="mock-report-row"><span class="mock-rk">ROAS</span><span class="mock-rv">3.1×</span></div>
-            <div class="mock-report-row"><span class="mock-rk">Ad-Budget</span><span class="mock-rv">€341</span></div>
-          </div>
+        <div class="process_visual">
+          <img src="icon-calculator.png" alt="Reporting" class="process_visual_img">
         </div>
       </div>
     </div>
   </section>
+
+
+  <!-- MID-PAGE CTA -->
+  <div class="cta_banner">
+    <div class="cta_banner_inner">
+      <div class="cta_banner_tag">Begrenzte Plätze pro Stadt</div>
+      <h2 class="cta_banner_title">Hör auf, Buchungen<br>liegen zu lassen.</h2>
+      <p class="cta_banner_text">Jede Woche ohne Ads ist eine Woche, in der deine Wunschkunden jemand anderen buchen. Wir arbeiten nur mit 3 Studios pro Stadt — wenn dein Platz weg ist, ist er weg.</p>
+      <button class="btn-whatsapp xl" onclick="openQualifyForm()">Meinen Platz prüfen →</button>
+      <p class="cta_banner_disclaimer">Kostenloses Erstgespräch — 45 Minuten, keinerlei Verpflichtung.</p>
+    </div>
+  </div>
 
   <!-- FAQ -->
   <section class="faq" id="faq">
@@ -2219,7 +1707,7 @@
             <div class="faq_trigger_icon">+</div>
           </button>
           <div class="faq_body">
-            <p class="faq_answer">Wir empfehlen einen Start mit €15–€25 pro Tag an Werbebudget (€450–€750 pro Monat). Dazu kommt die Agenturgebühr — monatlich kündbar, kein Langzeitvertrag. Abhängig von Standort, Stil und Angebot kann das zu 20–40 zusätzlichen Anfragen pro Monat führen.</p>
+            <p class="faq_answer">Wir empfehlen einen Start mit €15–€25 pro Tag an Werbebudget. Das sind €450–€750 pro Monat. Bei unseren durchschnittlichen Kosten pro Buchung generiert das typischerweise 20–40 neue Buchungen pro Monat — was die Kosten einer einzelnen Session bei den meisten Artists deutlich übersteigt.</p>
           </div>
         </div>
         <div class="faq_item">
@@ -2302,74 +1790,6 @@
     </div>
   </section>
 
-  <!-- RATGEBER -->
-  <style>
-    .guides_grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 880px; margin: 0 auto; }
-    .guide_card { display: block; background: var(--black-2); border: 1px solid var(--grey-border); border-radius: 16px; padding: 28px; transition: border-color 0.2s; text-decoration: none; }
-    .guide_card:hover { border-color: rgba(232,23,58,0.35); }
-    .guide_card_tag { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--red); margin-bottom: 12px; }
-    .guide_card_title { font-size: 18px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 10px; line-height: 1.3; color: var(--white); }
-    .guide_card_desc { font-size: 14px; color: var(--grey-light); line-height: 1.6; margin-bottom: 16px; }
-    .guide_card_link { font-size: 13px; font-weight: 700; color: var(--red); }
-    @media (max-width: 768px) { .guides_grid { grid-template-columns: 1fr; } }
-  </style>
-  <section style="background: var(--black); padding: 80px 40px; border-top: 1px solid var(--grey-border);">
-    <div class="section_inner">
-      <div class="section_label" style="text-align:center;">Ratgeber</div>
-      <h2 class="section_title" style="text-align:center; margin-bottom:12px;">Wie Tattoo Studios 2026 konstant Kunden gewinnen</h2>
-      <p style="text-align:center; color:var(--grey-light); font-size:16px; margin-bottom:48px; max-width:580px; margin-left:auto; margin-right:auto;">Wenn du verstehen willst, wie Tattoo Studios heute konstant neue Kunden gewinnen, findest du hier die wichtigsten Guides.</p>
-      <div class="guides_grid">
-        <a href="/tattoo-studio-marketing" class="guide_card">
-          <div class="guide_card_tag">Strategie &amp; Überblick</div>
-          <div class="guide_card_title">Der Einstieg</div>
-          <div class="guide_card_desc">Noch kein klares System? Alle Kanäle erklärt, was sie kosten, und in welcher Reihenfolge du vorgehst.</div>
-          <div class="guide_card_link">Artikel lesen →</div>
-        </a>
-        <a href="/tattoo-studio-kunden-gewinnen" class="guide_card">
-          <div class="guide_card_tag">Diagnose &amp; Lösung</div>
-          <div class="guide_card_title">Zu wenig Kunden?</div>
-          <div class="guide_card_desc">Gute Arbeit, aber der Kalender bleibt leer? Dieser Artikel zeigt genau warum — und was du konkret änderst.</div>
-          <div class="guide_card_link">Artikel lesen →</div>
-        </a>
-        <a href="/tattoo-studio-werbung" class="guide_card">
-          <div class="guide_card_tag">Kanal-Vergleich</div>
-          <div class="guide_card_title">Welcher Kanal?</div>
-          <div class="guide_card_desc">Du willst Werbung schalten, weißt aber nicht womit du anfängst? Ehrlicher Vergleich aller Optionen.</div>
-          <div class="guide_card_link">Artikel lesen →</div>
-        </a>
-        <a href="/meta-ads-tattoo-studio" class="guide_card">
-          <div class="guide_card_tag">Deep Dive</div>
-          <div class="guide_card_title">Meta Ads</div>
-          <div class="guide_card_desc">Du willst mit Facebook &amp; Instagram Ads loslegen. Hier steht wie das System aufgebaut ist und was es kostet.</div>
-          <div class="guide_card_link">Artikel lesen →</div>
-        </a>
-        <a href="/facebook-ads-tattoo-studio" class="guide_card">
-          <div class="guide_card_tag">Spezifisch</div>
-          <div class="guide_card_title">Facebook Ads</div>
-          <div class="guide_card_desc">Alles zu Facebook Werbung für Tattoo Studios: Setup, Placements, realistische Ergebnisse und häufige Fehler.</div>
-          <div class="guide_card_link">Artikel lesen →</div>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- GUIDE BANNER -->
-  <section style="padding: 64px 40px; border-top: 1px solid var(--grey-border);">
-    <div style="max-width: 880px; margin: 0 auto; background: var(--black-2); border: 1px solid var(--grey-border); border-left: 3px solid var(--red); border-radius: 16px; padding: 36px 40px; display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap;">
-      <div style="display:flex; align-items:center; gap:20px; flex:1; min-width:260px;">
-        <img src="author-max.png" alt="Max Schwarz" style="width:52px;height:52px;border-radius:50%;object-fit:cover;flex-shrink:0;">
-        <div>
-          <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:6px;">Kostenloser Guide</div>
-          <div style="font-size:17px;font-weight:800;letter-spacing:-0.5px;line-height:1.3;color:var(--white);">Starte mit Plan in das Marketing für dein Tattoo Studio</div>
-          <div style="font-size:14px;color:var(--grey-light);margin-top:6px;">Alles an die Hand — auch wenn du ohne uns loslegen willst.</div>
-        </div>
-      </div>
-      <a href="/guide" style="display:inline-flex;align-items:center;gap:8px;background:var(--red);color:var(--white);font-size:14px;font-weight:700;padding:12px 24px;border-radius:8px;text-decoration:none;white-space:nowrap;font-family:var(--font);flex-shrink:0;">
-        Guide herunterladen →
-      </a>
-    </div>
-  </section>
-
   <!-- FOOTER -->
   <footer class="footer">
     <div class="footer_inner">
@@ -2384,9 +1804,9 @@
             <a href="#" class="footer_social_link" aria-label="TikTok">
               <svg width="16" height="18" viewBox="0 0 16 18" fill="currentColor"><path d="M15 3.5A3.5 3.5 0 0111.5 0h-2v12a2 2 0 11-2-2c.18 0 .35.03.5.07V7.94A6 6 0 1014 13.5V6.28A8.5 8.5 0 0015 6.5V3.5z"/></svg>
             </a>
-            <button class="footer_social_link" aria-label="Kontakt" onclick="openQualifyForm()" style="background:none;border:none;cursor:pointer;padding:0;display:flex;align-items:center;">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-            </button>
+            <a href="https://wa.me/43XXXXXXXXXX" class="footer_social_link" aria-label="WhatsApp" target="_blank" rel="noopener">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </a>
           </div>
         </div>
         <div>
@@ -2395,8 +1815,6 @@
             <a href="#features" class="footer_link">Meta Ads Management</a>
             <a href="#features" class="footer_link">Creative Produktion</a>
             <a href="#features" class="footer_link">Lead-Qualifizierung</a>
-            <a href="#features" class="footer_link">WhatsApp Automation</a>
-            <a href="#features" class="footer_link">Instagram Chatbot</a>
             <a href="#features" class="footer_link">Kampagnen-Reporting</a>
           </div>
         </div>
@@ -2407,7 +1825,6 @@
             <a href="#results" class="footer_link">Ergebnisse</a>
             <a href="#faq" class="footer_link">FAQ</a>
             <a href="#" class="footer_link" onclick="openModal('contact'); return false;">Kontakt</a>
-            <a href="/tattoo-studio-marketing" class="footer_link">Ratgeber</a>
           </div>
         </div>
         <div>
@@ -2424,8 +1841,8 @@
       <div class="footer_bottom">
         <p class="footer_copy">© 2026 YAD. Alle Rechte vorbehalten. yad.rocks</p>
         <div class="footer_legal">
-          <a href="/datenschutz" class="footer_legal_link">Datenschutz</a>
-          <a href="/impressum" class="footer_legal_link">Impressum</a>
+          <a href="#" class="footer_legal_link">Datenschutz</a>
+          <a href="#" class="footer_legal_link" onclick="openModal('impressum'); return false;">Impressum</a>
           <a href="#" class="footer_legal_link">AGB</a>
         </div>
       </div>
@@ -2445,7 +1862,7 @@
 
       <!-- Step 1: Revenue -->
       <div class="qform_step active" id="qstep-1">
-        <div class="qform_step_label">Schritt 1 von 6</div>
+        <div class="qform_step_label">Schritt 1 von 5</div>
         <h2 class="qform_question">Wie hoch ist dein monatlicher Umsatz aktuell?</h2>
         <div class="qform_options">
           <button class="qform_option" onclick="qSelect('revenue','unter1k',this)">Unter 1.000€</button>
@@ -2457,7 +1874,7 @@
 
       <!-- Step 2: Budget -->
       <div class="qform_step" id="qstep-2">
-        <div class="qform_step_label">Schritt 2 von 6</div>
+        <div class="qform_step_label">Schritt 2 von 5</div>
         <h2 class="qform_question">Wie viel möchtest du monatlich in Ads investieren?</h2>
         <div class="qform_options">
           <button class="qform_option" onclick="qSelect('budget','unter300',this)">Unter 300€</button>
@@ -2469,7 +1886,7 @@
 
       <!-- Step 3: Goal -->
       <div class="qform_step" id="qstep-3">
-        <div class="qform_step_label">Schritt 3 von 6</div>
+        <div class="qform_step_label">Schritt 3 von 5</div>
         <h2 class="qform_question">Was ist dein wichtigstes Ziel?</h2>
         <div class="qform_options" style="grid-template-columns:1fr;">
           <button class="qform_option" onclick="qSelect('goal','mehr-anfragen',this)">Mehr Anfragen bekommen</button>
@@ -2480,7 +1897,7 @@
 
       <!-- Step 4: Timeline -->
       <div class="qform_step" id="qstep-4">
-        <div class="qform_step_label">Schritt 4 von 6</div>
+        <div class="qform_step_label">Schritt 4 von 5</div>
         <h2 class="qform_question">Wann möchtest du starten?</h2>
         <div class="qform_options" style="grid-template-columns:1fr;">
           <button class="qform_option" onclick="qSelect('start','sofort',this)">Sofort — ich bin bereit</button>
@@ -2489,35 +1906,9 @@
         </div>
       </div>
 
-      <!-- Step 5: Erreichbarkeit -->
+      <!-- Step 5: Email -->
       <div class="qform_step" id="qstep-5">
-        <div class="qform_step_label">Schritt 5 von 6</div>
-        <h2 class="qform_question">Wann bist du am besten zu erreichen?</h2>
-        <div class="qform_options">
-          <button class="qform_option" onclick="qSelect('erreichbar','morgens',this)">Morgens</button>
-          <button class="qform_option" onclick="qSelect('erreichbar','nachmittags',this)">Nachmittags</button>
-        </div>
-        <div class="qday_wrap">
-          <button class="qday_toggle" onclick="toggleDayPicker(this)" type="button">
-            <span class="qday_arrow">›</span> Wochentag festlegen
-          </button>
-          <div class="qday_picker" id="qDayPicker">
-            <div class="qday_grid">
-              <button class="qday_btn" onclick="qDaySelect('Mo',this)" type="button">Mo</button>
-              <button class="qday_btn" onclick="qDaySelect('Di',this)" type="button">Di</button>
-              <button class="qday_btn" onclick="qDaySelect('Mi',this)" type="button">Mi</button>
-              <button class="qday_btn" onclick="qDaySelect('Do',this)" type="button">Do</button>
-              <button class="qday_btn" onclick="qDaySelect('Fr',this)" type="button">Fr</button>
-              <button class="qday_btn" onclick="qDaySelect('Sa',this)" type="button">Sa</button>
-              <button class="qday_btn" onclick="qDaySelect('So',this)" type="button">So</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Step 6: Email -->
-      <div class="qform_step" id="qstep-6">
-        <div class="qform_step_label">Schritt 6 von 6</div>
+        <div class="qform_step_label">Schritt 5 von 5</div>
         <h2 class="qform_question">Fast fertig. Wohin sollen wir dein Ergebnis schicken?</h2>
         <p style="color:var(--grey-light); font-size:14px; margin-top:10px; margin-bottom:24px;">Wir prüfen dein Profil und melden uns innerhalb von 24h.</p>
         <form onsubmit="qSubmit(event)" style="display:flex; flex-direction:column; gap:14px;">
@@ -2642,18 +2033,11 @@
       Object.keys(qA).forEach(k => delete qA[k]);
       qLeadFired = false;
       document.querySelectorAll('.qform_option').forEach(o => o.classList.remove('selected'));
-      document.querySelectorAll('.qday_btn').forEach(b => b.classList.remove('selected'));
-      document.querySelectorAll('.qday_toggle').forEach(t => t.classList.remove('open'));
-      const dp = document.getElementById('qDayPicker');
-      if (dp) dp.classList.remove('open');
       document.getElementById('qemail').value = '';
       document.getElementById('qphone').value = '';
       document.getElementById('qform').classList.add('open');
       document.body.style.overflow = 'hidden';
       qGoStep(1);
-      if (typeof fbq !== 'undefined') {
-        fbq('track', 'InitiateCheckout');
-      }
     }
     function closeQualifyForm() {
       document.getElementById('qform').classList.remove('open');
@@ -2664,25 +2048,16 @@
       const target = document.getElementById('qstep-' + n);
       if (target) target.classList.add('active');
       qStep = n;
-      document.getElementById('qprogress').style.width = ((n - 1) / 6 * 100) + '%';
-      document.getElementById('qback').style.display = (n > 1 && n <= 5) ? 'block' : 'none';
+      document.getElementById('qprogress').style.width = ((n - 1) / 5 * 100) + '%';
+      document.getElementById('qback').style.display = (n > 1 && n <= 4) ? 'block' : 'none';
     }
     function qBack() { if (qStep > 1) qGoStep(qStep - 1); }
     function qSelect(field, value, el) {
       qA[field] = value;
       el.closest('.qform_options').querySelectorAll('.qform_option').forEach(o => o.classList.remove('selected'));
       el.classList.add('selected');
-      const next = { revenue: 2, budget: 3, goal: 4, start: 5, erreichbar: 6 };
+      const next = { revenue: 2, budget: 3, goal: 4, start: 5 };
       setTimeout(() => qGoStep(next[field]), 280);
-    }
-    function toggleDayPicker(btn) {
-      btn.classList.toggle('open');
-      document.getElementById('qDayPicker').classList.toggle('open');
-    }
-    function qDaySelect(day, el) {
-      qA.wochentag = day;
-      document.querySelectorAll('.qday_btn').forEach(b => b.classList.remove('selected'));
-      el.classList.add('selected');
     }
     async function qSubmit(e) {
       e.preventDefault();
@@ -2693,18 +2068,14 @@
         ['300-800', '800-1500', '1500plus'].includes(qA.budget) &&
         ['sofort', '1-3monate'].includes(qA.start);
       if (qualified && typeof fbq !== 'undefined') {
+        fbq('init', '1333209151957622');
         fbq('track', 'Lead');
       }
-      const payload = JSON.stringify({ email: qA.email, telefon: qA.phone, umsatz: qA.revenue, budget: qA.budget,
-        ziel: qA.goal, start: qA.start, erreichbar: qA.erreichbar || '',
-        wochentag: qA.wochentag || '', qualifiziert: qualified ? 'Ja' : 'Nein' });
       fetch('https://formspree.io/f/mojrazar', {
-        method: 'POST', body: payload,
+        method: 'POST',
+        body: JSON.stringify({ email: qA.email, telefon: qA.phone, umsatz: qA.revenue, budget: qA.budget,
+          ziel: qA.goal, start: qA.start, qualifiziert: qualified ? 'Ja' : 'Nein' }),
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
-      }).catch(() => {});
-      fetch('https://script.google.com/macros/s/AKfycbxot4Mz5N9qaHiCODRd2eQO63IlgfvKaniIFoqAWSENXTjmIA7gTgDV-5zV-Cdj4eON/exec', {
-        method: 'POST', body: payload,
-        headers: { 'Content-Type': 'text/plain' }
       }).catch(() => {});
       document.getElementById('qprogress').style.width = '100%';
       document.getElementById('qback').style.display = 'none';
@@ -2736,11 +2107,6 @@
       }
     });
 
-    // Auto-open qualify form when arriving via /#kontakt, /#apply, or /#form
-    if (['#kontakt', '#apply', '#form'].includes(location.hash)) {
-      window.addEventListener('DOMContentLoaded', openQualifyForm);
-    }
-
     // FAQ Accordion
     function toggleFaq(btn) {
       const item = btn.closest('.faq_item');
@@ -2750,24 +2116,6 @@
     }
 
     // Process Tabs
-    // System cinema auto-play
-    let sysTmr, sysCur = 0;
-    const SYS_N = 5;
-    function sysCinema(idx) {
-      sysCur = idx;
-      document.querySelectorAll('.sys_screen').forEach((s, i) => s.classList.toggle('active', i === idx));
-      document.querySelectorAll('.sys_dot').forEach((d, i) => d.classList.toggle('active', i === idx));
-      document.querySelectorAll('.sys_step').forEach((s, i) => s.classList.toggle('active', i === idx));
-    }
-    function sysStartTimer() {
-      clearInterval(sysTmr);
-      sysTmr = setInterval(() => sysCinema((sysCur + 1) % SYS_N), 3500);
-    }
-    document.querySelectorAll('.sys_dot').forEach(d =>
-      d.addEventListener('click', () => { sysCinema(+d.dataset.idx); sysStartTimer(); })
-    );
-    sysCinema(0); sysStartTimer();
-
     function switchTab(el, tabId) {
       const section = el.closest('.section_inner');
       section.querySelectorAll('.process_tab').forEach(t => t.classList.remove('active'));
@@ -2887,125 +2235,5 @@
     obs.observe(section);
   })();
   </script>
-
-  <!-- YF Flip Story Script -->
-  <script>
-  (() => {
-    const steps = [
-      { text: 'Du willst mehr Leute erreichen?' },
-      { text: 'Um erfolgreich zu werben brauchst du mindestens ein Werbebudget von <span class="yf-hl">15 € täglich.</span>' },
-      { text: 'Wir bringen das ganze Wissen mit.' },
-      { text: '<span class="yf-hl">Kostenlos</span> für die ersten 7 Tage.' },
-      { text: 'Wir geben dir so viel Bedenkzeit wie du brauchst.' },
-      { text: 'Danach zahlst du <span class="yf-hl">15 € je Kontakt</span> oder 300 € Agenturpauschale/mtl.' },
-      { text: 'Dieses Invest rechnet sich schon ab <span class="yf-hl">2 zahlenden Kunden</span> monatlich.' },
-      { text: 'Wir garantieren dir das <span class="yf-hl">Fünffache</span> in den ersten 7 Tagen.' },
-    ];
-
-    const section   = document.getElementById('yfSection');
-    const card      = document.getElementById('yfCard');
-    const textEl    = document.getElementById('yfText');
-    const numEl     = document.getElementById('yfNum');
-    const glowEl    = document.getElementById('yfGlow');
-    const dotsEl    = document.getElementById('yfDots');
-    const spacer    = document.getElementById('yfSpacer');
-    const bgLine    = document.getElementById('bgLinePath');
-    const bgClipR   = document.getElementById('bgClipRect');
-
-    if (!section) return;
-
-    let bgLen = 0;
-    function initBg() {
-      if (!bgLine) return;
-      bgLen = bgLine.getTotalLength();
-      bgLine.style.strokeDasharray = bgLen;
-      bgLine.style.strokeDashoffset = bgLen;
-    }
-    function updateBg(p) {
-      if (!bgLen) return;
-      bgLine.style.strokeDashoffset = bgLen * (1 - p);
-      bgClipR.setAttribute('width', String(900 * p));
-    }
-    initBg();
-
-    const isMobile = window.matchMedia('(max-width: 768px)').matches;
-    const N        = steps.length;
-    const STEP_H   = isMobile ? window.innerHeight : Math.max(320, window.innerHeight * 0.44);
-    spacer.style.height = N * STEP_H + 'px';
-
-    let current = 0, flipping = false;
-
-    function fmt(n) {
-      return String(n + 1).padStart(2, '0') + ' / ' + String(N).padStart(2, '0');
-    }
-
-    /* ── Init dots ─────────────────────────────────────────── */
-    for (var i = 0; i < N; i++) {
-      var d = document.createElement('div');
-      d.className = 'yf-dot' + (i === 0 ? ' on' : '');
-      d.id = 'yfd' + i;
-      dotsEl.appendChild(d);
-    }
-
-    /* ── Fade transition ────────────────────────────────────── */
-    function flipTo(next) {
-      if (flipping || next === current) return;
-      flipping = true;
-      card.style.transition = 'opacity 0.18s ease-in, transform 0.18s ease-in';
-      card.style.opacity = '0';
-      card.style.transform = 'translateY(8px)';
-      setTimeout(function() {
-        textEl.innerHTML = steps[next].text;
-        numEl.textContent = fmt(next);
-        card.style.transition = 'none';
-        card.style.transform = 'translateY(-8px)';
-        requestAnimationFrame(function() {
-          requestAnimationFrame(function() {
-            card.style.transition = 'opacity 0.32s cubic-bezier(0.22,1,0.36,1), transform 0.32s cubic-bezier(0.22,1,0.36,1)';
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
-            current = next;
-            document.querySelectorAll('.yf-dot').forEach(function(d, i) {
-              d.classList.toggle('on', i === next);
-            });
-            setTimeout(function() { flipping = false; }, 330);
-          });
-        });
-      }, 195);
-    }
-
-    /* ── Scroll ─────────────────────────────────────────────── */
-    window.addEventListener('scroll', function() {
-      var sTop      = section.getBoundingClientRect().top + window.scrollY;
-      var inSection = window.scrollY - sTop;
-      var next      = Math.max(0, Math.min(N - 1, Math.floor(inSection / STEP_H)));
-      updateBg(Math.max(0, Math.min(1, inSection / (N * STEP_H))));
-
-      if (inSection < 0 && current !== 0) {
-        flipTo(0);
-      } else if (next !== current) {
-        flipTo(next);
-      }
-    }, { passive: true });
-
-    /* ── Init ───────────────────────────────────────────────── */
-    setTimeout(function() { glowEl.classList.add('on'); }, 400);
-    textEl.innerHTML  = steps[0].text;
-    numEl.textContent = fmt(0);
-  })();
-  </script>
-  <script>
-  (function() {
-    var vid = document.getElementById('heroVideo');
-    if (!vid) return;
-    new IntersectionObserver(function(entries, obs) {
-      if (entries[0].isIntersecting) {
-        vid.play().catch(function(){});
-        obs.disconnect();
-      }
-    }, { threshold: 0.2 }).observe(vid);
-  })();
-  </script>
-  <script src="/chat-widget.js"></script>
 </body>
 </html>

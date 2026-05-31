@@ -1,0 +1,1807 @@
+<!DOCTYPE html>
+<html lang="de" class="w-mod-js">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <title>YAD — Meta Ads für Tätowierer</title>
+  <meta name="description" content="Hör auf, Kunden hinterherzulaufen. YAD schaltet deine Meta Ads, damit dein Kalender sich von selbst füllt.">
+  <meta property="og:title" content="YAD — Meta Ads für Tätowierer">
+  <meta property="og:description" content="Hör auf, Kunden hinterherzulaufen. YAD schaltet deine Meta Ads, damit dein Kalender sich von selbst füllt.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://yad.rocks">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0a0a0a;
+      --black-2: #111111;
+      --black-3: #1a1a1a;
+      --grey-dark: #222222;
+      --grey-mid: #444444;
+      --grey-light: #888888;
+      --grey-border: #2a2a2a;
+      --white: #ffffff;
+      --white-soft: #f5f5f5;
+      --red: #e8173a;
+      --red-dark: #c0102e;
+      --red-glow: rgba(232, 23, 58, 0.15);
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --radius: 12px;
+      --radius-lg: 20px;
+      --max-w: 1200px;
+      --nav-h: 72px;
+    }
+
+    html { background-color: var(--black); scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      background-color: var(--black);
+      color: var(--white);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    button { font-family: var(--font); cursor: pointer; border: none; background: none; }
+
+    /* ─── NAV ─── */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      height: var(--nav-h);
+      display: flex;
+      align-items: center;
+      padding: 0 40px;
+      border-bottom: 1px solid var(--grey-border);
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .nav_inner {
+      max-width: var(--max-w);
+      width: 100%;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav_logo {
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      color: var(--white);
+      z-index: 101;
+    }
+    .nav_logo span { color: var(--red); }
+    .nav_links {
+      display: flex;
+      gap: 36px;
+      align-items: center;
+    }
+    .nav_link {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--grey-light);
+      transition: color 0.2s;
+    }
+    .nav_link:hover { color: var(--white); }
+    .nav_cta {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .btn-ghost {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--white);
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: 1px solid var(--grey-border);
+      transition: border-color 0.2s;
+      display: inline-flex;
+      align-items: center;
+    }
+    .btn-ghost:hover { border-color: var(--grey-mid); }
+    .btn-primary {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--white);
+      padding: 10px 22px;
+      border-radius: 8px;
+      background: var(--red);
+      transition: background 0.2s, transform 0.1s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-primary:hover { background: var(--red-dark); transform: translateY(-1px); }
+    .btn-primary.large {
+      font-size: 16px;
+      padding: 16px 32px;
+      border-radius: 10px;
+    }
+    .btn-primary.xl {
+      font-size: 18px;
+      padding: 20px 40px;
+      border-radius: 12px;
+    }
+    .btn-whatsapp {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--white);
+      padding: 10px 22px;
+      border-radius: 8px;
+      background: var(--red);
+      transition: background 0.2s, transform 0.1s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-whatsapp:hover { background: var(--red-dark); transform: translateY(-1px); }
+    .btn-whatsapp.large {
+      font-size: 16px;
+      padding: 16px 32px;
+      border-radius: 10px;
+    }
+    .btn-whatsapp.xl {
+      font-size: 18px;
+      padding: 20px 40px;
+      border-radius: 12px;
+    }
+
+    /* ─── MOBILE NAV ─── */
+    .nav_mobile_btn {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 8px;
+      z-index: 101;
+    }
+    .nav_mobile_btn span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .nav_mobile_btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav_mobile_btn.open span:nth-child(2) { opacity: 0; }
+    .nav_mobile_btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .nav_mobile_overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--black);
+      z-index: 99;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      padding: 40px;
+    }
+    .nav_mobile_overlay.open { display: flex; }
+    .nav_mobile_overlay .nav_link {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.5px;
+    }
+    .nav_mobile_overlay .btn-whatsapp {
+      font-size: 18px;
+      padding: 16px 40px;
+      border-radius: 12px;
+      margin-top: 16px;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      padding-top: 80px;
+      padding-bottom: 100px;
+      padding-left: 40px;
+      padding-right: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px; left: 50%;
+      transform: translateX(-50%);
+      width: 800px; height: 600px;
+      background: radial-gradient(ellipse at center, rgba(232,23,58,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero_inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      max-width: 760px;
+    }
+    .hero_badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(232,23,58,0.1);
+      border: 1px solid rgba(232,23,58,0.3);
+      color: var(--red);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+      letter-spacing: 0.3px;
+    }
+    .hero_badge_dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--red);
+      animation: pulse 2s ease infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+    .hero_title {
+      font-size: clamp(38px, 5vw, 68px);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -2px;
+      margin-bottom: 24px;
+    }
+    .hero_title .accent { color: var(--red); }
+    .hero_text {
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--grey-light);
+      line-height: 1.65;
+      margin-bottom: 40px;
+      max-width: 480px;
+    }
+    .hero_buttons {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .hero_disclaimer {
+      margin-top: 16px;
+      font-size: 13px;
+      color: var(--grey-mid);
+    }
+    .hero_visual {
+      position: relative;
+    }
+    .hero_visual_placeholder {
+      background: var(--black-3);
+      border: 1px solid var(--grey-border);
+      border-radius: var(--radius-lg);
+      aspect-ratio: 4/3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: var(--grey-mid);
+      font-size: 13px;
+      text-align: center;
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero_visual_placeholder::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(232,23,58,0.05) 0%, transparent 60%);
+    }
+    .hero_visual_label {
+      font-size: 12px;
+      color: var(--grey-mid);
+      font-style: italic;
+      position: absolute;
+      bottom: 16px;
+    }
+    .hero_stats {
+      display: flex;
+      gap: 40px;
+      margin-top: 60px;
+      padding-top: 40px;
+      border-top: 1px solid var(--grey-border);
+    }
+    .hero_stat_number {
+      font-size: 32px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      color: var(--white);
+    }
+    .hero_stat_label {
+      font-size: 13px;
+      color: var(--grey-light);
+      margin-top: 4px;
+    }
+
+    /* ─── LOGO BAR ─── */
+    .logos {
+      padding: 60px 40px;
+      border-top: 1px solid var(--grey-border);
+      border-bottom: 1px solid var(--grey-border);
+      background: var(--black-2);
+    }
+    .logos_inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+    .logos_label {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--grey-mid);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 40px;
+    }
+    .logos_track {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .logos_item {
+      padding: 10px 20px;
+      border: 1px solid var(--grey-border);
+      border-radius: 8px;
+      background: var(--black-3);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--grey-mid);
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+
+    /* ─── SECTION SHARED ─── */
+    section { padding: 100px 40px; }
+    .section_inner { max-width: var(--max-w); margin: 0 auto; }
+    .section_label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 16px;
+    }
+    .section_title {
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .section_subtitle {
+      font-size: 18px;
+      color: var(--grey-light);
+      line-height: 1.65;
+      max-width: 560px;
+    }
+    .section_header { margin-bottom: 64px; }
+
+    /* ─── FEATURES ─── */
+    .features { background: var(--black); }
+    .features_grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+      border: 1px solid var(--grey-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .feature_card {
+      padding: 48px 40px;
+      background: var(--black-2);
+      transition: background 0.2s;
+      position: relative;
+    }
+    .feature_card:hover { background: var(--black-3); }
+    .feature_icon_wrap {
+      width: 52px; height: 52px;
+      border-radius: 12px;
+      background: var(--red-glow);
+      border: 1px solid rgba(232,23,58,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      font-size: 22px;
+    }
+    .feature_title {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+    }
+    .feature_text {
+      font-size: 15px;
+      color: var(--grey-light);
+      line-height: 1.65;
+    }
+
+    /* ─── BEFORE/AFTER ─── */
+    .before_after { background: var(--black-2); }
+    .before_after_grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .ba_card {
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .ba_card.is-before {
+      background: var(--black-3);
+      border: 1px solid var(--grey-border);
+    }
+    .ba_card.is-after {
+      background: linear-gradient(135deg, #1a0008 0%, #0a0a0a 100%);
+      border: 1px solid rgba(232,23,58,0.3);
+    }
+    .ba_card.is-after::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 2px;
+      background: var(--red);
+    }
+    .ba_label {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 4px;
+    }
+    .ba_card.is-before .ba_label {
+      background: var(--grey-dark);
+      color: var(--grey-light);
+    }
+    .ba_card.is-after .ba_label {
+      background: var(--red-glow);
+      color: var(--red);
+      border: 1px solid rgba(232,23,58,0.3);
+    }
+    .ba_items { display: flex; flex-direction: column; gap: 16px; }
+    .ba_item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+    .ba_card.is-before .ba_item { color: var(--grey-mid); }
+    .ba_card.is-after .ba_item { color: var(--white-soft); }
+    .ba_item_icon { flex-shrink: 0; font-size: 16px; margin-top: 1px; }
+
+    /* ─── HOW IT WORKS ─── */
+    .hiw { background: var(--black); }
+    .hiw_steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      position: relative;
+    }
+    .hiw_steps::before {
+      content: '';
+      position: absolute;
+      top: 36px; left: calc(16.66% + 20px); right: calc(16.66% + 20px);
+      height: 1px;
+      background: linear-gradient(to right, var(--red) 0%, rgba(232,23,58,0.3) 50%, var(--red) 100%);
+    }
+    .hiw_step { text-align: center; padding: 0 20px; }
+    .hiw_number {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      border: 2px solid var(--red);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 28px;
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--red);
+      background: var(--black);
+      position: relative;
+      z-index: 1;
+    }
+    .hiw_title {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+    }
+    .hiw_text {
+      font-size: 15px;
+      color: var(--grey-light);
+      line-height: 1.65;
+    }
+
+    /* ─── TESTIMONIALS ─── */
+    .testimonials { background: var(--black-2); overflow: hidden; }
+    .testimonials_header { margin-bottom: 64px; }
+    .testimonials_track_wrap { overflow: hidden; position: relative; }
+    .testimonials_track_wrap::before,
+    .testimonials_track_wrap::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 120px;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .testimonials_track_wrap::before {
+      left: 0;
+      background: linear-gradient(to right, var(--black-2), transparent);
+    }
+    .testimonials_track_wrap::after {
+      right: 0;
+      background: linear-gradient(to left, var(--black-2), transparent);
+    }
+    .testimonials_track {
+      display: flex;
+      gap: 20px;
+      width: max-content;
+      animation: marquee 40s linear infinite;
+      touch-action: pan-y;
+    }
+    .testimonials_track:hover { animation-play-state: paused; }
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .testimonial_card {
+      width: 320px;
+      flex-shrink: 0;
+      background: var(--black-3);
+      border: 1px solid var(--grey-border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+    }
+    .testimonial_stars {
+      color: var(--red);
+      font-size: 14px;
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+    }
+    .testimonial_text {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--white-soft);
+      margin-bottom: 24px;
+    }
+    .testimonial_author { display: flex; align-items: center; gap: 12px; }
+    .testimonial_avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--grey-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+      border: 1px solid var(--grey-border);
+    }
+    .testimonial_name { font-size: 14px; font-weight: 700; }
+    .testimonial_handle { font-size: 13px; color: var(--grey-mid); }
+
+    /* ─── CTA BANNER ─── */
+    .cta_banner { background: var(--black); padding: 100px 40px; }
+    .cta_banner_inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      background: linear-gradient(135deg, #1a0008 0%, #0f0f0f 100%);
+      border: 1px solid rgba(232,23,58,0.3);
+      border-radius: 24px;
+      padding: 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta_banner_inner::before {
+      content: '';
+      position: absolute;
+      top: -150px; left: 50%;
+      transform: translateX(-50%);
+      width: 600px; height: 400px;
+      background: radial-gradient(ellipse, rgba(232,23,58,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta_banner_tag {
+      display: inline-block;
+      background: var(--red-glow);
+      border: 1px solid rgba(232,23,58,0.3);
+      color: var(--red);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 100px;
+      margin-bottom: 28px;
+    }
+    .cta_banner_title {
+      font-size: clamp(32px, 5vw, 60px);
+      font-weight: 900;
+      letter-spacing: -2px;
+      line-height: 1.05;
+      margin-bottom: 20px;
+    }
+    .cta_banner_text {
+      font-size: 18px;
+      color: var(--grey-light);
+      line-height: 1.65;
+      max-width: 520px;
+      margin: 0 auto 40px;
+    }
+    .cta_banner_disclaimer { margin-top: 16px; font-size: 13px; color: var(--grey-mid); }
+
+    /* ─── PROCESS TABS ─── */
+    .process { background: var(--black-2); }
+    .process_tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 48px;
+      border-bottom: 1px solid var(--grey-border);
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .process_tabs::-webkit-scrollbar { display: none; }
+    .process_tab {
+      padding: 12px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--grey-light);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      white-space: nowrap;
+      transition: color 0.2s, border-color 0.2s;
+      flex-shrink: 0;
+    }
+    .process_tab.active { color: var(--white); border-bottom-color: var(--red); }
+    .process_tab:hover { color: var(--white); }
+    .process_content { display: none; }
+    .process_content.active { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .process_content_title {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .process_content_text {
+      font-size: 16px;
+      color: var(--grey-light);
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+    .process_visual {
+      background: var(--black-3);
+      border: 1px solid var(--grey-border);
+      border-radius: var(--radius-lg);
+      aspect-ratio: 4/3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 12px;
+      color: var(--grey-mid);
+      font-size: 13px;
+      position: relative;
+      overflow: hidden;
+    }
+    .process_visual_icon { font-size: 44px; }
+    .process_visual_img { width: 160px; height: 160px; object-fit: contain; }
+    .process_tab_icon_mobile { display: none; }
+    .process_tab_icon { display: none; }
+
+    /* ─── FAQ ─── */
+    .faq { background: var(--black); }
+    .faq_list { display: flex; flex-direction: column; gap: 2px; }
+    .faq_item {
+      background: var(--black-2);
+      border: 1px solid var(--grey-border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .faq_trigger {
+      width: 100%;
+      padding: 24px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--white);
+      cursor: pointer;
+      text-align: left;
+      background: none;
+      transition: background 0.2s;
+    }
+    .faq_trigger:hover { background: var(--black-3); }
+    .faq_trigger_icon {
+      flex-shrink: 0;
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      border: 1px solid var(--grey-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--grey-light);
+      transition: transform 0.3s, background 0.2s;
+    }
+    .faq_item.open .faq_trigger_icon {
+      transform: rotate(45deg);
+      background: var(--red-glow);
+      border-color: rgba(232,23,58,0.3);
+      color: var(--red);
+    }
+    .faq_body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+    .faq_item.open .faq_body { max-height: 600px; }
+    .faq_answer {
+      padding: 0 28px 28px;
+      font-size: 15px;
+      color: var(--grey-light);
+      line-height: 1.7;
+    }
+
+    /* ─── COMPARISON TABLE ─── */
+    .compare { background: var(--black-2); }
+    .compare_grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      border: 1px solid var(--grey-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .compare_cell {
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--grey-border);
+      border-right: 1px solid var(--grey-border);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .compare_cell:last-child { border-right: none; }
+    .compare_cell.header {
+      background: var(--black-3);
+      font-weight: 700;
+      font-size: 13px;
+    }
+    .compare_cell.yad { background: rgba(232,23,58,0.04); }
+    .compare_cell.yad.header { background: rgba(232,23,58,0.08); color: var(--red); }
+    .compare_yes { color: #4ade80; }
+    .compare_no { color: var(--grey-mid); }
+    .compare_row_last .compare_cell { border-bottom: none; }
+
+    /* ─── CREATIVES SLIDER ─── */
+    .creatives_section {
+      background: var(--red);
+      padding: 80px 0;
+      overflow: hidden;
+    }
+    .creatives_header {
+      text-align: center;
+      padding: 0 40px;
+      margin-bottom: 48px;
+    }
+    .creatives_label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 12px;
+    }
+    .creatives_title {
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      color: var(--white);
+    }
+    .creatives_track_wrap {
+      overflow: hidden;
+      position: relative;
+    }
+    .creatives_track_wrap::before,
+    .creatives_track_wrap::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 100px;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .creatives_track_wrap::before {
+      left: 0;
+      background: linear-gradient(to right, var(--red), transparent);
+    }
+    .creatives_track_wrap::after {
+      right: 0;
+      background: linear-gradient(to left, var(--red), transparent);
+    }
+    .creatives_track {
+      display: flex;
+      gap: 24px;
+      width: max-content;
+      will-change: transform;
+      animation: creatives-scroll 24s linear infinite;
+    }
+    .creatives_track:hover { animation-play-state: paused; }
+    @keyframes creatives-scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(calc(-340px * 4 - 24px * 4)); }
+    }
+    .creatives_card {
+      flex-shrink: 0;
+      width: 340px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 2px solid rgba(255,255,255,0.15);
+    }
+    .creatives_card img {
+      width: 100%;
+      display: block;
+    }
+    @media (max-width: 600px) {
+      .creatives_card { width: 260px; }
+      .creatives_header { padding: 0 20px; margin-bottom: 36px; }
+    }
+
+    /* ─── MODAL ─── */
+    .modal_overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+    .modal_overlay.open { display: flex; }
+    .modal_box {
+      background: var(--black-2);
+      border: 1px solid var(--grey-border);
+      border-radius: var(--radius-lg);
+      max-width: 640px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 48px;
+      position: relative;
+    }
+    .modal_close {
+      position: absolute;
+      top: 20px; right: 20px;
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      border: 1px solid var(--grey-border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      color: var(--grey-light);
+      cursor: pointer;
+      background: var(--black-3);
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .modal_close:hover { color: var(--white); border-color: var(--grey-mid); }
+    .modal_title {
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      margin-bottom: 32px;
+    }
+    .modal_body h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--grey-light);
+      letter-spacing: 0.5px;
+      margin: 28px 0 10px;
+    }
+    .modal_body h3:first-child { margin-top: 0; }
+    .modal_body p, .modal_body li {
+      font-size: 14px;
+      color: var(--grey-light);
+      line-height: 1.7;
+    }
+    .modal_body ul {
+      padding-left: 20px;
+      margin-top: 8px;
+    }
+    .modal_body a { color: var(--white); text-decoration: underline; }
+    @media (max-width: 600px) {
+      .modal_box { padding: 32px 24px; }
+    }
+
+    /* ─── CONTACT FORM ─── */
+    .form_group { margin-bottom: 20px; }
+    .form_label { display: block; font-size: 13px; font-weight: 600; color: var(--grey-light); margin-bottom: 8px; letter-spacing: 0.3px; }
+    .form_input, .form_textarea {
+      width: 100%;
+      background: var(--black-3);
+      border: 1px solid var(--grey-border);
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      font-size: 15px;
+      color: var(--white);
+      font-family: inherit;
+      transition: border-color 0.2s;
+      box-sizing: border-box;
+    }
+    .form_input:focus, .form_textarea:focus { outline: none; border-color: var(--red); }
+    .form_input::placeholder, .form_textarea::placeholder { color: var(--grey-mid); }
+    .form_textarea { resize: vertical; min-height: 110px; }
+    .form_success { display: none; text-align: center; padding: 28px 0 8px; }
+    .form_success_icon { font-size: 40px; margin-bottom: 12px; }
+    .form_success_title { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+    .form_success_text { font-size: 14px; color: var(--grey-light); }
+    .form_error { display: none; font-size: 13px; color: var(--red); margin-top: 12px; text-align: center; }
+    .form_field_error { font-size: 12px; color: var(--red); margin-top: 4px; display: block; }
+
+    /* ─── TICKER ─── */
+    .ticker { background: var(--red); padding: 14px 0; overflow: hidden; white-space: nowrap; }
+    .ticker_track { display: inline-block; animation: ticker 22s linear infinite; }
+    .ticker_item {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 0 28px;
+    }
+    .ticker_item::after { content: '✦'; margin-left: 28px; }
+    @keyframes ticker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ─── FOOTER ─── */
+    .footer {
+      background: var(--black-2);
+      border-top: 1px solid var(--grey-border);
+      padding: 80px 40px 40px;
+    }
+    .footer_inner { max-width: var(--max-w); margin: 0 auto; }
+    .footer_top {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 60px;
+      margin-bottom: 64px;
+    }
+    .footer_logo { font-size: 28px; font-weight: 900; letter-spacing: -1px; margin-bottom: 16px; }
+    .footer_logo span { color: var(--red); }
+    .footer_tagline {
+      font-size: 14px;
+      color: var(--grey-light);
+      line-height: 1.65;
+      max-width: 280px;
+      margin-bottom: 28px;
+    }
+    .footer_social { display: flex; gap: 12px; }
+    .footer_social_link {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      border: 1px solid var(--grey-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: var(--grey-light);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .footer_social_link:hover { border-color: var(--grey-mid); color: var(--white); }
+    .footer_col_title { font-size: 13px; font-weight: 700; color: var(--white); margin-bottom: 20px; }
+    .footer_links { display: flex; flex-direction: column; gap: 12px; }
+    .footer_link { font-size: 14px; color: var(--grey-light); transition: color 0.2s; }
+    .footer_link:hover { color: var(--white); }
+    .footer_bottom {
+      padding-top: 32px;
+      border-top: 1px solid var(--grey-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .footer_copy { font-size: 13px; color: var(--grey-mid); }
+    .footer_legal { display: flex; gap: 24px; }
+    .footer_legal_link { font-size: 13px; color: var(--grey-mid); transition: color 0.2s; }
+    .footer_legal_link:hover { color: var(--grey-light); }
+
+    /* ─── RESPONSIVE 992px ─── */
+    @media (max-width: 992px) {
+      .nav { padding: 0 20px; }
+      .nav_links, .nav_cta { display: none; }
+      .nav_mobile_btn { display: flex; }
+
+      .hero, section, .cta_banner, .footer, .logos { padding-left: 20px; padding-right: 20px; }
+      .hero_inner { grid-template-columns: 1fr; gap: 48px; }
+      .features_grid { grid-template-columns: 1fr; }
+      .feature_icon_wrap { margin-left: auto; margin-right: auto; }
+      .before_after_grid { grid-template-columns: 1fr; }
+      .hiw_steps { grid-template-columns: 1fr; gap: 48px; }
+      .hiw_steps::before { display: none; }
+      .hiw_step { padding: 0; }
+      .hiw_number { margin-bottom: 20px; }
+      .footer_top { grid-template-columns: 1fr 1fr; gap: 40px; }
+      .compare_grid { grid-template-columns: 1.5fr 1fr; }
+      .compare_cell:nth-child(3), .compare_cell:nth-child(4),
+      .compare_cell:nth-child(7), .compare_cell:nth-child(8),
+      .compare_cell:nth-child(11), .compare_cell:nth-child(12),
+      .compare_cell:nth-child(15), .compare_cell:nth-child(16),
+      .compare_cell:nth-child(19), .compare_cell:nth-child(20),
+      .compare_cell:nth-child(23), .compare_cell:nth-child(24) { display: none; }
+      .process_content.active { grid-template-columns: 1fr; gap: 40px; }
+      .cta_banner_inner { padding: 48px 24px; }
+      .process_visual { aspect-ratio: 16/9; }
+      .section_header { margin-bottom: 48px; }
+    }
+
+    /* ─── RESPONSIVE 600px ─── */
+    @media (max-width: 600px) {
+      :root { --nav-h: 64px; }
+      .hero { padding-top: 40px; padding-bottom: 64px; }
+      section { padding: 64px 16px; }
+      .cta_banner { padding: 64px 16px; }
+      .logos { padding: 48px 16px; }
+      .footer { padding: 64px 16px 32px; }
+
+      .hero_title { letter-spacing: -1.5px; }
+      .hero_text { font-size: 16px; }
+      .hero_buttons { flex-direction: column; align-items: stretch; }
+      .hero_buttons .btn-whatsapp.large,
+      .hero_buttons .btn-ghost { width: 100%; justify-content: center; text-align: center; font-size: 15px; padding: 14px 20px; }
+      .hero_visual_placeholder { aspect-ratio: 16/9; padding: 24px; }
+      .hero_stats { flex-direction: column; gap: 20px; padding-top: 28px; margin-top: 40px; }
+
+      .ticker_item { font-size: 11px; padding: 0 16px; }
+      .ticker_item::after { margin-left: 16px; }
+
+      .feature_card { padding: 32px 24px; text-align: center; }
+      .ba_card { padding: 28px 20px; }
+
+      .section_title { letter-spacing: -1px; }
+      .section_subtitle { font-size: 16px; }
+      .section_header { margin-bottom: 36px; }
+
+      .btn-whatsapp.xl, .btn-primary.xl {
+        width: 100%;
+        justify-content: center;
+        font-size: 16px;
+        padding: 16px 24px;
+      }
+      .cta_banner_inner { padding: 40px 20px; }
+
+      .faq_trigger { padding: 20px; font-size: 15px; }
+      .faq_answer { padding: 0 20px 20px; }
+
+      .footer_top { grid-template-columns: 1fr; gap: 36px; }
+      .footer_bottom { flex-direction: column; align-items: center; gap: 12px; }
+      .footer_legal { flex-wrap: wrap; gap: 16px; }
+
+      .logos_label { font-size: 11px; margin-bottom: 28px; }
+      .logos_item { font-size: 12px; padding: 8px 14px; }
+
+      .compare_cell { font-size: 13px; padding: 14px 12px; }
+
+      /* Centering fixes */
+      .section_header { text-align: center; }
+      .hero_badge { align-self: center; }
+      .hero_disclaimer { text-align: center; }
+      .hero_stats { align-items: center; text-align: center; }
+      .process_content .btn-whatsapp { width: 100%; justify-content: center; }
+      .process_content_title, .process_content_text { text-align: center; }
+
+      /* Process tabs → 2×2 pill grid on mobile */
+      .process_tabs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        border-bottom: none;
+        margin-bottom: 32px;
+      }
+      .process_tab {
+        border: 1px solid var(--grey-border);
+        border-radius: var(--radius);
+        text-align: center;
+        padding: 10px 12px;
+        font-size: 13px;
+        margin-bottom: 0;
+      }
+      .process_tab.active {
+        background: var(--red);
+        border-color: var(--red);
+        border-bottom-color: var(--red);
+        color: var(--white);
+      }
+      .process_visual { display: none; }
+      .process_tab_icon_mobile { display: none; }
+      .process_tab_icon { display: block; width: 36px; height: 36px; object-fit: contain; margin: 0 auto 4px; }
+      .process_tab { flex-direction: column; align-items: center; gap: 2px; padding: 12px 8px; }
+    }
+
+    /* ─── RESPONSIVE 480px ─── */
+    @media (max-width: 480px) {
+      .hiw_number { width: 56px; height: 56px; font-size: 18px; }
+      .testimonial_card { width: 280px; padding: 20px; }
+      .cta_banner_inner { border-radius: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- MOBILE NAV OVERLAY -->
+  <div class="nav_mobile_overlay" id="mobileNav">
+    <a href="#features" class="nav_link" onclick="closeMobileNav()">Was wir tun</a>
+    <a href="#process" class="nav_link" onclick="closeMobileNav()">Ablauf</a>
+    <a href="#results" class="nav_link" onclick="closeMobileNav()">Ergebnisse</a>
+    <a href="#faq" class="nav_link" onclick="closeMobileNav()">FAQ</a>
+    <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="btn-whatsapp" target="_blank" rel="noopener" onclick="closeMobileNav()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Jetzt schreiben
+    </a>
+  </div>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav_inner">
+      <a href="/" class="nav_logo">YAD<span>.</span></a>
+      <div class="nav_links">
+        <a href="#features" class="nav_link">Was wir tun</a>
+        <a href="#process" class="nav_link">Ablauf</a>
+        <a href="#results" class="nav_link">Ergebnisse</a>
+        <a href="#faq" class="nav_link">FAQ</a>
+      </div>
+      <div class="nav_cta">
+        <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="btn-ghost" target="_blank" rel="noopener">Schreib uns</a>
+        <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="btn-whatsapp" target="_blank" rel="noopener">Jetzt buchen →</a>
+      </div>
+      <button class="nav_mobile_btn" id="mobileNavBtn" onclick="toggleMobileNav()" aria-label="Menü öffnen">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- TICKER -->
+  <div class="ticker" style="margin-top: var(--nav-h);">
+    <div class="ticker_track">
+      <span class="ticker_item">Keine leeren Slots mehr</span>
+      <span class="ticker_item">Meta Ads komplett für dich</span>
+      <span class="ticker_item">Neue Kunden auf Autopilot</span>
+      <span class="ticker_item">Nur für Tätowierer</span>
+      <span class="ticker_item">Creatives inklusive</span>
+      <span class="ticker_item">Planbare Buchungen</span>
+      <span class="ticker_item">Keine leeren Slots mehr</span>
+      <span class="ticker_item">Meta Ads komplett für dich</span>
+      <span class="ticker_item">Neue Kunden auf Autopilot</span>
+      <span class="ticker_item">Nur für Tätowierer</span>
+      <span class="ticker_item">Creatives inklusive</span>
+      <span class="ticker_item">Planbare Buchungen</span>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero_inner">
+      <div class="hero_content">
+        <div class="hero_badge">
+          <div class="hero_badge_dot"></div>
+          Meta Ads — Exklusiv für Tätowierer
+        </div>
+        <h1 class="hero_title">
+          Dein Kalender<br>
+          bleibt <span class="accent">voll.</span><br>
+          Du kümmerst dich um die Tats.
+        </h1>
+        <p class="hero_text">
+          Das Instagram Game brauchst du nicht mehr — wir kümmern uns um deine Neukunden &amp; schicken buchungsbereite Kunden direkt in deine DMs.
+        </p>
+        <div class="hero_buttons">
+          <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="btn-whatsapp large" target="_blank" rel="noopener">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Kalender füllen →
+          </a>
+          <a href="#process" class="btn-ghost" style="padding: 16px 24px; font-size: 16px; border-radius: 10px;">So funktioniert's</a>
+        </div>
+        <p class="hero_disclaimer">Kostenloses Erstgespräch — kein Risiko, keine Verpflichtung.</p>
+        <div class="hero_stats">
+          <div>
+            <div class="hero_stat_number">3,2×</div>
+            <div class="hero_stat_label">Mehr Buchungen im Schnitt</div>
+          </div>
+          <div>
+            <div class="hero_stat_number">€8–€24</div>
+            <div class="hero_stat_label">Kosten pro Buchung</div>
+          </div>
+          <div>
+            <div class="hero_stat_number">7 Tage</div>
+            <div class="hero_stat_label">Bis zu ersten Ergebnissen</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- FEATURES -->
+  <section class="features" id="features">
+    <div class="section_inner">
+      <div class="section_header">
+        <div class="section_label">Was wir tun</div>
+        <h2 class="section_title">Meta Werbung für<br>dein Tattoo Studio.</h2>
+        <p class="section_subtitle">Wir schalten Meta Werbung (Facebook &amp; Instagram) für dein Tattoo Studio. Auf dich zugeschnitten — Kunden sehen deinen Stil und <span style="text-decoration:underline;">entscheiden sich für dich</span>. Du fokussierst dich auf deine Kunst.</p>
+      </div>
+      <div class="features_grid">
+        <div class="feature_card">
+          <div class="feature_icon_wrap">🎯</div>
+          <h3 class="feature_title">Ads, die echte Kunden bringen</h3>
+          <p class="feature_text">Unser Targeting fokussiert sich ausschließlich auf kaufbereite Kunden — jeder Euro soll sich lohnen.</p>
+        </div>
+        <div class="feature_card">
+          <div class="feature_icon_wrap">🎬</div>
+          <h3 class="feature_title">Creatives — personalisiert</h3>
+          <p class="feature_text">Wir produzieren scroll-stoppende Ad Creatives speziell für deine Tattoo-Nische — Kurzvideos, Vorher/Nachher-Reels, starke Statics. Alles auf Conversion ausgelegt, nicht nur auf Optik. Du lieferst den Content, wir machen den Rest.</p>
+        </div>
+        <div class="feature_card">
+          <div class="feature_icon_wrap">📅</div>
+          <h3 class="feature_title">Keine leeren Slots mehr</h3>
+          <p class="feature_text">Stell dir vor, du kommst ins Studio und machst nur noch das, wofür du dich eigentlich entschieden hast: Tätowieren. Keine lästige dauerhafte Self-Promotion mehr.</p>
+        </div>
+        <div class="feature_card">
+          <div class="feature_icon_wrap">📊</div>
+          <h3 class="feature_title">Volle Transparenz, offene Kommunikation</h3>
+          <p class="feature_text">Wöchentliche Performance-Reports. Klare Zahlen. Kosten pro Lead, Kosten pro Buchung, ROAS. Du weißt immer genau, was dein Werbebudget macht — und wir optimieren unermüdlich auf Basis echter Daten, nicht Bauchgefühl.</p>
+        </div>
+        <div class="feature_card">
+          <div class="feature_icon_wrap">⚡</div>
+          <h3 class="feature_title">In 7 Tagen live</h3>
+          <p class="feature_text">Die meisten Agenturen brauchen Monate für das Onboarding. Wir nicht. Erstgespräch, Strategie, Creatives, Launch — alles innerhalb einer Woche nach Vertragsstart. Du siehst erste Ergebnisse noch vor Ende des ersten Monats.</p>
+        </div>
+        <div class="feature_card">
+          <div class="feature_icon_wrap">🔒</div>
+          <h3 class="feature_title">Nur Tattoo-Nische. Keine Ausnahme.</h3>
+          <p class="feature_text">Ads von Tattoo Heads für Tattoo Heads. Wir schalten keine Ads für Zahnarztpraxen oder sonst wen. Wir wissen genau, was die Tattoo-Nische sehen will — und fokussieren uns deshalb nur darauf.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CREATIVES SLIDER -->
+  <div class="creatives_section">
+    <div class="creatives_header">
+      <div class="creatives_label">So sehen deine Ads aus</div>
+      <h2 class="creatives_title">Creatives, die Kunden bringen.</h2>
+    </div>
+    <div class="creatives_track_wrap">
+      <div class="creatives_track">
+        <div class="creatives_card"><img src="creative1.png" alt="Ad Creative 1"></div>
+        <div class="creatives_card"><img src="creative2.png" alt="Ad Creative 2"></div>
+        <div class="creatives_card"><img src="creative3.png" alt="Ad Creative 3"></div>
+        <div class="creatives_card"><img src="creative4.png" alt="Ad Creative 4"></div>
+        <div class="creatives_card"><img src="creative1.png" alt="Ad Creative 1"></div>
+        <div class="creatives_card"><img src="creative2.png" alt="Ad Creative 2"></div>
+        <div class="creatives_card"><img src="creative3.png" alt="Ad Creative 3"></div>
+        <div class="creatives_card"><img src="creative4.png" alt="Ad Creative 4"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BEFORE / AFTER -->
+  <section class="before_after" id="results">
+    <div class="section_inner">
+      <div class="section_header">
+        <div class="section_label">Die Transformation</div>
+        <h2 class="section_title">Vor YAD.<br>Nach YAD.</h2>
+        <p class="section_subtitle">Das ist der Unterschied zwischen Kunden hinterherlaufen und Kunden, die zu dir kommen.</p>
+      </div>
+      <div class="before_after_grid">
+        <div class="ba_card is-before">
+          <div class="ba_label">Ohne YAD</div>
+          <div class="ba_items">
+            <div class="ba_item">
+              <span class="ba_item_icon">✗</span>
+              <span>Täglich posten ohne DMs und Views</span>
+            </div>
+            <div class="ba_item">
+              <span class="ba_item_icon">✗</span>
+              <span>Frustriert mit halb vollem Terminkalender schauen, wie man die nächste Miete reinbekommt</span>
+            </div>
+            <div class="ba_item">
+              <span class="ba_item_icon">✗</span>
+              <span>Geld in Boosted Posts verbrennen, weil du nicht weißt was du machen sollst</span>
+            </div>
+            <div class="ba_item">
+              <span class="ba_item_icon">✗</span>
+              <span>Reel Hooks studieren frisst mehr Zeit als das Tätowieren selbst</span>
+            </div>
+          </div>
+        </div>
+        <div class="ba_card is-after">
+          <div class="ba_label">Mit YAD</div>
+          <div class="ba_items">
+            <div class="ba_item">
+              <span class="ba_item_icon" style="color:var(--red);">✦</span>
+              <span>Kalender füllt sich automatisch. Täglich kommen neue Anfragen rein, ohne dass du etwas dafür tun musst.</span>
+            </div>
+            <div class="ba_item">
+              <span class="ba_item_icon" style="color:var(--red);">✦</span>
+              <span>Jeder Euro Ad Spend wird getracked — ROI-positiv in den ersten 30 Tagen.</span>
+            </div>
+            <div class="ba_item">
+              <span class="ba_item_icon" style="color:var(--red);">✦</span>
+              <span>Wöchentliches Reporting.</span>
+            </div>
+            <div class="ba_item">
+              <span class="ba_item_icon" style="color:var(--red);">✦</span>
+              <span>Marketing läuft für dich wie auf Autopilot — du schickst uns nur Bilder deiner neuen Tattoos.</span>
+            </div>
+            <div class="ba_item">
+              <span class="ba_item_icon" style="color:var(--red);">✦</span>
+              <span>Wir fragen sogar automatisch nach den abgeheilten Bildern.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="hiw" id="process">
+    <div class="section_inner">
+      <div class="section_header">
+        <div class="section_label">Der Ablauf</div>
+        <h2 class="section_title">In 7 Tagen live.</h2>
+        <p class="section_subtitle">Kein wochenlanger Onboarding-Prozess. Ein klarer Ablauf, der schnell Ergebnisse bringt.</p>
+      </div>
+      <div class="hiw_steps">
+        <div class="hiw_step">
+          <div class="hiw_number">01</div>
+          <h3 class="hiw_title">Strategiegespräch</h3>
+          <p class="hiw_text">Wir lernen deinen Stil, deinen Wunschkunden, deine Stadt und deine Ziele kennen. 45 Minuten. Wir entwickeln deine individuelle Ad-Strategie vor Ort — inklusive Targeting, Budget und Winkel, die für deine Nische wirklich funktionieren.</p>
+        </div>
+        <div class="hiw_step">
+          <div class="hiw_number">02</div>
+          <h3 class="hiw_title">Creatives &amp; Launch</h3>
+          <p class="hiw_text">Du teilst deinen besten Content — abgeheilte Arbeiten, Studio-Shots, Time-Lapses. Wir verwandeln ihn in scroll-stoppende Ad Creatives, schreiben den Copy, richten die Kampagnen ein und gehen live. Alles innerhalb von 2 Wochen.</p>
+        </div>
+        <div class="hiw_step">
+          <div class="hiw_number">03</div>
+          <h3 class="hiw_title">Skalieren &amp; Optimieren</h3>
+          <p class="hiw_text">Wir tracken jeden Klick, Lead und jede Buchung. Wir updaten dich wöchentlich, verwalten deine Kampagnen täglich und sorgen dafür, dass sie stabil konvertieren — skalieren was funktioniert, stoppen was nicht.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS TABS -->
+  <section class="process">
+    <div class="section_inner">
+      <div class="section_header">
+        <div class="section_label">Was wir übernehmen</div>
+        <h2 class="section_title">Komplett eigenständig.</h2>
+      </div>
+      <div class="process_tabs">
+        <div class="process_tab active" onclick="switchTab(this, 'tab1')"><img src="icon-camera.png" alt="" class="process_tab_icon">Ad Creatives</div>
+        <div class="process_tab" onclick="switchTab(this, 'tab2')"><img src="icon-laptop.png" alt="" class="process_tab_icon">Kampagnen-Management</div>
+        <div class="process_tab" onclick="switchTab(this, 'tab3')"><img src="icon-tattoo.png" alt="" class="process_tab_icon">Lead-Qualifizierung</div>
+        <div class="process_tab" onclick="switchTab(this, 'tab4')"><img src="icon-calculator.png" alt="" class="process_tab_icon">Reporting</div>
+      </div>
+      <div id="tab1" class="process_content active">
+        <div>
+          <h3 class="process_content_title">Creatives, die den Scroll stoppen</h3>
+          <p class="process_content_text">Wir nehmen deinen rohen Content und produzieren professionelle Ad Creatives — kurze Reels, Statics, Story Ads. Starker Copy. Hooks, die treffen. Alles speziell für die Tattoo-Nische optimiert. Du fokussierst dich aufs Tätowieren. Wir auf die Ads.</p>
+          <p class="process_content_text" style="margin-top:0;">Wir testen jeden Monat mehrere Creative-Winkel — damit wir mit der Zeit genau wissen, was Buchungen für dein Studio und deinen Stil antreibt.</p>
+          <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="btn-whatsapp" target="_blank" rel="noopener">Jetzt Kunden gewinnen →</a>
+        </div>
+        <div class="process_visual">
+          <img src="icon-camera.png" alt="Ad Creatives" class="process_visual_img">
+        </div>
+      </div>
+      <div id="tab2" class="process_content">
+        <div>
+          <h3 class="process_content_title">Kampagnen, die 24/7 laufen — ohne deinen Finger zu rühren</h3>
+          <p class="process_content_text">Wir richten deine Facebook- und Instagram-Kampagnen ein, betreiben und optimieren sie. Budget-Verteilung, Zielgruppen-Targeting, Gebotsstrategie — alles übernommen. Du bekommst die Ergebnisse, wir machen die Arbeit.</p>
+          <p class="process_content_text" style="margin-top:0;">Wir nutzen erprobte Targeting-Methoden, die speziell für lokale Tattoo-Studios entwickelt wurden — keine generischen E-Commerce-Taktiken.</p>
+          <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="btn-whatsapp" target="_blank" rel="noopener">Jetzt Kunden gewinnen →</a>
+        </div>
+        <div class="process_visual">
+          <img src="icon-laptop.png" alt="Kampagnen-Management" class="process_visual_img">
+        </div>
+      </div>
+      <div id="tab3" class="process_content">
+        <div>
+          <h3 class="process_content_title">Nur ernsthafte Kunden landen in deinem Posteingang</h3>
+          <p class="process_content_text">Wir bauen Lead-Formulare und Qualifizierungs-Funnels, die Zeitverschwender herausfiltern, bevor sie dich überhaupt erreichen. Wenn jemand in deinen DMs landet, kennt er bereits deine Preisvorstellung, deinen Stil — und ist buchungsbereit.</p>
+          <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="btn-whatsapp" target="_blank" rel="noopener">Jetzt Kunden gewinnen →</a>
+        </div>
+        <div class="process_visual">
+          <img src="icon-tattoo.png" alt="Lead-Qualifizierung" class="process_visual_img">
+        </div>
+      </div>
+      <div id="tab4" class="process_content">
+        <div>
+          <h3 class="process_content_title">Wöchentliche Reports. Kein Bullshit. Nur Zahlen.</h3>
+          <p class="process_content_text">Jeden Montag bekommst du einen klaren Performance-Report — Leads, Buchungen, Kosten pro Buchung, Werbeausgaben, ROAS. Du weißt immer, was deine Ads machen, und wir sind immer im Call, um zu erklären, was wir als nächstes verbessern.</p>
+          <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="btn-whatsapp" target="_blank" rel="noopener">Jetzt Kunden gewinnen →</a>
+        </div>
+        <div class="process_visual">
+          <img src="icon-calculator.png" alt="Reporting" class="process_visual_img">
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- MID-PAGE CTA -->
+  <div class="cta_banner">
+    <div class="cta_banner_inner">
+      <div class="cta_banner_tag">Begrenzte Plätze pro Stadt</div>
+      <h2 class="cta_banner_title">Hör auf, Buchungen<br>liegen zu lassen.</h2>
+      <p class="cta_banner_text">Jede Woche ohne Ads ist eine Woche, in der deine Wunschkunden jemand anderen buchen. Wir arbeiten nur mit 3 Studios pro Stadt — wenn dein Platz weg ist, ist er weg.</p>
+      <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="btn-whatsapp xl" target="_blank" rel="noopener">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Meinen Platz sichern →
+      </a>
+      <p class="cta_banner_disclaimer">Kostenloses Erstgespräch — 45 Minuten, keinerlei Verpflichtung.</p>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <section class="faq" id="faq">
+    <div class="section_inner">
+      <div class="section_header">
+        <div class="section_label">Fragen</div>
+        <h2 class="section_title">Wir kennen sie alle.</h2>
+      </div>
+      <div class="faq_list">
+        <div class="faq_item open">
+          <button class="faq_trigger" onclick="toggleFaq(this)">
+            Wie schnell sehe ich erste Ergebnisse?
+            <div class="faq_trigger_icon">+</div>
+          </button>
+          <div class="faq_body">
+            <p class="faq_answer">Die meisten Artists sehen erste Anfragen innerhalb der ersten Woche nach dem Ad-Launch. Spürbare Buchungs-Auswirkungen zeigen sich typischerweise nach 2–4 Wochen. Wir starten aggressiv und optimieren schnell — wir sitzen nicht auf Daten.</p>
+          </div>
+        </div>
+        <div class="faq_item">
+          <button class="faq_trigger" onclick="toggleFaq(this)">
+            Wie viel Werbebudget brauche ich mindestens?
+            <div class="faq_trigger_icon">+</div>
+          </button>
+          <div class="faq_body">
+            <p class="faq_answer">Wir empfehlen einen Start mit €15–€25 pro Tag an Werbebudget. Das sind €450–€750 pro Monat. Bei unseren durchschnittlichen Kosten pro Buchung generiert das typischerweise 20–40 neue Buchungen pro Monat — was die Kosten einer einzelnen Session bei den meisten Artists deutlich übersteigt.</p>
+          </div>
+        </div>
+        <div class="faq_item">
+          <button class="faq_trigger" onclick="toggleFaq(this)">
+            Muss ich selbst Content für die Creatives liefern?
+            <div class="faq_trigger_icon">+</div>
+          </button>
+          <div class="faq_body">
+            <p class="faq_answer">Ja — du teilst deine bestehenden Fotos, Videos und Arbeiten. Wir übernehmen alles weitere: Schnitt, Copy, Hooks, Captions und Produktion. Du musst nichts Neues filmen. Die meisten Artists haben auf ihrem Handy bereits mehr als genug Content.</p>
+          </div>
+        </div>
+        <div class="faq_item">
+          <button class="faq_trigger" onclick="toggleFaq(this)">
+            Ist das nicht einfach „Posts boosten"?
+            <div class="faq_trigger_icon">+</div>
+          </button>
+          <div class="faq_body">
+            <p class="faq_answer">Überhaupt nicht. Geboostete Posts sind die günstigste und ineffizienteste Art, Meta-Budget auszugeben. Wir schalten echte Ads Manager-Kampagnen mit Conversion-Zielen, Custom Audiences, Retargeting und vollständigem Creative-Testing. Das ist, was echte Buchungen bringt.</p>
+          </div>
+        </div>
+        <div class="faq_item">
+          <button class="faq_trigger" onclick="toggleFaq(this)">
+            Arbeitet ihr mit Studios oder Solo-Artists?
+            <div class="faq_trigger_icon">+</div>
+          </button>
+          <div class="faq_body">
+            <p class="faq_answer">Mit beiden. Wir arbeiten mit Solo-Artists, die ihren persönlichen Kalender füllen wollen, und mit Multi-Artist-Studios, die konstanten Kundenfluss für das gesamte Team brauchen. Die Strategie wird je nach Setup angepasst.</p>
+          </div>
+        </div>
+        <div class="faq_item">
+          <button class="faq_trigger" onclick="toggleFaq(this)">
+            Gibt es Langzeitverträge?
+            <div class="faq_trigger_icon">+</div>
+          </button>
+          <div class="faq_body">
+            <p class="faq_answer">Nein. Wir arbeiten monatlich kündbar. Wir behalten Kunden, weil die Ergebnisse für sich sprechen — nicht weil wir sie eingesperrt haben. Dennoch: Ads werden mit der Zeit besser, also sehen die meisten Kunden mit jedem Monat stärkere Ergebnisse.</p>
+          </div>
+        </div>
+        <div class="faq_item">
+          <button class="faq_trigger" onclick="toggleFaq(this)">
+            Wie läuft das Onboarding ab?
+            <div class="faq_trigger_icon">+</div>
+          </button>
+          <div class="faq_body">
+            <p class="faq_answer">Schritt 1: Kostenloses Erstgespräch (45 Min). Schritt 2: Du gibst Zugang zu deinem Meta Business Account und teilst Content. Schritt 3: Wir bauen Creatives und Kampagnen. Schritt 4: Wir gehen innerhalb von 14 Tagen live. Danach: wöchentliche Reports und laufende Optimierung.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA / CONTACT -->
+  <section style="background: var(--black-2); padding: 100px 40px;" id="contact">
+    <div class="section_inner" style="text-align:center;">
+      <div class="section_label" style="text-align:center;">Bereit?</div>
+      <h2 class="section_title" style="max-width:640px; margin: 0 auto 20px;">Dein nächster Kunde<br>ist eine Anzeige entfernt.</h2>
+      <p class="section_subtitle" style="margin: 0 auto 48px;">Schreib uns direkt auf WhatsApp. Wir melden uns innerhalb von 24 Stunden und zeigen dir genau, wie viele Kunden wir dir bringen können, zu welchem Preis und wie schnell.</p>
+      <div style="display:flex; flex-direction:column; align-items:center; gap:16px;">
+        <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="btn-whatsapp xl" target="_blank" rel="noopener" style="text-decoration:none;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Jetzt auf WhatsApp schreiben →
+        </a>
+        <a href="#" class="btn-ghost" onclick="openModal('contact'); return false;" style="font-size:15px; padding:12px 28px;">Oder per E-Mail schreiben</a>
+      </div>
+      <div style="display:flex; gap:40px; justify-content:center; margin-top:64px; padding-top:48px; border-top:1px solid var(--grey-border); flex-wrap:wrap;">
+        <div style="text-align:center;">
+          <div style="font-size:36px; font-weight:900; letter-spacing:-1px;">100%</div>
+          <div style="font-size:14px; color:var(--grey-light); margin-top:4px;">Auf Tattoo-Nische fokussiert</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:36px; font-weight:900; letter-spacing:-1px;">7</div>
+          <div style="font-size:14px; color:var(--grey-light); margin-top:4px;">Tage bis deine Kampagne live ist</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:36px; font-weight:900; letter-spacing:-1px;">3×</div>
+          <div style="font-size:14px; color:var(--grey-light); margin-top:4px;">Mehr Buchungen im Schnitt</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:36px; font-weight:900; letter-spacing:-1px;">0</div>
+          <div style="font-size:14px; color:var(--grey-light); margin-top:4px;">Langzeitverträge</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer_inner">
+      <div class="footer_top">
+        <div>
+          <div class="footer_logo">YAD<span>.</span></div>
+          <p class="footer_tagline">Die Meta Ads Agentur exklusiv für Tätowierer. Mehr Buchungen. Weniger Stress. Voller Fokus.</p>
+          <div class="footer_social">
+            <a href="#" class="footer_social_link" aria-label="Instagram">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+            </a>
+            <a href="#" class="footer_social_link" aria-label="TikTok">
+              <svg width="16" height="18" viewBox="0 0 16 18" fill="currentColor"><path d="M15 3.5A3.5 3.5 0 0111.5 0h-2v12a2 2 0 11-2-2c.18 0 .35.03.5.07V7.94A6 6 0 1014 13.5V6.28A8.5 8.5 0 0015 6.5V3.5z"/></svg>
+            </a>
+            <a href="https://wa.me/43XXXXXXXXXX" class="footer_social_link" aria-label="WhatsApp" target="_blank" rel="noopener">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div>
+          <div class="footer_col_title">Leistungen</div>
+          <div class="footer_links">
+            <a href="#features" class="footer_link">Meta Ads Management</a>
+            <a href="#features" class="footer_link">Creative Produktion</a>
+            <a href="#features" class="footer_link">Lead-Qualifizierung</a>
+            <a href="#features" class="footer_link">Kampagnen-Reporting</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer_col_title">Unternehmen</div>
+          <div class="footer_links">
+            <a href="#" class="footer_link">Über YAD</a>
+            <a href="#results" class="footer_link">Ergebnisse</a>
+            <a href="#faq" class="footer_link">FAQ</a>
+            <a href="#" class="footer_link" onclick="openModal('contact'); return false;">Kontakt</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer_col_title">Loslegen</div>
+          <div class="footer_links">
+            <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="footer_link" target="_blank" rel="noopener">Kostenloses Erstgespräch</a>
+            <a href="#" class="footer_link" onclick="openModal('contact'); return false;">hello@yad.rocks</a>
+          </div>
+          <div style="margin-top: 24px;">
+            <a href="https://wa.me/43XXXXXXXXXX?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eure%20Meta%20Ads%20f%C3%BCr%20Tattoo%20Artists." class="btn-whatsapp" style="width:100%; justify-content:center;" target="_blank" rel="noopener">Jetzt schreiben →</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer_bottom">
+        <p class="footer_copy">© 2026 YAD. Alle Rechte vorbehalten. yad.rocks</p>
+        <div class="footer_legal">
+          <a href="#" class="footer_legal_link">Datenschutz</a>
+          <a href="#" class="footer_legal_link" onclick="openModal('impressum'); return false;">Impressum</a>
+          <a href="#" class="footer_legal_link">AGB</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- IMPRESSUM MODAL -->
+  <!-- CONTACT FORM MODAL -->
+  <!-- CONTACT FORM MODAL — Formspree endpoint: mojrazar → max@yprint.de -->
+  <div class="modal_overlay" id="modal-contact" onclick="closeModalOnBg(event)">
+    <div class="modal_box">
+      <button class="modal_close" onclick="closeModal('contact')">✕</button>
+
+      <div data-fs-success class="form_success">
+        <div class="form_success_icon">✓</div>
+        <div class="form_success_title">Nachricht gesendet!</div>
+        <p class="form_success_text">Wir melden uns innerhalb von 24 Stunden bei dir.</p>
+      </div>
+
+      <div data-fs-error class="form_error" style="margin-bottom:16px;"></div>
+
+      <h2 class="modal_title">Schreib uns</h2>
+      <form id="contact-form">
+        <div class="form_group">
+          <label class="form_label">Name *</label>
+          <input type="text" name="name" class="form_input" required placeholder="Dein Name" data-fs-field>
+          <span data-fs-error="name" class="form_field_error"></span>
+        </div>
+        <div class="form_group">
+          <label class="form_label">E-Mail *</label>
+          <input type="email" name="email" class="form_input" required placeholder="deine@email.com" data-fs-field>
+          <span data-fs-error="email" class="form_field_error"></span>
+        </div>
+        <div class="form_group">
+          <label class="form_label">Studio / Instagram</label>
+          <input type="text" name="studio" class="form_input" placeholder="@deinstudio (optional)" data-fs-field>
+        </div>
+        <div class="form_group">
+          <label class="form_label">Nachricht</label>
+          <textarea name="message" class="form_textarea" placeholder="Was möchtest du wissen? (optional)" data-fs-field></textarea>
+        </div>
+        <button type="submit" class="btn-whatsapp" data-fs-submit-btn
+          style="display:flex; width:100%; justify-content:center; border:none; cursor:pointer; font-family:inherit; font-size:16px;">
+          Absenden →
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal_overlay" id="modal-impressum" onclick="closeModalOnBg(event)">
+    <div class="modal_box">
+      <button class="modal_close" onclick="closeModal('impressum')">✕</button>
+      <div class="modal_title">Impressum</div>
+      <div class="modal_body">
+        <h3>Gesetzliche Anbieterkennung</h3>
+        <p>
+          Maximilian Schwarz<br>
+          yprint<br>
+          Rottendorfer Straße 35a<br>
+          97074 Würzburg<br>
+          Deutschland<br><br>
+          Telefon: +4915121132622<br>
+          E-Mail: max@yprint.de<br>
+          Instagram: @yprint.de
+        </p>
+
+        <h3>Beschwerdestelle des Unternehmens</h3>
+        <p>Wir möchten, dass Sie mit unseren Produkten und unserem Service rundum zufrieden sind. Sollte es dennoch Anlass zur Beschwerde geben, können Sie sich jederzeit an uns wenden.</p>
+        <p style="margin-top:10px;">📩 Bitte richten Sie Beschwerden per E-Mail an: <a href="mailto:info@yprint.de">info@yprint.de</a></p>
+        <p style="margin-top:10px;">Um eine zügige Bearbeitung zu gewährleisten, bitten wir Sie, folgende Angaben in Ihrer E-Mail zu machen:</p>
+        <ul>
+          <li>Ihren vollständigen Namen</li>
+          <li>Ihre Bestellnummer</li>
+          <li>Eine möglichst genaue Beschreibung Ihres Anliegens</li>
+          <li>Ggf. Fotoanhänge zur Veranschaulichung</li>
+        </ul>
+        <p style="margin-top:10px;">Wir prüfen jede Beschwerde individuell und melden uns so schnell wie möglich bei Ihnen zurück. Vielen Dank für Ihre Rückmeldung!</p>
+
+        <h3>Zuständige Aufsichtsbehörde für audiovisuelle Mediendienste</h3>
+        <p>
+          Bayerische Landeszentrale für neue Medien (BLM)<br>
+          Heinrich-Lübke-Str. 27<br>
+          81737 München<br>
+          Internet: <a href="https://www.blm.de/" target="_blank" rel="noopener">https://www.blm.de/</a>
+        </p>
+
+        <h3>Umsatzsteuer</h3>
+        <p>Aufgrund des Kleinunternehmerstatus wird in der Rechnung keine MwSt. ausgewiesen (umsatzsteuerfrei gem. § 19 Abs. 1 UStG).</p>
+
+        <h3>Streitbeilegung</h3>
+        <p>Wir sind nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor Verbraucherschlichtungsstellen teilzunehmen.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Modal
+    window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+    formspree('initForm', { formElement: '#contact-form', formId: 'mojrazar' });
+
+    function openModal(id) {
+      document.getElementById('modal-' + id).classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+      document.getElementById('modal-' + id).classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    function closeModalOnBg(e) {
+      if (e.target === e.currentTarget) closeModal(e.currentTarget.id.replace('modal-', ''));
+    }
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') document.querySelectorAll('.modal_overlay.open').forEach(m => {
+        m.classList.remove('open'); document.body.style.overflow = '';
+      });
+    });
+
+    // FAQ Accordion
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq_item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq_item.open').forEach(el => el.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    }
+
+    // Process Tabs
+    function switchTab(el, tabId) {
+      const section = el.closest('.section_inner');
+      section.querySelectorAll('.process_tab').forEach(t => t.classList.remove('active'));
+      section.querySelectorAll('.process_content').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+    }
+
+    // Mobile Nav
+    function toggleMobileNav() {
+      const overlay = document.getElementById('mobileNav');
+      const btn = document.getElementById('mobileNavBtn');
+      overlay.classList.toggle('open');
+      btn.classList.toggle('open');
+      document.body.style.overflow = overlay.classList.contains('open') ? 'hidden' : '';
+    }
+    function closeMobileNav() {
+      const overlay = document.getElementById('mobileNav');
+      const btn = document.getElementById('mobileNavBtn');
+      overlay.classList.remove('open');
+      btn.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Nav scroll effect
+    const nav = document.querySelector('.nav');
+    window.addEventListener('scroll', () => {
+      nav.style.borderBottomColor = window.scrollY > 20
+        ? 'rgba(42,42,42,0.8)'
+        : 'var(--grey-border)';
+    });
+  </script>
+  <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
+</body>
+</html>

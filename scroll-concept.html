@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YAD — Scroll Concept</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red:      #e8173a;
+      --red-dim:  rgba(232, 23, 58, 0.18);
+      --red-glow: rgba(232, 23, 58, 0.08);
+      --black:    #080808;
+      --border:   rgba(255,255,255,0.07);
+      --font:     'Inter', system-ui, sans-serif;
+    }
+
+    html { background: var(--black); }
+    body {
+      font-family: var(--font);
+      background: var(--black);
+      color: #fff;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ── GRAIN ──────────────────────────────────────────── */
+    .grain {
+      position: fixed;
+      inset: -60%;
+      width: 220%; height: 220%;
+      pointer-events: none;
+      z-index: 100;
+      opacity: 0.045;
+      animation: g 0.07s steps(1) infinite;
+    }
+    @keyframes g {
+      0%   { transform: translate(0,0); }
+      14%  { transform: translate(-3%,-2%); }
+      28%  { transform: translate(2%,3%); }
+      42%  { transform: translate(-2%,1%); }
+      56%  { transform: translate(3%,-2%); }
+      70%  { transform: translate(-1%,3%); }
+      85%  { transform: translate(2%,-1%); }
+      100% { transform: translate(-2%,2%); }
+    }
+
+    /* ── PROGRESS BAR ───────────────────────────────────── */
+    #progressBar {
+      position: fixed;
+      bottom: 0; left: 0;
+      height: 2px;
+      background: var(--red);
+      box-shadow: 0 0 10px var(--red);
+      width: 0%;
+      transition: width 0.15s linear;
+      z-index: 200;
+    }
+
+    /* ── WORDMARK ───────────────────────────────────────── */
+    .wordmark {
+      position: fixed;
+      top: 32px; left: 40px;
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      z-index: 150;
+      user-select: none;
+    }
+    .wordmark span { color: var(--red); }
+
+    /* ── SCROLL CONTAINER ───────────────────────────────── */
+    .scroll-wrap { position: relative; }
+
+    /* ── STICKY SCENE ───────────────────────────────────── */
+    .scene {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* radial bg glow */
+    .bg-glow {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 55% 45% at 50% 46%,
+        rgba(232,23,58,0.13) 0%, transparent 72%);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 1.8s ease;
+    }
+    .bg-glow.on { opacity: 1; }
+
+    /* mid-flip flare */
+    .flip-flare {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 40% 30% at 50% 46%,
+        rgba(232,23,58,0.22) 0%, transparent 70%);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.1s;
+    }
+    .flip-flare.on { opacity: 1; }
+
+    /* ── ICONS LAYER ────────────────────────────────────── */
+    #iconsLayer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .icon-wrap {
+      position: absolute;
+      left: 50%; top: 50%;
+      width: 54px; height: 54px;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0;
+      /* transform set via JS */
+      transition: opacity 0.45s ease, transform 0.55s cubic-bezier(0.23, 1, 0.32, 1);
+      z-index: 10;
+    }
+    .icon-wrap svg {
+      filter: drop-shadow(0 0 10px currentColor);
+      transition: filter 0.3s;
+    }
+
+    /* ── CARD ───────────────────────────────────────────── */
+    .card-perspective {
+      perspective: 1500px;
+      perspective-origin: 50% 46%;
+      z-index: 20;
+    }
+    .card {
+      width: min(580px, 90vw);
+      height: clamp(250px, 38vw, 330px);
+      transform-style: preserve-3d;
+      transition: transform 0.78s cubic-bezier(0.22, 1, 0.36, 1.38);
+      position: relative;
+    }
+
+    /* card faces */
+    .card-face {
+      position: absolute; inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: 22px;
+      background: linear-gradient(148deg, #171717 0%, #111 55%, #0d0d0d 100%);
+      border: 1px solid var(--border);
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.025),
+        0 40px 90px rgba(0,0,0,0.7),
+        0 0 80px rgba(232,23,58,0.06),
+        inset 0 1px 0 rgba(255,255,255,0.06);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      padding: clamp(32px, 5vw, 52px) clamp(32px, 5vw, 52px);
+      overflow: hidden;
+    }
+
+    /* top highlight line */
+    .card-face::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent 5%, rgba(255,255,255,0.1) 50%, transparent 95%);
+    }
+
+    /* dot-grid texture */
+    .card-face::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: radial-gradient(rgba(255,255,255,0.055) 1px, transparent 1px);
+      background-size: 22px 22px;
+      border-radius: 22px;
+      mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 20%, transparent 85%);
+      -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 20%, transparent 85%);
+      pointer-events: none;
+    }
+
+    /* shimmer sweep */
+    .card-face .shimmer {
+      position: absolute;
+      top: 0; left: -110%; bottom: 0;
+      width: 55%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.035), transparent);
+      animation: shimmer 7s ease infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+    @keyframes shimmer {
+      0%   { left: -110%; }
+      40%, 100% { left: 150%; }
+    }
+
+    .card-back { transform: rotateY(180deg); }
+
+    /* card content */
+    .card-step {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--red);
+      opacity: 0.75;
+      margin-bottom: 18px;
+      position: relative; z-index: 2;
+      transition: opacity 0.3s;
+    }
+    .card-text {
+      font-size: clamp(17px, 2.8vw, 28px);
+      font-weight: 800;
+      line-height: 1.28;
+      letter-spacing: -0.4px;
+      position: relative; z-index: 2;
+      text-shadow: 0 2px 30px rgba(255,255,255,0.07);
+    }
+    .card-text .hl { color: var(--red); }
+    .card-bar {
+      margin-top: 26px;
+      height: 3px;
+      width: 36px;
+      background: var(--red);
+      border-radius: 2px;
+      box-shadow: 0 0 8px var(--red);
+      position: relative; z-index: 2;
+    }
+
+    /* ── STEP DOTS ──────────────────────────────────────── */
+    .dots {
+      position: absolute;
+      bottom: 36px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; gap: 7px;
+      z-index: 50;
+    }
+    .dot {
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.18);
+      transition: background 0.35s, transform 0.35s, box-shadow 0.35s;
+    }
+    .dot.active {
+      background: var(--red);
+      transform: scale(1.5);
+      box-shadow: 0 0 7px var(--red);
+    }
+
+    /* ── SCROLL HINT ────────────────────────────────────── */
+    .scroll-hint {
+      position: absolute;
+      bottom: 34px; right: 40px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.18);
+      z-index: 50;
+      transition: opacity 0.6s;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .scroll-hint .arr {
+      display: inline-block;
+      animation: bounce 1.6s ease infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(4px); }
+    }
+    .scroll-hint.hidden { opacity: 0; pointer-events: none; }
+
+    /* ── FINAL CTA ──────────────────────────────────────── */
+    .final-cta {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 40px;
+      text-align: center;
+      gap: 40px;
+      background: radial-gradient(ellipse 50% 40% at 50% 50%, rgba(232,23,58,0.08) 0%, transparent 70%);
+    }
+    .final-cta h2 {
+      font-size: clamp(32px, 5vw, 64px);
+      font-weight: 900;
+      letter-spacing: -2px;
+      line-height: 1.05;
+    }
+    .final-cta h2 span { color: var(--red); }
+    .final-cta p {
+      font-size: 16px;
+      color: rgba(255,255,255,0.45);
+      max-width: 400px;
+      line-height: 1.6;
+    }
+    .final-cta a {
+      display: inline-flex;
+      align-items: center; gap: 10px;
+      background: var(--red);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      padding: 18px 40px;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+      box-shadow: 0 0 40px rgba(232,23,58,0.3);
+    }
+    .final-cta a:hover { background: #c0102e; transform: translateY(-2px); }
+
+    /* ── SCROLL SPACER ──────────────────────────────────── */
+    #spacer { /* height set by JS */ }
+  </style>
+</head>
+<body>
+
+  <!-- GRAIN -->
+  <svg class="grain" xmlns="http://www.w3.org/2000/svg">
+    <filter id="n">
+      <feTurbulence type="fractalNoise" baseFrequency="0.72" numOctaves="4" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+    </filter>
+    <rect width="100%" height="100%" filter="url(#n)"/>
+  </svg>
+
+  <!-- PROGRESS -->
+  <div id="progressBar"></div>
+
+  <!-- WORDMARK -->
+  <div class="wordmark">YAD<span>.</span></div>
+
+  <!-- SCROLL WRAP -->
+  <div class="scroll-wrap" id="scrollWrap">
+    <div class="scene" id="scene">
+
+      <div class="bg-glow" id="bgGlow"></div>
+      <div class="flip-flare" id="flipFlare"></div>
+      <div id="iconsLayer"></div>
+
+      <!-- CARD -->
+      <div class="card-perspective">
+        <div class="card" id="card">
+
+          <div class="card-face card-front" id="cFront">
+            <div class="shimmer"></div>
+            <div class="card-step" id="stepFront">01 / 08</div>
+            <div class="card-text" id="textFront">Ohne Budget sieht dich niemand.</div>
+            <div class="card-bar"></div>
+          </div>
+
+          <div class="card-face card-back" id="cBack">
+            <div class="shimmer"></div>
+            <div class="card-step" id="stepBack"></div>
+            <div class="card-text" id="textBack"></div>
+            <div class="card-bar"></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- DOTS -->
+      <div class="dots" id="dots"></div>
+
+      <!-- HINT -->
+      <div class="scroll-hint" id="hint">Scroll <span class="arr">↓</span></div>
+
+    </div>
+
+    <!-- spacer (height set by JS) -->
+    <div id="spacer"></div>
+  </div>
+
+  <!-- FINAL CTA -->
+  <section class="final-cta">
+    <h2>Bereit, deinen<br>Kalender zu füllen?<br><span>Kostenlos testen.</span></h2>
+    <p>7 Tage. 0 € für uns. Nur echte Ergebnisse zählen.</p>
+    <a href="https://yad.rocks">Jetzt bewerben →</a>
+  </section>
+
+  <script>
+  (() => {
+    // ── DATA ──────────────────────────────────────────────────
+    const steps = [
+      {
+        text: 'Ohne Budget sieht dich niemand.',
+        icons: [{ id:'euro-dim', x:-300, y:-20, side:'left', col:'rgba(255,255,255,0.28)' }]
+      },
+      {
+        text: 'Mit <span class="hl">15 €/Tag</span> schon.',
+        icons: [
+          { id:'euro',    x:-295, y:-10, side:'left',  col:'#e8173a' },
+          { id:'meta',    x: 295, y: 30, side:'right', col:'rgba(255,255,255,0.65)' }
+        ]
+      },
+      {
+        text: 'Wir setzen die Ads auf.',
+        icons: [
+          { id:'meta',      x:-295, y:  0, side:'left',  col:'rgba(255,255,255,0.65)' },
+          { id:'instagram', x: 290, y:-15, side:'right', col:'rgba(255,255,255,0.65)' }
+        ]
+      },
+      {
+        text: '<span class="hl">7 Tage:</span> 0 € für uns.',
+        icons: [{ id:'calendar', x:300, y:-25, side:'right', col:'#e8173a' }]
+      },
+      {
+        text: 'Danach zahlst du nur,<br>wenn Kontakte kommen.',
+        icons: [
+          { id:'check', x:-295, y: 25, side:'left',  col:'#e8173a' },
+          { id:'arrow', x: 295, y:-25, side:'right', col:'rgba(255,255,255,0.4)' }
+        ]
+      },
+      {
+        text: 'Und zwar die richtigen:',
+        icons: [{ id:'target', x:300, y:0, side:'right', col:'#e8173a' }]
+      },
+      {
+        text: 'Leute, die deinen Stil wollen —<br>nicht den billigsten Preis.',
+        icons: [
+          { id:'tattoo', x:-300, y: -5, side:'left',  col:'rgba(255,255,255,0.6)' },
+          { id:'person', x: 295, y: 35, side:'right', col:'rgba(255,255,255,0.5)' }
+        ]
+      },
+      {
+        text: 'Und wir beweisen es dir<br><span class="hl">kostenlos.</span>',
+        icons: [
+          { id:'star',  x:-290, y:-30, side:'left',  col:'#e8173a' },
+          { id:'check', x: 290, y: 25, side:'right', col:'#e8173a' }
+        ]
+      }
+    ];
+
+    // ── SVG ICONS ─────────────────────────────────────────────
+    const ICONS = {
+      'euro-dim': `<svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55">
+        <circle cx="15" cy="15" r="12" stroke-dasharray="4 3.5"/>
+        <path d="M19.5 9.5A6.5 6.5 0 0 0 9 15a6.5 6.5 0 0 0 10.5 5.5"/>
+        <line x1="7.5" y1="13" x2="16.5" y2="13"/>
+        <line x1="7.5" y1="17" x2="16.5" y2="17"/>
+      </svg>`,
+
+      euro: `<svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="15" cy="15" r="12"/>
+        <path d="M19.5 9.5A6.5 6.5 0 0 0 9 15a6.5 6.5 0 0 0 10.5 5.5"/>
+        <line x1="7.5" y1="13" x2="17" y2="13"/>
+        <line x1="7.5" y1="17" x2="17" y2="17"/>
+      </svg>`,
+
+      meta: `<svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 19c0 2.8 1.4 4.7 3.7 4.7 1.9 0 3.3-1 4.7-3.7l2.6-5.5c1.4-2.8 2.8-3.8 4.7-3.8C21.3 10.7 23 12.7 23 16"/>
+        <path d="M27 11c0-2.8-1.4-4.7-3.7-4.7-1.9 0-3.3 1-4.7 3.7l-2.6 5.5C14.6 18.3 13.2 19.3 11.3 19.3 9 19.3 7 17.3 7 14"/>
+      </svg>`,
+
+      instagram: `<svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="22" height="22" rx="6"/>
+        <circle cx="14" cy="14" r="4.5"/>
+        <circle cx="20" cy="8" r="1.2" fill="currentColor" stroke="none"/>
+      </svg>`,
+
+      calendar: `<svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="5" width="24" height="21" rx="4"/>
+        <line x1="3" y1="12" x2="27" y2="12"/>
+        <line x1="10" y1="3" x2="10" y2="7.5"/>
+        <line x1="20" y1="3" x2="20" y2="7.5"/>
+        <text x="15" y="23" font-size="8.5" fill="currentColor" stroke="none" text-anchor="middle" font-family="Inter,sans-serif" font-weight="900">7</text>
+      </svg>`,
+
+      check: `<svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="15" cy="15" r="12"/>
+        <polyline points="9.5,15 13.5,19 20.5,11"/>
+      </svg>`,
+
+      arrow: `<svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="4" y1="14" x2="24" y2="14"/>
+        <polyline points="17,7 24,14 17,21"/>
+      </svg>`,
+
+      target: `<svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="15" cy="15" r="12"/>
+        <circle cx="15" cy="15" r="6.5"/>
+        <circle cx="15" cy="15" r="2" fill="currentColor" stroke="none"/>
+        <line x1="15" y1="3" x2="15" y2="6.5"/>
+        <line x1="15" y1="23.5" x2="15" y2="27"/>
+        <line x1="3" y1="15" x2="6.5" y2="15"/>
+        <line x1="23.5" y1="15" x2="27" y2="15"/>
+      </svg>`,
+
+      tattoo: `<svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="9.5" y="3.5" width="13" height="9" rx="3"/>
+        <line x1="16" y1="12.5" x2="16" y2="22.5"/>
+        <path d="M13 18.5 Q16 25 19 18.5"/>
+        <circle cx="16" cy="26" r="1.8"/>
+        <line x1="9.5" y1="8" x2="6" y2="8"/>
+        <line x1="22.5" y1="8" x2="26" y2="8"/>
+        <path d="M6 8 Q3.5 8 3.5 11 Q3.5 14 6 14 L9.5 14"/>
+      </svg>`,
+
+      person: `<svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="14" cy="8.5" r="4.5"/>
+        <path d="M4 24.5c0-5.2 4.5-9.5 10-9.5s10 4.3 10 9.5"/>
+      </svg>`,
+
+      star: `<svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="15,2.5 18.5,11 27.5,11 20.5,16.5 23.5,25.5 15,20 6.5,25.5 9.5,16.5 2.5,11 11.5,11"/>
+      </svg>`
+    };
+
+    // ── REFS ─────────────────────────────────────────────────
+    const card       = document.getElementById('card');
+    const textFront  = document.getElementById('textFront');
+    const textBack   = document.getElementById('textBack');
+    const stepFront  = document.getElementById('stepFront');
+    const stepBack   = document.getElementById('stepBack');
+    const spacer     = document.getElementById('spacer');
+    const bgGlow     = document.getElementById('bgGlow');
+    const flipFlare  = document.getElementById('flipFlare');
+    const iconsLayer = document.getElementById('iconsLayer');
+    const dotsEl     = document.getElementById('dots');
+    const hint       = document.getElementById('hint');
+    const progressBar = document.getElementById('progressBar');
+
+    const N = steps.length;
+    const STEP_H = window.innerHeight * 1.15;
+    spacer.style.height = `${N * STEP_H}px`;
+
+    let current = 0;
+    let busy = false;
+    let activeIcons = [];
+
+    // ── STEP DOTS ────────────────────────────────────────────
+    for (let i = 0; i < N; i++) {
+      const d = document.createElement('div');
+      d.className = 'dot' + (i === 0 ? ' active' : '');
+      d.id = 'dot' + i;
+      dotsEl.appendChild(d);
+    }
+
+    function fmt(n) { return String(n + 1).padStart(2, '0') + ' / ' + String(N).padStart(2, '0'); }
+
+    // ── ICONS ────────────────────────────────────────────────
+    function showIcons(idx) {
+      // exit old
+      activeIcons.forEach(({ el, x, y }) => {
+        const exitX = x < 0 ? x - 200 : x + 200;
+        el.style.opacity = '0';
+        el.style.transform = `translate(calc(-50% + ${exitX}px), calc(-50% + ${y}px))`;
+        setTimeout(() => el.remove(), 520);
+      });
+      activeIcons = [];
+
+      // enter new (staggered)
+      (steps[idx].icons || []).forEach((ic, i) => {
+        const el = document.createElement('div');
+        el.className = 'icon-wrap';
+        const svg = ICONS[ic.id] || '';
+        el.innerHTML = svg;
+        el.querySelector('svg').style.color = ic.col || 'rgba(255,255,255,0.6)';
+
+        const startX = ic.side === 'left' ? ic.x - 200 : ic.x + 200;
+        el.style.transform = `translate(calc(-50% + ${startX}px), calc(-50% + ${ic.y}px))`;
+        el.style.opacity = '0';
+        iconsLayer.appendChild(el);
+
+        // force reflow then animate in
+        el.offsetWidth;
+        setTimeout(() => {
+          el.style.opacity = '1';
+          el.style.transform = `translate(calc(-50% + ${ic.x}px), calc(-50% + ${ic.y}px))`;
+        }, 60 + i * 80);
+
+        activeIcons.push({ el, x: ic.x, y: ic.y });
+      });
+    }
+
+    // ── CARD FLIP ────────────────────────────────────────────
+    function goTo(next) {
+      if (next === current || busy) return;
+      busy = true;
+
+      const targetRot = next * 180;
+      const frontShows = next % 2 === 0;
+
+      // update hidden face BEFORE flip
+      if (frontShows) {
+        textFront.innerHTML = steps[next].text;
+        stepFront.textContent = fmt(next);
+      } else {
+        textBack.innerHTML  = steps[next].text;
+        stepBack.textContent = fmt(next);
+      }
+
+      // mid-flip flare
+      setTimeout(() => {
+        flipFlare.classList.add('on');
+        setTimeout(() => flipFlare.classList.remove('on'), 180);
+      }, 300);
+
+      card.style.transform = `rotateY(${targetRot}deg)`;
+      current = next;
+
+      // dots
+      document.querySelectorAll('.dot').forEach((d, i) =>
+        d.classList.toggle('active', i === next));
+
+      showIcons(next);
+
+      if (next > 0) hint.classList.add('hidden');
+      else hint.classList.remove('hidden');
+
+      setTimeout(() => { busy = false; }, 850);
+    }
+
+    // ── SCROLL ───────────────────────────────────────────────
+    window.addEventListener('scroll', () => {
+      const sy = window.scrollY;
+      const totalH = spacer.offsetHeight;
+      const pct = Math.min(sy / (totalH + window.innerHeight), 1);
+      progressBar.style.width = `${pct * 100}%`;
+
+      const raw  = sy / STEP_H;
+      const next = Math.min(Math.floor(raw), N - 1);
+      if (next !== current) goTo(next);
+    }, { passive: true });
+
+    // ── INIT ─────────────────────────────────────────────────
+    setTimeout(() => bgGlow.classList.add('on'), 200);
+    textFront.innerHTML = steps[0].text;
+    stepFront.textContent = fmt(0);
+    showIcons(0);
+
+  })();
+  </script>
+</body>
+</html>
