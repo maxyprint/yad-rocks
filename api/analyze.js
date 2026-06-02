@@ -688,6 +688,7 @@ ${competitorsMd}
 SCORING-METHODE (verwende exakt diese Gewichtung):
 
 Google Reviews vs. Top-5-Durchschnitt: 25%
+  Nutze die echten Wettbewerber-Zahlen aus Modul 5.
   ≥ 90% des Ø → 90–100 | 70–89% → 70–89 | 50–69% → 50–69
   30–49% → 30–49 | 10–29% → 10–29 | < 10% oder keine → 0–9
   Sterne-Bonus: Ø ≥ 4,8★ → +5 Punkte
@@ -697,12 +698,15 @@ Map-Pack-Position für primären Suchbegriff: 25%
   #6–10 → 35–55 | nicht sichtbar → 5
 
 Instagram-Sichtbarkeit: 20%
-  Teilscore A (70%): Follower vs. Top-3-Ø
-    ≥ 80% → 80–100 | 60–79% → 60–79 | 40–59% → 40–59
+  Teilscore A (50%): Follower vs. Top-3 aus Modul 5 (echte Wettbewerber-Zahlen verwenden)
+    ≥ 80% des Ø → 80–100 | 60–79% → 60–79 | 40–59% → 40–59
     20–39% → 20–39 | < 20% → 5–19 | kein Account → 0
-  Teilscore B (30%): Posting-Frequenz (Ø Tage zwischen Posts)
+  Teilscore B (30%): Posting-Frequenz (Ø Tage zwischen Posts aus Modul 3)
     ≤ 2,3 Tage → 90–100 | ≤ 3,5 Tage → 70–89 | ≤ 7 Tage → 50–69
     > 7 Tage → 20–49 | kein Post seit > 30 Tagen → 0–19
+  Teilscore C (20%): Engagement-Rate (aus Modul 3)
+    ≥ 5% → 90–100 | 3–4,9% → 70–89 | 1,5–2,9% → 40–69
+    0,5–1,4% → 20–39 | < 0,5% → 0–19 | keine Daten → 30
 
 Website-Qualität: 20%
   Online-Buchung vorhanden → +30 | Meta Pixel → +20
@@ -712,6 +716,7 @@ Website-Qualität: 20%
 Meta Ads aktiv: 10%
   Aktiv seit > 30 Tagen → 80–100 | Aktiv seit < 30 Tagen → 50–79
   Nur Archiv → 20–40 | Keine Ads → 0
+  Wettbewerber-Kontext: Nutze "Studios mit aktiven Ads" aus Modul 5 für Einordnung
 
 ---
 
@@ -792,13 +797,25 @@ Erstelle den Report in exakt dieser Struktur:
 [Befunde — immer mit Geschäftsauswirkung, max. 3 Absätze]
 
 ### Instagram
-[Befunde — immer mit Geschäftsauswirkung, max. 3 Absätze]
+[Analysiere mit den echten Daten aus Modul 3:
+- Follower-Position im Vergleich zu den Wettbewerbern aus Modul 5
+- Posting-Rhythmus (Ø Tage zwischen Posts) und was das für Reichweite bedeutet
+- Reels-Anteil: ob das Studio das stärkste Format nutzt oder vernachlässigt
+- Engagement-Rate: was sie über die Qualität der Follower aussagt
+- Peak-Postzeiten: ob zu optimalen oder suboptimalen Zeiten gepostet wird
+Immer mit Geschäftsauswirkung — Anfragen die gewonnen oder verloren werden]
 
 ### Meta Ads
-[Befunde — immer mit Geschäftsauswirkung, max. 3 Absätze]
+[Analysiere mit den echten Daten aus Modul 4:
+- Ob aktiv, seit wie vielen Tagen, wie viele Anzeigen
+- Wettbewerber-Kontext: wie viele der lokalen Studios laut Modul 5 aktiv schalten
+- Was das Fehlen oder Vorhandensein von Ads konkret bedeutet für Neukundengewinnung]
 
 ### Wettbewerber
-[Vergleichstabelle aus den Daten + 1–2 Sätze Einordnung]
+[Vergleichstabelle exakt aus Modul 5 übernehmen + 2–3 Sätze Einordnung:
+- Wer dominiert Google-Reviews und warum das Marktanteile kostet
+- Instagram-Vergleich: wo steht das Studio vs. die stärksten Accounts
+- Wer schaltet Ads — und was das für den bedeutet der zuerst damit anfängt]
 
 ---
 
