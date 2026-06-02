@@ -294,6 +294,14 @@
   const id     = params.get('id');
   if (!id) { showError(); return; }
 
+  // Bubble auf anderen Seiten: pending state speichern
+  try {
+    const existing = JSON.parse(localStorage.getItem('yad_analysis') || 'null');
+    if (!existing || existing.id !== id) {
+      localStorage.setItem('yad_analysis', JSON.stringify({ id, studioName: '…', city: '', status: 'pending', savedAt: Date.now() }));
+    }
+  } catch {}
+
   // ── Thought stream ──────────────────────────────────────────────────────
   const thoughtStream = document.getElementById('thoughtStream');
   const seen = {};
@@ -497,6 +505,14 @@
     document.getElementById('reportBody').innerHTML = marked.parse(data.report_md || '');
 
     if (typeof fbq !== 'undefined') fbq('track', 'Purchase', { value: 20, currency: 'EUR' });
+
+    // Bubble auf anderen Seiten aktualisieren
+    try {
+      localStorage.setItem('yad_analysis', JSON.stringify({
+        id, studioName: data.studio_name, city: data.city,
+        status: 'done', savedAt: Date.now(),
+      }));
+    } catch {}
   }
 })();
 </script>

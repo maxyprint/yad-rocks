@@ -2314,6 +2314,136 @@
     </div>
   </section>
 
+  <!-- SELBSTCHECK -->
+  <section id="selbstcheck" style="padding: 100px 40px; background: var(--black);">
+    <style>
+      .sc_wrap { max-width: var(--max-w); margin: 0 auto; }
+      .sc_inner {
+        display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+      }
+      .sc_label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--red); margin-bottom: 16px; }
+      .sc_title { font-size: clamp(28px, 4vw, 44px); font-weight: 900; letter-spacing: -1px; line-height: 1.1; margin-bottom: 20px; }
+      .sc_title span { color: var(--red); }
+      .sc_sub { font-size: 16px; color: var(--grey-light); line-height: 1.65; margin-bottom: 32px; }
+      .sc_points { display: flex; flex-direction: column; gap: 12px; margin-bottom: 36px; }
+      .sc_point { display: flex; align-items: flex-start; gap: 12px; font-size: 14px; color: #ccc; line-height: 1.5; }
+      .sc_point_dot { width: 6px; height: 6px; border-radius: 50%; background: var(--red); flex-shrink: 0; margin-top: 6px; }
+      .sc_actions { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+      .sc_btn_primary {
+        display: inline-flex; align-items: center; gap: 10px;
+        background: var(--red); color: var(--white); font-family: var(--font);
+        font-size: 15px; font-weight: 700; padding: 16px 28px; border-radius: 10px;
+        text-decoration: none; transition: background 0.2s;
+      }
+      .sc_btn_primary:hover { background: #c0102e; }
+      .sc_btn_secondary {
+        font-size: 14px; font-weight: 600; color: var(--grey-light);
+        text-decoration: none; transition: color 0.2s;
+      }
+      .sc_btn_secondary:hover { color: var(--white); }
+      .sc_note { font-size: 12px; color: var(--grey-mid); margin-top: 12px; }
+
+      .sc_preview {
+        background: var(--black-2); border: 1px solid var(--grey-border);
+        border-radius: 16px; overflow: hidden;
+      }
+      .sc_preview_bar {
+        padding: 12px 16px; border-bottom: 1px solid var(--grey-border);
+        display: flex; align-items: center; gap: 8px;
+      }
+      .sc_preview_dot { width: 10px; height: 10px; border-radius: 50%; }
+      .sc_preview_title { font-size: 12px; color: var(--grey-light); margin-left: 4px; }
+      .sc_preview_body { padding: 20px; }
+      .sc_score_row { display: flex; gap: 12px; margin-bottom: 20px; }
+      .sc_score_card { flex: 1; background: var(--black-3); border: 1px solid var(--grey-border); border-radius: 10px; padding: 14px; }
+      .sc_score_lbl { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--grey-light); margin-bottom: 6px; }
+      .sc_score_val { font-size: 28px; font-weight: 900; letter-spacing: -1px; }
+      .sc_score_val .of { font-size: 14px; font-weight: 400; color: var(--grey-mid); }
+      .sc_score_card.red .sc_score_val { color: var(--red); }
+      .sc_preview_line { height: 10px; border-radius: 100px; margin-bottom: 10px; }
+      .sc_preview_line.w100 { width: 100%; background: var(--grey-border); }
+      .sc_preview_line.w80  { width: 80%;  background: var(--grey-border); }
+      .sc_preview_line.w60  { width: 60%;  background: var(--grey-border); }
+      .sc_preview_line.accent { background: rgba(232,23,58,0.3); }
+      .sc_preview_section { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--grey-border); }
+      .sc_preview_section_title { font-size: 11px; font-weight: 700; color: var(--grey-light); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
+      .sc_preview_tag { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; margin: 3px; }
+      .sc_preview_tag.red { background: rgba(232,23,58,0.12); color: #f87171; border: 1px solid rgba(232,23,58,0.2); }
+      .sc_preview_tag.green { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.2); }
+      .sc_preview_tag.grey { background: var(--black-3); color: var(--grey-light); border: 1px solid var(--grey-border); }
+      .sc_preview_cta {
+        display: block; text-align: center; margin-top: 16px;
+        padding: 10px; background: rgba(232,23,58,0.08);
+        border: 1px dashed rgba(232,23,58,0.3); border-radius: 8px;
+        font-size: 12px; color: var(--red); font-weight: 600;
+        text-decoration: none;
+      }
+      @media (max-width: 900px) {
+        .sc_inner { grid-template-columns: 1fr; gap: 40px; }
+        .sc_preview { max-width: 420px; }
+      }
+      @media (max-width: 640px) {
+        #selbstcheck { padding: 72px 16px; }
+      }
+    </style>
+    <div class="sc_wrap">
+      <div class="sc_inner">
+
+        <!-- Text -->
+        <div>
+          <div class="sc_label">KI-Unternehmensanalyse</div>
+          <h2 class="sc_title">Wisse genau, wo dein Studio <span>steht</span>.</h2>
+          <p class="sc_sub">In 5 Minuten analysiert unsere KI dein Studio in 5 Bereichen — mit echten Zahlen aus Google, Instagram und der Meta Ads Library. Du bekommst einen vollständigen Report mit deinen konkreten Wachstumshebeln.</p>
+          <div class="sc_points">
+            <div class="sc_point"><span class="sc_point_dot"></span>Google-Sichtbarkeit &amp; Map-Pack-Position vs. Wettbewerber</div>
+            <div class="sc_point"><span class="sc_point_dot"></span>Instagram-Analyse: Follower, Engagement, Posting-Frequenz</div>
+            <div class="sc_point"><span class="sc_point_dot"></span>Meta Ads: schaltet jemand in deiner Stadt bereits Anzeigen?</div>
+            <div class="sc_point"><span class="sc_point_dot"></span>90-Tage-Plan mit konkreten Maßnahmen</div>
+          </div>
+          <div class="sc_actions">
+            <a href="/selbstcheck" class="sc_btn_primary">Analyse starten — 20€ →</a>
+            <a href="/beispiel-analyse" class="sc_btn_secondary">Beispiel-Report ansehen</a>
+          </div>
+          <p class="sc_note">Einmalige Zahlung · Kein Abo · Report in ~5 Minuten</p>
+        </div>
+
+        <!-- Preview Card -->
+        <div class="sc_preview">
+          <div class="sc_preview_bar">
+            <div class="sc_preview_dot" style="background:#e8173a"></div>
+            <div class="sc_preview_dot" style="background:#444; margin-left:4px"></div>
+            <div class="sc_preview_dot" style="background:#444; margin-left:4px"></div>
+            <span class="sc_preview_title">Dein Wachstumsreport</span>
+          </div>
+          <div class="sc_preview_body">
+            <div class="sc_score_row">
+              <div class="sc_score_card">
+                <div class="sc_score_lbl">Aktuelle Sichtbarkeit</div>
+                <div class="sc_score_val">34<span class="of">/100</span></div>
+              </div>
+              <div class="sc_score_card red">
+                <div class="sc_score_lbl">Potenzial 90 Tage</div>
+                <div class="sc_score_val">71<span class="of">/100</span></div>
+              </div>
+            </div>
+            <div class="sc_preview_line w100"></div>
+            <div class="sc_preview_line w80 accent"></div>
+            <div class="sc_preview_line w60"></div>
+            <div class="sc_preview_section">
+              <div class="sc_preview_section_title">Wachstumshebel</div>
+              <span class="sc_preview_tag red">⚠ 35 vs. 364 Reviews</span>
+              <span class="sc_preview_tag red">⚠ Kein Buchungssystem</span>
+              <span class="sc_preview_tag green">✓ 5,0★ Bewertungen</span>
+              <span class="sc_preview_tag grey">0 Wettbewerber schalten Ads</span>
+            </div>
+            <a href="/beispiel-analyse" class="sc_preview_cta">Vollständigen Beispiel-Report lesen →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
   <!-- FAQ -->
   <section class="faq" id="faq">
     <div class="section_inner">
@@ -3125,5 +3255,6 @@
   })();
   </script>
   <script src="/chat-widget.js"></script>
+<script src="/js/analysis-bubble.js"></script>
 </body>
 </html>

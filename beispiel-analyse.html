@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Beispiel-Analyse — YAD Studio-Selbstcheck</title>
+  <meta name="description" content="So sieht dein Report aus: KI-Wachstumsanalyse für ein echtes Tattoo Studio — anonymisiert.">
+  <link rel="canonical" href="https://yad.rocks/beispiel-analyse">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #0a0a0a; --black-2: #111; --black-3: #1a1a1a;
+      --grey-border: #2a2a2a; --grey-light: #888; --grey-mid: #444;
+      --white: #fff; --red: #e8173a; --red-dark: #c0102e;
+      --red-glow: rgba(232,23,58,0.15); --font: 'Inter', sans-serif; --nav-h: 72px;
+    }
+    html { background: var(--black); }
+    body { font-family: var(--font); background: var(--black); color: var(--white); -webkit-font-smoothing: antialiased; }
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      height: var(--nav-h); display: flex; align-items: center; padding: 0 40px;
+      border-bottom: 1px solid var(--grey-border);
+      background: rgba(10,10,10,0.92); backdrop-filter: blur(12px);
+    }
+    .nav_inner { max-width: 1200px; width: 100%; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+    .nav_logo { font-size: 26px; font-weight: 900; letter-spacing: -1px; }
+    .nav_logo span { color: var(--red); }
+    .nav_back { font-size: 14px; font-weight: 500; color: var(--grey-light); }
+    .nav_back:hover { color: var(--white); }
+    .page { min-height: 100vh; padding-top: calc(var(--nav-h) + 60px); padding-bottom: 100px; padding-left: 24px; padding-right: 24px; }
+    .page_inner { max-width: 780px; margin: 0 auto; }
+
+    .demo-banner {
+      background: rgba(232,23,58,0.08); border: 1px solid rgba(232,23,58,0.25);
+      border-radius: 12px; padding: 14px 20px; margin-bottom: 40px;
+      display: flex; align-items: center; gap: 12px; font-size: 14px; color: #ccc;
+    }
+    .demo-banner strong { color: var(--white); }
+    .demo-banner a { color: var(--red); font-weight: 600; text-decoration: none; margin-left: auto; white-space: nowrap; }
+
+    .report-header { margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid var(--grey-border); }
+    .report-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--red-glow); border: 1px solid rgba(232,23,58,0.3);
+      color: var(--red); font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; padding: 5px 12px; border-radius: 100px; margin-bottom: 16px;
+    }
+    .report-title { font-size: clamp(24px, 5vw, 40px); font-weight: 900; letter-spacing: -1px; line-height: 1.1; margin-bottom: 8px; }
+    .report-meta { font-size: 14px; color: var(--grey-light); }
+
+    .score-block { display: flex; gap: 16px; margin-bottom: 40px; flex-wrap: wrap; }
+    .score-card { flex: 1; min-width: 140px; background: var(--black-2); border: 1px solid var(--grey-border); border-radius: 14px; padding: 20px; }
+    .score-card-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--grey-light); margin-bottom: 8px; }
+    .score-card-value { font-size: 36px; font-weight: 900; letter-spacing: -1.5px; }
+    .score-card-value .total { font-size: 18px; font-weight: 400; color: var(--grey-mid); }
+    .score-card.potential .score-card-value { color: var(--red); }
+
+    .report-body { line-height: 1.75; }
+    .report-body h2 { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; margin-top: 48px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--grey-border); }
+    .report-body h3 { font-size: 16px; font-weight: 700; margin-top: 28px; margin-bottom: 10px; }
+    .report-body p { font-size: 15px; color: #c8c8c8; margin-bottom: 14px; }
+    .report-body strong { color: var(--white); font-weight: 700; }
+    .report-body ul { padding-left: 20px; margin-bottom: 14px; }
+    .report-body li { font-size: 15px; color: #c8c8c8; margin-bottom: 6px; }
+    .report-body table { width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 14px; }
+    .report-body th { text-align: left; padding: 10px 14px; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--grey-light); border-bottom: 1px solid var(--grey-border); }
+    .report-body td { padding: 12px 14px; border-bottom: 1px solid var(--grey-border); color: #c8c8c8; }
+    .report-body tr:last-child td { border-bottom: none; }
+    .report-body hr { border: none; border-top: 1px solid var(--grey-border); margin: 40px 0; }
+
+    .report-cta { margin-top: 64px; padding: 40px; background: var(--black-2); border: 1px solid var(--grey-border); border-radius: 20px; text-align: center; }
+    .cta-title { font-size: 26px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 10px; }
+    .cta-sub { font-size: 15px; color: var(--grey-light); margin-bottom: 28px; line-height: 1.6; }
+    .btn-cta { display: inline-flex; align-items: center; gap: 10px; background: var(--red); color: var(--white); font-family: var(--font); font-size: 16px; font-weight: 700; padding: 18px 36px; border-radius: 12px; border: none; cursor: pointer; text-decoration: none; transition: background 0.2s; }
+    .btn-cta:hover { background: var(--red-dark); }
+
+    @media (max-width: 640px) { .nav { padding: 0 20px; } .page { padding-left: 16px; padding-right: 16px; } .score-card { min-width: 120px; } .report-cta { padding: 28px 20px; } }
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <div class="nav_inner">
+    <a href="/" class="nav_logo">YAD<span>.</span></a>
+    <a href="/selbstcheck" class="nav_back">← Eigene Analyse starten</a>
+  </div>
+</nav>
+
+<main class="page">
+  <div class="page_inner">
+
+    <div class="demo-banner">
+      <span>📋 <strong>Beispiel-Report</strong> — Alle Daten anonymisiert. So sieht deine Analyse aus.</span>
+      <a href="/selbstcheck">Jetzt starten — 20€ →</a>
+    </div>
+
+    <div class="report-header">
+      <div class="report-badge">✓ Analyse abgeschlossen</div>
+      <h1 class="report-title">Ink & Soul Studio — Wachstumsanalyse Musterstadt</h1>
+      <p class="report-meta">Erstellt am 03. Juni 2026</p>
+    </div>
+
+    <div class="score-block">
+      <div class="score-card">
+        <div class="score-card-label">Aktuelle Sichtbarkeit</div>
+        <div class="score-card-value">34<span class="total">/100</span></div>
+      </div>
+      <div class="score-card potential">
+        <div class="score-card-label">Potenzial in 90 Tagen</div>
+        <div class="score-card-value">71<span class="total">/100</span></div>
+      </div>
+    </div>
+
+    <div class="report-body">
+
+<h2>Executive Summary</h2>
+<p>Ihr größter Engpass liegt nicht in der Qualität — er liegt in der Anzahl Ihrer Google-Bewertungen. Sie haben <strong>35 Bewertungen</strong>, der Marktführer in Ihrer Stadt hat <strong>364</strong>. Das sind 10-mal mehr Stimmen, die jeden Tag entscheiden, wen ein Suchender zuerst anklickt. Ihre 5,0★ sind perfekt — aber sie werden zu selten gesehen, weil Sie auf <strong>Map-Pack-Position #3</strong> stehen und im Bewertungsranking weit hinter fünf Wettbewerbern liegen. Das kostet Sie planbar Anfragen, jeden Monat.</p>
+
+<hr>
+
+<h2>Marktposition</h2>
+<p><strong>Bewertungen:</strong> 35 Reviews gegen einen Top-5-Durchschnitt von 177. Sie liegen bei 20% des Marktdurchschnitts. Vier von fünf Wettbewerbern haben mehr.</p>
+<p><strong>Sichtbarkeit:</strong> Map-Pack-Position #3 für "Tattoo Studio Musterstadt". Solide, aber nicht das Sichtfeld, das die ersten Anfragen abgreift.</p>
+<p><strong>Social:</strong> Ihr Studio-Account hat 752 Follower. Ihre eigenen Künstler @kuenstler_1 (1.462) und @kuenstler_2 (1.186) haben jeweils das Doppelte — diese Reichweite fließt aktuell nicht ins Studio zurück.</p>
+<p><strong>Buchung:</strong> Kein Online-Buchungssystem. Jede Anfrage muss aktiv telefonieren oder schreiben.</p>
+
+<hr>
+
+<h2>Die 3 größten Wachstumshebel</h2>
+
+<h3>Hebel 1: Bewertungs-Rückstand schließt Türen, bevor sie sich öffnen</h3>
+<p><strong>Problem:</strong> Sie haben zu wenige Bewertungen, um im lokalen Ranking gegen die Marktführer anzukommen.<br>
+<strong>Beleg:</strong> 35 Reviews vs. 364 beim Marktführer und 177 im Top-5-Schnitt. Sie liegen bei 20% des Marktdurchschnitts.<br>
+<strong>Auswirkung:</strong> Bei lokaler Suche entscheidet die Bewertungsanzahl über den ersten Klick. Wer 35 statt 200 Bewertungen zeigt, verliert die Mehrheit der Erstanfragen — bei einem Tattoo-Auftragswert von mehreren hundert Euro summiert sich das schnell auf vierstellige Monatsbeträge.<br>
+<strong>Priorität:</strong> Hoch</p>
+
+<h3>Hebel 2: Keine Online-Buchung — jede Anfrage ist Handarbeit</h3>
+<p><strong>Problem:</strong> Interessenten können nicht direkt buchen. Sie müssen warten, bis jemand antwortet.<br>
+<strong>Beleg:</strong> Online-Buchungssystem: nein. Kein WhatsApp-Link. Nur Telefon und CTA-Button.<br>
+<strong>Auswirkung:</strong> Tattoo-Entscheidungen sind emotional und spontan. Wer abends um 22 Uhr Lust auf ein Motiv hat, will sofort einen Termin sichern — nicht bis morgen warten. Jede nicht direkt buchbare Anfrage ist eine verlorene Anfrage.<br>
+<strong>Priorität:</strong> Hoch</p>
+
+<h3>Hebel 3: Künstler-Reichweite verpufft am Studio vorbei</h3>
+<p><strong>Problem:</strong> Ihre Künstler haben mehr Reichweite als das Studio — diese Follower werden nicht ins Studio gelenkt.<br>
+<strong>Beleg:</strong> @kuenstler_1 hat 1.462 Follower, @kuenstler_2 hat 1.186 — der Studio-Account nur 752. Zusammen verfügen Ihre Künstler über fast das Vierfache der Studio-Reichweite.<br>
+<strong>Auswirkung:</strong> Jeder Follower, der einen Künstler sieht, aber nicht zum Studio-Profil geführt wird, ist eine Anfrage, die nie ankommt.<br>
+<strong>Priorität:</strong> Mittel</p>
+
+<hr>
+
+<h2>Was uns überrascht hat</h2>
+<p>Ihr kleinster Account ist Ihr stärkster. @azubi_account hat nur 202 Follower — aber eine <strong>Engagement-Rate von 24,75%</strong>. Das ist das 4,5-Fache des Studio-Accounts (5,45%) und ein Wert, den die meisten lokalen Studios nie erreichen. Das beweist: Ihr Content funktioniert, wenn er gesehen wird. Sie haben kein Qualitätsproblem — Sie haben ein Reichweiten-Problem. Das ist die beste Ausgangslage, die ein Studio haben kann.</p>
+
+<hr>
+
+<h2>Verlorene Chancen</h2>
+<ul>
+  <li>Studio Alpha hat 364 Bewertungen — 10,4-mal mehr als Sie.</li>
+  <li>Studio Beta führt mit 217 Reviews bei 5,0★ und steht damit über Ihnen.</li>
+  <li>Studio Gamma kommt auf 201 Bewertungen — fast 6-mal Ihre Zahl.</li>
+  <li>Vier von fünf Wettbewerbern liegen über dem Top-5-Durchschnitt von 177 Reviews.</li>
+  <li><strong>Kein einziges der fünf Wettbewerbsstudios schaltet aktiv Werbeanzeigen.</strong> Der Werbekanal ist vollständig unbesetzt.</li>
+</ul>
+
+<hr>
+
+<h2>90-Tage-Plan</h2>
+
+<h3>Maßnahme 1: Bewertungs-Offensive — Woche 1–12</h3>
+<p>Systematisch jeden zufriedenen Kunden nach Abschluss um eine Google-Bewertung bitten — per QR-Code im Studio und Direktlink nach dem Termin. Ziel: 35 auf 80+ Bewertungen in 90 Tagen. Bei 5,0★ verschiebt das Ihre Position im Ranking spürbar nach oben.</p>
+
+<h3>Maßnahme 2: Online-Buchung + WhatsApp einbauen — Woche 2–5</h3>
+<p>Buchungssystem und WhatsApp-Link auf der Website integrieren. Damit fangen Sie Anfragen rund um die Uhr ein, statt sie an buchbare Wettbewerber zu verlieren. Erwartbarer Effekt: messbar mehr abgeschlossene Terminanfragen ab dem ersten Monat.</p>
+
+<h3>Maßnahme 3: Künstler-Reichweite ins Studio kanalisieren — Woche 4–12</h3>
+<p>Studio-Account in jeder Künstler-Bio verlinken, Reels-Anteil von 8% deutlich erhöhen. Damit holen Sie die fast vierfache Künstler-Reichweite ins Studio und nutzen Ihr stärkstes Asset: ein bereits hochengagiertes Publikum.</p>
+
+<hr>
+
+<h2>Detailanalyse</h2>
+
+<h3>Website</h3>
+<p>Die Website hat die Grundlagen: SSL, mobile Optimierung, Portfolio, Impressum, CTA-Button und sichtbare Telefonnummer. Das Fundament steht.</p>
+<p>Was fehlt, kostet direkt Anfragen: kein Online-Buchungssystem und kein WhatsApp-Link. Tattoo-Interessenten entscheiden spontan — wer nicht sofort buchen kann, geht zum nächsten Studio.</p>
+<p>Außerdem fehlt jegliches Tracking — kein Meta Pixel, kein GA4. Sie wissen aktuell nicht, wie viele Menschen die Website besuchen und wo sie abspringen.</p>
+
+<h3>Google Business</h3>
+<p>Das Profil hat eine kritische Lücke: Die Öffnungszeiten sind nicht eingetragen. Das senkt das Ranking aktiv und führt dazu, dass Suchende überspringen, weil sie nicht wissen, ob das Studio geöffnet hat.</p>
+<p>35 Bewertungen bei perfekten 5,0★ sind das Pfund — aber die Anzahl hält auf Position #3. Der Marktführer hat mit 364 Reviews das 10-Fache. Bewertungsanzahl ist der Hebel, der nach oben zieht.</p>
+
+<h3>Instagram</h3>
+<p>Der Studio-Account hat 752 Follower. Die Künstler @kuenstler_1 (1.462) und @kuenstler_2 (1.186) liegen jeweils klar darüber — diese Reichweite gehört zum Studio, fließt aber nicht zentral zusammen.</p>
+<p>Posting-Rhythmus alle 3,9 Tage — solide. Der <strong>Reels-Anteil liegt bei nur 8%</strong>. Reels sind aktuell das mit Abstand stärkste Reichweiten-Format auf Instagram. 92% des Contents läuft in einem Format, das kaum noch neue Menschen erreicht.</p>
+<p>Die <strong>Engagement-Rate von 5,45%</strong> ist stark — über der 5%-Schwelle, die für hochwertige Follower spricht. Das Publikum ist echt und kaufbereit. Es ist nur zu klein.</p>
+
+<h3>Meta Ads</h3>
+<p>Aktuell keine erkennbaren Werbeanzeigen. Das ist eine verpasste Chance — aber auch eine offene Tür.</p>
+<p>Kein einziges der fünf Wettbewerbsstudios schaltet aktiv Werbung. Der gesamte bezahlte Kanal ist unbesetzt. Wer hier zuerst startet, kann zu niedrigen Kosten die Suchanfragen abgreifen, die heute organisch an bewertungsstarke Wettbewerber gehen.</p>
+
+<h3>Wettbewerber</h3>
+<table>
+  <thead><tr><th>Rang</th><th>Studio</th><th>Google Reviews</th><th>Google Ø★</th><th>Instagram</th><th>Meta Ads</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Studio Beta</td><td>217</td><td>5,0</td><td>—</td><td>nein</td></tr>
+    <tr><td>2</td><td>Studio Gamma</td><td>81</td><td>5,0</td><td>—</td><td>nein</td></tr>
+    <tr><td>3</td><td>Studio Alpha</td><td>364</td><td>4,9</td><td>—</td><td>nein</td></tr>
+    <tr><td>—</td><td><strong>Ink & Soul Studio ← DU</strong></td><td><strong>35</strong></td><td><strong>5,0</strong></td><td><strong>752 Follower</strong></td><td><strong>nein</strong></td></tr>
+  </tbody>
+</table>
+<p>Der Markt wird von Studio Alpha mit 364 Bewertungen dominiert — ausschließlich durch Reviews, nicht durch Social oder Ads. Kein einziger Wettbewerber schaltet Anzeigen. Das ist ein offenes Spielfeld.</p>
+
+<hr>
+
+<h2>Wachstumspotenzial</h2>
+<p><strong>Aktuelle Sichtbarkeit: 34/100</strong></p>
+<table>
+  <thead><tr><th>Kriterium</th><th>Gewichtung</th><th>Score</th></tr></thead>
+  <tbody>
+    <tr><td>Google Reviews</td><td>25%</td><td>8/100</td></tr>
+    <tr><td>Map-Pack-Sichtbarkeit</td><td>25%</td><td>80/100</td></tr>
+    <tr><td>Instagram</td><td>20%</td><td>32/100</td></tr>
+    <tr><td>Website</td><td>20%</td><td>35/100</td></tr>
+    <tr><td>Meta Ads</td><td>10%</td><td>0/100</td></tr>
+  </tbody>
+</table>
+<p><strong>Erreichbares Potenzial in 90 Tagen: 71/100</strong></p>
+<p>Drei Hebel treiben den Sprung: Google-Bewertungen von 35 auf 80+ verbessern den Review-Score von 8 auf ~45. Online-Buchung und Pixel bringen den Website-Score von 35 auf 65. Meta Ads aktivieren den aktuell leeren Kanal vollständig.</p>
+
+<hr>
+
+<h2>Wenn wir einen Bereich zuerst angehen würden</h2>
+<p>Bewertungen. Die Map-Pack-Position #3 ist bereits gut — mit 80+ Reviews bei 5,0★ ist #1 realistisch erreichbar. Position #1 bedeutet, dass jeder Suchende in Ihrer Stadt zuerst Ihr Studio sieht. Das ist der einzige Kanal, der 24 Stunden am Tag neue Anfragen schickt, ohne dass Sie dafür zahlen.</p>
+
+    </div>
+
+    <div class="report-cta">
+      <h2 class="cta-title">Dein Studio. Deine Zahlen.</h2>
+      <p class="cta-sub">Das war ein anonymisiertes Beispiel. Dein Report zeigt deine echten Wettbewerber,<br>deine echten Zahlen — und konkret was du als nächstes tun solltest.</p>
+      <a href="/selbstcheck" class="btn-cta">Eigene Analyse starten — 20€ →</a>
+    </div>
+
+  </div>
+</main>
+
+<script src="/js/analysis-bubble.js"></script>
+</body>
+</html>
