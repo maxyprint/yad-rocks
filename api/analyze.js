@@ -100,6 +100,11 @@ export default async function handler(req, res) {
     const scoreTotal     = parseScore(reportMd, 'Aktuelle Sichtbarkeit');
     const scorePotential = parseScore(reportMd, 'Erreichbares Potenzial');
 
+    const structuredData = extractStructuredData({
+      websiteMd, googleMd, socialMd, adsMd, competitorsMd,
+      scoreTotal, scorePotential,
+    });
+
     await supabase.from('analyses').update({
       status:          'done',
       report_md:       reportMd,
@@ -110,6 +115,7 @@ export default async function handler(req, res) {
       social_md:       socialMd,
       ads_md:          adsMd,
       competitors_md:  competitorsMd,
+      structured_data: structuredData,
       updated_at:      new Date().toISOString(),
     }).eq('id', analysis_id);
 
@@ -847,6 +853,74 @@ Immer mit Geschäftsauswirkung — Anfragen die gewonnen oder verloren werden]
 ## Wenn wir einen Bereich zuerst angehen würden
 
 [Ein Absatz — der eine Hebel mit der stärksten Anfragen-Wirkung, basierend auf den Daten. Kein CTA, kein Konjunktiv.]`;
+}
+
+// ─── Structured data extractor ───────────────────────────────────────────────
+
+function extractStructuredData({ websiteMd, googleMd, socialMd, adsMd, competitorsMd, scoreTotal, scorePotential }) {
+  return {
+    // Website
+    pagespeed_mobile:       sdInt(websiteMd,  /PageSpeed Score Mobile:\s*(\d+)/),
+    has_booking:            sdBool(websiteMd, /Online-Buchungssystem:\s*ja/),
+    has_meta_pixel:         sdBool(websiteMd, /Meta Pixel installiert:\s*ja/),
+    has_cta:                sdBool(websiteMd, /CTA-Button vorhanden:\s*ja/),
+    has_whatsapp:           sdBool(websiteMd, /WhatsApp-Link:\s*ja/),
+    has_ga4:                sdBool(websiteMd, /Google Analytics[^:]*:\s*ja/),
+    has_portfolio:          sdBool(websiteMd, /Portfolio[^:]*:\s*ja/),
+    has_ssl:                sdBool(websiteMd, /SSL \(HTTPS\):\s*ja/),
+
+    // Google
+    google_reviews:         sdInt(googleMd,   /Google Reviews Anzahl:\s*(\d+)/),
+    google_rating:          sdFloat(googleMd, /Google Reviews Ø[^:]*:\s*([\d.]+)/),
+    map_pack_position:      sdText(googleMd,  /Map-Pack Position:\s*([^\n`]+)/),
+    has_opening_hours:      sdBool(googleMd,  /Öffnungszeiten eingetragen:\s*ja/),
+
+    // Instagram
+    ig_followers:           sdInt(socialMd,   /Follower:\s*(\d+)/),
+    ig_media_count:         sdInt(socialMd,   /Posts gesamt:\s*(\d+)/),
+    ig_posting_freq_days:   sdFloat(socialMd, /alle ([\d.]+) Tage/),
+    ig_reels_ratio:         sdInt(socialMd,   /Reels-Anteil:\s*(\d+)%/),
+    ig_engagement_rate:     sdFloat(socialMd, /Engagement-Rate:\s*([\d.]+)%/),
+    ig_avg_likes:           sdInt(socialMd,   /Ø Likes pro Post:\s*(\d+)/),
+    ig_avg_comments:        sdInt(socialMd,   /Ø Kommentare pro Post:\s*(\d+)/),
+    ig_peak_hours:          sdText(socialMd,  /Peak-Postzeiten:\s*([^\n`]+)/),
+
+    // Ads
+    ads_active:             sdBool(adsMd,     /Meta Ads aktiv:\s*ja/),
+    ads_active_since_days:  sdInt(adsMd,      /Aktiv seit \(Tage\):\s*(\d+)/),
+    ads_archived_count:     sdInt(adsMd,      /Archivierte Anzeigen:\s*(\d+)/),
+    ads_never_ran:          sdBool(adsMd,     /Letzter Ads-Zeitraum:\s*noch nie/),
+
+    // Competitors
+    competitors:            sdCompetitors(competitorsMd),
+    market_leader_reviews:  sdInt(competitorsMd, /Marktführer Reviews:\s*(\d+)/),
+    market_leader_rating:   sdFloat(competitorsMd, /Marktführer Sterne:\s*([\d.]+)/),
+    avg_reviews_top5:       sdInt(competitorsMd, /Ø Google Reviews[^:]*:\s*(\d+)/),
+    studios_with_active_ads:sdInt(competitorsMd, /Studios mit aktiven Ads:\s*(\d+)/),
+
+    // Scores
+    score_total,
+    score_potential,
+  };
+}
+
+function sdInt(md, re)   { if (!md) return null; const m = md.match(re); return m ? parseInt(m[1]) : null; }
+function sdFloat(md, re) { if (!md) return null; const m = md.match(re); return m ? parseFloat(m[1].replace(',', '.')) : null; }
+function sdBool(md, re)  { return md ? re.test(md) : null; }
+function sdText(md, re)  { if (!md) return null; const m = md.match(re); return m ? m[1].trim() : null; }
+
+function sdCompetitors(md) {
+  if (!md) return [];
+  return [...md.matchAll(/\|\s*(\d+)\s*\|\s*([^|*\n]+?)\s*\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|/g)]
+    .map(r => ({
+      rank:           parseInt(r[1]),
+      name:           r[2].trim(),
+      google_reviews: parseInt(r[3]) || null,
+      google_rating:  parseFloat(r[4]) || null,
+      ig_followers:   /^\d/.test(r[5].trim()) ? parseInt(r[5].replace(/[^\d]/g, '')) : null,
+      ads_active:     r[6].toLowerCase().includes('aktiv'),
+    }))
+    .filter(c => !c.name.includes('←') && c.name.length > 1);
 }
 
 // ─── Score parser ─────────────────────────────────────────────────────────────
