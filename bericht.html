@@ -185,6 +185,26 @@
     }
     .report-body hr { border: none; border-top: 1px solid var(--grey-border); margin: 40px 0; }
 
+    /* ─── PLAN CTAs ─── */
+    .plan-cta {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; flex-wrap: wrap;
+      padding: 14px 18px; margin-top: 16px; margin-bottom: 4px;
+      background: rgba(232,23,58,0.06); border: 1px solid rgba(232,23,58,0.2);
+      border-radius: 10px;
+    }
+    .plan-cta-left { display: flex; flex-direction: column; gap: 2px; }
+    .plan-cta-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: rgba(232,23,58,0.7); }
+    .plan-cta-text  { font-size: 14px; color: #bbb; }
+    .plan-cta-btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: var(--red); color: #fff; font-family: var(--font);
+      font-size: 13px; font-weight: 700; padding: 10px 18px;
+      border-radius: 8px; text-decoration: none; white-space: nowrap;
+      transition: background 0.2s;
+    }
+    .plan-cta-btn:hover { background: var(--red-dark); }
+
     /* ─── CTA ─── */
     .report-cta {
       margin-top: 64px; padding: 40px;
@@ -482,6 +502,52 @@
   const poller = setInterval(poll, 8000);
   poll();
 
+  // ── 90-Tage-Plan CTAs ───────────────────────────────────────────────────
+  function injectPlanCTAs(data) {
+    const body      = document.getElementById('reportBody');
+    const massnahmen = Array.from(body.querySelectorAll('h3'))
+      .filter(h => h.textContent.includes('Maßnahme'));
+
+    massnahmen.forEach(h3 => {
+      const title = h3.textContent.trim();
+      const num   = title.match(/Maßnahme\s*(\d+)/)?.[1] || '?';
+
+      // Alle Siblings bis zum nächsten Heading sammeln
+      const siblings = [];
+      let el = h3.nextElementSibling;
+      while (el && !['H2','H3','HR'].includes(el.tagName)) {
+        siblings.push(el);
+        el = el.nextElementSibling;
+      }
+
+      // WhatsApp Nachricht mit allen Kontext-Daten
+      const msg = [
+        `Hallo Max, ich möchte Maßnahme ${num} aus meiner YAD-Analyse angehen.`,
+        ``,
+        `📍 Studio: ${data.studio_name}, ${data.city}`,
+        `📊 Score: ${data.score_total ?? '—'}/100 → Potenzial: ${data.score_potential ?? '—'}/100`,
+        `🎯 Geklickter Schritt: ${title}`,
+        `🔗 Mein Report: https://yad.rocks/bericht?id=${id}`,
+      ].join('\n');
+
+      const cta = document.createElement('div');
+      cta.className = 'plan-cta';
+      cta.innerHTML = `
+        <div class="plan-cta-left">
+          <span class="plan-cta-label">YAD übernimmt das für dich</span>
+          <span class="plan-cta-text">Wir setzen Maßnahme ${num} für dein Studio um — von Anfang bis Ergebnis.</span>
+        </div>
+        <a href="https://wa.me/4915154661673?text=${encodeURIComponent(msg)}"
+           target="_blank" rel="noopener" class="plan-cta-btn">
+          Kostenloses Gespräch →
+        </a>
+      `;
+
+      const anchor = siblings.at(-1) ?? h3;
+      anchor.after(cta);
+    });
+  }
+
   // ── Show states ─────────────────────────────────────────────────────────
   function showError() {
     document.getElementById('stateLoading').style.display = 'none';
@@ -503,6 +569,7 @@
       document.getElementById('scorePotential').innerHTML = `${data.score_potential}<span class="total">/100</span>`;
 
     document.getElementById('reportBody').innerHTML = marked.parse(data.report_md || '');
+    injectPlanCTAs(data);
 
     if (typeof fbq !== 'undefined') fbq('track', 'Purchase', { value: 20, currency: 'EUR' });
 
