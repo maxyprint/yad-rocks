@@ -11,7 +11,7 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST')    return res.status(405).json({ error: 'Method not allowed' });
 
-  const { studioName, websiteUrl, city, email, googleUrl, instagramAccounts } = req.body;
+  const { studioName, websiteUrl, city, email, googleUrl, instagramAccounts, facebookPageId, facebookPageName } = req.body;
 
   if (!studioName || !websiteUrl || !city || !email || !instagramAccounts?.length) {
     return res.status(400).json({ error: 'Pflichtfelder fehlen.' });
@@ -24,8 +24,10 @@ export default async function handler(req, res) {
       website_url:         websiteUrl,
       city,
       email,
-      google_url:          googleUrl || null,
+      google_url:          googleUrl          || null,
       instagram_accounts:  instagramAccounts,
+      facebook_page_id:    facebookPageId     || null,
+      facebook_page_name:  facebookPageName   || null,
       status:              'pending',
       paid:                false,
     })

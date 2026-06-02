@@ -244,9 +244,10 @@
     .insta-row {
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
       gap: 10px;
       overflow: hidden;
-      max-height: 56px;
+      max-height: 88px;
       opacity: 1;
       transition: max-height 0.3s ease, opacity 0.3s ease;
     }
@@ -401,6 +402,68 @@
       .price-includes { text-align: left; max-width: 100%; }
       .insta-label { min-width: 60px; }
     }
+
+    /* ─── INSTAGRAM LIVE-PREVIEW ─── */
+    .insta-preview {
+      order: 99;
+      flex-basis: 100%;
+      font-size: 12px;
+      padding-left: 90px;
+      margin-top: -4px;
+      padding-bottom: 2px;
+      min-height: 0;
+      transition: color 0.2s;
+    }
+    .insta-preview.found     { color: #4ade80; }
+    .insta-preview.not-found { color: #666; }
+    .insta-preview.loading   { color: #555; }
+
+    /* ─── FACEBOOK AUTOCOMPLETE ─── */
+    .fb-wrap { position: relative; }
+    .fb-dropdown {
+      position: absolute;
+      top: 100%; left: 0; right: 0;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-top: none;
+      border-radius: 0 0 10px 10px;
+      z-index: 20;
+      max-height: 260px;
+      overflow-y: auto;
+      display: none;
+    }
+    .fb-dropdown.open { display: block; }
+    .fb-option {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      cursor: pointer;
+      font-size: 14px;
+      border-bottom: 1px solid #222;
+    }
+    .fb-option:last-child  { border-bottom: none; }
+    .fb-option:hover       { background: #222; }
+    .fb-option-name        { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .fb-option-meta        { font-size: 12px; color: #666; white-space: nowrap; flex-shrink: 0; }
+    .fb-selected-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 8px;
+      padding: 4px 10px;
+      background: rgba(74,222,128,0.1);
+      border: 1px solid rgba(74,222,128,0.3);
+      border-radius: 6px;
+      font-size: 12px;
+      color: #4ade80;
+    }
+    .fb-selected-badge button {
+      background: none; border: none; color: #4ade80; cursor: pointer;
+      padding: 0; font-size: 14px; line-height: 1;
+    }
+    .field-hint { font-size: 12px; color: #555; margin-top: 7px; }
   </style>
 </head>
 <body>
@@ -488,6 +551,22 @@
           </div>
 
           <div class="field">
+            <label for="facebookSearch">
+              Facebook-Seite
+              <span class="optional">optional</span>
+            </label>
+            <div class="fb-wrap">
+              <input type="text" id="facebookSearch" name="facebookSearch"
+                placeholder="Seitenname eingeben…" autocomplete="off" spellcheck="false">
+              <input type="hidden" id="facebookPageId">
+              <input type="hidden" id="facebookPageName">
+              <div class="fb-dropdown" id="fbDropdown"></div>
+            </div>
+            <div id="fbSelectedBadge"></div>
+            <div class="field-hint">Für präzise Auswertung deiner Werbeanzeigen</div>
+          </div>
+
+          <div class="field">
             <label for="email">Deine E-Mail</label>
             <input type="email" id="email" name="email"
               placeholder="du@dein-studio.de" required autocomplete="email">
@@ -511,6 +590,7 @@
                   autocomplete="off" spellcheck="false">
               </div>
               <button type="button" class="insta-remove hidden" aria-label="Entfernen">×</button>
+              <div class="insta-preview"></div>
             </div>
 
             <!-- Erster Künstler-Slot (zunächst versteckt) -->
@@ -523,6 +603,7 @@
                   autocomplete="off" spellcheck="false">
               </div>
               <button type="button" class="insta-remove" aria-label="Entfernen">×</button>
+              <div class="insta-preview"></div>
             </div>
           </div>
         </div>
@@ -583,6 +664,7 @@
           autocomplete="off" spellcheck="false">
       </div>
       <button type="button" class="insta-remove" aria-label="Entfernen">×</button>
+      <div class="insta-preview"></div>
     `;
     list.appendChild(row);
     wireRow(row);
@@ -590,13 +672,28 @@
   }
 
   function wireRow(row) {
-    const input  = row.querySelector('.insta-input');
-    const remove = row.querySelector('.insta-remove');
+    const input   = row.querySelector('.insta-input');
+    const remove  = row.querySelector('.insta-remove');
+    const preview = row.querySelector('.insta-preview');
+    let   igTimer = null;
 
     input.addEventListener('input', () => {
+      // Neue Zeile hinzufügen wenn letzte Zeile befüllt
       if (input.value.trim().length > 0) {
         const visible = getVisibleRows();
         if (row === visible[visible.length - 1]) addRow();
+      }
+      // Instagram Live-Validierung
+      if (preview) {
+        clearTimeout(igTimer);
+        preview.textContent = '';
+        preview.className = 'insta-preview';
+        const h = input.value.trim().replace(/^@/, '');
+        if (h.length >= 2) {
+          preview.textContent = '…';
+          preview.className = 'insta-preview loading';
+          igTimer = setTimeout(() => validateInsta(h, preview), 900);
+        }
       }
     });
 
@@ -660,6 +757,8 @@
       email:             form.email.value.trim(),
       googleUrl:         form.googleUrl.value.trim() || null,
       instagramAccounts,
+      facebookPageId:    document.getElementById('facebookPageId').value   || null,
+      facebookPageName:  document.getElementById('facebookPageName').value || null,
     };
 
     try {
@@ -684,6 +783,96 @@
       btn.classList.remove('loading');
     }
   });
+
+  // ── Instagram Live-Validierung ──────────────────────────────────────
+  async function validateInsta(handle, el) {
+    try {
+      const r = await fetch(`/api/instagram-lookup?handle=${encodeURIComponent(handle)}`);
+      const d = await r.json();
+      if (!d.exists) {
+        el.textContent = 'Account nicht gefunden';
+        el.className = 'insta-preview not-found';
+      } else if (d.followers != null) {
+        el.textContent = `✓ ${d.followers.toLocaleString('de-DE')} Follower · ${d.posts ?? '—'} Posts`;
+        el.className = 'insta-preview found';
+      } else {
+        el.textContent = '✓ Account gefunden';
+        el.className = 'insta-preview found';
+      }
+    } catch {
+      el.textContent = '';
+      el.className = 'insta-preview';
+    }
+  }
+
+  // ── Facebook Page Autocomplete ───────────────────────────────────────
+  (function initFbAutocomplete() {
+    const fbInput   = document.getElementById('facebookSearch');
+    const fbPageId  = document.getElementById('facebookPageId');
+    const fbPageNm  = document.getElementById('facebookPageName');
+    const fbDrop    = document.getElementById('fbDropdown');
+    const fbBadge   = document.getElementById('fbSelectedBadge');
+    let   fbTimer   = null;
+
+    function formatFanCount(n) {
+      if (!n) return '';
+      if (n >= 1000000) return (n / 1000000).toFixed(1).replace('.', ',') + ' Mio. Follower';
+      if (n >= 1000)    return Math.round(n / 1000) + ' Tsd. Follower';
+      return n + ' Follower';
+    }
+
+    function selectPage(id, name, fanCount) {
+      fbPageId.value  = id;
+      fbPageNm.value  = name;
+      fbInput.value   = '';
+      fbDrop.innerHTML = '';
+      fbDrop.classList.remove('open');
+      fbBadge.innerHTML = `
+        <div class="fb-selected-badge">
+          ✓ ${name}${fanCount ? ' · ' + formatFanCount(fanCount) : ''}
+          <button type="button" title="Entfernen" onclick="clearFbPage()">×</button>
+        </div>`;
+    }
+
+    window.clearFbPage = function() {
+      fbPageId.value = '';
+      fbPageNm.value = '';
+      fbBadge.innerHTML = '';
+    };
+
+    fbInput.addEventListener('input', () => {
+      clearTimeout(fbTimer);
+      const q = fbInput.value.trim();
+      if (q.length < 2) { fbDrop.innerHTML = ''; fbDrop.classList.remove('open'); return; }
+      fbTimer = setTimeout(async () => {
+        try {
+          const r = await fetch(`/api/facebook-search?q=${encodeURIComponent(q)}`);
+          const d = await r.json();
+          const pages = d.data || [];
+          if (!pages.length) { fbDrop.innerHTML = ''; fbDrop.classList.remove('open'); return; }
+          fbDrop.innerHTML = pages.map(p => `
+            <div class="fb-option"
+              data-id="${p.id}"
+              data-name="${(p.name || '').replace(/"/g, '&quot;')}"
+              data-fans="${p.fan_count || 0}">
+              <span class="fb-option-name">${p.name}</span>
+              <span class="fb-option-meta">${p.category ? p.category + (p.fan_count ? ' · ' : '') : ''}${p.fan_count ? formatFanCount(p.fan_count) : ''}</span>
+            </div>`).join('');
+          fbDrop.classList.add('open');
+          fbDrop.querySelectorAll('.fb-option').forEach(el => {
+            el.addEventListener('mousedown', (e) => {
+              e.preventDefault();
+              selectPage(el.dataset.id, el.dataset.name, parseInt(el.dataset.fans) || 0);
+            });
+          });
+        } catch {}
+      }, 400);
+    });
+
+    fbInput.addEventListener('blur', () => {
+      setTimeout(() => { fbDrop.innerHTML = ''; fbDrop.classList.remove('open'); }, 150);
+    });
+  })();
 
 })();
 </script>

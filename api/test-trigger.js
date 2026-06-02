@@ -14,7 +14,7 @@ export default async function handler(req, res) {
     return res.status(401).end();
   }
 
-  const { studio_name, website_url, city, email, google_url, instagram_accounts } = req.body;
+  const { studio_name, website_url, city, email, google_url, instagram_accounts, facebook_page_id, facebook_page_name } = req.body;
   if (!studio_name || !website_url || !city) {
     return res.status(400).json({ error: 'studio_name, website_url, city required' });
   }
@@ -26,8 +26,10 @@ export default async function handler(req, res) {
       website_url,
       city,
       email:               email || 'test@yad.rocks',
-      google_url:          google_url || null,
+      google_url:          google_url          || null,
       instagram_accounts:  Array.isArray(instagram_accounts) ? instagram_accounts : [],
+      facebook_page_id:    facebook_page_id    || null,
+      facebook_page_name:  facebook_page_name  || null,
       paid:                true,
       status:              'pending',
     })

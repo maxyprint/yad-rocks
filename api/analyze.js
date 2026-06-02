@@ -68,7 +68,7 @@ export default async function handler(req, res) {
     const [websiteMd, socialMd, adsMd, { googleMd, competitorsMd }] = await Promise.all([
       analyzeWebsite(analysis.website_url),
       analyzeSocial(analysis.instagram_accounts, analysis.city),
-      analyzeAds(analysis.studio_name, analysis.city),
+      analyzeAds(analysis.studio_name, analysis.city, analysis.facebook_page_id),
       fetchGoogleData(analysis.studio_name, analysis.city, analysis.google_url),
     ]);
 
@@ -430,19 +430,28 @@ function parseIgNumber(str) {
 
 // ─── Modul 4 — Ads ───────────────────────────────────────────────────────────
 
-async function analyzeAds(studioName, city) {
+async function analyzeAds(studioName, city, facebookPageId) {
   const token = process.env.FACEBOOK_ACCESS_TOKEN;
   if (!token) return adsFallback(studioName, city);
 
   try {
-    const params = new URLSearchParams({
-      search_terms:        studioName,
-      ad_reached_countries: JSON.stringify(['DE', 'AT', 'CH']),
-      ad_active_status:    'ALL',
-      fields:              'id,ad_delivery_start_time,ad_delivery_stop_time',
-      limit:               '25',
-      access_token:        token,
-    });
+    // Page-ID gibt präzise Treffer; ohne ID brauchen wir Länderfilter
+    const params = facebookPageId
+      ? new URLSearchParams({
+          search_page_ids:  JSON.stringify([facebookPageId]),
+          ad_active_status: 'ALL',
+          fields:           'id,ad_delivery_start_time,ad_delivery_stop_time',
+          limit:            '25',
+          access_token:     token,
+        })
+      : new URLSearchParams({
+          search_terms:         studioName,
+          ad_reached_countries: JSON.stringify(['DE', 'AT', 'CH']),
+          ad_active_status:     'ALL',
+          fields:               'id,ad_delivery_start_time,ad_delivery_stop_time',
+          limit:                '25',
+          access_token:         token,
+        });
 
     const r = await fetch(
       `https://graph.facebook.com/v19.0/ads_archive?${params}`,
