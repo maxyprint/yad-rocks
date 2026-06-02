@@ -65,14 +65,12 @@ export default async function handler(req, res) {
   if (!analysis.paid)          return res.status(403).end();
 
   try {
-    const [websiteMd, socialMd, adsMd] = await Promise.all([
+    const [websiteMd, socialMd, adsMd, { googleMd, competitorsMd }] = await Promise.all([
       analyzeWebsite(analysis.website_url),
       analyzeSocial(analysis.instagram_accounts, analysis.city),
       analyzeAds(analysis.studio_name, analysis.city),
+      fetchGoogleData(analysis.studio_name, analysis.city, analysis.google_url),
     ]);
-
-    const googleMd      = analyzeGoogle(analysis.studio_name, analysis.city, analysis.google_url);
-    const competitorsMd = buildCompetitorsModule(analysis.studio_name, analysis.city);
 
     const userPrompt = buildUserPrompt({
       studioName: analysis.studio_name,
@@ -120,7 +118,7 @@ export default async function handler(req, res) {
   }
 }
 
-// ─── Data collectors ─────────────────────────────────────────────────────────
+// ─── Modul 1 — Website ────────────────────────────────────────────────────────
 
 async function analyzeWebsite(url) {
   let html           = '';
@@ -188,7 +186,144 @@ SSL (HTTPS):                ${url.startsWith('https') ? 'ja' : 'nein'}
 `;
 }
 
-function analyzeGoogle(studioName, city, googleUrl) {
+// ─── Modul 2 + 5 — Google Places (geteilt) ───────────────────────────────────
+
+async function fetchGoogleData(studioName, city, googleUrl) {
+  const apiKey = process.env.GOOGLE_PLACES_KEY;
+  if (!apiKey) {
+    return {
+      googleMd:      googleFallback(studioName, city, googleUrl),
+      competitorsMd: competitorsFallback(studioName, city),
+    };
+  }
+
+  // Suche nach "tattoo studio {city}" — liefert Map-Pack-Reihenfolge + Wettbewerber
+  let searchResults = [];
+  try {
+    const r = await fetch(
+      `https://maps.googleapis.com/maps/api/place/textsearch/json` +
+      `?query=${encodeURIComponent('tattoo studio ' + city)}&language=de&key=${apiKey}`,
+      { signal: AbortSignal.timeout(12000) }
+    );
+    const d = await r.json();
+    searchResults = d.results || [];
+  } catch {}
+
+  // Eigenes Studio in den Ergebnissen finden
+  const nameLower    = studioName.toLowerCase();
+  const isOwn        = (name) => {
+    const n = name.toLowerCase();
+    return n.includes(nameLower) || nameLower.includes(n);
+  };
+  const ownIndex  = searchResults.findIndex(p => isOwn(p.name));
+  const ownResult = ownIndex >= 0 ? searchResults[ownIndex] : null;
+
+  // Map-Pack-Position bestimmen
+  let mapPackPosition;
+  if (ownIndex === -1)       mapPackPosition = 'nicht sichtbar';
+  else if (ownIndex < 3)     mapPackPosition = `#${ownIndex + 1}`;
+  else                       mapPackPosition = `#${ownIndex + 1} (außerhalb Top 3)`;
+
+  // Detaildaten für das eigene Studio (Öffnungszeiten, Adresse)
+  let studioDetails = ownResult;
+  if (ownResult?.place_id) {
+    try {
+      const r = await fetch(
+        `https://maps.googleapis.com/maps/api/place/details/json` +
+        `?place_id=${ownResult.place_id}` +
+        `&fields=name,rating,user_ratings_total,opening_hours,formatted_address,website` +
+        `&language=de&key=${apiKey}`,
+        { signal: AbortSignal.timeout(10000) }
+      );
+      const d = await r.json();
+      if (d.result) studioDetails = { ...ownResult, ...d.result };
+    } catch {}
+  }
+
+  const competitors = searchResults.filter(p => !isOwn(p.name)).slice(0, 5);
+
+  return {
+    googleMd:      buildGoogleMd(studioName, city, googleUrl, studioDetails, mapPackPosition),
+    competitorsMd: buildCompetitorsMd(studioName, city, competitors, ownResult),
+  };
+}
+
+function buildGoogleMd(studioName, city, googleUrl, details, mapPackPosition) {
+  const reviews = details?.user_ratings_total ?? '—';
+  const rating  = details?.rating             ?? '—';
+  const address = details?.formatted_address  ?? '—';
+  const hours   = details?.opening_hours      ? 'ja' : 'nein';
+
+  return `# Modul 2 — Google Business Analyse
+
+## Basisdaten
+\`\`\`
+Business-Name:              ${details?.name || studioName}
+Stadt:                      ${city}
+Adresse:                    ${address}
+Google Business URL:        ${googleUrl || '—'}
+\`\`\`
+
+## Bewertungen
+\`\`\`
+Google Reviews Anzahl:      ${reviews}
+Google Reviews Ø (Sterne):  ${rating}
+\`\`\`
+
+## Lokale Sichtbarkeit
+\`\`\`
+Primärer Suchbegriff:       Tattoo Studio ${city}
+Map-Pack Position:          ${mapPackPosition}
+\`\`\`
+
+## Profil-Vollständigkeit
+\`\`\`
+Öffnungszeiten eingetragen: ${hours}
+Website verlinkt:           ${googleUrl ? 'ja' : 'nein'}
+\`\`\`
+`;
+}
+
+function buildCompetitorsMd(studioName, city, competitors, ownResult) {
+  const ratings  = competitors.map(p => p.user_ratings_total).filter(v => v != null);
+  const avgReviews = ratings.length
+    ? Math.round(ratings.reduce((a, b) => a + b, 0) / ratings.length)
+    : '—';
+
+  const rows = competitors.map((p, i) =>
+    `| ${i + 1} | ${p.name} | ${p.user_ratings_total ?? '—'} | ${p.rating ?? '—'} | — | — |`
+  ).join('\n');
+
+  const ownReviews = ownResult?.user_ratings_total ?? '—';
+  const ownRating  = ownResult?.rating             ?? '—';
+  const ownRow     = `| — | **${studioName} ← DU** | **${ownReviews}** | **${ownRating}** | — | — |`;
+
+  return `# Modul 5 — Wettbewerbsanalyse
+
+## Markt
+\`\`\`
+Stadt / Region:             ${city}
+Primärer Suchbegriff:       "Tattoo Studio ${city}"
+Eigenes Studio:             ${studioName}
+\`\`\`
+
+## Wettbewerbs-Tabelle
+
+| Rang | Studio | Google Reviews | Google Ø★ | Instagram Follower | Meta Ads |
+|---|---|---|---|---|---|
+${rows}
+${ownRow}
+
+## Markt-Durchschnittswerte
+\`\`\`
+Ø Google Reviews (Top 5):   ${avgReviews}
+Marktführer Reviews:        ${competitors[0]?.user_ratings_total ?? '—'}
+Marktführer Sterne:         ${competitors[0]?.rating ?? '—'}
+\`\`\`
+`;
+}
+
+function googleFallback(studioName, city, googleUrl) {
   return `# Modul 2 — Google Business Analyse
 
 ## Basisdaten
@@ -198,26 +333,49 @@ Stadt:                      ${city}
 Google Business URL:        ${googleUrl || '—'}
 \`\`\`
 
-## Lokale Sichtbarkeit
-\`\`\`
-Primärer Suchbegriff:       Tattoo Studio ${city}
-Map-Pack Position:          —
-\`\`\`
-
 ## Analyse-Hinweis
 \`\`\`
-Bewerte die Google-Sichtbarkeit und Marktposition basierend auf typischen
-Wettbewerbsbedingungen für Tattoo-Studios in ${city}. Schätze realistisch:
-Map-Pack-Position, Review-Anzahl des Marktführers, Review-Durchschnitt.
+Bewerte die Google-Sichtbarkeit basierend auf typischen Wettbewerbsbedingungen
+für Tattoo-Studios in ${city}. Schätze realistisch: Map-Pack-Position,
+Review-Anzahl des Marktführers, Review-Durchschnitt.
 \`\`\`
 `;
 }
 
+function competitorsFallback(studioName, city) {
+  return `# Modul 5 — Wettbewerbsanalyse
+
+## Markt
+\`\`\`
+Stadt / Region:             ${city}
+Eigenes Studio:             ${studioName}
+\`\`\`
+
+## Analyse-Hinweis
+\`\`\`
+Analysiere die Wettbewerbssituation für Tattoo-Studios in ${city}.
+Schätze realistisch: Anzahl Wettbewerber, Review-Zahlen des Marktführers,
+Durchschnitt der Top-5. Nutze dein Wissen über den deutschen Tattoo-Markt.
+\`\`\`
+`;
+}
+
+// ─── Modul 3 — Social Media + Instagram-Scraping ─────────────────────────────
+
 async function analyzeSocial(instagramAccounts, city) {
   const accounts = Array.isArray(instagramAccounts) ? instagramAccounts : [];
-  const lines    = accounts.map((acc, i) =>
-    `${i === 0 ? 'Studio-Account' : `Künstler ${i}    `}:             @${acc}`
-  ).join('\n');
+
+  // Alle Accounts parallel scrapen
+  const scraped = await Promise.all(accounts.map(scrapeInstagram));
+
+  const lines = accounts.map((acc, i) => {
+    const data    = scraped[i];
+    const label   = i === 0 ? 'Studio-Account    ' : `Künstler ${i}        `;
+    const handle  = `@${acc}`;
+    const follow  = data?.followers != null ? String(data.followers) : '—';
+    const posts   = data?.posts     != null ? String(data.posts)     : '—';
+    return `${label}:   ${handle}\nFollower               :   ${follow}\nPosts gesamt           :   ${posts}`;
+  }).join('\n\n');
 
   return `# Modul 3 — Social Media Analyse
 
@@ -228,14 +386,116 @@ ${lines || 'Studio-Account:               —'}
 
 ## Analyse-Hinweis
 \`\`\`
-Bewerte die Instagram-Präsenz und Posting-Frequenz dieser Accounts.
+Bewerte die Instagram-Präsenz dieser Accounts.
 Vergleiche mit typischen Top-3 Tattoo-Studios in ${city}.
-Schätze realistisch: Follower-Anzahl, Posting-Frequenz, Engagement.
 \`\`\`
 `;
 }
 
+async function scrapeInstagram(handle) {
+  const username = handle.replace(/^@/, '');
+  try {
+    const r = await fetch(`https://www.instagram.com/${username}/`, {
+      headers: {
+        'User-Agent': 'facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_useragent.php)',
+        'Accept':     'text/html,application/xhtml+xml',
+      },
+      signal: AbortSignal.timeout(10000),
+    });
+    const html = await r.text();
+
+    // og:description: "700 Followers, 50 Following, 110 Posts – ..."
+    // DE-Format:      "700 Follower, 50 folge ich, 110 Beiträge – ..."
+    const desc = html.match(/<meta[^>]+property="og:description"[^>]+content="([^"]+)"/i)?.[1]
+              || html.match(/<meta[^>]+content="([^"]+)"[^>]+property="og:description"/i)?.[1];
+
+    if (!desc) return null;
+
+    const followers = parseIgNumber(desc.match(/([\d.,]+)\s*(Follower[s]?)/i)?.[1]);
+    const posts     = parseIgNumber(desc.match(/([\d.,]+)\s*(Post[s]?|Beiträge|Beitrag)/i)?.[1]);
+
+    return (followers != null || posts != null) ? { followers, posts } : null;
+  } catch {
+    return null;
+  }
+}
+
+function parseIgNumber(str) {
+  if (!str) return null;
+  // "1.240" (DE) oder "1,240" (EN) → 1240
+  const cleaned = str.replace(/[.,]/g, '');
+  const n = parseInt(cleaned, 10);
+  return isNaN(n) ? null : n;
+}
+
+// ─── Modul 4 — Ads ───────────────────────────────────────────────────────────
+
 async function analyzeAds(studioName, city) {
+  const token = process.env.FACEBOOK_ACCESS_TOKEN;
+  if (!token) return adsFallback(studioName, city);
+
+  try {
+    const params = new URLSearchParams({
+      search_terms:        studioName,
+      ad_reached_countries: JSON.stringify(['DE', 'AT', 'CH']),
+      ad_active_status:    'ALL',
+      fields:              'id,ad_delivery_start_time,ad_delivery_stop_time',
+      limit:               '25',
+      access_token:        token,
+    });
+
+    const r = await fetch(
+      `https://graph.facebook.com/v19.0/ads_archive?${params}`,
+      { signal: AbortSignal.timeout(12000) }
+    );
+    const d = await r.json();
+    if (d.error) throw new Error(d.error.message);
+
+    const ads        = d.data || [];
+    const activeAds  = ads.filter(a => !a.ad_delivery_stop_time);
+    const archived   = ads.filter(a =>  a.ad_delivery_stop_time);
+
+    // Wie lange laufen die aktiven Ads schon?
+    let activeSinceDays = '—';
+    if (activeAds.length > 0) {
+      const oldest = activeAds.reduce((min, a) =>
+        new Date(a.ad_delivery_start_time) < new Date(min.ad_delivery_start_time) ? a : min
+      );
+      activeSinceDays = Math.round(
+        (Date.now() - new Date(oldest.ad_delivery_start_time)) / 86_400_000
+      );
+    }
+
+    // Wann liefen zuletzt Ads?
+    let lastAdDate = '—';
+    if (archived.length > 0) {
+      const latest = archived.reduce((max, a) =>
+        new Date(a.ad_delivery_stop_time) > new Date(max.ad_delivery_stop_time) ? a : max
+      );
+      lastAdDate = latest.ad_delivery_stop_time.split('T')[0];
+    }
+
+    const neverRan = activeAds.length === 0 && archived.length === 0;
+
+    return `# Modul 4 — Werbeanzeigen-Analyse
+
+## Meta Ads (Facebook & Instagram)
+\`\`\`
+Studio-Name:                ${studioName}
+Meta Ads aktiv:             ${activeAds.length > 0 ? 'ja' : 'nein'}
+Anzahl aktive Anzeigen:     ${activeAds.length}
+Aktiv seit (Tage):          ${activeSinceDays}
+Archivierte Anzeigen:       ${archived.length}
+Letzter Ads-Zeitraum:       ${neverRan ? 'noch nie' : lastAdDate}
+\`\`\`
+`;
+  } catch (err) {
+    console.error('Meta Ads API error:', err.message);
+    return adsFallback(studioName, city);
+  }
+}
+
+function adsFallback(studioName, city) {
   return `# Modul 4 — Werbeanzeigen-Analyse
 
 ## Meta Ads
@@ -243,32 +503,6 @@ async function analyzeAds(studioName, city) {
 Studio-Name:                ${studioName}
 Stadt:                      ${city}
 Meta Ads aktiv:             —
-\`\`\`
-
-## Analyse-Hinweis
-\`\`\`
-Bewerte die Meta Ads Aktivität für ${studioName}. Vergleiche mit typischen
-Wettbewerbern in ${city}. Schätze realistisch ob das Studio Anzeigen schaltet
-basierend auf Studiogrößeund Marktumfeld.
-\`\`\`
-`;
-}
-
-function buildCompetitorsModule(studioName, city) {
-  return `# Modul 5 — Wettbewerbsanalyse
-
-## Markt
-\`\`\`
-Stadt:                      ${city}
-Eigenes Studio:             ${studioName}
-\`\`\`
-
-## Analyse-Hinweis
-\`\`\`
-Analysiere die Wettbewerbssituation für Tattoo-Studios in ${city}.
-Schätze realistisch: Anzahl Wettbewerber, Review-Zahlen des Marktführers (Top-1),
-Durchschnitt der Top-5, Instagram-Follower der Top-3. Nutze dein Wissen über
-den deutschen Tattoo-Markt und die Stadtgröße für realistische Einschätzungen.
 \`\`\`
 `;
 }

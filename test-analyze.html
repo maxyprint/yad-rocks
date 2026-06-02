@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Test — Analyse</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #0a0a0a; --black-3: #1a1a1a;
+      --grey-border: #2a2a2a; --grey-mid: #444; --grey-light: #888;
+      --white: #fff; --red: #e8173a; --red-glow: rgba(232,23,58,0.15);
+      --font: 'Inter', sans-serif;
+    }
+    body { font-family: var(--font); background: var(--black); color: var(--white); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+    .card { width: 100%; max-width: 520px; background: var(--black-3); border: 1px solid var(--grey-border); border-radius: 16px; padding: 32px; }
+    h1 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+    .sub { font-size: 13px; color: var(--grey-light); margin-bottom: 28px; }
+    .badge { display: inline-block; background: var(--red); color: #fff; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 4px; margin-right: 8px; }
+    label { display: block; font-size: 13px; font-weight: 600; color: var(--grey-light); margin-bottom: 6px; }
+    input { width: 100%; background: #111; border: 1px solid var(--grey-border); border-radius: 10px; padding: 12px 14px; font-family: var(--font); font-size: 14px; color: var(--white); outline: none; margin-bottom: 14px; }
+    input:focus { border-color: var(--red); box-shadow: 0 0 0 3px var(--red-glow); }
+    input::placeholder { color: var(--grey-mid); }
+    .secret-row { margin-bottom: 20px; padding: 14px; background: #111; border: 1px solid #333; border-radius: 10px; }
+    .secret-row label { color: #f59e0b; margin-bottom: 6px; }
+    .secret-row input { margin-bottom: 0; background: var(--black-3); }
+    button { width: 100%; background: var(--red); color: #fff; border: none; border-radius: 10px; padding: 14px; font-family: var(--font); font-size: 15px; font-weight: 700; cursor: pointer; transition: opacity 0.2s; }
+    button:hover { opacity: 0.85; }
+    button:disabled { opacity: 0.4; cursor: not-allowed; }
+    .result { margin-top: 20px; padding: 16px; border-radius: 10px; font-size: 14px; }
+    .result.success { background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); color: #86efac; }
+    .result.error { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: #fca5a5; }
+    .result a { color: #60a5fa; text-decoration: underline; }
+    .divider { height: 1px; background: var(--grey-border); margin: 20px 0; }
+    .insta-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+    .insta-row { display: flex; gap: 8px; align-items: center; }
+    .insta-row input { margin-bottom: 0; flex: 1; }
+    .remove-btn { background: none; border: 1px solid var(--grey-border); color: var(--grey-mid); width: 34px; height: 34px; border-radius: 8px; cursor: pointer; font-size: 18px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; padding: 0; }
+    .remove-btn:hover { border-color: var(--red); color: var(--red); }
+    .add-btn { background: none; border: 1px dashed var(--grey-border); color: var(--grey-light); width: 100%; border-radius: 8px; padding: 10px; font-size: 13px; cursor: pointer; margin-bottom: 14px; transition: border-color 0.2s; }
+    .add-btn:hover { border-color: var(--grey-light); }
+  </style>
+</head>
+<body>
+<div class="card">
+  <h1><span class="badge">TEST</span>Analyse auslösen</h1>
+  <p class="sub">Nur für interne Tests — kein Stripe, kein Checkout.</p>
+
+  <div class="secret-row">
+    <label>⚠ ANALYZE_SECRET</label>
+    <input type="password" id="secret" placeholder="Geheimcode eingeben">
+  </div>
+
+  <label>Studio-Name</label>
+  <input type="text" id="studio_name" placeholder="z.B. IKIGAI-TATTOO">
+
+  <label>Website URL</label>
+  <input type="url" id="website_url" placeholder="https://www.ikigai-tattoo.de">
+
+  <label>Stadt</label>
+  <input type="text" id="city" placeholder="z.B. Kitzingen">
+
+  <label>Google Business URL <span style="color:var(--grey-mid);font-weight:400">(optional)</span></label>
+  <input type="url" id="google_url" placeholder="https://maps.google.com/...">
+
+  <label>Instagram-Accounts</label>
+  <div class="insta-list" id="insta-list">
+    <div class="insta-row">
+      <input type="text" placeholder="@studio-account">
+      <button class="remove-btn" onclick="removeInsta(this)" title="Entfernen">×</button>
+    </div>
+  </div>
+  <button class="add-btn" onclick="addInsta()">+ Künstler hinzufügen</button>
+
+  <div class="divider"></div>
+  <button id="submit-btn" onclick="submit()">Analyse starten</button>
+  <div id="result"></div>
+</div>
+
+<script>
+function addInsta() {
+  const list = document.getElementById('insta-list');
+  const row = document.createElement('div');
+  row.className = 'insta-row';
+  row.innerHTML = `<input type="text" placeholder="@kuenstler"><button class="remove-btn" onclick="removeInsta(this)" title="Entfernen">×</button>`;
+  list.appendChild(row);
+}
+
+function removeInsta(btn) {
+  const rows = document.querySelectorAll('.insta-row');
+  if (rows.length > 1) btn.closest('.insta-row').remove();
+}
+
+async function submit() {
+  const btn    = document.getElementById('submit-btn');
+  const result = document.getElementById('result');
+  const secret = document.getElementById('secret').value.trim();
+
+  const studioName  = document.getElementById('studio_name').value.trim();
+  const websiteUrl  = document.getElementById('website_url').value.trim();
+  const city        = document.getElementById('city').value.trim();
+  const googleUrl   = document.getElementById('google_url').value.trim();
+  const instaInputs = [...document.querySelectorAll('#insta-list input')];
+  const instagram   = instaInputs.map(i => i.value.trim().replace(/^@/, '')).filter(Boolean);
+
+  if (!secret)      { result.innerHTML = '<div class="result error">Secret fehlt.</div>'; return; }
+  if (!studioName)  { result.innerHTML = '<div class="result error">Studio-Name fehlt.</div>'; return; }
+  if (!websiteUrl)  { result.innerHTML = '<div class="result error">Website URL fehlt.</div>'; return; }
+  if (!city)        { result.innerHTML = '<div class="result error">Stadt fehlt.</div>'; return; }
+
+  btn.disabled = true;
+  btn.textContent = 'Starte Analyse…';
+  result.innerHTML = '';
+
+  try {
+    const r = await fetch('/api/test-trigger', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json', 'x-analyze-secret': secret },
+      body:    JSON.stringify({ studio_name: studioName, website_url: websiteUrl, city, google_url: googleUrl || null, instagram_accounts: instagram }),
+    });
+
+    if (r.status === 401) { result.innerHTML = '<div class="result error">Falsches Secret.</div>'; return; }
+    if (!r.ok)             { const e = await r.json(); result.innerHTML = `<div class="result error">${e.error || 'Fehler'}</div>`; return; }
+
+    const { id } = await r.json();
+    result.innerHTML = `<div class="result success">
+      ✅ Analyse gestartet (dauert ~2–3 Min.)<br><br>
+      <a href="/bericht?id=${id}" target="_blank">→ Bericht öffnen: /bericht?id=${id}</a>
+    </div>`;
+  } catch (e) {
+    result.innerHTML = `<div class="result error">${e.message}</div>`;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Analyse starten';
+  }
+}
+</script>
+</body>
+</html>
