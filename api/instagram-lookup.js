@@ -32,17 +32,19 @@ async function fetchViaInternalApi(username) {
         signal: AbortSignal.timeout(10000),
       }
     );
-    if (!r.ok) return null;
-    const data = await r.json();
+    const body = await r.text();
+    if (!r.ok) return { _debug: { method: 'internalApi', status: r.status, body: body.slice(0, 300) } };
+    let data;
+    try { data = JSON.parse(body); } catch { return { _debug: { method: 'internalApi', status: r.status, body: body.slice(0, 300) } }; }
     const user = data?.data?.user;
-    if (!user) return null;
+    if (!user) return { _debug: { method: 'internalApi', status: r.status, keys: Object.keys(data || {}), body: body.slice(0, 300) } };
     return {
       exists:    true,
       followers: user.edge_followed_by?.count              ?? null,
       posts:     user.edge_owner_to_timeline_media?.count  ?? null,
     };
-  } catch {
-    return null;
+  } catch (e) {
+    return { _debug: { method: 'internalApi', error: e.message } };
   }
 }
 
