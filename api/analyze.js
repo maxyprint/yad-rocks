@@ -394,6 +394,33 @@ Vergleiche mit typischen Top-3 Tattoo-Studios in ${city}.
 
 async function scrapeInstagram(handle) {
   const username = handle.replace(/^@/, '');
+
+  // 1. Interne Instagram API (echte Follower-Zahlen)
+  try {
+    const r = await fetch(
+      `https://www.instagram.com/api/v1/users/web_profile_info/?username=${encodeURIComponent(username)}`,
+      {
+        headers: {
+          'x-ig-app-id':     '936619743392459',
+          'User-Agent':      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'Accept':          '*/*',
+          'Accept-Language': 'de-DE,de;q=0.9,en;q=0.8',
+          'Referer':         'https://www.instagram.com/',
+        },
+        signal: AbortSignal.timeout(10000),
+      }
+    );
+    if (r.ok) {
+      const data = await r.json();
+      const user = data?.data?.user;
+      if (user) return {
+        followers: user.edge_followed_by?.count             ?? null,
+        posts:     user.edge_owner_to_timeline_media?.count ?? null,
+      };
+    }
+  } catch {}
+
+  // 2. Fallback: OG-Tag Scraping
   try {
     const r = await fetch(`https://www.instagram.com/${username}/`, {
       headers: {
@@ -403,28 +430,21 @@ async function scrapeInstagram(handle) {
       signal: AbortSignal.timeout(10000),
     });
     const html = await r.text();
-
-    // og:description: "700 Followers, 50 Following, 110 Posts – ..."
-    // DE-Format:      "700 Follower, 50 folge ich, 110 Beiträge – ..."
     const desc = html.match(/<meta[^>]+property="og:description"[^>]+content="([^"]+)"/i)?.[1]
               || html.match(/<meta[^>]+content="([^"]+)"[^>]+property="og:description"/i)?.[1];
+    if (desc) {
+      const followers = parseIgNumber(desc.match(/([\d.,]+)\s*(Follower[s]?)/i)?.[1]);
+      const posts     = parseIgNumber(desc.match(/([\d.,]+)\s*(Post[s]?|Beiträge|Beitrag)/i)?.[1]);
+      if (followers != null || posts != null) return { followers, posts };
+    }
+  } catch {}
 
-    if (!desc) return null;
-
-    const followers = parseIgNumber(desc.match(/([\d.,]+)\s*(Follower[s]?)/i)?.[1]);
-    const posts     = parseIgNumber(desc.match(/([\d.,]+)\s*(Post[s]?|Beiträge|Beitrag)/i)?.[1]);
-
-    return (followers != null || posts != null) ? { followers, posts } : null;
-  } catch {
-    return null;
-  }
+  return null;
 }
 
 function parseIgNumber(str) {
   if (!str) return null;
-  // "1.240" (DE) oder "1,240" (EN) → 1240
-  const cleaned = str.replace(/[.,]/g, '');
-  const n = parseInt(cleaned, 10);
+  const n = parseInt(str.replace(/[.,]/g, ''), 10);
   return isNaN(n) ? null : n;
 }
 

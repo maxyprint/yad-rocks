@@ -855,7 +855,7 @@
               data-id="${p.id}"
               data-name="${(p.name || '').replace(/"/g, '&quot;')}"
               data-fans="${p.fan_count || 0}">
-              <span class="fb-option-name">${p.name}</span>
+              <span class="fb-option-name">${p.name}${p.has_active_ads ? ' <span style="font-size:11px;color:#4ade80">📣 Ads aktiv</span>' : ''}</span>
               <span class="fb-option-meta">${p.category ? p.category + (p.fan_count ? ' · ' : '') : ''}${p.fan_count ? formatFanCount(p.fan_count) : ''}</span>
             </div>`).join('');
           fbDrop.classList.add('open');
