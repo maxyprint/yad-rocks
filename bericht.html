@@ -185,6 +185,59 @@
     }
     .report-body hr { border: none; border-top: 1px solid var(--grey-border); margin: 40px 0; }
 
+    /* ─── KONTAKT MODAL ─── */
+    .k-overlay {
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(0,0,0,0.7); backdrop-filter: blur(6px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px; opacity: 0; pointer-events: none;
+      transition: opacity 0.25s;
+    }
+    .k-overlay.open { opacity: 1; pointer-events: all; }
+    .k-box {
+      background: #111; border: 1px solid #2a2a2a; border-radius: 20px;
+      padding: 36px; width: 100%; max-width: 460px;
+      transform: translateY(12px); transition: transform 0.25s;
+      position: relative;
+    }
+    .k-overlay.open .k-box { transform: none; }
+    .k-close {
+      position: absolute; top: 16px; right: 16px;
+      background: none; border: none; color: #555; font-size: 22px;
+      cursor: pointer; line-height: 1; padding: 4px 8px;
+    }
+    .k-close:hover { color: #fff; }
+    .k-context {
+      background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 10px;
+      padding: 12px 14px; margin-bottom: 24px; font-size: 13px; color: #888;
+      line-height: 1.6;
+    }
+    .k-context strong { color: #ccc; }
+    .k-title { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 20px; }
+    .k-group { margin-bottom: 14px; }
+    .k-label { display: block; font-size: 12px; font-weight: 600; color: #888; margin-bottom: 6px; }
+    .k-input, .k-textarea {
+      width: 100%; background: #1a1a1a; border: 1px solid #2a2a2a;
+      border-radius: 8px; padding: 11px 14px; font-family: var(--font);
+      font-size: 14px; color: #fff; outline: none;
+      transition: border-color 0.2s;
+    }
+    .k-input:focus, .k-textarea:focus { border-color: var(--red); }
+    .k-input::placeholder, .k-textarea::placeholder { color: #444; }
+    .k-textarea { resize: vertical; min-height: 80px; }
+    .k-submit {
+      width: 100%; background: var(--red); color: #fff;
+      border: none; border-radius: 10px; padding: 14px;
+      font-family: var(--font); font-size: 15px; font-weight: 700;
+      cursor: pointer; transition: background 0.2s; margin-top: 4px;
+    }
+    .k-submit:hover { background: var(--red-dark); }
+    .k-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+    .k-success { text-align: center; padding: 20px 0; }
+    .k-success-icon { font-size: 40px; margin-bottom: 12px; }
+    .k-success-title { font-size: 18px; font-weight: 800; margin-bottom: 8px; }
+    .k-success-text { font-size: 14px; color: #888; }
+
     /* ─── PLAN CTAs ─── */
     .plan-cta {
       display: flex; align-items: center; justify-content: space-between;
@@ -301,6 +354,42 @@
 
   </div>
 </main>
+
+<!-- KONTAKT MODAL -->
+<div class="k-overlay" id="kModal" onclick="if(event.target===this)closeKModal()">
+  <div class="k-box">
+    <button class="k-close" onclick="closeKModal()">✕</button>
+    <div id="kForm">
+      <div class="k-context" id="kContext"></div>
+      <h2 class="k-title">Kostenloses Gespräch</h2>
+      <form id="kFormEl">
+        <input type="hidden" name="_subject" value="YAD Analyse — Gesprächsanfrage">
+        <input type="hidden" name="analyse_studio"    id="kHiddenStudio">
+        <input type="hidden" name="analyse_score"     id="kHiddenScore">
+        <input type="hidden" name="analyse_step"      id="kHiddenStep">
+        <input type="hidden" name="analyse_report"    id="kHiddenReport">
+        <div class="k-group">
+          <label class="k-label">Name *</label>
+          <input type="text" name="name" class="k-input" required placeholder="Dein Name">
+        </div>
+        <div class="k-group">
+          <label class="k-label">E-Mail *</label>
+          <input type="email" name="email" class="k-input" required placeholder="deine@email.com">
+        </div>
+        <div class="k-group">
+          <label class="k-label">Nachricht <span style="color:#444;font-weight:400">(optional)</span></label>
+          <textarea name="message" class="k-textarea" id="kMessage" placeholder="Was möchtest du wissen?"></textarea>
+        </div>
+        <button type="submit" class="k-submit" id="kSubmit">Absenden →</button>
+      </form>
+    </div>
+    <div class="k-success" id="kSuccess" style="display:none">
+      <div class="k-success-icon">✓</div>
+      <div class="k-success-title">Nachricht gesendet!</div>
+      <p class="k-success-text">Wir melden uns innerhalb von 24 Stunden bei dir.</p>
+    </div>
+  </div>
+</div>
 
 <script>
 (function () {
@@ -502,9 +591,12 @@
   const poller = setInterval(poll, 8000);
   poll();
 
-  // ── 90-Tage-Plan CTAs ───────────────────────────────────────────────────
+  // ── 90-Tage-Plan CTAs + Modal ───────────────────────────────────────────
+  let _reportData = null;
+
   function injectPlanCTAs(data) {
-    const body      = document.getElementById('reportBody');
+    _reportData = data;
+    const body       = document.getElementById('reportBody');
     const massnahmen = Array.from(body.querySelectorAll('h3'))
       .filter(h => h.textContent.includes('Maßnahme'));
 
@@ -512,23 +604,12 @@
       const title = h3.textContent.trim();
       const num   = title.match(/Maßnahme\s*(\d+)/)?.[1] || '?';
 
-      // Alle Siblings bis zum nächsten Heading sammeln
       const siblings = [];
       let el = h3.nextElementSibling;
       while (el && !['H2','H3','HR'].includes(el.tagName)) {
         siblings.push(el);
         el = el.nextElementSibling;
       }
-
-      // WhatsApp Nachricht mit allen Kontext-Daten
-      const msg = [
-        `Hallo Max, ich möchte Maßnahme ${num} aus meiner YAD-Analyse angehen.`,
-        ``,
-        `📍 Studio: ${data.studio_name}, ${data.city}`,
-        `📊 Score: ${data.score_total ?? '—'}/100 → Potenzial: ${data.score_potential ?? '—'}/100`,
-        `🎯 Geklickter Schritt: ${title}`,
-        `🔗 Mein Report: https://yad.rocks/bericht?id=${id}`,
-      ].join('\n');
 
       const cta = document.createElement('div');
       cta.className = 'plan-cta';
@@ -537,16 +618,71 @@
           <span class="plan-cta-label">YAD übernimmt das für dich</span>
           <span class="plan-cta-text">Wir setzen Maßnahme ${num} für dein Studio um — von Anfang bis Ergebnis.</span>
         </div>
-        <a href="https://wa.me/4915154661673?text=${encodeURIComponent(msg)}"
-           target="_blank" rel="noopener" class="plan-cta-btn">
+        <button class="plan-cta-btn" onclick="openKModal('${title.replace(/'/g, "\\'")}')">
           Kostenloses Gespräch →
-        </a>
+        </button>
       `;
 
       const anchor = siblings.at(-1) ?? h3;
       anchor.after(cta);
     });
+
+    // Auch den Report-CTA unten verdrahten
+    document.querySelector('.btn-cta')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      openKModal('Allgemeine Anfrage');
+    });
   }
+
+  function openKModal(step) {
+    const d = _reportData;
+    document.getElementById('kContext').innerHTML =
+      `<strong>${d?.studio_name ?? '—'}, ${d?.city ?? '—'}</strong> · ` +
+      `Score ${d?.score_total ?? '—'}/100 → Potenzial ${d?.score_potential ?? '—'}/100<br>` +
+      `<span style="color:#666">Angefragter Schritt: ${step}</span>`;
+
+    document.getElementById('kHiddenStudio').value = `${d?.studio_name}, ${d?.city}`;
+    document.getElementById('kHiddenScore').value  = `${d?.score_total ?? '—'}/100 → ${d?.score_potential ?? '—'}/100`;
+    document.getElementById('kHiddenStep').value   = step;
+    document.getElementById('kHiddenReport').value = `https://yad.rocks/bericht?id=${id}`;
+    document.getElementById('kMessage').value      = '';
+
+    document.getElementById('kForm').style.display    = 'block';
+    document.getElementById('kSuccess').style.display = 'none';
+    document.getElementById('kModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeKModal() {
+    document.getElementById('kModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // Formspree submit
+  document.getElementById('kFormEl')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('kSubmit');
+    btn.disabled = true;
+    btn.textContent = 'Wird gesendet…';
+
+    const form = new FormData(e.target);
+    try {
+      const r = await fetch('https://formspree.io/f/mojrazar', {
+        method: 'POST', body: form,
+        headers: { 'Accept': 'application/json' },
+      });
+      if (r.ok) {
+        document.getElementById('kForm').style.display    = 'none';
+        document.getElementById('kSuccess').style.display = 'block';
+      } else {
+        throw new Error();
+      }
+    } catch {
+      btn.disabled = false;
+      btn.textContent = 'Absenden →';
+      alert('Fehler beim Senden. Bitte versuche es erneut.');
+    }
+  });
 
   // ── Show states ─────────────────────────────────────────────────────────
   function showError() {
