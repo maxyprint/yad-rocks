@@ -789,6 +789,7 @@
     try {
       const r = await fetch(`/api/instagram-lookup?handle=${encodeURIComponent(handle)}`);
       const d = await r.json();
+      console.log('[IG lookup]', handle, d);
       if (!d.exists) {
         el.textContent = 'Account nicht gefunden';
         el.className = 'insta-preview not-found';
