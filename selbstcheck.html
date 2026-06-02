@@ -465,10 +465,17 @@
               placeholder="https://www.dein-studio.de" required autocomplete="url">
           </div>
 
-          <div class="field">
-            <label for="city">Stadt</label>
-            <input type="text" id="city" name="city"
-              placeholder="z.B. München" required autocomplete="address-level2">
+          <div class="field" style="display:flex;gap:12px;">
+            <div style="flex:1">
+              <label for="city">Stadt</label>
+              <input type="text" id="city" name="city"
+                placeholder="z.B. München" required autocomplete="address-level2">
+            </div>
+            <div style="width:110px">
+              <label for="zipCode">PLZ <span class="optional">optional</span></label>
+              <input type="text" id="zipCode" name="zipCode"
+                placeholder="80331" autocomplete="postal-code" inputmode="numeric">
+            </div>
           </div>
 
           <div class="field">
@@ -559,16 +566,14 @@
 
   // ── Dynamic Instagram rows ──────────────────────────────────────────
 
-  function getRows()    { return Array.from(list.querySelectorAll('.insta-row')); }
-  function getInputs()  { return Array.from(list.querySelectorAll('.insta-input')); }
-  function lastRow()    { const r = getRows(); return r[r.length - 1]; }
-  function lastInput()  { const i = getInputs(); return i[i.length - 1]; }
+  function getRows()        { return Array.from(list.querySelectorAll('.insta-row')); }
+  function getVisibleRows() { return Array.from(list.querySelectorAll('.insta-row:not(.hidden)')); }
+  function getInputs()      { return getVisibleRows().map(r => r.querySelector('.insta-input')); }
 
   function addRow() {
-    const idx = getRows().length;
     const row = document.createElement('div');
     row.className = 'insta-row hidden';
-    row.dataset.index = idx;
+    row.dataset.index = getRows().length;
     row.innerHTML = `
       <span class="insta-label">Tätowierer</span>
       <div class="input-wrap">
@@ -581,16 +586,7 @@
     `;
     list.appendChild(row);
     wireRow(row);
-
-    // reveal with next-frame trick for transition to work
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => row.classList.remove('hidden'));
-    });
-  }
-
-  function removeRow(row) {
-    row.classList.add('hidden');
-    setTimeout(() => row.remove(), 300);
+    requestAnimationFrame(() => requestAnimationFrame(() => row.classList.remove('hidden')));
   }
 
   function wireRow(row) {
@@ -598,14 +594,17 @@
     const remove = row.querySelector('.insta-remove');
 
     input.addEventListener('input', () => {
-      // reveal next slot when this is the last filled input
-      if (input.value.trim().length > 0 && row === lastRow()) {
-        addRow();
+      if (input.value.trim().length > 0) {
+        const visible = getVisibleRows();
+        if (row === visible[visible.length - 1]) addRow();
       }
     });
 
     if (remove) {
-      remove.addEventListener('click', () => removeRow(row));
+      remove.addEventListener('click', () => {
+        row.classList.add('hidden');
+        setTimeout(() => row.remove(), 300);
+      });
     }
   }
 
@@ -651,12 +650,15 @@
       .map(i => i.value.trim().replace(/^@/, ''))
       .filter(Boolean);
 
+    const city    = form.city.value.trim();
+    const zipCode = form.zipCode.value.trim();
+
     const payload = {
-      studioName:   form.studioName.value.trim(),
-      websiteUrl:   form.websiteUrl.value.trim(),
-      city:         form.city.value.trim(),
-      email:        form.email.value.trim(),
-      googleUrl:    form.googleUrl.value.trim() || null,
+      studioName:        form.studioName.value.trim(),
+      websiteUrl:        form.websiteUrl.value.trim(),
+      city:              zipCode ? `${city} ${zipCode}` : city,
+      email:             form.email.value.trim(),
+      googleUrl:         form.googleUrl.value.trim() || null,
       instagramAccounts,
     };
 
