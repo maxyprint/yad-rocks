@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { waitUntil }    from '@vercel/functions';
 
 export const config = { maxDuration: 10 };
 
@@ -38,15 +39,16 @@ export default async function handler(req, res) {
 
   if (error) return res.status(500).json({ error: error.message });
 
-  const analyzeUrl = `${req.headers['x-forwarded-proto'] || 'https'}://${req.headers['host']}/api/analyze`;
-  fetch(analyzeUrl, {
-    method:  'POST',
-    headers: {
-      'Content-Type':      'application/json',
-      'x-analyze-secret':  process.env.ANALYZE_SECRET,
-    },
-    body: JSON.stringify({ analysis_id: data.id }),
-  }).catch(() => {});
+  waitUntil(
+    fetch('https://yad.rocks/api/analyze', {
+      method:  'POST',
+      headers: {
+        'Content-Type':     'application/json',
+        'x-analyze-secret': process.env.ANALYZE_SECRET,
+      },
+      body: JSON.stringify({ analysis_id: data.id }),
+    }).catch(() => {})
+  );
 
   return res.status(200).json({ id: data.id });
 }
