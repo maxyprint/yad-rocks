@@ -67,7 +67,7 @@ export default async function handler(req, res) {
   try {
     // Jedes Modul speichert seine Daten sofort in Supabase wenn fertig —
     // damit bericht.html in Echtzeit Insights anzeigen kann
-    const save = (update) => supabase.from('analyses').update(update).eq('id', analysis_id);
+    const save = (update) => supabase.from('analyses').update(update).eq('id', analysis_id).then(() => {});
 
     const [websiteMd, socialMd, adsMd, { googleMd, competitorsMd }] = await Promise.all([
       analyzeWebsite(analysis.website_url).then(md => { save({ website_md: md }); return md; }),

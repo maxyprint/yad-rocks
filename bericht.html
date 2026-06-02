@@ -435,12 +435,13 @@
 
   // ── Scripted initial thoughts (before first data arrives) ───────────────
   let firstDataReceived = false;
+  let studioCity = '';
   setTimeout(() => {
-    if (!firstDataReceived) addThought(`Website-Analyse gestartet…`);
+    if (!firstDataReceived) addThought(`Website-Analyse läuft…`);
   }, 2000);
   setTimeout(() => {
-    if (!seen.google) addThought(`Suche Wettbewerber in <strong>${document.title.includes('YAD') ? 'deiner Stadt' : 'deiner Stadt'}</strong>…`);
-  }, 8000);
+    if (!seen.google) addThought(`Suche lokale Wettbewerber${studioCity ? ' in <strong>' + studioCity + '</strong>' : ''}…`);
+  }, 10000);
 
   // ── Polling ─────────────────────────────────────────────────────────────
   let pollCount = 0;
@@ -457,6 +458,7 @@
 
     if (error || !data) return;
     firstDataReceived = true;
+    if (data.city && !studioCity) studioCity = data.city;
 
     processModules(data);
 
