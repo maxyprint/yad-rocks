@@ -240,7 +240,8 @@ async function fetchGoogleData(studioName, city, googleUrl) {
     } catch {}
   }
 
-  const competitors = searchResults.filter(p => !isOwn(p.name)).slice(0, 5);
+  const rawCompetitors = searchResults.filter(p => !isOwn(p.name)).slice(0, 5);
+  const competitors    = await enrichCompetitors(rawCompetitors, apiKey);
 
   return {
     googleMd:      buildGoogleMd(studioName, city, googleUrl, studioDetails, mapPackPosition),
@@ -285,18 +286,26 @@ Website verlinkt:           ${googleUrl ? 'ja' : 'nein'}
 }
 
 function buildCompetitorsMd(studioName, city, competitors, ownResult) {
-  const ratings  = competitors.map(p => p.user_ratings_total).filter(v => v != null);
+  const ratings = competitors.map(p => p.user_ratings_total).filter(v => v != null);
   const avgReviews = ratings.length
     ? Math.round(ratings.reduce((a, b) => a + b, 0) / ratings.length)
     : '—';
 
-  const rows = competitors.map((p, i) =>
-    `| ${i + 1} | ${p.name} | ${p.user_ratings_total ?? '—'} | ${p.rating ?? '—'} | — | — |`
-  ).join('\n');
+  const rows = competitors.map((p, i) => {
+    const adsLabel = !p.adsStatus               ? '—'
+      : p.adsStatus.active                      ? 'ja (aktiv)'
+      : p.adsStatus.hasHistory                  ? 'nur Archiv'
+      :                                           'nein';
+    const igLabel = p.igFollowers != null
+      ? p.igFollowers.toLocaleString('de-DE') + ' Follower'
+      : p.igHandle ? `@${p.igHandle}`
+      : '—';
+    return `| ${i + 1} | ${p.name} | ${p.user_ratings_total ?? '—'} | ${p.rating ?? '—'} | ${igLabel} | ${adsLabel} |`;
+  }).join('\n');
 
-  const ownReviews = ownResult?.user_ratings_total ?? '—';
-  const ownRating  = ownResult?.rating             ?? '—';
-  const ownRow     = `| — | **${studioName} ← DU** | **${ownReviews}** | **${ownRating}** | — | — |`;
+  const ownRow = `| — | **${studioName} ← DU** | **${ownResult?.user_ratings_total ?? '—'}** | **${ownResult?.rating ?? '—'}** | — | siehe Modul 4 |`;
+
+  const adsActive = competitors.filter(c => c.adsStatus?.active).length;
 
   return `# Modul 5 — Wettbewerbsanalyse
 
@@ -319,8 +328,103 @@ ${ownRow}
 Ø Google Reviews (Top 5):   ${avgReviews}
 Marktführer Reviews:        ${competitors[0]?.user_ratings_total ?? '—'}
 Marktführer Sterne:         ${competitors[0]?.rating ?? '—'}
+Marktführer Instagram:      ${competitors[0]?.igFollowers != null ? competitors[0].igFollowers.toLocaleString('de-DE') + ' Follower' : '—'}
+Studios mit aktiven Ads:    ${adsActive} von ${competitors.length}
 \`\`\`
 `;
+}
+
+// ─── Wettbewerber-Anreicherung ────────────────────────────────────────────────
+
+async function enrichCompetitors(competitors, apiKey) {
+  return Promise.all(competitors.map(async (comp) => {
+    // Website via Place Details
+    let website = null;
+    if (comp.place_id && apiKey) {
+      try {
+        const r = await fetch(
+          `https://maps.googleapis.com/maps/api/place/details/json` +
+          `?place_id=${comp.place_id}&fields=website&key=${apiKey}`,
+          { signal: AbortSignal.timeout(8000) }
+        );
+        const d = await r.json();
+        website = d.result?.website ?? null;
+      } catch {}
+    }
+
+    // Instagram-Handle von Website scrapen + Follower holen + Ads prüfen — parallel
+    const [igHandle, adsStatus] = await Promise.all([
+      website ? scrapeIgHandle(website) : Promise.resolve(null),
+      checkCompetitorAds(comp.name),
+    ]);
+
+    const igFollowers = igHandle ? await getIgFollowers(igHandle) : null;
+
+    return { ...comp, website, igHandle, igFollowers, adsStatus };
+  }));
+}
+
+async function scrapeIgHandle(url) {
+  try {
+    const r = await fetch(url, {
+      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; YADAnalysis/1.0)' },
+      signal:  AbortSignal.timeout(8000),
+    });
+    const html = await r.text();
+    const m = html.match(
+      /instagram\.com\/(?!p\/|reel[s]?\/|stories\/|explore\/|tv\/|accounts\/)([a-zA-Z0-9._]{2,30})\/?["'<\s]/
+    );
+    return m ? m[1] : null;
+  } catch {
+    return null;
+  }
+}
+
+async function getIgFollowers(handle) {
+  const key = process.env.RAPIDAPI_KEY;
+  if (!key) return null;
+  try {
+    const r = await fetch('https://instagram120.p.rapidapi.com/api/instagram/userInfo', {
+      method:  'POST',
+      headers: {
+        'Content-Type':    'application/json',
+        'x-rapidapi-host': 'instagram120.p.rapidapi.com',
+        'x-rapidapi-key':  key,
+      },
+      body:   JSON.stringify({ username: handle }),
+      signal: AbortSignal.timeout(10000),
+    });
+    if (!r.ok) return null;
+    const d    = await r.json();
+    const user = d?.result?.[0]?.user ?? null;
+    return user?.follower_count ?? null;
+  } catch {
+    return null;
+  }
+}
+
+async function checkCompetitorAds(name) {
+  const token = process.env.FACEBOOK_ACCESS_TOKEN;
+  if (!token) return null;
+  try {
+    const params = new URLSearchParams({
+      search_terms:         name,
+      ad_reached_countries: JSON.stringify(['DE', 'AT', 'CH']),
+      ad_active_status:     'ALL',
+      fields:               'id,ad_delivery_stop_time',
+      limit:                '5',
+      access_token:         token,
+    });
+    const r = await fetch(`https://graph.facebook.com/v19.0/ads_archive?${params}`, {
+      signal: AbortSignal.timeout(8000),
+    });
+    const d = await r.json();
+    if (d.error || !d.data?.length) return { active: false, hasHistory: false };
+    const activeAds = d.data.filter(a => !a.ad_delivery_stop_time);
+    return { active: activeAds.length > 0, hasHistory: true };
+  } catch {
+    return null;
+  }
 }
 
 function googleFallback(studioName, city, googleUrl) {
