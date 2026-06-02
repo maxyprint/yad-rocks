@@ -91,7 +91,7 @@ export default async function handler(req, res) {
 
     const message = await anthropic.messages.create({
       model:      'claude-opus-4-8',
-      max_tokens: 4096,
+      max_tokens: 6000,
       system:     SYSTEM_PROMPT,
       messages:   [{ role: 'user', content: userPrompt }],
     });
