@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <title>Tattoo Studio Selbstcheck – KI-Wachstumsanalyse | YAD</title>
+  <meta name="description" content="Lass dein Tattoo Studio von einer KI analysieren. Sichtbarkeit, Google-Bewertungen, Instagram, Wettbewerber – vollständiger Report in 20 Minuten für 20 €.">
+  <link rel="canonical" href="https://yad.rocks/selbstcheck">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <!-- Meta Pixel -->
+  <script>
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
+  (window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init','1419975432380195');
+  fbq('track','PageView');
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0a0a0a;
+      --black-2: #111111;
+      --black-3: #1a1a1a;
+      --grey-dark: #222222;
+      --grey-mid: #444444;
+      --grey-light: #888888;
+      --grey-border: #2a2a2a;
+      --white: #ffffff;
+      --white-soft: #f5f5f5;
+      --red: #e8173a;
+      --red-dark: #c0102e;
+      --red-glow: rgba(232, 23, 58, 0.15);
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --radius: 12px;
+      --nav-h: 72px;
+    }
+
+    html { background-color: var(--black); scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      background-color: var(--black);
+      color: var(--white);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* ─── NAV ─── */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      height: var(--nav-h);
+      display: flex;
+      align-items: center;
+      padding: 0 40px;
+      border-bottom: 1px solid var(--grey-border);
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(12px);
+    }
+    .nav_inner {
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav_logo { font-size: 26px; font-weight: 900; letter-spacing: -1px; }
+    .nav_logo span { color: var(--red); }
+    .nav_back {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--grey-light);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+    .nav_back:hover { color: var(--white); }
+
+    /* ─── LAYOUT ─── */
+    .page {
+      min-height: 100vh;
+      padding-top: calc(var(--nav-h) + 60px);
+      padding-bottom: 100px;
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+    .page_inner {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* ─── HEADER ─── */
+    .sc-header { margin-bottom: 48px; }
+    .sc-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--red-glow);
+      border: 1px solid rgba(232,23,58,0.3);
+      color: var(--red);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 20px;
+    }
+    .sc-title {
+      font-size: clamp(32px, 6vw, 52px);
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      line-height: 1.08;
+      margin-bottom: 16px;
+    }
+    .sc-title span { color: var(--red); }
+    .sc-subtitle {
+      font-size: 17px;
+      color: var(--grey-light);
+      line-height: 1.6;
+      max-width: 520px;
+    }
+
+    /* ─── INCLUDES ─── */
+    .sc-includes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 48px;
+    }
+    .sc-include-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 16px;
+      background: var(--black-2);
+      border: 1px solid var(--grey-border);
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--white);
+    }
+    .sc-include-item .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--red);
+      flex-shrink: 0;
+    }
+
+    /* ─── FORM ─── */
+    .sc-form {
+      background: var(--black-2);
+      border: 1px solid var(--grey-border);
+      border-radius: 20px;
+      padding: 40px;
+    }
+
+    .form-section { margin-bottom: 36px; }
+    .form-section:last-of-type { margin-bottom: 0; }
+
+    .form-section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--grey-light);
+      margin-bottom: 16px;
+    }
+
+    .field { margin-bottom: 16px; }
+    .field:last-child { margin-bottom: 0; }
+
+    .field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+    .field label .optional {
+      font-weight: 400;
+      color: var(--grey-mid);
+      margin-left: 6px;
+    }
+
+    .input-wrap { position: relative; }
+    .input-prefix {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--grey-mid);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="url"] {
+      width: 100%;
+      background: var(--black-3);
+      border: 1px solid var(--grey-border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-family: var(--font);
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--white);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      -webkit-appearance: none;
+    }
+    input[type="text"].with-prefix,
+    input[type="email"].with-prefix,
+    input[type="url"].with-prefix {
+      padding-left: 32px;
+    }
+    input::placeholder { color: var(--grey-mid); }
+    input:focus {
+      border-color: var(--red);
+      box-shadow: 0 0 0 3px var(--red-glow);
+    }
+    input.error {
+      border-color: var(--red);
+      box-shadow: 0 0 0 3px var(--red-glow);
+    }
+
+    /* ─── INSTAGRAM LIST ─── */
+    .insta-list { display: flex; flex-direction: column; gap: 10px; }
+
+    .insta-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      overflow: hidden;
+      max-height: 56px;
+      opacity: 1;
+      transition: max-height 0.3s ease, opacity 0.3s ease;
+    }
+    .insta-row.hidden {
+      max-height: 0;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .insta-row .input-wrap { flex: 1; }
+
+    .insta-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--grey-light);
+      white-space: nowrap;
+      min-width: 80px;
+    }
+    .insta-label.studio { color: var(--white); }
+    .insta-remove {
+      width: 32px; height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      border: 1px solid var(--grey-border);
+      color: var(--grey-mid);
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s;
+      flex-shrink: 0;
+    }
+    .insta-remove:hover { color: var(--red); border-color: var(--red); }
+    .insta-remove.hidden { visibility: hidden; }
+
+    /* ─── DIVIDER ─── */
+    .divider {
+      height: 1px;
+      background: var(--grey-border);
+      margin: 32px 0;
+    }
+
+    /* ─── PRICE BLOCK ─── */
+    .price-block {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      background: var(--black-3);
+      border: 1px solid var(--grey-border);
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    .price-block-left { }
+    .price-label {
+      font-size: 13px;
+      color: var(--grey-light);
+      margin-bottom: 4px;
+    }
+    .price-value {
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      color: var(--white);
+    }
+    .price-value span {
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--grey-light);
+      letter-spacing: 0;
+    }
+    .price-includes {
+      font-size: 12px;
+      color: var(--grey-mid);
+      line-height: 1.5;
+      text-align: right;
+      max-width: 200px;
+    }
+
+    .btn-submit {
+      width: 100%;
+      background: var(--red);
+      color: var(--white);
+      font-family: var(--font);
+      font-size: 16px;
+      font-weight: 700;
+      padding: 18px 32px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: background 0.2s, transform 0.1s;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-submit:hover { background: var(--red-dark); transform: translateY(-1px); }
+    .btn-submit:active { transform: translateY(0); }
+    .btn-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .btn-submit .arrow { font-size: 18px; }
+
+    .form-note {
+      text-align: center;
+      font-size: 12px;
+      color: var(--grey-mid);
+      margin-top: 14px;
+      line-height: 1.5;
+    }
+    .form-note a { color: var(--grey-light); text-decoration: underline; }
+
+    /* ─── ERROR MESSAGE ─── */
+    .form-error {
+      background: rgba(232,23,58,0.1);
+      border: 1px solid rgba(232,23,58,0.3);
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-size: 14px;
+      color: var(--red);
+      margin-bottom: 20px;
+      display: none;
+    }
+    .form-error.visible { display: block; }
+
+    /* ─── LOADING STATE ─── */
+    .btn-submit .spinner {
+      display: none;
+      width: 18px; height: 18px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    .btn-submit.loading .spinner { display: block; }
+    .btn-submit.loading .btn-text,
+    .btn-submit.loading .arrow { display: none; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ─── MOBILE ─── */
+    @media (max-width: 640px) {
+      .nav { padding: 0 20px; }
+      .page { padding-left: 16px; padding-right: 16px; }
+      .sc-form { padding: 28px 20px; }
+      .sc-includes { grid-template-columns: 1fr; }
+      .price-block { flex-direction: column; align-items: flex-start; gap: 12px; }
+      .price-includes { text-align: left; max-width: 100%; }
+      .insta-label { min-width: 60px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav_inner">
+    <a href="/" class="nav_logo">YAD<span>.</span></a>
+    <a href="/" class="nav_back">
+      ← Zurück zur Startseite
+    </a>
+  </div>
+</nav>
+
+<!-- PAGE -->
+<main class="page">
+  <div class="page_inner">
+
+    <!-- HEADER -->
+    <div class="sc-header">
+      <div class="sc-badge">
+        <span>●</span> KI-Wachstumsanalyse
+      </div>
+      <h1 class="sc-title">Dein Studio-<span>Selbstcheck</span></h1>
+      <p class="sc-subtitle">
+        Wir analysieren dein Tattoo Studio in 5 Bereichen und zeigen dir genau,
+        wo Anfragen verloren gehen — mit konkreten Zahlen und Vergleich zu deinen
+        Wettbewerbern.
+      </p>
+    </div>
+
+    <!-- INCLUDES -->
+    <div class="sc-includes">
+      <div class="sc-include-item"><span class="dot"></span> Google-Sichtbarkeit</div>
+      <div class="sc-include-item"><span class="dot"></span> Bewertungsvergleich</div>
+      <div class="sc-include-item"><span class="dot"></span> Instagram-Analyse</div>
+      <div class="sc-include-item"><span class="dot"></span> Werbeanzeigen-Check</div>
+      <div class="sc-include-item"><span class="dot"></span> Wettbewerbsvergleich</div>
+      <div class="sc-include-item"><span class="dot"></span> 90-Tage-Plan</div>
+    </div>
+
+    <!-- FORM -->
+    <div class="sc-form">
+
+      <div class="form-error" id="formError"></div>
+
+      <form id="checkForm" novalidate>
+
+        <!-- BLOCK A: Studio -->
+        <div class="form-section">
+          <div class="form-section-label">Dein Studio</div>
+
+          <div class="field">
+            <label for="studioName">Studio-Name</label>
+            <input type="text" id="studioName" name="studioName"
+              placeholder="z.B. Ink Kings" required autocomplete="organization">
+          </div>
+
+          <div class="field">
+            <label for="websiteUrl">Website</label>
+            <input type="url" id="websiteUrl" name="websiteUrl"
+              placeholder="https://www.dein-studio.de" required autocomplete="url">
+          </div>
+
+          <div class="field">
+            <label for="city">Stadt</label>
+            <input type="text" id="city" name="city"
+              placeholder="z.B. München" required autocomplete="address-level2">
+          </div>
+
+          <div class="field">
+            <label for="googleUrl">
+              Google Business URL
+              <span class="optional">optional</span>
+            </label>
+            <input type="url" id="googleUrl" name="googleUrl"
+              placeholder="https://maps.app.goo.gl/...">
+          </div>
+
+          <div class="field">
+            <label for="email">Deine E-Mail</label>
+            <input type="email" id="email" name="email"
+              placeholder="du@dein-studio.de" required autocomplete="email">
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- BLOCK B: Instagram -->
+        <div class="form-section">
+          <div class="form-section-label">Instagram-Accounts</div>
+
+          <div class="insta-list" id="instaList">
+            <!-- Studio-Account (immer sichtbar) -->
+            <div class="insta-row" data-index="0">
+              <span class="insta-label studio">Studio</span>
+              <div class="input-wrap">
+                <span class="input-prefix">@</span>
+                <input type="text" class="with-prefix insta-input"
+                  placeholder="studio_account" required
+                  autocomplete="off" spellcheck="false">
+              </div>
+              <button type="button" class="insta-remove hidden" aria-label="Entfernen">×</button>
+            </div>
+
+            <!-- Erster Künstler-Slot (zunächst versteckt) -->
+            <div class="insta-row hidden" data-index="1">
+              <span class="insta-label">Tätowierer</span>
+              <div class="input-wrap">
+                <span class="input-prefix">@</span>
+                <input type="text" class="with-prefix insta-input"
+                  placeholder="artist_account"
+                  autocomplete="off" spellcheck="false">
+              </div>
+              <button type="button" class="insta-remove" aria-label="Entfernen">×</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- PRICE + SUBMIT -->
+        <div class="price-block">
+          <div class="price-block-left">
+            <div class="price-label">Einmalige Zahlung</div>
+            <div class="price-value">20 € <span>inkl. MwSt.</span></div>
+          </div>
+          <div class="price-includes">
+            Vollständiger Report<br>
+            direkt nach der Analyse
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">
+          <span class="btn-text">Analyse starten</span>
+          <span class="arrow">→</span>
+          <span class="spinner"></span>
+        </button>
+
+        <p class="form-note">
+          Sichere Zahlung über Stripe · Kein Abo · <a href="/datenschutz.html">Datenschutz</a>
+        </p>
+
+      </form>
+    </div>
+
+  </div>
+</main>
+
+<script>
+(function () {
+  const list    = document.getElementById('instaList');
+  const form    = document.getElementById('checkForm');
+  const btn     = document.getElementById('submitBtn');
+  const errBox  = document.getElementById('formError');
+
+  // ── Dynamic Instagram rows ──────────────────────────────────────────
+
+  function getRows()    { return Array.from(list.querySelectorAll('.insta-row')); }
+  function getInputs()  { return Array.from(list.querySelectorAll('.insta-input')); }
+  function lastRow()    { const r = getRows(); return r[r.length - 1]; }
+  function lastInput()  { const i = getInputs(); return i[i.length - 1]; }
+
+  function addRow() {
+    const idx = getRows().length;
+    const row = document.createElement('div');
+    row.className = 'insta-row hidden';
+    row.dataset.index = idx;
+    row.innerHTML = `
+      <span class="insta-label">Tätowierer</span>
+      <div class="input-wrap">
+        <span class="input-prefix">@</span>
+        <input type="text" class="with-prefix insta-input"
+          placeholder="artist_account"
+          autocomplete="off" spellcheck="false">
+      </div>
+      <button type="button" class="insta-remove" aria-label="Entfernen">×</button>
+    `;
+    list.appendChild(row);
+    wireRow(row);
+
+    // reveal with next-frame trick for transition to work
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => row.classList.remove('hidden'));
+    });
+  }
+
+  function removeRow(row) {
+    row.classList.add('hidden');
+    setTimeout(() => row.remove(), 300);
+  }
+
+  function wireRow(row) {
+    const input  = row.querySelector('.insta-input');
+    const remove = row.querySelector('.insta-remove');
+
+    input.addEventListener('input', () => {
+      // reveal next slot when this is the last filled input
+      if (input.value.trim().length > 0 && row === lastRow()) {
+        addRow();
+      }
+    });
+
+    if (remove) {
+      remove.addEventListener('click', () => removeRow(row));
+    }
+  }
+
+  // Wire existing rows
+  getRows().forEach(wireRow);
+
+  // ── Form validation ──────────────────────────────────────────────────
+
+  function showError(msg) {
+    errBox.textContent = msg;
+    errBox.classList.add('visible');
+    errBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+  function clearError() { errBox.classList.remove('visible'); }
+
+  function validate() {
+    const name    = form.studioName.value.trim();
+    const website = form.websiteUrl.value.trim();
+    const city    = form.city.value.trim();
+    const email   = form.email.value.trim();
+    const studioInsta = getInputs()[0]?.value.trim();
+
+    if (!name)         { showError('Bitte gib den Namen deines Studios ein.'); return false; }
+    if (!website)      { showError('Bitte gib die Website-URL deines Studios ein.'); return false; }
+    if (!city)         { showError('Bitte gib deine Stadt ein.'); return false; }
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                        showError('Bitte gib eine gültige E-Mail-Adresse ein.'); return false; }
+    if (!studioInsta)  { showError('Bitte gib den Instagram-Account deines Studios ein.'); return false; }
+    return true;
+  }
+
+  // ── Submit ──────────────────────────────────────────────────────────
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    clearError();
+    if (!validate()) return;
+
+    btn.disabled = true;
+    btn.classList.add('loading');
+
+    const instagramAccounts = getInputs()
+      .map(i => i.value.trim().replace(/^@/, ''))
+      .filter(Boolean);
+
+    const payload = {
+      studioName:   form.studioName.value.trim(),
+      websiteUrl:   form.websiteUrl.value.trim(),
+      city:         form.city.value.trim(),
+      email:        form.email.value.trim(),
+      googleUrl:    form.googleUrl.value.trim() || null,
+      instagramAccounts,
+    };
+
+    try {
+      const res = await fetch('/api/create-checkout', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.error || 'Unbekannter Fehler');
+
+      // Track intent before redirect
+      if (typeof fbq !== 'undefined') fbq('track', 'InitiateCheckout', { value: 20, currency: 'EUR' });
+
+      window.location.href = data.checkoutUrl;
+
+    } catch (err) {
+      showError('Es ist ein Fehler aufgetreten. Bitte versuche es erneut.');
+      btn.disabled = false;
+      btn.classList.remove('loading');
+    }
+  });
+
+})();
+</script>
+
+</body>
+</html>
