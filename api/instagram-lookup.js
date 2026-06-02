@@ -33,18 +33,20 @@ async function fetchViaInternalApi(username) {
       }
     );
     const body = await r.text();
-    if (!r.ok) return { _debug: { method: 'internalApi', status: r.status, body: body.slice(0, 300) } };
+    console.log('[IG internal API]', username, 'status:', r.status, 'body:', body.slice(0, 400));
+    if (!r.ok) return null;
     let data;
-    try { data = JSON.parse(body); } catch { return { _debug: { method: 'internalApi', status: r.status, body: body.slice(0, 300) } }; }
+    try { data = JSON.parse(body); } catch { return null; }
     const user = data?.data?.user;
-    if (!user) return { _debug: { method: 'internalApi', status: r.status, keys: Object.keys(data || {}), body: body.slice(0, 300) } };
+    if (!user) return null;
     return {
       exists:    true,
       followers: user.edge_followed_by?.count              ?? null,
       posts:     user.edge_owner_to_timeline_media?.count  ?? null,
     };
   } catch (e) {
-    return { _debug: { method: 'internalApi', error: e.message } };
+    console.log('[IG internal API] error:', e.message);
+    return null;
   }
 }
 
