@@ -35,14 +35,14 @@ async function fetchViaRapidApi(username) {
     if (!r.ok) return null;
     const d = await r.json();
 
-    // instagram120 gibt data direkt oder in data.user
-    const user = d?.data?.user ?? d?.data ?? d?.user ?? null;
+    // instagram120: result[0].user
+    const user = d?.result?.[0]?.user ?? d?.data?.user ?? d?.user ?? null;
     if (!user?.username) return null;
 
     return {
       exists:    true,
-      followers: user.follower_count  ?? user.edge_followed_by?.count ?? null,
-      posts:     user.media_count     ?? user.edge_owner_to_timeline_media?.count ?? null,
+      followers: user.follower_count ?? null,
+      posts:     user.media_count    ?? null,
     };
   } catch {
     return null;

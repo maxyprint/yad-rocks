@@ -416,12 +416,12 @@ async function fetchInstagramData(handle) {
     rapid('posts',    { username, maxId: '' }),
   ]);
 
-  // Response-Struktur: data.user ODER data direkt
-  const user      = userRes?.data?.user ?? userRes?.data ?? userRes?.user ?? null;
-  const followers = user?.follower_count ?? user?.edge_followed_by?.count ?? null;
-  const mediaCount= user?.media_count   ?? user?.edge_owner_to_timeline_media?.count ?? null;
+  // instagram120: result[0].user + result.edges[].node
+  const user      = userRes?.result?.[0]?.user ?? userRes?.data?.user ?? null;
+  const followers = user?.follower_count ?? null;
+  const mediaCount= user?.media_count    ?? null;
 
-  const items = postsRes?.data?.items ?? postsRes?.items ?? [];
+  const items = (postsRes?.result?.edges ?? []).map(e => e.node ?? e).filter(Boolean);
   if (!followers && !items.length) return null;
 
   return { followers, mediaCount, ...calcPostMetrics(items, followers) };
