@@ -39,36 +39,73 @@
     .page_inner { max-width: 780px; margin: 0 auto; }
 
     /* ─── LOADING STATE ─── */
-    #stateLoading { text-align: center; padding: 80px 0; }
+    #stateLoading { text-align: center; padding: 60px 0; }
     .loading-icon {
-      width: 64px; height: 64px; margin: 0 auto 32px;
-      border: 3px solid var(--grey-border);
+      width: 48px; height: 48px; margin: 0 auto 28px;
+      border: 2px solid var(--grey-border);
       border-top-color: var(--red);
       border-radius: 50%;
-      animation: spin 1s linear infinite;
+      animation: spin 0.9s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
-    .loading-title { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 12px; }
-    .loading-sub { font-size: 15px; color: var(--grey-light); line-height: 1.6; }
+    .loading-title { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 8px; }
+    .loading-sub { font-size: 14px; color: var(--grey-light); line-height: 1.6; }
 
-    .steps { display: flex; flex-direction: column; gap: 12px; max-width: 400px; margin: 40px auto 0; text-align: left; }
+    .steps { display: flex; flex-direction: column; gap: 8px; max-width: 420px; margin: 32px auto 0; text-align: left; }
     .step {
-      display: flex; align-items: center; gap: 14px;
-      padding: 14px 18px;
-      background: var(--black-2); border: 1px solid var(--grey-border); border-radius: 10px;
-      font-size: 14px; font-weight: 500; color: var(--grey-light);
-      transition: color 0.3s, border-color 0.3s;
+      display: flex; align-items: center; gap: 12px;
+      padding: 11px 16px;
+      background: var(--black-2); border: 1px solid var(--grey-border); border-radius: 8px;
+      font-size: 13px; font-weight: 500; color: var(--grey-light);
+      transition: color 0.3s, border-color 0.3s, background 0.3s;
     }
-    .step.active   { color: var(--white); border-color: var(--grey-mid); }
-    .step.done     { color: var(--white); border-color: rgba(232,23,58,0.4); }
+    .step.active { color: var(--white); border-color: var(--grey-mid); }
+    .step.done   { color: #4ade80; border-color: rgba(74,222,128,0.25); background: rgba(74,222,128,0.04); }
     .step-dot {
-      width: 8px; height: 8px; border-radius: 50%;
+      width: 7px; height: 7px; border-radius: 50%;
       background: var(--grey-mid); flex-shrink: 0;
       transition: background 0.3s;
     }
     .step.active .step-dot { background: var(--red); animation: pulse 1.2s ease-in-out infinite; }
-    .step.done   .step-dot { background: var(--red); animation: none; }
+    .step.done   .step-dot { background: #4ade80; animation: none; }
+    .step-check { margin-left: auto; font-size: 13px; color: #4ade80; display: none; }
+    .step.done .step-check { display: block; }
     @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+    /* ─── THOUGHT STREAM ─── */
+    .thoughts-wrap {
+      max-width: 420px; margin: 28px auto 0;
+      border: 1px solid var(--grey-border); border-radius: 12px;
+      background: var(--black-2); overflow: hidden;
+    }
+    .thoughts-header {
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--grey-border);
+      font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--grey-light);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .thoughts-header-dot {
+      width: 6px; height: 6px; border-radius: 50%; background: var(--red);
+      animation: pulse 1.2s ease-in-out infinite;
+    }
+    .thoughts-body { padding: 4px 0; min-height: 60px; max-height: 260px; overflow: hidden; }
+    .thought {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 9px 16px;
+      animation: slideIn 0.35s ease forwards;
+      opacity: 0;
+    }
+    .thought-bar {
+      width: 2px; min-height: 18px; border-radius: 2px;
+      background: var(--red); flex-shrink: 0; margin-top: 3px;
+    }
+    .thought-text { font-size: 13px; color: var(--grey-light); line-height: 1.5; text-align: left; }
+    .thought-text strong { color: var(--white); font-weight: 600; }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
 
     /* ─── ERROR STATE ─── */
     #stateError { display: none; text-align: center; padding: 80px 0; }
@@ -188,13 +225,20 @@
     <div id="stateLoading">
       <div class="loading-icon"></div>
       <h1 class="loading-title">Analyse läuft…</h1>
-      <p class="loading-sub">Wir durchleuchten dein Studio gerade in 5 Bereichen.<br>Das dauert etwa 5–10 Minuten.</p>
+      <p class="loading-sub">Dein Studio wird in 5 Bereichen durchleuchtet.</p>
       <div class="steps">
-        <div class="step active" id="step1"><span class="step-dot"></span> Website wird analysiert</div>
-        <div class="step"        id="step2"><span class="step-dot"></span> Google-Sichtbarkeit wird geprüft</div>
-        <div class="step"        id="step3"><span class="step-dot"></span> Instagram wird ausgewertet</div>
-        <div class="step"        id="step4"><span class="step-dot"></span> Werbeanzeigen werden gecheckt</div>
-        <div class="step"        id="step5"><span class="step-dot"></span> Wettbewerber werden verglichen</div>
+        <div class="step active" id="step1"><span class="step-dot"></span> Website<span class="step-check">✓</span></div>
+        <div class="step"        id="step2"><span class="step-dot"></span> Google-Sichtbarkeit<span class="step-check">✓</span></div>
+        <div class="step"        id="step3"><span class="step-dot"></span> Instagram<span class="step-check">✓</span></div>
+        <div class="step"        id="step4"><span class="step-dot"></span> Werbeanzeigen<span class="step-check">✓</span></div>
+        <div class="step"        id="step5"><span class="step-dot"></span> Wettbewerber<span class="step-check">✓</span></div>
+      </div>
+      <div class="thoughts-wrap">
+        <div class="thoughts-header">
+          <span class="thoughts-header-dot"></span>
+          KI-Analyse läuft
+        </div>
+        <div class="thoughts-body" id="thoughtStream"></div>
       </div>
     </div>
 
@@ -248,46 +292,187 @@
 
   const params = new URLSearchParams(window.location.search);
   const id     = params.get('id');
-
   if (!id) { showError(); return; }
 
-  // Animate steps while loading
-  const steps = ['step1','step2','step3','step4','step5'];
-  let stepIdx = 0;
-  const stepTimer = setInterval(() => {
-    if (stepIdx > 0) document.getElementById(steps[stepIdx - 1])?.classList.replace('active','done');
-    if (stepIdx < steps.length) { document.getElementById(steps[stepIdx])?.classList.add('active'); stepIdx++; }
-  }, 40000); // ~40s per step
+  // ── Thought stream ──────────────────────────────────────────────────────
+  const thoughtStream = document.getElementById('thoughtStream');
+  const seen = {};
 
-  // Poll Supabase for status change
+  function addThought(html, delay = 0) {
+    setTimeout(() => {
+      const div = document.createElement('div');
+      div.className = 'thought';
+      div.innerHTML = `<span class="thought-bar"></span><span class="thought-text">${html}</span>`;
+      thoughtStream.appendChild(div);
+      // max 5 thoughts visible
+      const all = thoughtStream.querySelectorAll('.thought');
+      if (all.length > 5) all[0].remove();
+    }, delay);
+  }
+
+  function markStep(id, done) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.classList.remove('active');
+    el.classList.add(done ? 'done' : 'active');
+    if (!done) el.classList.add('active');
+  }
+
+  // ── Data parsers ────────────────────────────────────────────────────────
+  function parseCompetitors(md) {
+    if (!md) return [];
+    return [...md.matchAll(/\|\s*\d+\s*\|\s*([^|*\n]+?)\s*\|/g)]
+      .map(m => m[1].trim()).filter(n => n && !n.includes('←'));
+  }
+
+  function parseLeader(md) {
+    if (!md) return null;
+    const m = md.match(/Marktführer Reviews:\s*(\d+)/);
+    const names = parseCompetitors(md);
+    return m && names[0] ? { name: names[0], reviews: parseInt(m[1]) } : null;
+  }
+
+  function parseAdsCount(md) {
+    if (!md) return null;
+    const m = md.match(/Studios mit aktiven Ads:\s*(\d+)/);
+    return m ? parseInt(m[1]) : null;
+  }
+
+  function parseMapPack(md) {
+    if (!md) return null;
+    return md.match(/Map-Pack Position:\s*([^\n`]+)/)?.[1]?.trim() || null;
+  }
+
+  function parseReviews(md) {
+    if (!md) return null;
+    const m = md.match(/Google Reviews Anzahl:\s*(\d+)/);
+    return m ? parseInt(m[1]) : null;
+  }
+
+  function parseFollowers(md) {
+    if (!md) return null;
+    const m = md.match(/Follower:\s*(\d+)/);
+    return m ? parseInt(m[1]) : null;
+  }
+
+  function parsePostFreq(md) {
+    if (!md) return null;
+    return md.match(/Posting-Frequenz:\s*alle ([\d.,]+ Tage)/)?.[1] || null;
+  }
+
+  function parseAdsActive(md) {
+    if (!md) return null;
+    return md.match(/Meta Ads aktiv:\s*(ja|nein)/)?.[1] || null;
+  }
+
+  function parseActiveSince(md) {
+    if (!md) return null;
+    const m = md.match(/Aktiv seit \(Tage\):\s*(\d+)/);
+    return m ? parseInt(m[1]) : null;
+  }
+
+  // ── Step + thought update from data ────────────────────────────────────
+  function processModules(data) {
+    if (data.website_md && !seen.website) {
+      seen.website = true;
+      markStep('step1', true);
+      markStep('step2', false);
+      addThought(`Website von <strong>${data.studio_name}</strong> analysiert`);
+    }
+
+    if (data.google_md && !seen.google) {
+      seen.google = true;
+      markStep('step2', true);
+      const pos     = parseMapPack(data.google_md);
+      const reviews = parseReviews(data.google_md);
+      if (pos)     addThought(`Map-Pack Position: <strong>${pos}</strong> für „Tattoo Studio ${data.city}"`, 200);
+      if (reviews) addThought(`Google Bewertungen: <strong>${reviews}</strong>`, 600);
+    }
+
+    if (data.social_md && !seen.social) {
+      seen.social = true;
+      markStep('step3', true);
+      const followers = parseFollowers(data.social_md);
+      const freq      = parsePostFreq(data.social_md);
+      if (followers) addThought(`Instagram: <strong>${followers.toLocaleString('de-DE')} Follower</strong> analysiert`, 200);
+      if (freq)      addThought(`Posting-Rhythmus: <strong>alle ${freq}</strong>`, 700);
+    }
+
+    if (data.ads_md && !seen.ads) {
+      seen.ads = true;
+      markStep('step4', true);
+      const active = parseAdsActive(data.ads_md);
+      const since  = parseActiveSince(data.ads_md);
+      if (active === 'ja' && since)
+        addThought(`Meta Ads aktiv — läuft seit <strong>${since} Tagen</strong>`, 200);
+      else if (active === 'nein')
+        addThought(`Meta Ads: <strong>noch keine Anzeigen</strong> geschaltet`, 200);
+    }
+
+    if (data.competitors_md && !seen.competitors) {
+      seen.competitors = true;
+      markStep('step5', true);
+      const names    = parseCompetitors(data.competitors_md);
+      const leader   = parseLeader(data.competitors_md);
+      const adsCount = parseAdsCount(data.competitors_md);
+
+      if (names.length)
+        addThought(`Wettbewerber gefunden: <strong>${names.slice(0,3).join(', ')}</strong>`, 200);
+      if (leader?.reviews)
+        addThought(`<strong>${leader.name}</strong> führt mit <strong>${leader.reviews} Bewertungen</strong>`, 800);
+      if (adsCount === 0)
+        addThought(`Kein Wettbewerber schaltet Ads — <strong>offene Marktlücke</strong>`, 1400);
+      else if (adsCount > 0)
+        addThought(`<strong>${adsCount} Wettbewerber</strong> schaltet bereits aktive Anzeigen`, 1400);
+    }
+
+    // Report generation phase
+    if (data.website_md && data.google_md && data.social_md && data.ads_md && data.competitors_md && !seen.generating) {
+      seen.generating = true;
+      addThought(`Alle Daten gesammelt — <strong>Claude erstellt Report…</strong>`, 400);
+    }
+  }
+
+  // ── Scripted initial thoughts (before first data arrives) ───────────────
+  let firstDataReceived = false;
+  setTimeout(() => {
+    if (!firstDataReceived) addThought(`Website-Analyse gestartet…`);
+  }, 2000);
+  setTimeout(() => {
+    if (!seen.google) addThought(`Suche Wettbewerber in <strong>${document.title.includes('YAD') ? 'deiner Stadt' : 'deiner Stadt'}</strong>…`);
+  }, 8000);
+
+  // ── Polling ─────────────────────────────────────────────────────────────
   let pollCount = 0;
-  const maxPolls = 60; // 10 min at 10s intervals
+  const maxPolls = 72; // 12 min
 
   async function poll() {
     if (pollCount++ > maxPolls) { clearInterval(poller); showError(); return; }
 
     const { data, error } = await sb
       .from('analyses')
-      .select('status, studio_name, city, report_md, score_total, score_potential')
+      .select('status, studio_name, city, report_md, score_total, score_potential, website_md, google_md, social_md, ads_md, competitors_md, instagram_accounts')
       .eq('id', id)
       .single();
 
     if (error || !data) return;
+    firstDataReceived = true;
+
+    processModules(data);
 
     if (data.status === 'done' && data.report_md) {
       clearInterval(poller);
-      clearInterval(stepTimer);
       showReport(data);
     } else if (data.status === 'failed') {
       clearInterval(poller);
-      clearInterval(stepTimer);
       showError();
     }
   }
 
-  const poller = setInterval(poll, 10000);
-  poll(); // immediate first check
+  const poller = setInterval(poll, 8000);
+  poll();
 
+  // ── Show states ─────────────────────────────────────────────────────────
   function showError() {
     document.getElementById('stateLoading').style.display = 'none';
     document.getElementById('stateError').style.display   = 'block';
@@ -302,14 +487,13 @@
     document.getElementById('reportMeta').textContent =
       `Erstellt am ${new Date().toLocaleDateString('de-DE', { day: '2-digit', month: 'long', year: 'numeric' })}`;
 
-    if (data.score_total)     document.getElementById('scoreCurrent').innerHTML   = `${data.score_total}<span class="total">/100</span>`;
-    if (data.score_potential) document.getElementById('scorePotential').innerHTML = `${data.score_potential}<span class="total">/100</span>`;
+    if (data.score_total)
+      document.getElementById('scoreCurrent').innerHTML   = `${data.score_total}<span class="total">/100</span>`;
+    if (data.score_potential)
+      document.getElementById('scorePotential').innerHTML = `${data.score_potential}<span class="total">/100</span>`;
 
-    // Render markdown, skip the first H1 (already shown as title)
-    const html = marked.parse(data.report_md || '');
-    document.getElementById('reportBody').innerHTML = html;
+    document.getElementById('reportBody').innerHTML = marked.parse(data.report_md || '');
 
-    // Track purchase event
     if (typeof fbq !== 'undefined') fbq('track', 'Purchase', { value: 20, currency: 'EUR' });
   }
 })();

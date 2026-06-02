@@ -65,11 +65,18 @@ export default async function handler(req, res) {
   if (!analysis.paid)          return res.status(403).end();
 
   try {
+    // Jedes Modul speichert seine Daten sofort in Supabase wenn fertig —
+    // damit bericht.html in Echtzeit Insights anzeigen kann
+    const save = (update) => supabase.from('analyses').update(update).eq('id', analysis_id);
+
     const [websiteMd, socialMd, adsMd, { googleMd, competitorsMd }] = await Promise.all([
-      analyzeWebsite(analysis.website_url),
-      analyzeSocial(analysis.instagram_accounts, analysis.city),
-      analyzeAds(analysis.studio_name, analysis.city, analysis.facebook_page_id),
-      fetchGoogleData(analysis.studio_name, analysis.city, analysis.google_url),
+      analyzeWebsite(analysis.website_url).then(md => { save({ website_md: md }); return md; }),
+      analyzeSocial(analysis.instagram_accounts, analysis.city).then(md => { save({ social_md: md }); return md; }),
+      analyzeAds(analysis.studio_name, analysis.city, analysis.facebook_page_id).then(md => { save({ ads_md: md }); return md; }),
+      fetchGoogleData(analysis.studio_name, analysis.city, analysis.google_url).then(d => {
+        save({ google_md: d.googleMd, competitors_md: d.competitorsMd });
+        return d;
+      }),
     ]);
 
     const userPrompt = buildUserPrompt({
