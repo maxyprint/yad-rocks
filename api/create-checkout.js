@@ -58,5 +58,5 @@ export default async function handler(req, res) {
     locale:      'de',
   });
 
-  return res.status(200).json({ checkoutUrl: session.url });
+  return res.status(200).json({ checkoutUrl: session.url, _debug_id: analysis.id });
 }
