@@ -119,10 +119,13 @@ export default async function handler(req, res) {
       updated_at:      new Date().toISOString(),
     }).eq('id', analysis_id);
 
+    await ntfy(`✅ Neue Analyse: ${analysis.studio_name}`, `${analysis.city} · Score ${scoreTotal ?? '?'}/100`, 'default');
+
     return res.status(200).json({ ok: true });
 
   } catch (err) {
     console.error('Analysis pipeline failed:', err);
+    await ntfy('❌ Analyse fehlgeschlagen', `${analysis?.studio_name ?? 'Unbekannt'} — ${err.message}`, 'urgent');
     await supabase.from('analyses').update({
       status:     'failed',
       updated_at: new Date().toISOString(),
@@ -853,6 +856,25 @@ Immer mit Geschäftsauswirkung — Anfragen die gewonnen oder verloren werden]
 ## Wenn wir einen Bereich zuerst angehen würden
 
 [Ein Absatz — der eine Hebel mit der stärksten Anfragen-Wirkung, basierend auf den Daten. Kein CTA, kein Konjunktiv.]`;
+}
+
+// ─── Notifications ───────────────────────────────────────────────────────────
+
+async function ntfy(title, message, priority = 'default') {
+  const topic = process.env.NTFY_TOPIC;
+  if (!topic) return;
+  try {
+    await fetch(`https://ntfy.sh/${topic}`, {
+      method:  'POST',
+      headers: {
+        'Title':    title,
+        'Priority': priority,
+        'Tags':     priority === 'urgent' ? 'warning,rotating_light' : 'white_check_mark',
+      },
+      body:   message,
+      signal: AbortSignal.timeout(5000),
+    });
+  } catch {}
 }
 
 // ─── Structured data extractor ───────────────────────────────────────────────
