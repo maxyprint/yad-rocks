@@ -6,15 +6,47 @@ export default async function handler(req, res) {
   const handle = (req.query.handle || '').replace(/^@/, '').trim();
   if (!handle) return res.status(400).json({ error: 'handle required' });
 
-  // 1. Interne Instagram API (gibt echte Follower-Zahlen)
-  const fromApi = await fetchViaInternalApi(handle);
-  if (fromApi) return res.status(200).json(fromApi);
+  // RapidAPI (primär)
+  const fromRapid = await fetchViaRapidApi(handle);
+  if (fromRapid) return res.status(200).json(fromRapid);
 
-  // 2. Fallback: OG-Tag Scraping
-  const fromOg = await fetchViaOgTags(handle);
-  if (fromOg) return res.status(200).json(fromOg);
+  // Fallback: interne Instagram API
+  const fromInternal = await fetchViaInternalApi(handle);
+  if (fromInternal) return res.status(200).json(fromInternal);
 
   return res.status(200).json({ exists: false });
+}
+
+async function fetchViaRapidApi(username) {
+  const key = process.env.RAPIDAPI_KEY;
+  if (!key) return null;
+
+  try {
+    const r = await fetch('https://instagram120.p.rapidapi.com/api/instagram/userInfo', {
+      method:  'POST',
+      headers: {
+        'Content-Type':    'application/json',
+        'x-rapidapi-host': 'instagram120.p.rapidapi.com',
+        'x-rapidapi-key':  key,
+      },
+      body:   JSON.stringify({ username }),
+      signal: AbortSignal.timeout(12000),
+    });
+    if (!r.ok) return null;
+    const d = await r.json();
+
+    // instagram120 gibt data direkt oder in data.user
+    const user = d?.data?.user ?? d?.data ?? d?.user ?? null;
+    if (!user?.username) return null;
+
+    return {
+      exists:    true,
+      followers: user.follower_count  ?? user.edge_followed_by?.count ?? null,
+      posts:     user.media_count     ?? user.edge_owner_to_timeline_media?.count ?? null,
+    };
+  } catch {
+    return null;
+  }
 }
 
 async function fetchViaInternalApi(username) {
@@ -32,53 +64,16 @@ async function fetchViaInternalApi(username) {
         signal: AbortSignal.timeout(10000),
       }
     );
-    const body = await r.text();
-    console.log('[IG internal API]', username, 'status:', r.status, 'body:', body.slice(0, 400));
     if (!r.ok) return null;
-    let data;
-    try { data = JSON.parse(body); } catch { return null; }
+    const data = await r.json();
     const user = data?.data?.user;
     if (!user) return null;
     return {
       exists:    true,
-      followers: user.edge_followed_by?.count              ?? null,
-      posts:     user.edge_owner_to_timeline_media?.count  ?? null,
-    };
-  } catch (e) {
-    console.log('[IG internal API] error:', e.message);
-    return null;
-  }
-}
-
-async function fetchViaOgTags(username) {
-  try {
-    const r = await fetch(`https://www.instagram.com/${username}/`, {
-      headers: {
-        'User-Agent': 'facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_useragent.php)',
-        'Accept':     'text/html,application/xhtml+xml',
-      },
-      signal: AbortSignal.timeout(10000),
-    });
-    if (!r.ok) return null;
-    const html = await r.text();
-    if (!html.includes('og:description')) return { exists: true, followers: null, posts: null };
-
-    const desc = html.match(/<meta[^>]+property="og:description"[^>]+content="([^"]+)"/i)?.[1]
-              || html.match(/<meta[^>]+content="([^"]+)"[^>]+property="og:description"/i)?.[1];
-    if (!desc) return { exists: true, followers: null, posts: null };
-
-    return {
-      exists:    true,
-      followers: parseIgNum(desc.match(/([\d.,]+)\s*(Follower[s]?)/i)?.[1]),
-      posts:     parseIgNum(desc.match(/([\d.,]+)\s*(Post[s]?|Beiträge|Beitrag)/i)?.[1]),
+      followers: user.edge_followed_by?.count             ?? null,
+      posts:     user.edge_owner_to_timeline_media?.count ?? null,
     };
   } catch {
     return null;
   }
-}
-
-function parseIgNum(str) {
-  if (!str) return null;
-  const n = parseInt(str.replace(/[.,]/g, ''), 10);
-  return isNaN(n) ? null : n;
 }

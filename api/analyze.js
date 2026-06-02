@@ -360,92 +360,110 @@ Durchschnitt der Top-5. Nutze dein Wissen über den deutschen Tattoo-Markt.
 `;
 }
 
-// ─── Modul 3 — Social Media + Instagram-Scraping ─────────────────────────────
+// ─── Modul 3 — Social Media (RapidAPI instagram120) ──────────────────────────
 
 async function analyzeSocial(instagramAccounts, city) {
   const accounts = Array.isArray(instagramAccounts) ? instagramAccounts : [];
+  const data     = await Promise.all(accounts.map(fetchInstagramData));
 
-  // Alle Accounts parallel scrapen
-  const scraped = await Promise.all(accounts.map(scrapeInstagram));
+  const sections = accounts.map((acc, i) => {
+    const d     = data[i];
+    const label = i === 0 ? 'Studio-Account' : `Künstler ${i}`;
+    if (!d) return `## ${label}: @${acc}\n\`\`\`\nKeine Daten verfügbar\n\`\`\``;
 
-  const lines = accounts.map((acc, i) => {
-    const data    = scraped[i];
-    const label   = i === 0 ? 'Studio-Account    ' : `Künstler ${i}        `;
-    const handle  = `@${acc}`;
-    const follow  = data?.followers != null ? String(data.followers) : '—';
-    const posts   = data?.posts     != null ? String(data.posts)     : '—';
-    return `${label}:   ${handle}\nFollower               :   ${follow}\nPosts gesamt           :   ${posts}`;
+    const engRate = d.followers && d.avgLikes != null
+      ? ((d.avgLikes + (d.avgComments ?? 0)) / d.followers * 100).toFixed(2) + '%'
+      : '—';
+
+    return `## ${label}: @${acc}
+\`\`\`
+Follower:                   ${d.followers   ?? '—'}
+Posts gesamt:               ${d.mediaCount  ?? '—'}
+Posting-Frequenz:           ${d.avgDaysBetween != null ? `alle ${d.avgDaysBetween} Tage` : '—'}
+Reels-Anteil:               ${d.reelsRatio  != null ? `${d.reelsRatio}%` : '—'}
+Ø Engagement-Rate:          ${engRate}
+Ø Likes pro Post:           ${d.avgLikes    ?? '—'}
+Ø Kommentare pro Post:      ${d.avgComments ?? '—'}
+Peak-Postzeiten:            ${d.peakHours   ?? '—'}
+\`\`\``;
   }).join('\n\n');
 
   return `# Modul 3 — Social Media Analyse
 
-## Instagram-Accounts
-\`\`\`
-${lines || 'Studio-Account:               —'}
-\`\`\`
-
-## Analyse-Hinweis
-\`\`\`
-Bewerte die Instagram-Präsenz dieser Accounts.
-Vergleiche mit typischen Top-3 Tattoo-Studios in ${city}.
-\`\`\`
+${sections || '## Keine Accounts angegeben'}
 `;
 }
 
-async function scrapeInstagram(handle) {
+async function fetchInstagramData(handle) {
   const username = handle.replace(/^@/, '');
+  const key      = process.env.RAPIDAPI_KEY;
+  if (!key) return null;
 
-  // 1. Interne Instagram API (echte Follower-Zahlen)
-  try {
-    const r = await fetch(
-      `https://www.instagram.com/api/v1/users/web_profile_info/?username=${encodeURIComponent(username)}`,
-      {
-        headers: {
-          'x-ig-app-id':     '936619743392459',
-          'User-Agent':      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-          'Accept':          '*/*',
-          'Accept-Language': 'de-DE,de;q=0.9,en;q=0.8',
-          'Referer':         'https://www.instagram.com/',
-        },
-        signal: AbortSignal.timeout(10000),
-      }
-    );
-    if (r.ok) {
-      const data = await r.json();
-      const user = data?.data?.user;
-      if (user) return {
-        followers: user.edge_followed_by?.count             ?? null,
-        posts:     user.edge_owner_to_timeline_media?.count ?? null,
-      };
-    }
-  } catch {}
-
-  // 2. Fallback: OG-Tag Scraping
-  try {
-    const r = await fetch(`https://www.instagram.com/${username}/`, {
+  const rapid = (endpoint, body) =>
+    fetch(`https://instagram120.p.rapidapi.com/api/instagram/${endpoint}`, {
+      method:  'POST',
       headers: {
-        'User-Agent': 'facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_useragent.php)',
-        'Accept':     'text/html,application/xhtml+xml',
+        'Content-Type':    'application/json',
+        'x-rapidapi-host': 'instagram120.p.rapidapi.com',
+        'x-rapidapi-key':  key,
       },
-      signal: AbortSignal.timeout(10000),
-    });
-    const html = await r.text();
-    const desc = html.match(/<meta[^>]+property="og:description"[^>]+content="([^"]+)"/i)?.[1]
-              || html.match(/<meta[^>]+content="([^"]+)"[^>]+property="og:description"/i)?.[1];
-    if (desc) {
-      const followers = parseIgNumber(desc.match(/([\d.,]+)\s*(Follower[s]?)/i)?.[1]);
-      const posts     = parseIgNumber(desc.match(/([\d.,]+)\s*(Post[s]?|Beiträge|Beitrag)/i)?.[1]);
-      if (followers != null || posts != null) return { followers, posts };
-    }
-  } catch {}
+      body:   JSON.stringify(body),
+      signal: AbortSignal.timeout(15000),
+    }).then(r => r.ok ? r.json() : null).catch(() => null);
 
-  return null;
+  const [userRes, postsRes] = await Promise.all([
+    rapid('userInfo', { username }),
+    rapid('posts',    { username, maxId: '' }),
+  ]);
+
+  // Response-Struktur: data.user ODER data direkt
+  const user      = userRes?.data?.user ?? userRes?.data ?? userRes?.user ?? null;
+  const followers = user?.follower_count ?? user?.edge_followed_by?.count ?? null;
+  const mediaCount= user?.media_count   ?? user?.edge_owner_to_timeline_media?.count ?? null;
+
+  const items = postsRes?.data?.items ?? postsRes?.items ?? [];
+  if (!followers && !items.length) return null;
+
+  return { followers, mediaCount, ...calcPostMetrics(items, followers) };
 }
 
-function parseIgNumber(str) {
-  if (!str) return null;
-  const n = parseInt(str.replace(/[.,]/g, ''), 10);
-  return isNaN(n) ? null : n;
+function calcPostMetrics(items, followers) {
+  if (!items?.length) return {};
+
+  const recent = [...items]
+    .sort((a, b) => (b.taken_at || 0) - (a.taken_at || 0))
+    .slice(0, 12);
+
+  // Posting-Frequenz
+  let avgDaysBetween = null;
+  if (recent.length >= 2) {
+    const span = (recent[0].taken_at - recent[recent.length - 1].taken_at) / 86400;
+    avgDaysBetween = Math.round((span / (recent.length - 1)) * 10) / 10;
+  }
+
+  // Peak-Uhrzeiten (DE ≈ UTC+1)
+  const hourCounts = {};
+  for (const p of recent) {
+    if (!p.taken_at) continue;
+    const h = ((new Date(p.taken_at * 1000).getUTCHours() + 1) % 24);
+    hourCounts[h] = (hourCounts[h] || 0) + 1;
+  }
+  const peakHours = Object.entries(hourCounts)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 2)
+    .map(([h]) => `${h}:00 Uhr`)
+    .join(', ') || '—';
+
+  // Reels-Anteil (media_type 2 = Video/Reel)
+  const reelsRatio = Math.round(
+    recent.filter(p => p.media_type === 2).length / recent.length * 100
+  );
+
+  // Engagement
+  const avgLikes    = Math.round(recent.reduce((s, p) => s + (p.like_count    || 0), 0) / recent.length);
+  const avgComments = Math.round(recent.reduce((s, p) => s + (p.comment_count || 0), 0) / recent.length);
+
+  return { avgDaysBetween, peakHours, reelsRatio, avgLikes, avgComments };
 }
 
 // ─── Modul 4 — Ads ───────────────────────────────────────────────────────────
