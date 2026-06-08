@@ -20,6 +20,14 @@
   (window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
   fbq('init','1333209151957622');
   fbq('track','PageView');
+  fbq('track','Lead');
+  </script>
+  <script>
+  window.addEventListener('load', function() {
+    if (window.clarity) {
+      window.clarity('set', 'conversion', 'lead_submitted');
+    }
+  });
   </script>
   <noscript><img height="1" width="1" style="display:none"
   src="https://www.facebook.com/tr?id=1333209151957622&ev=PageView&noscript=1"/></noscript>
