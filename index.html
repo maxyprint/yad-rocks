@@ -101,7 +101,8 @@
     fetch('https://yad-rocks-capi.vercel.app/api/track',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({event_name,event_id,event_source_url:location.href,fbp:_getCookie('_fbp'),fbc:_getCookie('_fbc')})
+      body:JSON.stringify({event_name,event_id,event_source_url:location.href,fbp:_getCookie('_fbp'),fbc:_getCookie('_fbc')}),
+      keepalive:true
     }).catch(()=>{});
   }
   </script>
