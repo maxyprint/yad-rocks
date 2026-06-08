@@ -20,7 +20,18 @@
   (window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
   fbq('init','27377162821974280');
   fbq('track','PageView');
-  fbq('track','Lead');
+  window._dankeleadId = 'lead_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+  fbq('track','Lead', {}, {eventID: window._dankeleadId});
+  </script>
+  <script>
+  (function(){
+    function _getCookie(n){const m=document.cookie.match('(^|;)\\s*'+n+'\\s*=\\s*([^;]+)');return m?m.pop():'';}
+    fetch('https://yad-rocks-capi.vercel.app/api/track',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({event_name:'Lead',event_id:window._dankeleadId,event_source_url:location.href,fbp:_getCookie('_fbp'),fbc:_getCookie('_fbc')})
+    }).catch(()=>{});
+  })();
   </script>
   <script>
   window.addEventListener('load', function() {

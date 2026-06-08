@@ -95,6 +95,16 @@
   </script>
   <noscript><img height="1" width="1" style="display:none"
   src="https://www.facebook.com/tr?id=27377162821974280&ev=PageView&noscript=1"/></noscript>
+  <script>
+  function _getCookie(n){const m=document.cookie.match('(^|;)\\s*'+n+'\\s*=\\s*([^;]+)');return m?m.pop():'';}
+  function sendCAPI(event_name, event_id){
+    fetch('https://yad-rocks-capi.vercel.app/api/track',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({event_name,event_id,event_source_url:location.href,fbp:_getCookie('_fbp'),fbc:_getCookie('_fbc')})
+    }).catch(()=>{});
+  }
+  </script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -2902,7 +2912,9 @@
       document.body.style.overflow = 'hidden';
       qGoStep(1);
       if (typeof fbq !== 'undefined') {
-        fbq('track', 'InitiateCheckout');
+        const _icId = 'ic_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+        fbq('track', 'InitiateCheckout', {}, {eventID: _icId});
+        sendCAPI('InitiateCheckout', _icId);
       }
     }
     function closeQualifyForm() {
@@ -2943,7 +2955,9 @@
         ['300-800', '800-1500', '1500plus'].includes(qA.budget) &&
         ['sofort', '1-3monate'].includes(qA.start);
       if (qualified && typeof fbq !== 'undefined') {
-        fbq('track', 'Lead');
+        const _leadId = 'lead_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+        fbq('track', 'Lead', {}, {eventID: _leadId});
+        sendCAPI('Lead', _leadId);
       }
       const payload = JSON.stringify({ email: qA.email, telefon: qA.phone, umsatz: qA.revenue, budget: qA.budget,
         ziel: qA.goal, start: qA.start, erreichbar: qA.erreichbar || '',
