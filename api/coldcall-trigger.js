@@ -34,6 +34,7 @@ export default async function handler(req, res) {
     .single()
 
   if (!agent) {
+    await ntfy('❌ Coldcall: Kein Agent', 'Kein aktiver Retell-Agent gefunden — setup-agent.js ausführen', 'urgent')
     return res.status(500).json({ error: 'Kein aktiver Agent — setup-agent.js ausführen' })
   }
 
@@ -87,6 +88,7 @@ export default async function handler(req, res) {
 
   if (!callRes.ok) {
     await supabase.from('coldcall_leads').update({ status: 'pending' }).eq('id', lead.id)
+    await ntfy('❌ Retell-Fehler', `${lead.business_name} — ${JSON.stringify(callData)}`, 'urgent')
     return res.status(500).json({ error: 'Retell-Fehler', details: callData })
   }
 
@@ -102,6 +104,23 @@ export default async function handler(req, res) {
     lead: lead.business_name,
     phone: phone.slice(0, -4) + 'XXXX'
   })
+}
+
+async function ntfy(title, message, priority = 'default') {
+  const topic = process.env.NTFY_TOPIC
+  if (!topic) return
+  try {
+    await fetch(`https://ntfy.sh/${topic}`, {
+      method: 'POST',
+      headers: {
+        'Title': title,
+        'Priority': priority,
+        'Tags': priority === 'urgent' ? 'warning,rotating_light' : 'white_check_mark',
+      },
+      body: message,
+      signal: AbortSignal.timeout(5000),
+    })
+  } catch {}
 }
 
 function isBusinessHours() {

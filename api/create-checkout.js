@@ -36,6 +36,7 @@ export default async function handler(req, res) {
 
   if (dbError) {
     console.error('Supabase insert error:', dbError);
+    await ntfy('❌ Selbstcheck: DB-Fehler', `${studioName} — ${dbError.message}`, 'urgent');
     return res.status(500).json({ error: 'Datenbankfehler.' });
   }
 
@@ -60,5 +61,23 @@ export default async function handler(req, res) {
     locale:      'de',
   });
 
+  await ntfy('💳 Neuer Selbstcheck', `${studioName} · ${city} — Checkout gestartet`);
   return res.status(200).json({ checkoutUrl: session.url });
+}
+
+async function ntfy(title, message, priority = 'default') {
+  const topic = process.env.NTFY_TOPIC;
+  if (!topic) return;
+  try {
+    await fetch(`https://ntfy.sh/${topic}`, {
+      method: 'POST',
+      headers: {
+        'Title': title,
+        'Priority': priority,
+        'Tags': priority === 'urgent' ? 'warning,rotating_light' : 'white_check_mark',
+      },
+      body: message,
+      signal: AbortSignal.timeout(5000),
+    });
+  } catch {}
 }

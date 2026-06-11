@@ -45,6 +45,14 @@ export default async function handler(req, res) {
         'called'
 
       // call_count via raw SQL erhöhen
+      if (outcome === 'interested') {
+        const { data: lead } = await supabase.from('coldcall_leads').select('business_name, phone').eq('id', callRecord.lead_id).single()
+        await ntfy('🔥 Interessierter Lead!', `${lead?.business_name ?? 'Unbekannt'} — ${lead?.phone ?? ''}`, 'high')
+      } else if (outcome === 'callback_requested') {
+        const { data: lead } = await supabase.from('coldcall_leads').select('business_name, phone').eq('id', callRecord.lead_id).single()
+        await ntfy('📞 Rückruf gewünscht', `${lead?.business_name ?? 'Unbekannt'} — ${lead?.phone ?? ''}`, 'default')
+      }
+
       await supabase.rpc('coldcall_increment_lead', { p_lead_id: callRecord.lead_id, p_status: leadStatus })
         .catch(async () => {
           // Fallback falls RPC nicht existiert
@@ -76,6 +84,23 @@ export default async function handler(req, res) {
   }
 
   res.json({ received: true })
+}
+
+async function ntfy(title, message, priority = 'default') {
+  const topic = process.env.NTFY_TOPIC
+  if (!topic) return
+  try {
+    await fetch(`https://ntfy.sh/${topic}`, {
+      method: 'POST',
+      headers: {
+        'Title': title,
+        'Priority': priority,
+        'Tags': priority === 'urgent' ? 'warning,rotating_light' : priority === 'high' ? 'telephone_receiver' : 'white_check_mark',
+      },
+      body: message,
+      signal: AbortSignal.timeout(5000),
+    })
+  } catch {}
 }
 
 function detectOutcome(transcript, call) {
