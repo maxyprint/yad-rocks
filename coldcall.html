@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coldcall Dashboard</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, sans-serif; background: #0f0f0f; color: #e0e0e0; padding: 2rem; }
+    h1 { font-size: 1.3rem; margin-bottom: 1.5rem; color: #fff; font-weight: 600; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.75rem; margin-bottom: 2rem; }
+    .card { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 8px; padding: 1rem; }
+    .card .label { font-size: 0.7rem; color: #666; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.3rem; }
+    .card .value { font-size: 1.8rem; font-weight: 700; color: #fff; }
+    .card .value.green { color: #4ade80; }
+    .card .value.yellow { color: #fbbf24; }
+    .section { margin-bottom: 2rem; }
+    h2 { font-size: 0.85rem; color: #888; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .scrape-row { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; margin-bottom: 0.5rem; }
+    .scrape-row input { background: #1a1a1a; border: 1px solid #333; border-radius: 6px; padding: 0.45rem 0.75rem; color: #fff; font-size: 0.82rem; width: 140px; }
+    .scrape-row input:focus { outline: none; border-color: #555; }
+    .scrape-row button { background: #2563eb; color: #fff; border: none; border-radius: 6px; padding: 0.45rem 0.9rem; cursor: pointer; font-size: 0.82rem; white-space: nowrap; }
+    .scrape-row button:hover { background: #1d4ed8; }
+    .scrape-row button:disabled { background: #333; color: #666; cursor: not-allowed; }
+    #scrape-status { font-size: 0.78rem; color: #666; min-height: 1.2rem; }
+    .table-wrap { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 8px; overflow: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+    th { text-align: left; padding: 0.65rem 0.9rem; background: #1f1f1f; color: #666; font-weight: 500; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #2a2a2a; }
+    td { padding: 0.6rem 0.9rem; border-bottom: 1px solid #1f1f1f; color: #ccc; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #1f1f1f; }
+    .badge { display: inline-block; padding: 0.12rem 0.45rem; border-radius: 3px; font-size: 0.68rem; font-weight: 600; }
+    .badge.interested    { background: #14532d; color: #4ade80; }
+    .badge.called        { background: #1e3a5f; color: #60a5fa; }
+    .badge.pending       { background: #262626; color: #888; }
+    .badge.calling       { background: #422006; color: #fb923c; }
+    .badge.not_interested{ background: #3f1f1f; color: #f87171; }
+    .badge.callback      { background: #1e1b4b; color: #a78bfa; }
+    .badge.ended         { background: #1e3a5f; color: #60a5fa; }
+    .badge.ongoing       { background: #422006; color: #fb923c; }
+    .badge.voicemail     { background: #1c1a1a; color: #888; }
+    .badge.no_answer     { background: #1c1a1a; color: #666; }
+    .empty { padding: 2rem; color: #444; text-align: center; }
+  </style>
+</head>
+<body>
+  <h1>Coldcall Dashboard</h1>
+
+  <div class="grid">
+    <div class="card"><div class="label">Leads gesamt</div><div class="value" id="s-total">—</div></div>
+    <div class="card"><div class="label">Ausstehend</div><div class="value" id="s-pending">—</div></div>
+    <div class="card"><div class="label">Interessiert</div><div class="value green" id="s-interested">—</div></div>
+    <div class="card"><div class="label">Calls heute</div><div class="value yellow" id="s-today">—</div></div>
+    <div class="card"><div class="label">Conversion</div><div class="value" id="s-conv">—</div></div>
+  </div>
+
+  <div class="section">
+    <h2>Leads scrapen</h2>
+    <div class="scrape-row">
+      <input type="text" id="city" placeholder="Stadt" value="München">
+      <input type="text" id="cat" placeholder="Kategorie" value="Restaurant">
+      <input type="number" id="max" value="20" min="1" max="60" style="width:70px">
+      <button id="scrape-btn" onclick="scrapeLeads()">Leads holen</button>
+    </div>
+    <div id="scrape-status"></div>
+  </div>
+
+  <div class="section">
+    <h2>Letzte Calls</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Unternehmen</th>
+            <th>Stadt</th>
+            <th>Kategorie</th>
+            <th>Call-Status</th>
+            <th>Outcome</th>
+            <th>Dauer</th>
+            <th>Zeit</th>
+          </tr>
+        </thead>
+        <tbody id="calls-tbody"><tr><td colspan="7" class="empty">Lädt...</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const SB_URL  = 'https://uiqritxzmgmutsetkzof.supabase.co'
+    const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVpcXJpdHh6bWdtdXRzZXRrem9mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAzODI5MTMsImV4cCI6MjA5NTk1ODkxM30.JTRCT2MNnuTPTMWyUE7N6s4G-95er6A4qg9GcZWynOk'
+    let cronSecret = ''
+
+    function sbHeaders() {
+      return { 'apikey': SB_ANON, 'Authorization': `Bearer ${SB_ANON}` }
+    }
+
+    async function sbGet(path) {
+      const r = await fetch(`${SB_URL}/rest/v1/${path}`, { headers: sbHeaders() })
+      return r.json()
+    }
+
+    async function loadStats() {
+      const [leads, calls, today] = await Promise.all([
+        sbGet('coldcall_leads?select=status'),
+        sbGet('coldcall_calls?select=outcome&status=eq.ended'),
+        sbGet(`coldcall_calls?select=id&status=eq.ended&created_at=gte.${new Date().toISOString().slice(0,10)}`)
+      ])
+
+      document.getElementById('s-total').textContent     = leads.length
+      document.getElementById('s-pending').textContent   = leads.filter(l => l.status === 'pending').length
+      document.getElementById('s-today').textContent     = today.length
+
+      const interested = calls.filter(c => c.outcome === 'interested').length
+      document.getElementById('s-interested').textContent = interested
+      document.getElementById('s-conv').textContent =
+        calls.length > 0 ? Math.round(interested / calls.length * 100) + '%' : '—'
+    }
+
+    async function loadCalls() {
+      const calls = await sbGet('coldcall_calls?select=*,coldcall_leads(business_name,city,category)&order=created_at.desc&limit=50')
+      const tbody = document.getElementById('calls-tbody')
+
+      if (!Array.isArray(calls) || !calls.length) {
+        tbody.innerHTML = '<tr><td colspan="7" class="empty">Noch keine Calls</td></tr>'
+        return
+      }
+
+      tbody.innerHTML = calls.map(c => {
+        const l = c.coldcall_leads || {}
+        const date = new Date(c.created_at).toLocaleString('de-DE', { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit' })
+        const dur  = c.duration_seconds ? c.duration_seconds + 's' : '—'
+        return `<tr>
+          <td>${l.business_name || '—'}</td>
+          <td>${l.city || '—'}</td>
+          <td>${l.category || '—'}</td>
+          <td><span class="badge ${c.status}">${c.status}</span></td>
+          <td>${c.outcome ? `<span class="badge ${c.outcome}">${c.outcome}</span>` : '—'}</td>
+          <td>${dur}</td>
+          <td>${date}</td>
+        </tr>`
+      }).join('')
+    }
+
+    async function scrapeLeads() {
+      if (!cronSecret) {
+        cronSecret = prompt('CRON_SECRET eingeben:')
+        if (!cronSecret) return
+      }
+
+      const btn = document.getElementById('scrape-btn')
+      const status = document.getElementById('scrape-status')
+      btn.disabled = true
+      btn.textContent = 'Scrapt...'
+      status.textContent = ''
+
+      try {
+        const res = await fetch('/api/coldcall-scrape', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'x-cron-secret': cronSecret },
+          body: JSON.stringify({
+            city: document.getElementById('city').value,
+            category: document.getElementById('cat').value,
+            max: parseInt(document.getElementById('max').value)
+          })
+        })
+        const data = await res.json()
+        if (data.success) {
+          status.textContent = `✓ ${data.inserted} neue Leads (${data.skipped} ohne Telefon übersprungen, ${data.total_found} gefunden)`
+          loadStats()
+        } else if (res.status === 401) {
+          cronSecret = ''
+          status.textContent = 'Falsches CRON_SECRET'
+        } else {
+          status.textContent = `Fehler: ${JSON.stringify(data)}`
+        }
+      } catch (e) {
+        status.textContent = `Netzwerk-Fehler: ${e.message}`
+      } finally {
+        btn.disabled = false
+        btn.textContent = 'Leads holen'
+      }
+    }
+
+    loadStats()
+    loadCalls()
+    setInterval(() => { loadStats(); loadCalls() }, 30000)
+  </script>
+</body>
+</html>

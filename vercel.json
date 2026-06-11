@@ -3,7 +3,8 @@
   "trailingSlash": false,
   "rewrites": [
     { "source": "/selbstcheck", "destination": "/selbstcheck.html" },
-    { "source": "/bericht",     "destination": "/bericht.html"     }
+    { "source": "/bericht",     "destination": "/bericht.html"     },
+    { "source": "/coldcall",    "destination": "/coldcall.html"    }
   ],
   "headers": [
     {
@@ -13,6 +14,12 @@
         { "key": "Access-Control-Allow-Methods", "value": "POST, OPTIONS" },
         { "key": "Access-Control-Allow-Headers", "value": "Content-Type" }
       ]
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/coldcall-trigger",
+      "schedule": "*/5 7-17 * * 1-5"
     }
   ]
 }
