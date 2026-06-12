@@ -1124,6 +1124,19 @@
       transition: color 0.2s, border-color 0.2s; cursor: pointer;
     }
     .qform_close:hover { color: var(--white); border-color: var(--grey-mid); }
+    .qform_alt_email {
+      display: none;
+      font-size: 13px; color: var(--grey-mid);
+      text-align: center; margin-bottom: 16px;
+    }
+    .qform_alt_email button {
+      background: none; border: none; cursor: pointer;
+      color: var(--red); font-size: 13px; font-family: var(--font);
+      text-decoration: underline; padding: 0;
+    }
+    @media (max-width: 640px) {
+      .qform_alt_email { display: block; }
+    }
     .qform_progress_wrap {
       height: 3px; background: var(--grey-border); border-radius: 2px;
       margin-bottom: 32px; overflow: hidden;
@@ -2735,6 +2748,9 @@
   <div class="qform_overlay" id="qform">
     <div class="qform_box">
       <button class="qform_close" onclick="closeQualifyForm()">✕</button>
+      <div class="qform_alt_email">
+        Lieber schreiben? <button onclick="closeQualifyForm(); openModal('contact')" type="button">E-Mail senden →</button>
+      </div>
       <div class="qform_progress_wrap">
         <div class="qform_progress_bar" id="qprogress"></div>
       </div>
@@ -2742,7 +2758,7 @@
 
       <!-- Step 1: Revenue -->
       <div class="qform_step active" id="qstep-1">
-        <div class="qform_step_label">Schritt 1 von 6</div>
+        <div class="qform_step_label">Schritt 1 von 3</div>
         <h2 class="qform_question">Wie hoch ist dein monatlicher Umsatz aktuell?</h2>
         <div class="qform_options">
           <button class="qform_option" onclick="qSelect('revenue','unter1k',this)">Unter 1.000€</button>
@@ -2754,7 +2770,7 @@
 
       <!-- Step 2: Budget -->
       <div class="qform_step" id="qstep-2">
-        <div class="qform_step_label">Schritt 2 von 6</div>
+        <div class="qform_step_label">Schritt 2 von 3</div>
         <h2 class="qform_question">Wie viel möchtest du monatlich in Ads investieren?</h2>
         <div class="qform_options">
           <button class="qform_option" onclick="qSelect('budget','unter300',this)">Unter 300€</button>
@@ -2764,20 +2780,9 @@
         </div>
       </div>
 
-      <!-- Step 3: Goal -->
+      <!-- Step 3: Timeline -->
       <div class="qform_step" id="qstep-3">
-        <div class="qform_step_label">Schritt 3 von 6</div>
-        <h2 class="qform_question">Was ist dein wichtigstes Ziel?</h2>
-        <div class="qform_options" style="grid-template-columns:1fr;">
-          <button class="qform_option" onclick="qSelect('goal','mehr-anfragen',this)">Mehr Anfragen bekommen</button>
-          <button class="qform_option" onclick="qSelect('goal','ausgebucht',this)">Regelmäßig ausgebucht sein</button>
-          <button class="qform_option" onclick="qSelect('goal','skalieren',this)">Studio skalieren</button>
-        </div>
-      </div>
-
-      <!-- Step 4: Timeline -->
-      <div class="qform_step" id="qstep-4">
-        <div class="qform_step_label">Schritt 4 von 6</div>
+        <div class="qform_step_label">Schritt 3 von 3</div>
         <h2 class="qform_question">Wann möchtest du starten?</h2>
         <div class="qform_options" style="grid-template-columns:1fr;">
           <button class="qform_option" onclick="qSelect('start','sofort',this)">Sofort — ich bin bereit</button>
@@ -2786,37 +2791,10 @@
         </div>
       </div>
 
-      <!-- Step 5: Erreichbarkeit -->
-      <div class="qform_step" id="qstep-5">
-        <div class="qform_step_label">Schritt 5 von 6</div>
-        <h2 class="qform_question">Wann bist du am besten zu erreichen?</h2>
-        <div class="qform_options">
-          <button class="qform_option" onclick="qSelect('erreichbar','morgens',this)">Morgens</button>
-          <button class="qform_option" onclick="qSelect('erreichbar','nachmittags',this)">Nachmittags</button>
-        </div>
-        <div class="qday_wrap">
-          <button class="qday_toggle" onclick="toggleDayPicker(this)" type="button">
-            <span class="qday_arrow">›</span> Wochentag festlegen
-          </button>
-          <div class="qday_picker" id="qDayPicker">
-            <div class="qday_grid">
-              <button class="qday_btn" onclick="qDaySelect('Mo',this)" type="button">Mo</button>
-              <button class="qday_btn" onclick="qDaySelect('Di',this)" type="button">Di</button>
-              <button class="qday_btn" onclick="qDaySelect('Mi',this)" type="button">Mi</button>
-              <button class="qday_btn" onclick="qDaySelect('Do',this)" type="button">Do</button>
-              <button class="qday_btn" onclick="qDaySelect('Fr',this)" type="button">Fr</button>
-              <button class="qday_btn" onclick="qDaySelect('Sa',this)" type="button">Sa</button>
-              <button class="qday_btn" onclick="qDaySelect('So',this)" type="button">So</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Step 6: Email -->
-      <div class="qform_step" id="qstep-6">
-        <div class="qform_step_label">Schritt 6 von 6</div>
+      <!-- Step 4: Contact -->
+      <div class="qform_step" id="qstep-4">
         <h2 class="qform_question">Fast fertig. Wohin sollen wir dein Ergebnis schicken?</h2>
-        <p style="color:var(--grey-light); font-size:14px; margin-top:10px; margin-bottom:24px;">Wir prüfen dein Profil und melden uns innerhalb von 24h.</p>
+        <p style="color:var(--grey-light); font-size:14px; margin-top:10px; margin-bottom:24px;">Gib deine Kontaktdaten an & du hörst von uns.</p>
         <form onsubmit="qSubmit(event)" style="display:flex; flex-direction:column; gap:14px;">
           <input type="email" id="qemail" class="form_input" required placeholder="deine@email.com">
           <input type="tel" id="qphone" class="form_input" required placeholder="+43 123 456 78">
@@ -2967,10 +2945,6 @@
       Object.keys(qA).forEach(k => delete qA[k]);
       qLeadFired = false;
       document.querySelectorAll('.qform_option').forEach(o => o.classList.remove('selected'));
-      document.querySelectorAll('.qday_btn').forEach(b => b.classList.remove('selected'));
-      document.querySelectorAll('.qday_toggle').forEach(t => t.classList.remove('open'));
-      const dp = document.getElementById('qDayPicker');
-      if (dp) dp.classList.remove('open');
       document.getElementById('qemail').value = '';
       document.getElementById('qphone').value = '';
       document.getElementById('qform').classList.add('open');
@@ -2991,25 +2965,16 @@
       const target = document.getElementById('qstep-' + n);
       if (target) target.classList.add('active');
       qStep = n;
-      document.getElementById('qprogress').style.width = ((n - 1) / 6 * 100) + '%';
-      document.getElementById('qback').style.display = (n > 1 && n <= 5) ? 'block' : 'none';
+      document.getElementById('qprogress').style.width = (Math.min(n - 1, 3) / 3 * 100) + '%';
+      document.getElementById('qback').style.display = (n > 1 && n <= 3) ? 'block' : 'none';
     }
     function qBack() { if (qStep > 1) qGoStep(qStep - 1); }
     function qSelect(field, value, el) {
       qA[field] = value;
       el.closest('.qform_options').querySelectorAll('.qform_option').forEach(o => o.classList.remove('selected'));
       el.classList.add('selected');
-      const next = { revenue: 2, budget: 3, goal: 4, start: 5, erreichbar: 6 };
+      const next = { revenue: 2, budget: 3, start: 4 };
       setTimeout(() => qGoStep(next[field]), 280);
-    }
-    function toggleDayPicker(btn) {
-      btn.classList.toggle('open');
-      document.getElementById('qDayPicker').classList.toggle('open');
-    }
-    function qDaySelect(day, el) {
-      qA.wochentag = day;
-      document.querySelectorAll('.qday_btn').forEach(b => b.classList.remove('selected'));
-      el.classList.add('selected');
     }
     async function qSubmit(e) {
       e.preventDefault();
