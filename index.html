@@ -202,6 +202,7 @@
       align-items: center;
     }
     .btn-ghost:hover { border-color: var(--grey-mid); }
+    .hero_contact_mobile { display: none; }
     .btn-primary {
       font-size: 14px;
       font-weight: 700;
@@ -1384,6 +1385,7 @@
       .hero_buttons { flex-direction: column; align-items: stretch; }
       .hero_buttons .btn-whatsapp.large,
       .hero_buttons .btn-ghost { width: 100%; justify-content: center; text-align: center; font-size: 15px; padding: 14px 20px; }
+      .hero_contact_mobile { display: flex; }
       .hero_visual_placeholder { aspect-ratio: 16/9; padding: 24px; }
       .hero_stats { flex-direction: column; gap: 10px; margin-top: 32px; }
       .hero_stat_card { padding: 20px 16px; }
@@ -1617,7 +1619,8 @@
         </p>
         <div class="hero_buttons">
           <button class="btn-whatsapp large" onclick="openQualifyForm()">Passt YAD zu mir? →</button>
-          <a href="/guide" class="btn-ghost" style="padding: 16px 24px; font-size: 16px; border-radius: 10px;">Guide kostenlos laden →</a>
+          <a href="/guide" class="btn-ghost" style="padding: 16px 24px; font-size: 16px; border-radius: 10px;">Guide zum selbst starten →</a>
+          <button class="btn-ghost hero_contact_mobile" onclick="openModal('contact')" style="border-radius:10px;">Kontakt</button>
         </div>
         <p class="hero_disclaimer">Kostenloses Erstgespräch — kein Risiko, keine Verpflichtung.</p>
       </div>
