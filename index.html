@@ -3005,7 +3005,7 @@
       }
       const payload = JSON.stringify({ email: qA.email, telefon: qA.phone, umsatz: qA.revenue, budget: qA.budget,
         ziel: qA.goal, start: qA.start, erreichbar: qA.erreichbar || '',
-        wochentag: qA.wochentag || '', qualifiziert: qualified ? 'Ja' : 'Nein' });
+        wochentag: qA.wochentag || '', qualifiziert: qualified ? 'Ja' : 'Nein', quelle: 'meta' });
       fetch('https://formspree.io/f/mojrazar', {
         method: 'POST', body: payload,
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
