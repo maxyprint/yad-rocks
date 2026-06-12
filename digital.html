@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="facebook-domain-verification" content="fqrsksmzh9bqxp6bm1kobsdfhokizb" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <title>Digitalisierung für Tattoo Studios – Website, Automation & mehr | YAD</title>
+  <meta name="description" content="Wir bauen die digitale Basis für dein Tattoo Studio: professionelle Website, Buchungssystem & WhatsApp-Automation. Weniger Admin. Mehr Zeit zum Tätowieren.">
+  <meta property="og:title" content="Digitalisierung für Tattoo Studios – Website, Automation & mehr | YAD">
+  <meta property="og:description" content="Website, Buchungssystem & WhatsApp-Automation für Tattoo Studios. Kein Admin-Chaos mehr.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yad.rocks/digital">
+  <meta property="og:image" content="https://yad.rocks/creative-hero-poster.jpg">
+  <meta property="og:site_name" content="YAD">
+  <meta property="og:locale" content="de_DE">
+  <link rel="canonical" href="https://yad.rocks/digital">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Meta Pixel -->
+  <script>
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
+  (window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init','27377162821974280');
+  fbq('track','PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=27377162821974280&ev=PageView&noscript=1"/></noscript>
+  <script>
+  function _getCookie(n){const m=document.cookie.match('(^|;)\\s*'+n+'\\s*=\\s*([^;]+)');return m?m.pop():'';}
+  function sendCAPI(event_name, event_id){
+    fetch('https://yad-rocks-capi.vercel.app/api/track',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({event_name,event_id,event_source_url:location.href,fbp:_getCookie('_fbp'),fbc:_getCookie('_fbc')}),
+      keepalive:true
+    }).catch(()=>{});
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #0a0a0a; --black-2: #111111; --black-3: #1a1a1a;
+      --grey-dark: #222222; --grey-mid: #444444; --grey-light: #888888;
+      --grey-border: #2a2a2a; --white: #ffffff; --white-soft: #f5f5f5;
+      --red: #e8173a; --red-dark: #c0102e; --red-glow: rgba(232,23,58,0.15);
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --radius: 12px; --radius-lg: 20px; --max-w: 1200px; --nav-h: 72px;
+    }
+    html { background-color: var(--black); scroll-behavior: smooth; }
+    body { font-family: var(--font); background-color: var(--black); color: var(--white); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    button { font-family: var(--font); cursor: pointer; border: none; background: none; }
+
+    /* NAV */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--nav-h); display: flex; align-items: center; padding: 0 40px; border-bottom: 1px solid var(--grey-border); background: rgba(10,10,10,0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+    .nav_inner { max-width: var(--max-w); width: 100%; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+    .nav_logo { font-size: 26px; font-weight: 900; letter-spacing: -1px; color: var(--white); z-index: 101; }
+    .nav_logo span { color: var(--red); }
+    .nav_links { display: flex; gap: 36px; align-items: center; }
+    .nav_link { font-size: 14px; font-weight: 500; color: var(--grey-light); transition: color 0.2s; }
+    .nav_link:hover { color: var(--white); }
+    .nav_cta { display: flex; gap: 12px; align-items: center; }
+    .btn-ghost { font-size: 14px; font-weight: 600; color: var(--white); padding: 10px 20px; border-radius: 8px; border: 1px solid var(--grey-border); transition: border-color 0.2s; display: inline-flex; align-items: center; }
+    .btn-ghost:hover { border-color: var(--grey-mid); }
+    .btn-whatsapp { font-size: 14px; font-weight: 700; color: var(--white); padding: 10px 22px; border-radius: 8px; background: var(--red); transition: background 0.2s, transform 0.1s; display: inline-flex; align-items: center; gap: 8px; }
+    .btn-whatsapp:hover { background: var(--red-dark); transform: translateY(-1px); }
+    .btn-whatsapp.large { font-size: 16px; padding: 16px 32px; border-radius: 10px; }
+    .btn-whatsapp.xl { font-size: 18px; padding: 20px 40px; border-radius: 12px; }
+    .nav_mobile_btn { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; z-index: 101; }
+    .nav_mobile_btn span { display: block; width: 24px; height: 2px; background: var(--white); border-radius: 2px; transition: transform 0.3s, opacity 0.3s; }
+    .nav_mobile_btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav_mobile_btn.open span:nth-child(2) { opacity: 0; }
+    .nav_mobile_btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .nav_mobile_overlay { display: none; position: fixed; inset: 0; background: var(--black); z-index: 99; flex-direction: column; align-items: center; justify-content: center; gap: 32px; padding: 40px; }
+    .nav_mobile_overlay.open { display: flex; }
+    .nav_mobile_overlay .nav_link { font-size: 28px; font-weight: 800; color: var(--white); letter-spacing: -0.5px; }
+    .nav_mobile_overlay .btn-whatsapp { font-size: 18px; padding: 16px 40px; border-radius: 12px; margin-top: 16px; }
+
+    /* SHARED SECTIONS */
+    section { padding: 100px 40px; }
+    .section_inner { max-width: var(--max-w); margin: 0 auto; }
+    .section_label { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--red); margin-bottom: 16px; }
+    .section_title { font-size: clamp(32px, 4vw, 52px); font-weight: 900; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 20px; }
+    .section_subtitle { font-size: 18px; color: var(--grey-light); line-height: 1.65; max-width: 560px; }
+    .section_header { margin-bottom: 64px; }
+
+    /* HERO */
+    .hero { padding-top: 80px; padding-bottom: 100px; padding-left: 40px; padding-right: 40px; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; top: -200px; left: 50%; transform: translateX(-50%); width: 800px; height: 600px; background: radial-gradient(ellipse at center, rgba(232,23,58,0.12) 0%, transparent 70%); pointer-events: none; }
+    .hero_inner { max-width: 900px; margin: 0 auto; text-align: center; }
+    .hero_badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(232,23,58,0.1); border: 1px solid rgba(232,23,58,0.3); color: var(--red); font-size: 13px; font-weight: 600; padding: 6px 14px; border-radius: 100px; margin-bottom: 28px; letter-spacing: 0.3px; }
+    .hero_badge_dot { width: 6px; height: 6px; border-radius: 50%; background: var(--red); animation: pulse 2s ease infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.8); } }
+    .hero_title { font-size: clamp(38px, 5.5vw, 72px); font-weight: 900; line-height: 1.05; letter-spacing: -2.5px; margin-bottom: 24px; }
+    .hero_title .accent { color: var(--red); }
+    .hero_text { font-size: 19px; font-weight: 400; color: var(--grey-light); line-height: 1.65; margin-bottom: 44px; max-width: 580px; margin-left: auto; margin-right: auto; }
+    .hero_buttons { display: flex; gap: 16px; align-items: center; justify-content: center; flex-wrap: wrap; }
+    .hero_disclaimer { margin-top: 16px; font-size: 13px; color: var(--grey-mid); }
+    .hero_cta_row { display: flex; gap: 10px; align-items: stretch; justify-content: center; }
+    .hero_cta_row .btn-whatsapp.large { flex: unset; }
+    .hero_mail_btn { display: none; align-items: center; justify-content: center; width: 52px; flex-shrink: 0; border-radius: 10px; border: 1.5px solid var(--grey-border); background: var(--black-3); color: var(--grey-light); cursor: pointer; transition: border-color 0.2s, color 0.2s; }
+    .hero_mail_btn:hover { border-color: var(--red); color: var(--red); }
+
+    /* PAIN CARDS */
+    .pain_grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .pain_card { background: var(--black-2); border: 1px solid var(--grey-border); border-radius: var(--radius-lg); padding: 36px 32px; }
+    .pain_icon { font-size: 32px; margin-bottom: 20px; }
+    .pain_title { font-size: 18px; font-weight: 800; letter-spacing: -0.3px; margin-bottom: 10px; }
+    .pain_text { font-size: 15px; color: var(--grey-light); line-height: 1.65; }
+
+    /* FEATURE CARDS */
+    .feat_grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; border: 1px solid var(--grey-border); border-radius: var(--radius-lg); overflow: hidden; }
+    .feat_card { background: var(--black-2); padding: 48px 36px; position: relative; transition: background 0.2s; }
+    .feat_card:hover { background: var(--black-3); }
+    .feat_card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--red); opacity: 0; transition: opacity 0.2s; }
+    .feat_card:hover::before { opacity: 1; }
+    .feat_num { font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--red); margin-bottom: 24px; }
+    .feat_title { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 14px; }
+    .feat_text { font-size: 15px; color: var(--grey-light); line-height: 1.65; margin-bottom: 20px; }
+    .feat_list { display: flex; flex-direction: column; gap: 8px; }
+    .feat_item { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--grey-light); }
+    .feat_item::before { content: '→'; color: var(--red); flex-shrink: 0; font-weight: 700; }
+
+    /* BEFORE/AFTER */
+    .ba_grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .ba_card { border-radius: var(--radius-lg); padding: 40px; position: relative; overflow: hidden; }
+    .ba_card.is-before { background: var(--black-3); border: 1px solid var(--grey-border); }
+    .ba_card.is-after { background: linear-gradient(135deg, #1a0008 0%, #0a0a0a 100%); border: 1px solid rgba(232,23,58,0.3); }
+    .ba_card.is-after::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--red); }
+    .ba_label { font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 28px; display: inline-block; padding: 4px 12px; border-radius: 4px; }
+    .ba_card.is-before .ba_label { background: var(--grey-dark); color: var(--grey-light); }
+    .ba_card.is-after .ba_label { background: var(--red-glow); color: var(--red); border: 1px solid rgba(232,23,58,0.3); }
+    .ba_items { display: flex; flex-direction: column; gap: 14px; }
+    .ba_item { display: flex; gap: 14px; align-items: flex-start; font-size: 15px; line-height: 1.5; }
+    .ba_card.is-before .ba_item { color: var(--grey-mid); }
+    .ba_card.is-after .ba_item { color: var(--white-soft); }
+
+    /* PAKETE */
+    .pakete_grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: start; }
+    .paket_card { background: var(--black-2); border: 1px solid var(--grey-border); border-radius: var(--radius-lg); padding: 36px 32px; position: relative; }
+    .paket_card.featured { border-color: rgba(232,23,58,0.5); background: linear-gradient(160deg, #150008 0%, #111 100%); }
+    .paket_card.featured::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--red); border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+    .paket_badge { display: inline-block; background: var(--red); color: #fff; font-size: 10px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; padding: 4px 12px; border-radius: 100px; margin-bottom: 20px; }
+    .paket_name { font-size: 13px; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase; color: var(--grey-mid); margin-bottom: 6px; }
+    .paket_tagline { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 16px; }
+    .paket_price { font-size: 40px; font-weight: 900; letter-spacing: -2px; color: var(--white); }
+    .paket_price span { font-size: 16px; font-weight: 500; color: var(--grey-light); letter-spacing: 0; }
+    .paket_setup { font-size: 13px; color: var(--grey-mid); margin-top: 4px; }
+    .paket_budget { font-size: 12px; color: var(--grey-light); margin-top: 4px; min-height: 18px; }
+    .paket_features { list-style: none; margin: 24px 0; display: flex; flex-direction: column; gap: 10px; }
+    .paket_features li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--grey-light); line-height: 1.45; }
+    .paket_features li::before { content: '✓'; color: var(--red); font-weight: 800; flex-shrink: 0; }
+    .paket_breakeven { font-size: 12px; color: var(--grey-mid); margin-bottom: 20px; padding: 8px 14px; border: 1px solid var(--grey-border); border-radius: 8px; background: var(--black-3); }
+    .paket_cta { width: 100%; text-align: center; justify-content: center; font-family: var(--font); font-size: 15px; font-weight: 700; padding: 14px 20px; border-radius: 10px; cursor: pointer; transition: all 0.2s; }
+    .paket_cta.primary { background: var(--red); color: #fff; border: none; }
+    .paket_cta.primary:hover { background: var(--red-dark); }
+    .paket_cta.outline { background: none; color: var(--white); border: 1px solid var(--grey-border); }
+    .paket_cta.outline:hover { border-color: var(--grey-mid); }
+    .pakete_note { text-align: center; font-size: 13px; color: var(--grey-mid); margin-top: 28px; }
+
+    /* HOW IT WORKS */
+    .hiw_steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; position: relative; }
+    .hiw_steps::before { content: ''; position: absolute; top: 36px; left: calc(16.66% + 20px); right: calc(16.66% + 20px); height: 1px; background: linear-gradient(to right, var(--red) 0%, rgba(232,23,58,0.3) 50%, var(--red) 100%); }
+    .hiw_step { text-align: center; padding: 0 20px; }
+    .hiw_number { width: 72px; height: 72px; border-radius: 50%; border: 2px solid var(--red); display: flex; align-items: center; justify-content: center; margin: 0 auto 28px; font-size: 22px; font-weight: 900; color: var(--red); background: var(--black); position: relative; z-index: 1; }
+    .hiw_title { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 12px; }
+    .hiw_text { font-size: 15px; color: var(--grey-light); line-height: 1.65; }
+
+    /* FAQ */
+    .faq_list { display: flex; flex-direction: column; gap: 2px; }
+    .faq_item { background: var(--black-2); border: 1px solid var(--grey-border); border-radius: var(--radius); overflow: hidden; }
+    .faq_trigger { width: 100%; padding: 24px 28px; display: flex; align-items: center; justify-content: space-between; gap: 16px; font-size: 16px; font-weight: 600; color: var(--white); cursor: pointer; text-align: left; background: none; transition: background 0.2s; }
+    .faq_trigger:hover { background: var(--black-3); }
+    .faq_trigger_icon { flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--grey-border); display: flex; align-items: center; justify-content: center; font-size: 16px; color: var(--grey-light); transition: transform 0.3s, background 0.2s; }
+    .faq_item.open .faq_trigger_icon { transform: rotate(45deg); background: var(--red-glow); border-color: rgba(232,23,58,0.3); color: var(--red); }
+    .faq_body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+    .faq_item.open .faq_body { max-height: 400px; }
+    .faq_answer { padding: 0 28px 28px; font-size: 15px; color: var(--grey-light); line-height: 1.7; }
+
+    /* CTA BANNER */
+    .cta_banner_inner { max-width: var(--max-w); margin: 0 auto; background: linear-gradient(135deg, #1a0008 0%, #0f0f0f 100%); border: 1px solid rgba(232,23,58,0.3); border-radius: 24px; padding: 80px; text-align: center; position: relative; overflow: hidden; }
+    .cta_banner_inner::before { content: ''; position: absolute; top: -150px; left: 50%; transform: translateX(-50%); width: 600px; height: 400px; background: radial-gradient(ellipse, rgba(232,23,58,0.12) 0%, transparent 70%); pointer-events: none; }
+    .cta_banner_tag { display: inline-block; background: var(--red-glow); border: 1px solid rgba(232,23,58,0.3); color: var(--red); font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 6px 16px; border-radius: 100px; margin-bottom: 28px; }
+    .cta_banner_title { font-size: clamp(32px, 5vw, 56px); font-weight: 900; letter-spacing: -2px; line-height: 1.05; margin-bottom: 20px; }
+    .cta_banner_text { font-size: 18px; color: var(--grey-light); line-height: 1.65; max-width: 520px; margin: 0 auto 40px; }
+    .cta_banner_disclaimer { margin-top: 16px; font-size: 13px; color: var(--grey-mid); }
+
+    /* MODAL & FORMS */
+    .modal_overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 200; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(4px); }
+    .modal_overlay.open { display: flex; }
+    .modal_box { background: var(--black-2); border: 1px solid var(--grey-border); border-radius: var(--radius-lg); max-width: 640px; width: 100%; max-height: 85vh; overflow-y: auto; padding: 48px; position: relative; }
+    .modal_close { position: absolute; top: 20px; right: 20px; width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--grey-border); display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--grey-light); cursor: pointer; background: var(--black-3); transition: color 0.2s, border-color 0.2s; }
+    .modal_close:hover { color: var(--white); border-color: var(--grey-mid); }
+    .modal_title { font-size: 24px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 32px; }
+    .form_group { margin-bottom: 20px; }
+    .form_label { display: block; font-size: 13px; font-weight: 600; color: var(--grey-light); margin-bottom: 8px; letter-spacing: 0.3px; }
+    .form_input, .form_textarea { width: 100%; background: var(--black-3); border: 1px solid var(--grey-border); border-radius: var(--radius); padding: 12px 16px; font-size: 15px; color: var(--white); font-family: inherit; transition: border-color 0.2s; box-sizing: border-box; }
+    .form_input:focus, .form_textarea:focus { outline: none; border-color: var(--red); }
+    .form_input::placeholder, .form_textarea::placeholder { color: var(--grey-mid); }
+    .form_textarea { resize: vertical; min-height: 110px; }
+    .form_success { display: none; text-align: center; padding: 28px 0 8px; }
+    .form_success_icon { font-size: 40px; margin-bottom: 12px; }
+    .form_success_title { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+    .form_success_text { font-size: 14px; color: var(--grey-light); }
+    .form_error { display: none; font-size: 13px; color: var(--red); margin-top: 12px; text-align: center; }
+
+    /* QUALIFY FORM */
+    .qform_overlay { display: none; position: fixed; inset: 0; z-index: 300; background: rgba(10,10,10,0.96); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 24px; overflow-y: auto; }
+    .qform_overlay.open { display: flex; }
+    .qform_box { background: var(--black-2); border: 1px solid var(--grey-border); border-radius: var(--radius-lg); max-width: 540px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 48px; position: relative; }
+    .qform_close { position: absolute; top: 20px; right: 20px; width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--grey-border); display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--grey-light); background: var(--black-3); transition: color 0.2s, border-color 0.2s; cursor: pointer; }
+    .qform_close:hover { color: var(--white); border-color: var(--grey-mid); }
+    .qform_progress_wrap { height: 3px; background: var(--grey-border); border-radius: 2px; margin-bottom: 32px; overflow: hidden; }
+    .qform_progress_bar { height: 100%; background: var(--red); border-radius: 2px; transition: width 0.4s ease; width: 0%; }
+    .qform_back { display: none; font-size: 13px; color: var(--grey-mid); margin-bottom: 20px; cursor: pointer; transition: color 0.2s; background: none; border: none; font-family: var(--font); padding: 0; }
+    .qform_back:hover { color: var(--grey-light); }
+    .qform_step { display: none; }
+    .qform_step.active { display: block; }
+    .qform_step_label { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--red); margin-bottom: 16px; }
+    .qform_question { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; line-height: 1.25; }
+    .qform_options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 28px; }
+    .qform_option { border: 1px solid var(--grey-border); border-radius: var(--radius); padding: 16px 20px; cursor: pointer; text-align: center; font-size: 15px; font-weight: 600; color: var(--grey-light); background: var(--black-3); transition: all 0.15s; font-family: var(--font); line-height: 1.4; }
+    .qform_option:hover { border-color: rgba(232,23,58,0.5); color: var(--white); }
+    .qform_option.selected { border-color: var(--red); background: var(--red-glow); color: var(--white); }
+
+    /* FOOTER */
+    .footer { background: var(--black-2); border-top: 1px solid var(--grey-border); padding: 80px 40px 40px; }
+    .footer_inner { max-width: var(--max-w); margin: 0 auto; }
+    .footer_top { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 60px; margin-bottom: 64px; }
+    .footer_logo { font-size: 28px; font-weight: 900; letter-spacing: -1px; margin-bottom: 16px; }
+    .footer_logo span { color: var(--red); }
+    .footer_tagline { font-size: 14px; color: var(--grey-light); line-height: 1.65; max-width: 280px; margin-bottom: 28px; }
+    .footer_social { display: flex; gap: 12px; }
+    .footer_social_link { width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--grey-border); display: flex; align-items: center; justify-content: center; color: var(--grey-light); transition: color 0.2s, border-color 0.2s; }
+    .footer_social_link:hover { color: var(--white); border-color: var(--grey-mid); }
+    .footer_col_title { font-size: 13px; font-weight: 700; color: var(--white); margin-bottom: 20px; letter-spacing: 0.3px; }
+    .footer_links { display: flex; flex-direction: column; gap: 12px; }
+    .footer_link { font-size: 14px; color: var(--grey-light); transition: color 0.2s; }
+    .footer_link:hover { color: var(--white); }
+    .footer_bottom { display: flex; align-items: center; justify-content: space-between; padding-top: 32px; border-top: 1px solid var(--grey-border); gap: 16px; flex-wrap: wrap; }
+    .footer_copy { font-size: 13px; color: var(--grey-mid); }
+    .footer_legal { display: flex; gap: 24px; }
+    .footer_legal_link { font-size: 13px; color: var(--grey-mid); transition: color 0.2s; }
+    .footer_legal_link:hover { color: var(--grey-light); }
+
+    /* RESPONSIVE */
+    @media (max-width: 1024px) {
+      .pakete_grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+      .feat_grid { grid-template-columns: 1fr; }
+      .footer_top { grid-template-columns: 1fr 1fr; gap: 40px; }
+    }
+    @media (max-width: 768px) {
+      section { padding: 64px 20px; }
+      .nav { padding: 0 20px; }
+      .nav_links, .nav_cta { display: none; }
+      .nav_mobile_btn { display: flex; }
+      .pain_grid { grid-template-columns: 1fr; }
+      .ba_grid { grid-template-columns: 1fr; }
+      .hiw_steps { grid-template-columns: 1fr; gap: 32px; }
+      .hiw_steps::before { display: none; }
+      .cta_banner_inner { padding: 48px 24px; }
+      .footer_top { grid-template-columns: 1fr; gap: 32px; }
+      .hero_mail_btn { display: flex; }
+      .modal_box { padding: 32px 24px; }
+      .qform_box { padding: 32px 20px; }
+      .qform_question { font-size: 20px; }
+      .qform_option { padding: 14px 10px; font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- MOBILE NAV -->
+  <div class="nav_mobile_overlay" id="mobileNav">
+    <a href="#leistungen" class="nav_link" onclick="closeMobileNav()">Leistungen</a>
+    <a href="#pakete" class="nav_link" onclick="closeMobileNav()">Pakete</a>
+    <a href="#faq" class="nav_link" onclick="closeMobileNav()">FAQ</a>
+    <button class="btn-whatsapp" onclick="openQualifyForm(); closeMobileNav()">Jetzt starten →</button>
+  </div>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav_inner">
+      <a href="/" class="nav_logo">YAD<span>.</span></a>
+      <div class="nav_links">
+        <a href="#leistungen" class="nav_link">Leistungen</a>
+        <a href="#pakete" class="nav_link">Pakete</a>
+        <a href="#faq" class="nav_link">FAQ</a>
+      </div>
+      <div class="nav_cta">
+        <button class="btn-ghost" onclick="openModal('contact')">Fragen?</button>
+        <button class="btn-whatsapp" onclick="openQualifyForm()">Jetzt starten →</button>
+      </div>
+      <button class="nav_mobile_btn" id="mobileNavBtn" onclick="toggleMobileNav()" aria-label="Menü öffnen">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" style="margin-top: var(--nav-h);">
+    <div class="hero_inner">
+      <div class="hero_badge">
+        <div class="hero_badge_dot"></div>
+        Digitalisierung — Exklusiv für Tattoo Studios
+      </div>
+      <h1 class="hero_title">
+        Während du tätowierst,<br>
+        läuft dein Studio <span class="accent">von selbst.</span>
+      </h1>
+      <p class="hero_text">
+        Wir bauen die digitale Basis für dein Studio — professionelle Website, automatisches Buchungssystem & WhatsApp-Automation. Kein Admin-Chaos mehr.
+      </p>
+      <div class="hero_cta_row">
+        <button class="btn-whatsapp large" onclick="openQualifyForm()">Kostenloses Erstgespräch →</button>
+        <button class="hero_mail_btn" onclick="openModal('contact')" aria-label="Kontakt per E-Mail">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        </button>
+      </div>
+      <p class="hero_disclaimer">Kostenloses Erstgespräch — kein Risiko, keine Verpflichtung.</p>
+    </div>
+  </section>
+
+  <!-- PROBLEMS -->
+  <section style="background: var(--black-2); border-top: 1px solid var(--grey-border);">
+    <div class="section_inner">
+      <div class="section_header">
+        <div class="section_label">Das Problem</div>
+        <h2 class="section_title">Du bist Tätowierer.<br>Kein Webmaster. Kein Sekretär.</h2>
+        <p class="section_subtitle">Aber genau das wirst du jeden Tag, wenn das System fehlt.</p>
+      </div>
+      <div class="pain_grid">
+        <div class="pain_card">
+          <div class="pain_icon">📱</div>
+          <div class="pain_title">DM-Chaos</div>
+          <div class="pain_text">Anfragen kommen über Instagram, WhatsApp, E-Mail — gleichzeitig, unstrukturiert. Du verlierst den Überblick und Buchungen fallen durch.</div>
+        </div>
+        <div class="pain_card">
+          <div class="pain_icon">🌐</div>
+          <div class="pain_title">Keine professionelle Präsenz</div>
+          <div class="pain_text">Dein Portfolio verdient mehr als Instagram-Kompression. Ohne eigene Website verlierst du täglich Kunden an Studios die professioneller wirken.</div>
+        </div>
+        <div class="pain_card">
+          <div class="pain_icon">⏰</div>
+          <div class="pain_title">Alles manuell</div>
+          <div class="pain_text">Terminbestätigungen, Erinnerungen, Anzahlungslinks — du machst alles von Hand. Stunden, die du lieber in die Nadel stecken würdest.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEISTUNGEN -->
+  <section id="leistungen" style="background: var(--black);">
+    <div class="section_inner">
+      <div class="section_header">
+        <div class="section_label">Was wir bauen</div>
+        <h2 class="section_title">Ein System. Einmal eingerichtet.<br>Läuft dauerhaft.</h2>
+        <p class="section_subtitle">Drei Bausteine, die ineinandergreifen — und dir täglich Stunden sparen.</p>
+      </div>
+      <div class="feat_grid">
+        <div class="feat_card">
+          <div class="feat_num">01 — Website</div>
+          <div class="feat_title">Professionelle Studio-Website</div>
+          <div class="feat_text">Dein Portfolio in voller Auflösung. Kein Instagram-Filter, kein Kompressionsrauschen — deine Arbeit wie sie wirklich ist.</div>
+          <div class="feat_list">
+            <div class="feat_item">5 Seiten: Startseite, Portfolio, Künstler, Stile, Kontakt</div>
+            <div class="feat_item">Lokale SEO — wirst bei Google gefunden</div>
+            <div class="feat_item">Online-Buchungsformular direkt integriert</div>
+            <div class="feat_item">DSGVO-konform, mobil-optimiert</div>
+          </div>
+        </div>
+        <div class="feat_card">
+          <div class="feat_num">02 — Buchung</div>
+          <div class="feat_title">Automatisches Buchungssystem</div>
+          <div class="feat_text">Kunden buchen direkt — ohne dass du etwas tun musst. Kalender immer aktuell, keine Doppelbuchungen, kein E-Mail-Ping-Pong.</div>
+          <div class="feat_list">
+            <div class="feat_item">Online-Buchung 24/7 ohne dein Zutun</div>
+            <div class="feat_item">Automatische Terminbestätigung & Erinnerung</div>
+            <div class="feat_item">Anzahlungslink automatisch versendet</div>
+            <div class="feat_item">Kalender-Sync (Google, Apple, Outlook)</div>
+          </div>
+        </div>
+        <div class="feat_card">
+          <div class="feat_num">03 — Automation</div>
+          <div class="feat_title">WhatsApp & DM-Automation</div>
+          <div class="feat_text">Jede Anfrage bekommt sofort eine Antwort — in deinem Tonfall. Das System fragt Stil, Budget und Wunschtermin ab, bevor du involviert bist.</div>
+          <div class="feat_list">
+            <div class="feat_item">Sofortantwort auf WhatsApp & Instagram DMs</div>
+            <div class="feat_item">Automatische Anfragen-Qualifizierung</div>
+            <div class="feat_item">Aftercare-Nachrichten nach jedem Termin</div>
+            <div class="feat_item">Stammkunden-Reaktivierung</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BEFORE / AFTER -->
+  <section style="background: var(--black-2); border-top: 1px solid var(--grey-border);">
+    <div class="section_inner">
+      <div class="section_header">
+        <div class="section_label">Vorher / Nachher</div>
+        <h2 class="section_title">Wie sich dein Alltag verändert</h2>
+      </div>
+      <div class="ba_grid">
+        <div class="ba_card is-before">
+          <span class="ba_label">Ohne System</span>
+          <div class="ba_items">
+            <div class="ba_item"><span>📬</span> Anfragen gehen in DMs, WhatsApp und E-Mail unter</div>
+            <div class="ba_item"><span>🔁</span> Jede Terminbestätigung tippst du manuell</div>
+            <div class="ba_item"><span>❌</span> No-Shows weil Kunden vergessen haben zu überweisen</div>
+            <div class="ba_item"><span>🙈</span> Kein Portfolio das wirklich überzeugt</div>
+            <div class="ba_item"><span>😤</span> Feierabend = weiter Nachrichten beantworten</div>
+          </div>
+        </div>
+        <div class="ba_card is-after">
+          <span class="ba_label">Mit YAD Digital</span>
+          <div class="ba_items">
+            <div class="ba_item"><span>✅</span> Alle Anfragen landen strukturiert an einem Ort</div>
+            <div class="ba_item"><span>✅</span> Buchung, Bestätigung & Anzahlung laufen automatisch</div>
+            <div class="ba_item"><span>✅</span> No-Shows auf ein Minimum reduziert</div>
+            <div class="ba_item"><span>✅</span> Professionelle Website, die für dich verkauft</div>
+            <div class="ba_item"><span>✅</span> Feierabend ist wirklich Feierabend</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAKETE -->
+  <section id="pakete" style="background: var(--black); border-top: 1px solid var(--grey-border);">
+    <div class="section_inner">
+      <div class="section_header" style="text-align:center;">
+        <div class="section_label" style="text-align:center;">Pakete</div>
+        <h2 class="section_title" style="text-align:center;">Fang klein an.<br>Skale wenn du bereit bist.</h2>
+        <p class="section_subtitle" style="margin: 0 auto; text-align:center;">Kein Rundum-sorglos-Paket das du nie brauchst. Nur was wirklich hilft.</p>
+      </div>
+      <div class="pakete_grid">
+
+        <!-- STARTER -->
+        <div class="paket_card">
+          <div class="paket_name">STARTER</div>
+          <div class="paket_tagline">Professionelle Basis</div>
+          <div class="paket_price">990€<span> einmalig</span></div>
+          <div class="paket_setup">Kein Monatsabo · Kein Werbebudget</div>
+          <div class="paket_budget">&nbsp;</div>
+          <ul class="paket_features">
+            <li>Studio-Website (5 Seiten)</li>
+            <li>Lokale SEO-Grundoptimierung</li>
+            <li>Online-Buchungsformular integriert</li>
+            <li>Google Business Einrichtung & Optimierung</li>
+            <li>Mobil-optimiert & DSGVO-konform</li>
+          </ul>
+          <div class="paket_breakeven">Break-even: ~1 extra Buchung</div>
+          <button class="paket_cta outline" onclick="openQualifyForm()">Gespräch vereinbaren →</button>
+        </div>
+
+        <!-- SYSTEM -->
+        <div class="paket_card featured">
+          <div class="paket_badge">Empfohlen</div>
+          <div class="paket_name">SYSTEM</div>
+          <div class="paket_tagline">Vollständig automatisiert</div>
+          <div class="paket_price">299€<span> / Monat</span></div>
+          <div class="paket_setup">+ 590€ einmalig Setup</div>
+          <div class="paket_budget">&nbsp;</div>
+          <ul class="paket_features">
+            <li>Alles aus STARTER</li>
+            <li>Automatisches Buchungssystem (24/7)</li>
+            <li>Terminbestätigung & Erinnerungen automatisch</li>
+            <li>Anzahlungslink automatisch versendet</li>
+            <li>WhatsApp & DM-Automation</li>
+            <li>Aftercare-Nachrichten nach jedem Termin</li>
+          </ul>
+          <div class="paket_breakeven">Break-even: ~2 extra Buchungen / Monat</div>
+          <button class="paket_cta primary" onclick="openQualifyForm()">Jetzt starten →</button>
+        </div>
+
+        <!-- KOMPLETT -->
+        <div class="paket_card">
+          <div class="paket_name">KOMPLETT</div>
+          <div class="paket_tagline">System + Wachstum</div>
+          <div class="paket_price">549€<span> / Monat</span></div>
+          <div class="paket_setup">+ 990€ einmalig Setup</div>
+          <div class="paket_budget">+ Werbebudget ab 450€ / Monat direkt an Meta</div>
+          <ul class="paket_features">
+            <li>Alles aus SYSTEM</li>
+            <li>Meta Ads Management (Facebook + Instagram)</li>
+            <li>Creative-Produktion aus deinem Content</li>
+            <li>Lead-Qualifikations-Funnel</li>
+            <li>Wöchentlicher Performance-Report</li>
+            <li>Monatlicher Strategy Call (30 Min)</li>
+          </ul>
+          <div class="paket_breakeven">Break-even: ~5 extra Buchungen / Monat</div>
+          <button class="paket_cta outline" onclick="openQualifyForm()">Gespräch vereinbaren →</button>
+        </div>
+
+      </div>
+      <p class="pakete_note">Alle Preise zzgl. MwSt. · SYSTEM & KOMPLETT monatlich kündbar · Erstgespräch immer kostenlos</p>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section style="background: var(--black-2); border-top: 1px solid var(--grey-border);">
+    <div class="section_inner">
+      <div class="section_header" style="text-align:center;">
+        <div class="section_label" style="text-align:center;">So läuft es ab</div>
+        <h2 class="section_title" style="text-align:center;">In 3 Schritten live</h2>
+      </div>
+      <div class="hiw_steps">
+        <div class="hiw_step">
+          <div class="hiw_number">1</div>
+          <div class="hiw_title">Gespräch</div>
+          <div class="hiw_text">Wir schauen uns gemeinsam an, wo du gerade stehst und was du brauchst. Kostenlos, kein Pitch, kein Druck.</div>
+        </div>
+        <div class="hiw_step">
+          <div class="hiw_number">2</div>
+          <div class="hiw_title">Aufbau</div>
+          <div class="hiw_text">Wir bauen alles — du musst keine Texte schreiben, keine Technik konfigurieren. Wir kümmern uns um alles.</div>
+        </div>
+        <div class="hiw_step">
+          <div class="hiw_number">3</div>
+          <div class="hiw_title">Live & automatisch</div>
+          <div class="hiw_text">Dein System läuft. Anfragen werden beantwortet, Buchungen bestätigt, Anzahlungen eingesammelt — ohne dein Zutun.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" style="background: var(--black); border-top: 1px solid var(--grey-border);">
+    <div class="section_inner" style="max-width: 800px;">
+      <div class="section_header">
+        <div class="section_label">FAQ</div>
+        <h2 class="section_title">Häufige Fragen</h2>
+      </div>
+      <div class="faq_list">
+        <div class="faq_item">
+          <button class="faq_trigger" onclick="toggleFaq(this)">
+            Muss ich selbst Texte oder Inhalte liefern?
+            <span class="faq_trigger_icon">+</span>
+          </button>
+          <div class="faq_body"><div class="faq_answer">Nein. Wir übernehmen das Texten, die Struktur und das Design komplett. Du musst nur deine Portfolio-Bilder teilen — um den Rest kümmern wir uns.</div></div>
+        </div>
+        <div class="faq_item">
+          <button class="faq_trigger" onclick="toggleFaq(this)">
+            Wie lange dauert die Umsetzung?
+            <span class="faq_trigger_icon">+</span>
+          </button>
+          <div class="faq_body"><div class="faq_answer">Das STARTER-Paket ist in der Regel innerhalb von 2–3 Wochen live. Das SYSTEM-Paket inkl. Automation dauert etwa 3–4 Wochen bis zur vollständigen Einrichtung.</div></div>
+        </div>
+        <div class="faq_item">
+          <button class="faq_trigger" onclick="toggleFaq(this)">
+            Kann ich später Meta Ads dazubuchen?
+            <span class="faq_trigger_icon">+</span>
+          </button>
+          <div class="faq_body"><div class="faq_answer">Ja, jederzeit. Mit dem SYSTEM-Paket als Basis hast du bereits alles, was du für erfolgreiche Ads brauchst — Funnel, Tracking, Buchungssystem. Der Upgrade auf KOMPLETT ist unkompliziert möglich.</div></div>
+        </div>
+        <div class="faq_item">
+          <button class="faq_trigger" onclick="toggleFaq(this)">
+            Was passiert, wenn ich kündige?
+            <span class="faq_trigger_icon">+</span>
+          </button>
+          <div class="faq_body"><div class="faq_answer">SYSTEM und KOMPLETT sind monatlich kündbar. Deine Website bleibt dir — wir übergeben dir alle Zugänge und Dateien. Du bist nie abhängig von uns.</div></div>
+        </div>
+        <div class="faq_item">
+          <button class="faq_trigger" onclick="toggleFaq(this)">
+            Ich habe schon eine Website. Was dann?
+            <span class="faq_trigger_icon">+</span>
+          </button>
+          <div class="faq_body"><div class="faq_answer">Kein Problem. Wir können deine bestehende Seite als Basis nehmen und Automation + Buchungssystem integrieren — oder von Grund auf neu bauen, wenn sie nicht mehr zeitgemäß ist. Das klären wir im Gespräch.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <section style="background: var(--black); padding: 80px 40px; border-top: 1px solid var(--grey-border);">
+    <div class="cta_banner_inner">
+      <div class="cta_banner_tag">Kostenloses Erstgespräch</div>
+      <h2 class="cta_banner_title">Dein Studio läuft von selbst.<br>Fang heute an.</h2>
+      <p class="cta_banner_text">Kein Langzeitvertrag. Kein Technik-Stress. Wir bauen, du tätowierst.</p>
+      <button class="btn-whatsapp xl" onclick="openQualifyForm()" style="font-family:var(--font);">Jetzt starten →</button>
+      <p class="cta_banner_disclaimer">Kostenloses Erstgespräch — kein Risiko, keine Verpflichtung.</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer_inner">
+      <div class="footer_top">
+        <div>
+          <div class="footer_logo">YAD<span>.</span></div>
+          <p class="footer_tagline">Die Digitalisierungs-Agentur exklusiv für Tattoo Studios. Website, Automation & Wachstum.</p>
+          <div class="footer_social">
+            <a href="#" class="footer_social_link" aria-label="Instagram">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+            </a>
+            <button class="footer_social_link" aria-label="Kontakt" onclick="openQualifyForm()" style="border:1px solid var(--grey-border); cursor:pointer;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            </button>
+          </div>
+        </div>
+        <div>
+          <div class="footer_col_title">Leistungen</div>
+          <div class="footer_links">
+            <a href="#leistungen" class="footer_link">Website für Tattoo Studios</a>
+            <a href="#leistungen" class="footer_link">Buchungssystem</a>
+            <a href="#leistungen" class="footer_link">WhatsApp Automation</a>
+            <a href="#leistungen" class="footer_link">Meta Ads (KOMPLETT)</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer_col_title">Mehr von YAD</div>
+          <div class="footer_links">
+            <a href="/" class="footer_link">Meta Ads für Tattoo Studios</a>
+            <a href="/guide" class="footer_link">Kostenloser Guide</a>
+            <a href="#faq" class="footer_link">FAQ</a>
+            <a href="#" class="footer_link" onclick="openModal('contact'); return false;">Kontakt</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer_col_title">Loslegen</div>
+          <div class="footer_links">
+            <a href="#" class="footer_link" onclick="openQualifyForm(); return false;">Kostenloses Erstgespräch</a>
+            <a href="#" class="footer_link" onclick="openModal('contact'); return false;">hello@yad.rocks</a>
+          </div>
+          <div style="margin-top: 24px;">
+            <button class="btn-whatsapp" style="width:100%; justify-content:center;" onclick="openQualifyForm()">Jetzt starten →</button>
+          </div>
+        </div>
+      </div>
+      <div class="footer_bottom">
+        <p class="footer_copy">© 2026 YAD. Alle Rechte vorbehalten. yad.rocks</p>
+        <div class="footer_legal">
+          <a href="/datenschutz" class="footer_legal_link">Datenschutz</a>
+          <a href="#" class="footer_legal_link" onclick="openModal('impressum'); return false;">Impressum</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- QUALIFY FORM -->
+  <div class="qform_overlay" id="qform">
+    <div class="qform_box">
+      <button class="qform_close" onclick="closeQualifyForm()">✕</button>
+      <div class="qform_progress_wrap">
+        <div class="qform_progress_bar" id="qprogress"></div>
+      </div>
+      <button class="qform_back" id="qback" onclick="qBack()">← Zurück</button>
+
+      <div class="qform_step active" id="qstep-1">
+        <div class="qform_step_label">Schritt 1 von 3</div>
+        <h2 class="qform_question">Wie hoch ist dein monatlicher Umsatz aktuell?</h2>
+        <div class="qform_options">
+          <button class="qform_option" onclick="qSelect('revenue','unter1k',this)">Unter 1.000€</button>
+          <button class="qform_option" onclick="qSelect('revenue','1-3k',this)">1.000 – 3.000€</button>
+          <button class="qform_option" onclick="qSelect('revenue','3-5k',this)">3.000 – 5.000€</button>
+          <button class="qform_option" onclick="qSelect('revenue','5kplus',this)">5.000€+</button>
+        </div>
+      </div>
+
+      <div class="qform_step" id="qstep-2">
+        <div class="qform_step_label">Schritt 2 von 3</div>
+        <h2 class="qform_question">Was möchtest du monatlich in deine digitale Basis investieren?</h2>
+        <div class="qform_options">
+          <button class="qform_option" onclick="qSelect('budget','unter300',this)">Unter 300€</button>
+          <button class="qform_option" onclick="qSelect('budget','300-800',this)">300 – 800€</button>
+          <button class="qform_option" onclick="qSelect('budget','800-1500',this)">800 – 1.500€</button>
+          <button class="qform_option" onclick="qSelect('budget','1500plus',this)">1.500€+</button>
+        </div>
+      </div>
+
+      <div class="qform_step" id="qstep-3">
+        <div class="qform_step_label">Schritt 3 von 3</div>
+        <h2 class="qform_question">Wann möchtest du starten?</h2>
+        <div class="qform_options" style="grid-template-columns:1fr;">
+          <button class="qform_option" onclick="qSelect('start','sofort',this)">Sofort — ich bin bereit</button>
+          <button class="qform_option" onclick="qSelect('start','1-3monate',this)">In 1–3 Monaten</button>
+          <button class="qform_option" onclick="qSelect('start','later',this)">Später / nur informieren</button>
+        </div>
+      </div>
+
+      <div class="qform_step" id="qstep-4">
+        <h2 class="qform_question">Fast fertig. Wohin sollen wir dein Ergebnis schicken?</h2>
+        <p style="color:var(--grey-light); font-size:14px; margin-top:10px; margin-bottom:24px;">Gib deine Kontaktdaten an & du hörst von uns.</p>
+        <form onsubmit="qSubmit(event)" style="display:flex; flex-direction:column; gap:14px;">
+          <input type="email" id="qemail" class="form_input" required placeholder="deine@email.com">
+          <input type="tel" id="qphone" class="form_input" required placeholder="+43 123 456 78">
+          <button type="submit" class="btn-whatsapp" style="width:100%; justify-content:center; font-size:16px; padding:16px 24px; border:none; cursor:pointer; font-family:var(--font); display:flex;">
+            Ergebnis prüfen →
+          </button>
+        </form>
+        <p style="font-size:12px; color:var(--grey-mid); margin-top:12px; text-align:center;">Kein Spam. Keinerlei Verpflichtung.</p>
+      </div>
+
+      <div class="qform_step" id="qresult-unqualified">
+        <div style="text-align:center; padding:12px 0;">
+          <div style="font-size:52px; margin-bottom:20px;">⏳</div>
+          <h2 style="font-size:24px; font-weight:900; letter-spacing:-0.5px; margin-bottom:14px;">Noch nicht ganz soweit.</h2>
+          <p style="color:var(--grey-light); font-size:15px; line-height:1.65; margin-bottom:32px;">Aktuell passen deine Angaben noch nicht zu unserem Modell — aber das kann sich schnell ändern. Wir haben deine E-Mail gespeichert.</p>
+          <button class="btn-ghost" onclick="closeQualifyForm()" style="font-size:15px; padding:12px 28px;">Verstanden</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT MODAL -->
+  <div class="modal_overlay" id="modal-contact" onclick="closeModalOnBg(event)">
+    <div class="modal_box">
+      <button class="modal_close" onclick="closeModal('contact')">✕</button>
+      <div id="contact-success" class="form_success" style="display:none;">
+        <div class="form_success_icon">✓</div>
+        <div class="form_success_title">Nachricht gesendet!</div>
+        <p class="form_success_text">Wir melden uns innerhalb von 24 Stunden bei dir.</p>
+      </div>
+      <div id="contact-error" class="form_error" style="margin-bottom:16px;"></div>
+      <h2 class="modal_title">Schreib uns</h2>
+      <form id="contact-form" onsubmit="contactSubmit(event)">
+        <div class="form_group">
+          <label class="form_label">Name *</label>
+          <input type="text" name="name" id="cf-name" class="form_input" required placeholder="Dein Name">
+        </div>
+        <div class="form_group">
+          <label class="form_label">E-Mail *</label>
+          <input type="email" name="email" id="cf-email" class="form_input" required placeholder="deine@email.com">
+        </div>
+        <div class="form_group">
+          <label class="form_label">Studio / Instagram</label>
+          <input type="text" name="studio" id="cf-studio" class="form_input" placeholder="@deinstudio (optional)">
+        </div>
+        <div class="form_group">
+          <label class="form_label">Nachricht</label>
+          <textarea name="message" id="cf-message" class="form_textarea" placeholder="Was möchtest du wissen? (optional)"></textarea>
+        </div>
+        <button type="submit" id="cf-submit" class="btn-whatsapp" style="display:flex; width:100%; justify-content:center; border:none; cursor:pointer; font-family:inherit; font-size:16px;">
+          Absenden →
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- IMPRESSUM MODAL -->
+  <div class="modal_overlay" id="modal-impressum" onclick="closeModalOnBg(event)">
+    <div class="modal_box">
+      <button class="modal_close" onclick="closeModal('impressum')">✕</button>
+      <div class="modal_title">Impressum</div>
+      <div class="modal_body" style="font-size:14px; color:var(--grey-light); line-height:1.7;">
+        <p>Maximilian Schwarz · yprint · Rottendorfer Straße 35a · 97074 Würzburg</p>
+        <p style="margin-top:10px;">E-Mail: max@yprint.de</p>
+        <p style="margin-top:10px;">Aufgrund des Kleinunternehmerstatus wird in der Rechnung keine MwSt. ausgewiesen (§ 19 Abs. 1 UStG).</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Clarity -->
+  <script type="text/javascript">(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)})(window,document,"clarity","script","x3pw514816");</script>
+
+  <script>
+    // CONTACT FORM
+    async function contactSubmit(e) {
+      e.preventDefault();
+      var btn = document.getElementById('cf-submit');
+      btn.textContent = 'Wird gesendet…'; btn.disabled = true;
+      var payload = { name: document.getElementById('cf-name').value, email: document.getElementById('cf-email').value, studio: document.getElementById('cf-studio').value, message: document.getElementById('cf-message').value };
+      try {
+        var res = await fetch('https://formspree.io/f/mojrazar', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(payload) });
+        if (res.ok) {
+          document.getElementById('contact-form').style.display = 'none';
+          document.querySelector('.modal_title').style.display = 'none';
+          document.getElementById('contact-success').style.display = 'block';
+        } else { throw new Error(); }
+      } catch(err) {
+        var errEl = document.getElementById('contact-error');
+        errEl.textContent = 'Fehler beim Senden. Bitte schreib direkt an hello@yad.rocks.';
+        errEl.style.display = 'block';
+        btn.textContent = 'Absenden →'; btn.disabled = false;
+      }
+    }
+
+    // QUALIFY FORM
+    const qA = {}; let qStep = 1;
+    function openQualifyForm() {
+      Object.keys(qA).forEach(k => delete qA[k]);
+      document.querySelectorAll('.qform_option').forEach(o => o.classList.remove('selected'));
+      document.getElementById('qemail').value = '';
+      document.getElementById('qphone').value = '';
+      document.getElementById('qform').classList.add('open');
+      document.body.style.overflow = 'hidden';
+      qGoStep(1);
+      if (typeof fbq !== 'undefined') {
+        const _icId = 'ic_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+        fbq('track', 'InitiateCheckout', {}, {eventID: _icId});
+        sendCAPI('InitiateCheckout', _icId);
+      }
+    }
+    function closeQualifyForm() { document.getElementById('qform').classList.remove('open'); document.body.style.overflow = ''; }
+    function qGoStep(n) {
+      document.querySelectorAll('.qform_step').forEach(s => s.classList.remove('active'));
+      const target = document.getElementById('qstep-' + n);
+      if (target) target.classList.add('active');
+      qStep = n;
+      document.getElementById('qprogress').style.width = (Math.min(n - 1, 3) / 3 * 100) + '%';
+      document.getElementById('qback').style.display = (n > 1 && n <= 3) ? 'block' : 'none';
+    }
+    function qBack() { if (qStep > 1) qGoStep(qStep - 1); }
+    function qSelect(field, value, el) {
+      qA[field] = value;
+      el.closest('.qform_options').querySelectorAll('.qform_option').forEach(o => o.classList.remove('selected'));
+      el.classList.add('selected');
+      const next = { revenue: 2, budget: 3, start: 4 };
+      setTimeout(() => qGoStep(next[field]), 280);
+    }
+    async function qSubmit(e) {
+      e.preventDefault();
+      qA.email = document.getElementById('qemail').value;
+      qA.phone = document.getElementById('qphone').value;
+      const qualified = ['1-3k','3-5k','5kplus'].includes(qA.revenue) && ['300-800','800-1500','1500plus'].includes(qA.budget) && ['sofort','1-3monate'].includes(qA.start);
+      if (qualified && typeof fbq !== 'undefined') {
+        const _leadId = 'lead_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+        fbq('track', 'Lead', {}, {eventID: _leadId});
+        sendCAPI('Lead', _leadId);
+      }
+      const payload = JSON.stringify({ email: qA.email, telefon: qA.phone, umsatz: qA.revenue, budget: qA.budget, start: qA.start, qualifiziert: qualified ? 'Ja' : 'Nein', quelle: 'digital' });
+      fetch('https://formspree.io/f/mojrazar', { method: 'POST', body: payload, headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' } }).catch(() => {});
+      fetch('https://script.google.com/macros/s/AKfycbxot4Mz5N9qaHiCODRd2eQO63IlgfvKaniIFoqAWSENXTjmIA7gTgDV-5zV-Cdj4eON/exec', { method: 'POST', body: payload, headers: { 'Content-Type': 'text/plain' } }).catch(() => {});
+      document.getElementById('qprogress').style.width = '100%';
+      document.getElementById('qback').style.display = 'none';
+      document.querySelectorAll('.qform_step').forEach(s => s.classList.remove('active'));
+      if (qualified) { window.location.href = 'danke.html'; }
+      else { document.getElementById('qresult-unqualified').classList.add('active'); }
+    }
+
+    // MODALS
+    function openModal(id) { document.getElementById('modal-' + id).classList.add('open'); document.body.style.overflow = 'hidden'; }
+    function closeModal(id) { document.getElementById('modal-' + id).classList.remove('open'); document.body.style.overflow = ''; }
+    function closeModalOnBg(e) { if (e.target === e.currentTarget) closeModal(e.currentTarget.id.replace('modal-','')); }
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') { closeQualifyForm(); document.querySelectorAll('.modal_overlay.open').forEach(m => { m.classList.remove('open'); document.body.style.overflow = ''; }); }
+    });
+
+    // NAV
+    function toggleMobileNav() { document.getElementById('mobileNav').classList.toggle('open'); document.getElementById('mobileNavBtn').classList.toggle('open'); }
+    function closeMobileNav() { document.getElementById('mobileNav').classList.remove('open'); document.getElementById('mobileNavBtn').classList.remove('open'); }
+
+    // FAQ
+    function toggleFaq(trigger) { trigger.closest('.faq_item').classList.toggle('open'); }
+  </script>
+</body>
+</html>
