@@ -1626,15 +1626,11 @@
     .yf-section {
       position: relative;
       background: var(--black);
-      padding: 0;
-    }
-    .yf-scene {
-      position: sticky;
-      top: 0;
-      height: 100vh;
+      padding: 88px 40px 80px;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
+      gap: 36px;
       overflow: hidden;
     }
     .yf-glow {
@@ -1661,6 +1657,7 @@
       padding: 44px 48px;
       position: relative;
       overflow: hidden;
+      z-index: 1;
     }
     .yf-card::before {
       content: '';
@@ -1682,47 +1679,77 @@
       background: var(--red); border-radius: 2px;
     }
 
+    /* ── Navigation ── */
+    .yf-arrows {
+      display: flex; gap: 24px; align-items: center; z-index: 1;
+    }
+    .yf-arrow {
+      width: 56px; height: 56px; border-radius: 50%;
+      border: 1.5px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.05);
+      color: var(--white); font-size: 24px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color 0.2s, background 0.2s, color 0.2s, transform 0.15s;
+      font-family: var(--font); line-height: 1;
+    }
+    .yf-arrow:hover:not([disabled]) {
+      border-color: var(--red);
+      background: rgba(232,23,58,0.12);
+      color: var(--red);
+      transform: scale(1.07);
+    }
+    .yf-arrow:active:not([disabled]) { transform: scale(0.96); }
+    .yf-arrow[disabled] { opacity: 0.18; cursor: not-allowed; }
+
     .yf-dots {
-      position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
-      display: flex; gap: 7px; z-index: 20; pointer-events: none;
+      display: flex; gap: 7px; align-items: center;
     }
     .yf-dot {
-      width: 4px; height: 4px; border-radius: 50%;
+      width: 5px; height: 5px; border-radius: 50%;
       background: rgba(255,255,255,0.18);
       transition: background .35s, transform .35s, box-shadow .35s;
     }
     .yf-dot.on { background: var(--red); transform: scale(1.5); box-shadow: 0 0 7px var(--red); }
 
     @media (max-width: 600px) {
+      .yf-section { padding: 64px 16px 60px; gap: 28px; }
       .yf-card { padding: 28px 24px; }
+      .yf-arrow { width: 48px; height: 48px; font-size: 20px; }
     }
   </style>
 
   <section class="yf-section" id="yfSection">
-    <div class="yf-scene" id="yfScene">
-      <div class="yf-glow" id="yfGlow"></div>
-      <svg id="bgGraph" class="yf-bg-graph" viewBox="0 0 900 260" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="bgAreaGrad" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0%" stop-color="#e8173a" stop-opacity="0.14"/>
-            <stop offset="100%" stop-color="#e8173a" stop-opacity="0.0"/>
-          </linearGradient>
-          <clipPath id="bgClip"><rect id="bgClipRect" x="0" y="0" width="0" height="260"/></clipPath>
-        </defs>
-        <path d="M 0 210 C 25 208,50 220,75 215 S 115 205,145 198 S 165 202,185 192 S 215 182,245 172 S 262 162,280 155 S 308 148,335 140 S 358 134,378 127 S 398 122,418 114 S 443 106,467 99 S 492 92,540 90 S 582 84,612 74 S 637 67,662 60 S 692 50,722 44 S 752 38,782 35 S 802 34,832 30 S 862 26,900 24 L 900 260 L 0 260 Z"
-          fill="url(#bgAreaGrad)" clip-path="url(#bgClip)"/>
-        <path id="bgLinePath"
-          d="M 0 210 C 25 208,50 220,75 215 S 115 205,145 198 S 165 202,185 192 S 215 182,245 172 S 262 162,280 155 S 308 148,335 140 S 358 134,378 127 S 398 122,418 114 S 443 106,467 99 S 492 92,540 90 S 582 84,612 74 S 637 67,662 60 S 692 50,722 44 S 752 38,782 35 S 802 34,832 30 S 862 26,900 24"
-          fill="none" stroke="#e8173a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      <div class="yf-card" id="yfCard">
-        <div class="yf-num" id="yfNum">01 / 08</div>
-        <div class="yf-text" id="yfText">Du willst mehr Leute erreichen?</div>
-        <div class="yf-bar"></div>
+    <div class="yf-glow" id="yfGlow"></div>
+    <svg id="bgGraph" class="yf-bg-graph" viewBox="0 0 900 260" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="bgAreaGrad" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stop-color="#e8173a" stop-opacity="0.14"/>
+          <stop offset="100%" stop-color="#e8173a" stop-opacity="0.0"/>
+        </linearGradient>
+        <clipPath id="bgClip"><rect id="bgClipRect" x="0" y="0" width="0" height="260"/></clipPath>
+      </defs>
+      <path d="M 0 210 C 25 208,50 220,75 215 S 115 205,145 198 S 165 202,185 192 S 215 182,245 172 S 262 162,280 155 S 308 148,335 140 S 358 134,378 127 S 398 122,418 114 S 443 106,467 99 S 492 92,540 90 S 582 84,612 74 S 637 67,662 60 S 692 50,722 44 S 752 38,782 35 S 802 34,832 30 S 862 26,900 24 L 900 260 L 0 260 Z"
+        fill="url(#bgAreaGrad)" clip-path="url(#bgClip)"/>
+      <path id="bgLinePath"
+        d="M 0 210 C 25 208,50 220,75 215 S 115 205,145 198 S 165 202,185 192 S 215 182,245 172 S 262 162,280 155 S 308 148,335 140 S 358 134,378 127 S 398 122,418 114 S 443 106,467 99 S 492 92,540 90 S 582 84,612 74 S 637 67,662 60 S 692 50,722 44 S 752 38,782 35 S 802 34,832 30 S 862 26,900 24"
+        fill="none" stroke="#e8173a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <div class="yf-card" id="yfCard">
+      <div class="yf-num" id="yfNum">01 / 09</div>
+      <div class="yf-text" id="yfText">Du willst mehr Leute erreichen?</div>
+      <div class="yf-bar"></div>
+      <div id="yfCtaWrap" style="display:none; margin-top:32px; text-align:center;">
+        <button class="btn-whatsapp large" onclick="openQualifyForm()" style="font-family:var(--font); border:none; cursor:pointer; display:inline-flex; align-items:center; gap:8px;">
+          Passt YAD zu mir? →
+        </button>
+        <p style="font-size:12px; color:var(--grey-mid); margin-top:12px;">Kostenloses Erstgespräch — kein Risiko, keine Verpflichtung.</p>
       </div>
-      <div class="yf-dots" id="yfDots"></div>
     </div>
-    <div id="yfSpacer"></div>
+    <div class="yf-arrows">
+      <button class="yf-arrow" id="yfPrev" onclick="yfNav(-1)" disabled aria-label="Zurück">&#8592;</button>
+      <div class="yf-dots" id="yfDots"></div>
+      <button class="yf-arrow" id="yfNext" onclick="yfNav(1)" aria-label="Weiter">&#8594;</button>
+    </div>
   </section>
   <!-- ═══════════════════════════════════════════════════════════ -->
 
@@ -1763,6 +1790,12 @@
             <div class="founder_card_label">betreute<br>Partner & Studios</div>
           </div>
         </div>
+      </div>
+      <div style="text-align:center; margin-top:56px;">
+        <button class="btn-whatsapp large" onclick="openQualifyForm()" style="font-family:var(--font); border:none; cursor:pointer; display:inline-flex; align-items:center; gap:8px;">
+          Jetzt starten →
+        </button>
+        <p style="font-size:13px; color:var(--grey-mid); margin-top:12px;">Kostenloses Erstgespräch — kein Risiko, keine Verpflichtung.</p>
       </div>
     </div>
   </section>
@@ -2810,35 +2843,33 @@
     <div class="modal_box">
       <button class="modal_close" onclick="closeModal('contact')">✕</button>
 
-      <div data-fs-success class="form_success">
+      <div id="contact-success" class="form_success" style="display:none;">
         <div class="form_success_icon">✓</div>
         <div class="form_success_title">Nachricht gesendet!</div>
         <p class="form_success_text">Wir melden uns innerhalb von 24 Stunden bei dir.</p>
       </div>
 
-      <div data-fs-error class="form_error" style="margin-bottom:16px;"></div>
+      <div id="contact-error" class="form_error" style="margin-bottom:16px;"></div>
 
       <h2 class="modal_title">Schreib uns</h2>
-      <form id="contact-form">
+      <form id="contact-form" onsubmit="contactSubmit(event)">
         <div class="form_group">
           <label class="form_label">Name *</label>
-          <input type="text" name="name" class="form_input" required placeholder="Dein Name" data-fs-field>
-          <span data-fs-error="name" class="form_field_error"></span>
+          <input type="text" name="name" id="cf-name" class="form_input" required placeholder="Dein Name">
         </div>
         <div class="form_group">
           <label class="form_label">E-Mail *</label>
-          <input type="email" name="email" class="form_input" required placeholder="deine@email.com" data-fs-field>
-          <span data-fs-error="email" class="form_field_error"></span>
+          <input type="email" name="email" id="cf-email" class="form_input" required placeholder="deine@email.com">
         </div>
         <div class="form_group">
           <label class="form_label">Studio / Instagram</label>
-          <input type="text" name="studio" class="form_input" placeholder="@deinstudio (optional)" data-fs-field>
+          <input type="text" name="studio" id="cf-studio" class="form_input" placeholder="@deinstudio (optional)">
         </div>
         <div class="form_group">
           <label class="form_label">Nachricht</label>
-          <textarea name="message" class="form_textarea" placeholder="Was möchtest du wissen? (optional)" data-fs-field></textarea>
+          <textarea name="message" id="cf-message" class="form_textarea" placeholder="Was möchtest du wissen? (optional)"></textarea>
         </div>
-        <button type="submit" class="btn-whatsapp" data-fs-submit-btn
+        <button type="submit" id="cf-submit" class="btn-whatsapp"
           style="display:flex; width:100%; justify-content:center; border:none; cursor:pointer; font-family:inherit; font-size:16px;">
           Absenden →
         </button>
@@ -2893,9 +2924,39 @@
   </div>
 
   <script>
-    // Modal
-    window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
-    formspree('initForm', { formElement: '#contact-form', formId: 'mojrazar' });
+    // ─── CONTACT FORM ───
+    async function contactSubmit(e) {
+      e.preventDefault();
+      var btn = document.getElementById('cf-submit');
+      btn.textContent = 'Wird gesendet…';
+      btn.disabled = true;
+      var payload = {
+        name:    document.getElementById('cf-name').value,
+        email:   document.getElementById('cf-email').value,
+        studio:  document.getElementById('cf-studio').value,
+        message: document.getElementById('cf-message').value
+      };
+      try {
+        var res = await fetch('https://formspree.io/f/mojrazar', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (res.ok) {
+          document.getElementById('contact-form').style.display = 'none';
+          document.querySelector('.modal_title').style.display = 'none';
+          document.getElementById('contact-success').style.display = 'block';
+        } else {
+          throw new Error('server');
+        }
+      } catch(err) {
+        var errEl = document.getElementById('contact-error');
+        errEl.textContent = 'Fehler beim Senden. Bitte schreib direkt an hello@yad.rocks.';
+        errEl.style.display = 'block';
+        btn.textContent = 'Absenden →';
+        btn.disabled = false;
+      }
+    }
 
     // ─── QUALIFY FORM ───
     const qA = {}; let qStep = 1, qLeadFired = false;
@@ -3077,7 +3138,6 @@
         : 'var(--grey-border)';
     });
   </script>
-  <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
   <script>
   (function() {
     function easeOutExpo(t) { return t === 1 ? 1 : 1 - Math.pow(2, -10 * t); }
@@ -3156,8 +3216,8 @@
 
   <!-- YF Flip Story Script -->
   <script>
-  (() => {
-    const steps = [
+  (function() {
+    var steps = [
       { text: 'Du willst mehr Leute erreichen?' },
       { text: 'Um erfolgreich zu werben brauchst du mindestens ein Werbebudget von <span class="yf-hl">15 € täglich.</span>' },
       { text: 'Wir bringen das ganze Wissen mit.' },
@@ -3166,23 +3226,28 @@
       { text: 'Danach zahlst du <span class="yf-hl">15 € je Kontakt</span> oder 300 € Agenturpauschale/mtl.' },
       { text: 'Dieses Invest rechnet sich schon ab <span class="yf-hl">2 zahlenden Kunden</span> monatlich.' },
       { text: 'Wir garantieren dir das <span class="yf-hl">Fünffache</span> in den ersten 7 Tagen.' },
+      { text: 'Bereit? Dann <span class="yf-hl">leg los.</span>', cta: true },
     ];
 
-    const section   = document.getElementById('yfSection');
-    const card      = document.getElementById('yfCard');
-    const textEl    = document.getElementById('yfText');
-    const numEl     = document.getElementById('yfNum');
-    const glowEl    = document.getElementById('yfGlow');
-    const dotsEl    = document.getElementById('yfDots');
-    const spacer    = document.getElementById('yfSpacer');
-    const bgLine    = document.getElementById('bgLinePath');
-    const bgClipR   = document.getElementById('bgClipRect');
+    var card     = document.getElementById('yfCard');
+    var textEl   = document.getElementById('yfText');
+    var numEl    = document.getElementById('yfNum');
+    var glowEl   = document.getElementById('yfGlow');
+    var dotsEl   = document.getElementById('yfDots');
+    var ctaWrap  = document.getElementById('yfCtaWrap');
+    var yfPrev   = document.getElementById('yfPrev');
+    var yfNext   = document.getElementById('yfNext');
+    var bgLine   = document.getElementById('bgLinePath');
+    var bgClipR  = document.getElementById('bgClipRect');
 
-    if (!section) return;
+    if (!card) return;
 
-    let bgLen = 0;
-    function initBg() {
-      if (!bgLine) return;
+    var N = steps.length;
+    var current = 0, flipping = false;
+
+    /* ── Background graph ── */
+    var bgLen = 0;
+    if (bgLine) {
       bgLen = bgLine.getTotalLength();
       bgLine.style.strokeDasharray = bgLen;
       bgLine.style.strokeDashoffset = bgLen;
@@ -3192,30 +3257,26 @@
       bgLine.style.strokeDashoffset = bgLen * (1 - p);
       bgClipR.setAttribute('width', String(900 * p));
     }
-    initBg();
-
-    const isMobile = window.matchMedia('(max-width: 768px)').matches;
-    const N        = steps.length;
-    const STEP_H   = isMobile ? window.innerHeight : Math.max(320, window.innerHeight * 0.44);
-    spacer.style.height = N * STEP_H + 'px';
-
-    let current = 0, flipping = false;
 
     function fmt(n) {
       return String(n + 1).padStart(2, '0') + ' / ' + String(N).padStart(2, '0');
     }
 
-    /* ── Init dots ─────────────────────────────────────────── */
+    /* ── Build dots ── */
     for (var i = 0; i < N; i++) {
       var d = document.createElement('div');
       d.className = 'yf-dot' + (i === 0 ? ' on' : '');
-      d.id = 'yfd' + i;
       dotsEl.appendChild(d);
     }
 
-    /* ── Fade transition ────────────────────────────────────── */
+    function updateNav() {
+      yfPrev.disabled = current === 0;
+      yfNext.disabled = current === N - 1;
+    }
+
+    /* ── Flip transition ── */
     function flipTo(next) {
-      if (flipping || next === current) return;
+      if (flipping || next === current || next < 0 || next >= N) return;
       flipping = true;
       card.style.transition = 'opacity 0.18s ease-in, transform 0.18s ease-in';
       card.style.opacity = '0';
@@ -3223,6 +3284,7 @@
       setTimeout(function() {
         textEl.innerHTML = steps[next].text;
         numEl.textContent = fmt(next);
+        if (ctaWrap) ctaWrap.style.display = steps[next].cta ? 'block' : 'none';
         card.style.transition = 'none';
         card.style.transform = 'translateY(-8px)';
         requestAnimationFrame(function() {
@@ -3231,33 +3293,26 @@
             card.style.opacity = '1';
             card.style.transform = 'translateY(0)';
             current = next;
-            document.querySelectorAll('.yf-dot').forEach(function(d, i) {
-              d.classList.toggle('on', i === next);
+            document.querySelectorAll('.yf-dot').forEach(function(dot, idx) {
+              dot.classList.toggle('on', idx === next);
             });
+            updateBg((next + 1) / N);
+            updateNav();
             setTimeout(function() { flipping = false; }, 330);
           });
         });
       }, 195);
     }
 
-    /* ── Scroll ─────────────────────────────────────────────── */
-    window.addEventListener('scroll', function() {
-      var sTop      = section.getBoundingClientRect().top + window.scrollY;
-      var inSection = window.scrollY - sTop;
-      var next      = Math.max(0, Math.min(N - 1, Math.floor(inSection / STEP_H)));
-      updateBg(Math.max(0, Math.min(1, inSection / (N * STEP_H))));
+    window.yfNav = function(dir) { flipTo(current + dir); };
 
-      if (inSection < 0 && current !== 0) {
-        flipTo(0);
-      } else if (next !== current) {
-        flipTo(next);
-      }
-    }, { passive: true });
-
-    /* ── Init ───────────────────────────────────────────────── */
-    setTimeout(function() { glowEl.classList.add('on'); }, 400);
-    textEl.innerHTML  = steps[0].text;
+    /* ── Init ── */
+    setTimeout(function() { if (glowEl) glowEl.classList.add('on'); }, 400);
+    textEl.innerHTML = steps[0].text;
     numEl.textContent = fmt(0);
+    if (ctaWrap) ctaWrap.style.display = 'none';
+    updateBg(1 / N);
+    updateNav();
   })();
   </script>
   <script>

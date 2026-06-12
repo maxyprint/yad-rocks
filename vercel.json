@@ -16,10 +16,5 @@
       ]
     }
   ],
-  "crons": [
-    {
-      "path": "/api/coldcall-trigger",
-      "schedule": "*/5 7-17 * * 1-5"
-    }
-  ]
+  "crons": []
 }
