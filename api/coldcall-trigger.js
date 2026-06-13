@@ -109,15 +109,12 @@ export default async function handler(req, res) {
 async function ntfy(title, message, priority = 'default') {
   const topic = process.env.NTFY_TOPIC
   if (!topic) return
+  const p = priority === 'urgent' ? 5 : priority === 'high' ? 4 : 3
   try {
-    await fetch(`https://ntfy.sh/${topic}`, {
+    await fetch('https://ntfy.sh/', {
       method: 'POST',
-      headers: {
-        'Title': title,
-        'Priority': priority,
-        'Tags': priority === 'urgent' ? 'warning,rotating_light' : 'white_check_mark',
-      },
-      body: message,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ topic, title, message, priority: p }),
       signal: AbortSignal.timeout(5000),
     })
   } catch {}
