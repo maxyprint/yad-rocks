@@ -484,13 +484,20 @@
 <main class="page">
   <div class="page_inner">
 
+    <!-- PROMO HEADER BANNER (top of page, only when ?promo= active) -->
+    <div id="promoHeaderBanner" style="display:none;background:linear-gradient(135deg,rgba(74,222,128,0.12),rgba(74,222,128,0.06));border:1.5px solid rgba(74,222,128,0.4);border-radius:14px;padding:18px 24px;margin-bottom:28px;text-align:center;">
+      <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#4ade80;margin-bottom:8px;">Dein exklusiver Zugang</div>
+      <div style="font-size:20px;font-weight:700;color:#fff;margin-bottom:6px;">Diese Analyse ist für dich <span style="color:#4ade80">kostenlos</span></div>
+      <div style="font-size:14px;color:#aaa;">Normalpreis 20 € — heute gratis über deinen persönlichen Link.<br>Kein Abo, keine versteckten Kosten.</div>
+    </div>
+
     <!-- HEADER -->
     <div class="sc-header">
       <div class="sc-badge">
         <span>●</span> KI-Wachstumsanalyse
       </div>
       <h1 class="sc-title">Dein Studio-<span>Selbstcheck</span></h1>
-      <p class="sc-subtitle">
+      <p class="sc-subtitle" id="scSubtitle">
         Wir analysieren dein Tattoo Studio in 5 Bereichen und zeigen dir genau,
         wo Anfragen verloren gehen — mit konkreten Zahlen und Vergleich zu deinen
         Wettbewerbern.
@@ -664,10 +671,11 @@
   // ── Promo-Code Detection ─────────────────────────────────────────────
   const promoCode = new URLSearchParams(window.location.search).get('promo') || '';
   if (promoCode) {
-    document.getElementById('promoBanner').style.display = 'block';
-    document.getElementById('priceBlock').style.display  = 'none';
-    document.getElementById('submitBtnText').textContent  = 'Kostenlose Analyse starten';
-    document.getElementById('formNote').innerHTML         = 'Kostenlos · Kein Abo · <a href="/datenschutz.html">Datenschutz</a>';
+    document.getElementById('promoHeaderBanner').style.display = 'block';
+    document.getElementById('promoBanner').style.display       = 'block';
+    document.getElementById('priceBlock').style.display        = 'none';
+    document.getElementById('submitBtnText').textContent       = 'Kostenlose Analyse starten';
+    document.getElementById('formNote').innerHTML              = 'Kostenlos · Kein Abo · <a href="/datenschutz.html">Datenschutz</a>';
   }
 
   // ── Dynamic Instagram rows ──────────────────────────────────────────
