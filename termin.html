@@ -484,7 +484,7 @@ function showConfirmation() {
   const endTime = minToTime(endMin);
 
   document.getElementById('confirm-sub').textContent =
-    `Wir sehen uns am ${formatDateDE(date)} um ${slot_time} Uhr. Du erhältst keine separate Bestätigungsemail — notiere dir den Termin direkt.`;
+    `Wir sehen uns am ${formatDateDE(date)} um ${slot_time} Uhr. Eine Bestätigung geht gerade an deine Email-Adresse.`;
 
   document.getElementById('confirm-detail').innerHTML = `
     <div class="confirm-row"><span class="key">Name</span><span>${name}</span></div>

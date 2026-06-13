@@ -110,12 +110,12 @@ export default async function handler(req, res) {
     );
     const dateLong = fmtDateLong(date);
 
-    // Fire-and-forget: ntfy + confirmation email
-    Promise.all([
+    // Await both before returning — Vercel kills lambda after res.json()
+    await Promise.all([
       ntfy(`📅 Neuer Termin — ${name}`,
         `${dateLong} · ${slot_time}–${endTime} Uhr · ${email}${phone ? ' · ' + phone : ''}${message ? '\n"' + message + '"' : ''}`),
       sendConfirmation({ name, email, date, slot_time, endTime, dateLong }),
-    ]).catch(() => {});
+    ]);
 
     return res.json({ id: booking.id, date, slot_time, name });
   }
