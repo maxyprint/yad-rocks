@@ -17,7 +17,7 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Pflichtfelder fehlen.' });
   }
 
-  const VALID_PROMO = process.env.AUDIT_PROMO_CODE || 'BOOKINGLEAK26';
+  const VALID_PROMO = process.env.AUDIT_PROMO_CODE || 'FREEANALYSIS';
   const isFree = promoCode && promoCode.toUpperCase() === VALID_PROMO.toUpperCase();
 
   const { data: analysis, error: dbError } = await supabase
