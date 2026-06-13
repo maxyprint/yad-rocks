@@ -573,6 +573,13 @@
             <input type="email" id="email" name="email"
               placeholder="du@dein-studio.de" required autocomplete="email">
           </div>
+
+          <div class="field">
+            <label for="phone">Telefonnummer</label>
+            <input type="text" id="phone" name="phone"
+              placeholder="+49 xxx xxxxxxx" required autocomplete="tel" inputmode="tel">
+            <div class="field-hint">Nur für Rückfragen zur Analyse — kein Spam.</div>
+          </div>
         </div>
 
         <div class="divider"></div>
@@ -612,8 +619,15 @@
 
         <div class="divider"></div>
 
+        <!-- PROMO BANNER (nur sichtbar wenn ?promo= in URL) -->
+        <div id="promoBanner" style="display:none;background:rgba(74,222,128,0.08);border:1px solid rgba(74,222,128,0.25);border-radius:12px;padding:16px 20px;margin-bottom:24px;">
+          <div style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#4ade80;margin-bottom:6px;">Exklusiv für dich</div>
+          <div style="font-size:15px;font-weight:600;color:#fff;">Diese Analyse ist für dich kostenlos — nur über diesen Link.</div>
+          <div style="font-size:13px;color:#888;margin-top:4px;">Kein Abo, keine versteckten Kosten. Wir melden uns danach kurz bei dir.</div>
+        </div>
+
         <!-- PRICE + SUBMIT -->
-        <div class="price-block">
+        <div class="price-block" id="priceBlock">
           <div class="price-block-left">
             <div class="price-label">Einmalige Zahlung</div>
             <div class="price-value">20 € <span>inkl. MwSt.</span></div>
@@ -625,12 +639,12 @@
         </div>
 
         <button type="submit" class="btn-submit" id="submitBtn">
-          <span class="btn-text">Analyse starten</span>
+          <span class="btn-text" id="submitBtnText">Analyse starten</span>
           <span class="arrow">→</span>
           <span class="spinner"></span>
         </button>
 
-        <p class="form-note">
+        <p class="form-note" id="formNote">
           Sichere Zahlung über Stripe · Kein Abo · <a href="/datenschutz.html">Datenschutz</a>
         </p>
 
@@ -646,6 +660,15 @@
   const form    = document.getElementById('checkForm');
   const btn     = document.getElementById('submitBtn');
   const errBox  = document.getElementById('formError');
+
+  // ── Promo-Code Detection ─────────────────────────────────────────────
+  const promoCode = new URLSearchParams(window.location.search).get('promo') || '';
+  if (promoCode) {
+    document.getElementById('promoBanner').style.display = 'block';
+    document.getElementById('priceBlock').style.display  = 'none';
+    document.getElementById('submitBtnText').textContent  = 'Kostenlose Analyse starten';
+    document.getElementById('formNote').innerHTML         = 'Kostenlos · Kein Abo · <a href="/datenschutz.html">Datenschutz</a>';
+  }
 
   // ── Dynamic Instagram rows ──────────────────────────────────────────
 
@@ -731,6 +754,8 @@
     if (!city)         { showError('Bitte gib deine Stadt ein.'); return false; }
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
                         showError('Bitte gib eine gültige E-Mail-Adresse ein.'); return false; }
+    const phone = form.phone.value.trim();
+    if (!phone)        { showError('Bitte gib deine Telefonnummer ein.'); return false; }
     if (!studioInsta)  { showError('Bitte gib den Instagram-Account deines Studios ein.'); return false; }
     return true;
   }
@@ -757,10 +782,12 @@
       websiteUrl:        form.websiteUrl.value.trim(),
       city:              zipCode ? `${city} ${zipCode}` : city,
       email:             form.email.value.trim(),
+      phone:             form.phone.value.trim(),
       googleUrl:         form.googleUrl.value.trim() || null,
       instagramAccounts,
       facebookPageId:    document.getElementById('facebookPageId').value   || null,
       facebookPageName:  document.getElementById('facebookPageName').value || null,
+      promoCode:         promoCode || null,
     };
 
     try {
@@ -774,10 +801,15 @@
 
       if (!res.ok) throw new Error(data.error || 'Unbekannter Fehler');
 
-      // Track intent before redirect
-      if (typeof fbq !== 'undefined') fbq('track', 'InitiateCheckout', { value: 20, currency: 'EUR' });
-
-      window.location.href = data.checkoutUrl;
+      if (data.berichtUrl) {
+        // Gratis-Analyse (Promo-Code) — direkt zum Bericht
+        if (typeof fbq !== 'undefined') fbq('track', 'Lead', { value: 0, currency: 'EUR' });
+        window.location.href = data.berichtUrl;
+      } else {
+        // Paid — Stripe Checkout
+        if (typeof fbq !== 'undefined') fbq('track', 'InitiateCheckout', { value: 20, currency: 'EUR' });
+        window.location.href = data.checkoutUrl;
+      }
 
     } catch (err) {
       showError('Es ist ein Fehler aufgetreten. Bitte versuche es erneut.');

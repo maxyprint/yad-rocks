@@ -11,11 +11,14 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST')    return res.status(405).json({ error: 'Method not allowed' });
 
-  const { studioName, websiteUrl, city, email, googleUrl, instagramAccounts, facebookPageId, facebookPageName } = req.body;
+  const { studioName, websiteUrl, city, email, phone, googleUrl, instagramAccounts, facebookPageId, facebookPageName, promoCode } = req.body;
 
   if (!studioName || !websiteUrl || !city || !email || !instagramAccounts?.length) {
     return res.status(400).json({ error: 'Pflichtfelder fehlen.' });
   }
+
+  const VALID_PROMO = process.env.AUDIT_PROMO_CODE || 'BOOKINGLEAK26';
+  const isFree = promoCode && promoCode.toUpperCase() === VALID_PROMO.toUpperCase();
 
   const { data: analysis, error: dbError } = await supabase
     .from('analyses')
@@ -24,12 +27,14 @@ export default async function handler(req, res) {
       website_url:         websiteUrl,
       city,
       email,
+      phone:               phone              || null,
       google_url:          googleUrl          || null,
       instagram_accounts:  instagramAccounts,
       facebook_page_id:    facebookPageId     || null,
       facebook_page_name:  facebookPageName   || null,
       status:              'pending',
-      paid:                false,
+      paid:                isFree,
+      promo_code:          promoCode          || null,
     })
     .select('id')
     .single();
@@ -38,6 +43,20 @@ export default async function handler(req, res) {
     console.error('Supabase insert error:', dbError);
     await ntfy('❌ Selbstcheck: DB-Fehler', `${studioName} — ${dbError.message}`, 'urgent');
     return res.status(500).json({ error: 'Datenbankfehler.' });
+  }
+
+  // Gratis-Pfad: Analyse direkt triggern, kein Stripe
+  if (isFree) {
+    await ntfy('🎯 Gratis Audit', `${studioName} · ${city} · ${phone || email} — via Promo`);
+    fetch('https://yad.rocks/api/analyze', {
+      method:  'POST',
+      headers: {
+        'Content-Type':     'application/json',
+        'x-analyze-secret': process.env.ANALYZE_SECRET,
+      },
+      body: JSON.stringify({ analysis_id: analysis.id }),
+    }).catch(() => {});
+    return res.status(200).json({ berichtUrl: `https://yad.rocks/bericht?id=${analysis.id}` });
   }
 
   const session = await stripe.checkout.sessions.create({
@@ -61,7 +80,7 @@ export default async function handler(req, res) {
     locale:      'de',
   });
 
-  await ntfy('💳 Neuer Selbstcheck', `${studioName} · ${city} — Checkout gestartet`);
+  await ntfy('💳 Neuer Selbstcheck', `${studioName} · ${city} · ${phone || email} — Checkout gestartet`);
   return res.status(200).json({ checkoutUrl: session.url });
 }
 
