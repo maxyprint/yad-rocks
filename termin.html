@@ -343,7 +343,7 @@ function renderCalendar() {
   for (let d = 1; d <= last.getDate(); d++) {
     const date     = new Date(year, month, d);
     const dateStr  = toDateStr(year, month, d);
-    const past     = date < now;
+    const past     = date <= now; // today itself not bookable
     const bookable = isBookable(date.getDay()) && !past;
     const isToday  = date.getTime() === now.getTime();
     const selected = state.date === dateStr;
