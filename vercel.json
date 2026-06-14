@@ -8,7 +8,8 @@
     { "source": "/handwerk",    "destination": "/handwerk.html"    },
     { "source": "/beauty",      "destination": "/beauty.html"      },
     { "source": "/makler",     "destination": "/makler.html"      },
-    { "source": "/kanzlei",   "destination": "/kanzlei.html"    }
+    { "source": "/kanzlei",   "destination": "/kanzlei.html"    },
+    { "source": "/coaches",   "destination": "/coaches.html"    }
   ],
   "headers": [
     {
