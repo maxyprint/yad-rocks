@@ -8,6 +8,9 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
+const NTFY_TOPIC_PACKAGES   = 'yad-cold-email-buy';
+const NTFY_TOPIC_SELBSTCHECK = 'yad-rocks-selbstcheck';
+
 export const config = { api: { bodyParser: false } };
 
 async function getRawBody(req) {
@@ -17,6 +20,19 @@ async function getRawBody(req) {
     req.on('end',   ()    => resolve(Buffer.concat(chunks)));
     req.on('error', reject);
   });
+}
+
+async function ntfy(topic, title, message, priority = 'high') {
+  try {
+    await fetch(`https://ntfy.sh/${topic}`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ title, message, priority }),
+      signal:  AbortSignal.timeout(8000),
+    });
+  } catch (e) {
+    console.error('ntfy error:', e.message);
+  }
 }
 
 export default async function handler(req, res) {
@@ -36,11 +52,28 @@ export default async function handler(req, res) {
   if (event.type === 'checkout.session.completed') {
     const session    = event.data.object;
     const analysisId = session.metadata?.analysis_id;
+    const amountEur  = ((session.amount_total ?? 0) / 100).toFixed(0);
+    const customer   = session.customer_details?.email ?? session.customer_email ?? 'Unbekannt';
 
     if (!analysisId) {
-      console.error('No analysis_id in session metadata');
-      return res.status(400).end();
+      // Paket-Kauf (coaches.html, handwerk.html, etc.) — kein Selbstcheck
+      const productName = session.metadata?.product_name ?? 'Paket';
+      await ntfy(
+        NTFY_TOPIC_PACKAGES,
+        `💰 Neuer Kauf: ${amountEur}€`,
+        `${productName} · ${customer}`,
+        'urgent'
+      );
+      return res.status(200).json({ received: true });
     }
+
+    // Selbstcheck-Zahlung
+    await ntfy(
+      NTFY_TOPIC_SELBSTCHECK,
+      `💳 Selbstcheck bezahlt: ${amountEur}€`,
+      `${customer} — Analyse startet`,
+      'high'
+    );
 
     const { error } = await supabase
       .from('analyses')
