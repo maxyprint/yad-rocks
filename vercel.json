@@ -5,7 +5,8 @@
     { "source": "/selbstcheck", "destination": "/selbstcheck.html" },
     { "source": "/bericht",     "destination": "/bericht.html"     },
     { "source": "/coldcall",    "destination": "/coldcall.html"    },
-    { "source": "/handwerk",    "destination": "/handwerk.html"    }
+    { "source": "/handwerk",    "destination": "/handwerk.html"    },
+    { "source": "/beauty",      "destination": "/beauty.html"      }
   ],
   "headers": [
     {
