@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mehr Aufträge für Handwerker — Website + Buchungssystem</title>
+  <meta name="description" content="Website mit Online-Buchungssystem für Handwerksbetriebe. Mehr Aufträge ohne Telefonklingeln. Ab 397 € einmalig, live in 14 Tagen.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;0,14..32,900;1,14..32,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #F9FAFB;
+      --surface: #FFFFFF;
+      --border: #E5E7EB;
+      --border-strong: #D1D5DB;
+      --text: #111827;
+      --text-muted: #6B7280;
+      --text-light: #9CA3AF;
+      --blue: #2563EB;
+      --blue-dark: #1D4ED8;
+      --blue-light: #EFF6FF;
+      --blue-mid: #DBEAFE;
+      --amber: #D97706;
+      --amber-light: #FEF3C7;
+      --green: #059669;
+      --green-light: #D1FAE5;
+      --red-light: #FEE2E2;
+      --radius: 12px;
+      --radius-lg: 20px;
+      --shadow: 0 1px 3px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.04);
+      --shadow-lg: 0 4px 6px rgba(0,0,0,.05), 0 16px 48px rgba(0,0,0,.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 clamp(1rem, 4vw, 3rem);
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -.02em;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--blue); }
+
+    .nav-right { display: flex; align-items: center; gap: .75rem; }
+
+    .nav-link {
+      font-size: .875rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .nav-link:hover { color: var(--text); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .625rem 1.25rem;
+      border-radius: 8px;
+      font-size: .875rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all .2s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-primary {
+      background: var(--blue);
+      color: #fff;
+    }
+    .btn-primary:hover { background: var(--blue-dark); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(37,99,235,.35); }
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1.5px solid var(--border-strong);
+    }
+    .btn-outline:hover { border-color: var(--blue); color: var(--blue); }
+    .btn-lg { padding: .875rem 2rem; font-size: 1rem; border-radius: 10px; }
+    .btn-xl { padding: 1rem 2.25rem; font-size: 1.0625rem; border-radius: 10px; }
+
+    /* LAYOUT */
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 clamp(1rem, 4vw, 3rem);
+    }
+
+    section { padding: clamp(4rem, 8vw, 7rem) 0; }
+
+    /* HERO */
+    .hero {
+      padding-top: calc(64px + clamp(4rem, 8vw, 7rem));
+      padding-bottom: clamp(4rem, 8vw, 7rem);
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      background: var(--blue-light);
+      color: var(--blue);
+      font-size: .8125rem;
+      font-weight: 600;
+      padding: .375rem .875rem;
+      border-radius: 100px;
+      margin-bottom: 1.75rem;
+      letter-spacing: .01em;
+    }
+    .hero-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--blue);
+      border-radius: 50%;
+      display: block;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4.25rem);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -.03em;
+      margin-bottom: 1.25rem;
+      max-width: 780px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--blue);
+    }
+
+    .hero-sub {
+      font-size: clamp(1.0625rem, 2vw, 1.25rem);
+      color: var(--text-muted);
+      max-width: 580px;
+      margin-bottom: 2.5rem;
+      line-height: 1.7;
+    }
+
+    .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem; }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(1.5rem, 4vw, 3rem);
+      flex-wrap: wrap;
+      padding-top: 2.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .stat { display: flex; flex-direction: column; }
+    .stat-num {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -.03em;
+      line-height: 1;
+    }
+    .stat-label { font-size: .8125rem; color: var(--text-muted); margin-top: .25rem; }
+
+    /* PROBLEM */
+    .problem { background: var(--bg); }
+
+    .section-label {
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: .875rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+      font-weight: 800;
+      letter-spacing: -.03em;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    .section-sub {
+      font-size: 1.0625rem;
+      color: var(--text-muted);
+      max-width: 560px;
+      line-height: 1.7;
+    }
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.25rem;
+      margin-top: 3rem;
+    }
+
+    .problem-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+    }
+
+    .problem-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+    .icon-red { background: var(--red-light); }
+    .icon-amber { background: var(--amber-light); }
+    .icon-blue { background: var(--blue-light); }
+
+    .problem-card h3 {
+      font-size: 1.0625rem;
+      font-weight: 700;
+      margin-bottom: .5rem;
+      letter-spacing: -.01em;
+    }
+    .problem-card p { font-size: .9375rem; color: var(--text-muted); line-height: 1.65; }
+
+    .loss-box {
+      margin-top: .875rem;
+      padding: .625rem .875rem;
+      background: var(--red-light);
+      border-radius: 8px;
+      font-size: .8125rem;
+      font-weight: 600;
+      color: #DC2626;
+    }
+
+    /* PROCESS */
+    .process { background: #fff; }
+
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+      position: relative;
+    }
+
+    .step {
+      display: flex;
+      flex-direction: column;
+      gap: .875rem;
+    }
+
+    .step-num {
+      width: 40px;
+      height: 40px;
+      background: var(--blue);
+      color: #fff;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .875rem;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .step h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: -.01em;
+    }
+    .step p { font-size: .9375rem; color: var(--text-muted); line-height: 1.6; }
+    .step-time {
+      font-size: .8125rem;
+      font-weight: 600;
+      color: var(--blue);
+      background: var(--blue-light);
+      padding: .25rem .625rem;
+      border-radius: 6px;
+      width: fit-content;
+    }
+
+    /* PACKAGES */
+    .packages { background: var(--bg); }
+
+    .packages-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.25rem;
+      margin-top: 3rem;
+      align-items: start;
+    }
+
+    .pkg-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    .pkg-card.featured {
+      border-color: var(--blue);
+      box-shadow: var(--shadow-lg), 0 0 0 1px var(--blue);
+    }
+
+    .pkg-badge {
+      position: absolute;
+      top: -13px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--blue);
+      color: #fff;
+      font-size: .75rem;
+      font-weight: 700;
+      padding: .25rem .875rem;
+      border-radius: 100px;
+      white-space: nowrap;
+      letter-spacing: .03em;
+    }
+
+    .pkg-name {
+      font-size: .8125rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: .5rem;
+    }
+
+    .pkg-price {
+      display: flex;
+      align-items: baseline;
+      gap: .375rem;
+      margin-bottom: .25rem;
+    }
+    .pkg-price .amount {
+      font-size: 2.5rem;
+      font-weight: 900;
+      letter-spacing: -.04em;
+      color: var(--text);
+    }
+    .pkg-price .currency {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-right: .125rem;
+    }
+    .pkg-recurring {
+      font-size: .8125rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .pkg-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 1.25rem 0;
+    }
+
+    .pkg-features { list-style: none; display: flex; flex-direction: column; gap: .625rem; margin-bottom: 1.75rem; }
+    .pkg-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: .625rem;
+      font-size: .9375rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .pkg-features li::before {
+      content: '✓';
+      color: var(--green);
+      font-weight: 700;
+      font-size: .875rem;
+      flex-shrink: 0;
+      margin-top: .1em;
+    }
+
+    .pkg-delivery {
+      font-size: .8125rem;
+      color: var(--text-light);
+      margin-top: .5rem;
+      text-align: center;
+    }
+
+    .custom-card {
+      background: var(--text);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      margin-top: 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .custom-card h3 { color: #fff; font-size: 1.125rem; font-weight: 700; margin-bottom: .375rem; }
+    .custom-card p { color: rgba(255,255,255,.6); font-size: .9375rem; }
+    .btn-white { background: #fff; color: var(--text); }
+    .btn-white:hover { background: #f3f4f6; }
+
+    /* GUARANTEE */
+    .guarantee {
+      background: var(--blue);
+      padding: clamp(3rem, 6vw, 5rem) 0;
+    }
+
+    .guarantee-inner {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 2.5rem;
+      align-items: center;
+    }
+
+    .guarantee-icon {
+      width: 80px;
+      height: 80px;
+      background: rgba(255,255,255,.15);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.25rem;
+      flex-shrink: 0;
+    }
+
+    .guarantee h2 {
+      font-size: clamp(1.5rem, 3vw, 2.25rem);
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -.03em;
+      margin-bottom: .75rem;
+    }
+    .guarantee p { color: rgba(255,255,255,.8); font-size: 1rem; line-height: 1.7; max-width: 620px; }
+
+    /* ABOUT */
+    .about { background: #fff; }
+
+    .about-inner {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: clamp(2.5rem, 5vw, 5rem);
+      align-items: center;
+    }
+
+    .about-photo-wrap {
+      position: relative;
+    }
+
+    .about-photo {
+      width: 100%;
+      aspect-ratio: 4/5;
+      object-fit: cover;
+      border-radius: var(--radius-lg);
+      background: var(--bg);
+      display: block;
+    }
+
+    .about-photo-placeholder {
+      width: 100%;
+      aspect-ratio: 4/5;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+      color: var(--blue);
+    }
+
+    .about-badge-card {
+      position: absolute;
+      bottom: -1rem;
+      right: -1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: .875rem 1.25rem;
+      box-shadow: var(--shadow-lg);
+    }
+    .about-badge-card .badge-num { font-size: 1.5rem; font-weight: 900; color: var(--blue); letter-spacing: -.03em; }
+    .about-badge-card .badge-text { font-size: .75rem; color: var(--text-muted); margin-top: .125rem; }
+
+    .about-label {
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: .875rem;
+    }
+
+    .about h2 {
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -.03em;
+      margin-bottom: 1.25rem;
+      line-height: 1.2;
+    }
+
+    .about p {
+      font-size: 1rem;
+      color: var(--text-muted);
+      line-height: 1.75;
+      margin-bottom: 1rem;
+    }
+
+    .about-contact {
+      display: flex;
+      flex-direction: column;
+      gap: .625rem;
+      margin-top: 1.75rem;
+      padding-top: 1.75rem;
+      border-top: 1px solid var(--border);
+    }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      font-size: .9375rem;
+      color: var(--text-muted);
+    }
+    .contact-item a { color: var(--text); font-weight: 500; text-decoration: none; }
+    .contact-item a:hover { color: var(--blue); }
+    .contact-icon { font-size: 1.125rem; }
+
+    /* FAQ */
+    .faq { background: var(--bg); }
+
+    .faq-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
+      gap: 1rem;
+      margin-top: 3rem;
+    }
+
+    .faq-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+    }
+
+    .faq-item h3 {
+      font-size: .9375rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: .625rem;
+      line-height: 1.4;
+    }
+    .faq-item p { font-size: .9375rem; color: var(--text-muted); line-height: 1.65; }
+
+    /* FINAL CTA */
+    .final-cta {
+      background: var(--text);
+      padding: clamp(4rem, 7vw, 6rem) 0;
+      text-align: center;
+    }
+    .final-cta h2 {
+      font-size: clamp(1.75rem, 4vw, 3rem);
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: -.03em;
+      margin-bottom: 1rem;
+    }
+    .final-cta p { color: rgba(255,255,255,.65); font-size: 1.0625rem; max-width: 520px; margin: 0 auto 2.5rem; line-height: 1.7; }
+    .final-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-ghost {
+      background: rgba(255,255,255,.1);
+      color: #fff;
+      border: 1.5px solid rgba(255,255,255,.2);
+    }
+    .btn-ghost:hover { background: rgba(255,255,255,.18); }
+
+    /* FOOTER */
+    footer {
+      background: var(--text);
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding: 1.75rem clamp(1rem, 4vw, 3rem);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    footer span { font-size: .8125rem; color: rgba(255,255,255,.4); }
+    .footer-links { display: flex; gap: 1.25rem; }
+    .footer-links a { font-size: .8125rem; color: rgba(255,255,255,.4); text-decoration: none; }
+    .footer-links a:hover { color: rgba(255,255,255,.7); }
+
+    /* ANIMATIONS */
+    .reveal { opacity: 0; transform: translateY(24px); }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .nav-link { display: none; }
+      .guarantee-inner { grid-template-columns: 1fr; }
+      .guarantee-icon { width: 56px; height: 56px; font-size: 1.5rem; }
+      .about-inner { grid-template-columns: 1fr; }
+      .faq-grid { grid-template-columns: 1fr; }
+      .packages-grid { grid-template-columns: 1fr; }
+      .about-badge-card { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">yad <span>digital</span></a>
+  <div class="nav-right">
+    <a href="#pakete" class="nav-link">Pakete & Preise</a>
+    <a href="#pakete" class="btn btn-primary">Jetzt starten</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="container">
+    <div class="hero-badge">Für Handwerksbetriebe im DACH-Raum</div>
+    <h1>Mehr Aufträge.<br><em>Kein</em> Telefonklingeln.</h1>
+    <p class="hero-sub">Website + automatisches Buchungssystem für Handwerksbetriebe — eingerichtet in 14 Tagen, läuft danach ohne deinen Einsatz.</p>
+    <div class="hero-ctas">
+      <a href="#pakete" class="btn btn-primary btn-xl">Jetzt direkt buchen</a>
+      <a href="https://yad.rocks/termin" target="_blank" class="btn btn-outline btn-xl">Erstgespräch (kostenlos)</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num">14 Tage</span>
+        <span class="stat-label">bis dein System live ist</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">48 h</span>
+        <span class="stat-label">bis zum ersten Entwurf</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">100%</span>
+        <span class="stat-label">Geld-zurück-Garantie</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">0</span>
+        <span class="stat-label">technisches Wissen nötig</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- PROBLEM -->
+<section class="problem">
+  <div class="container">
+    <div class="section-label">Das Problem</div>
+    <h2 class="section-title">Du verlierst jeden Tag Aufträge —<br>ohne es zu merken</h2>
+    <p class="section-sub">80 % deiner potenziellen Kunden suchen den Handwerker zuerst online. Was sie dann finden (oder nicht finden), entscheidet über den Auftrag.</p>
+
+    <div class="problem-grid">
+      <div class="problem-card reveal">
+        <div class="problem-icon icon-red">📵</div>
+        <h3>Kunden rufen an — du bist auf der Baustelle</h3>
+        <p>Wer nicht sofort zurückrufen kann, verliert den Kunden. Der nächste Betrieb in der Google-Liste ist buchbar — ohne Anruf, ohne Warten.</p>
+        <div class="loss-box">Ø 3–5 verlorene Anfragen pro Woche</div>
+      </div>
+      <div class="problem-card reveal">
+        <div class="problem-icon icon-amber">🔍</div>
+        <h3>Kunden finden dich online — aber nicht wie du aussehen willst</h3>
+        <p>Eine veraltete Website, kein Google-Profil oder gar keine Präsenz. Kunden vertrauen, was sie sehen. Ohne professionellen Auftritt wählen sie die Konkurrenz.</p>
+        <div class="loss-box">80 % entscheiden sich online — bevor sie anrufen</div>
+      </div>
+      <div class="problem-card reveal">
+        <div class="problem-icon icon-blue">📋</div>
+        <h3>Termine per Zettel, WhatsApp und Bauchgefühl</h3>
+        <p>Anfragen kommen über drei Kanäle gleichzeitig. Irgendwas geht immer unter. Ein automatisches System vergisst nichts und antwortet sofort.</p>
+        <div class="loss-box">Durchschnittlich 2 Stunden/Tag für Terminkoordination</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process">
+  <div class="container">
+    <div class="section-label">So funktioniert es</div>
+    <h2 class="section-title">Von Null auf buchbar —<br>in 14 Tagen</h2>
+    <p class="section-sub">Kein technisches Wissen nötig. Wir richten alles ein, du machst weiter was du immer gemacht hast.</p>
+
+    <div class="process-steps">
+      <div class="step reveal">
+        <div class="step-num">1</div>
+        <span class="step-time">Kostenlos · 15 Min.</span>
+        <h3>Kurzes Gespräch oder direkt buchen</h3>
+        <p>Wir schauen uns deinen aktuellen Online-Auftritt an und zeigen dir konkret was fehlt. Oder du buchst direkt das passende Paket ohne Gespräch.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">2</div>
+        <span class="step-time">In 48 Stunden</span>
+        <h3>Du siehst deinen ersten Entwurf</h3>
+        <p>Website-Design und Buchungssystem, fertig zur Ansicht. Nicht irgendein Template — individuell auf deinen Betrieb und deine Branche.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">3</div>
+        <span class="step-time">So lange bis du zufrieden bist</span>
+        <h3>Änderungen bis alles stimmt</h3>
+        <p>Du gibst Feedback, wir setzen es um. Garantiert. Wenn du nach dem Entwurf nicht begeistert bist, bekommst du dein Geld zurück.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">4</div>
+        <span class="step-time">Innerhalb von 14 Werktagen</span>
+        <h3>Dein System läuft — automatisch</h3>
+        <p>Kunden buchen direkt online, bekommen automatisch Bestätigung und Erinnerung. Kein Anruf mehr nötig — weder von ihnen noch von dir.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section class="packages" id="pakete">
+  <div class="container">
+    <div class="section-label">Pakete & Preise</div>
+    <h2 class="section-title">Einmal zahlen. Dauerhaft profitieren.</h2>
+    <p class="section-sub">Kein Abo, keine versteckten Kosten. Einmaliger Einrichtungspreis, danach nur Hosting & Wartung.</p>
+
+    <div class="packages-grid">
+
+      <!-- Terminautomat -->
+      <div class="pkg-card reveal">
+        <div class="pkg-name">Terminautomat</div>
+        <div class="pkg-price">
+          <span class="currency">€</span>
+          <span class="amount">397</span>
+        </div>
+        <div class="pkg-recurring">+ ab €29/Monat Hosting & Wartung</div>
+        <div class="pkg-divider"></div>
+        <ul class="pkg-features">
+          <li>Individuelle Buchungsseite mit deinem Design</li>
+          <li>Automatische Bestätigungsmail an den Kunden</li>
+          <li>Erinnerung 24h vor dem Termin</li>
+          <li>Einbindung in deine bestehende Website</li>
+          <li>Einrichtung & Erklärung inklusive</li>
+        </ul>
+        <a href="https://buy.stripe.com/00w8wQ6rv9520Xgg04aR201" class="btn btn-outline" style="width:100%; justify-content:center;">Jetzt buchen</a>
+        <div class="pkg-delivery">⚡ Live in 48 Stunden</div>
+      </div>
+
+      <!-- Website + Buchung -->
+      <div class="pkg-card featured reveal">
+        <div class="pkg-badge">⭐ EMPFOHLEN</div>
+        <div class="pkg-name">Website + Buchung</div>
+        <div class="pkg-price">
+          <span class="currency">€</span>
+          <span class="amount">697</span>
+        </div>
+        <div class="pkg-recurring">+ ab €49/Monat Hosting & Wartung</div>
+        <div class="pkg-divider"></div>
+        <ul class="pkg-features">
+          <li>Alles aus dem Terminautomat-Paket</li>
+          <li>Professionelle 5-Seiten Website (individuell)</li>
+          <li>Online-Buchungssystem vollständig integriert</li>
+          <li>Google Business Profil eingerichtet & optimiert</li>
+          <li>Mobile-optimiert & schnell ladend</li>
+          <li>12 Monate kostenloses Update-Service</li>
+        </ul>
+        <a href="https://buy.stripe.com/bJebJ25nr80YeO6aFKaR200" class="btn btn-primary" style="width:100%; justify-content:center;">Jetzt buchen</a>
+        <div class="pkg-delivery">📅 Live in 14 Werktagen</div>
+      </div>
+
+      <!-- Anfragen-Automat -->
+      <div class="pkg-card reveal">
+        <div class="pkg-name">Anfragen-Automat</div>
+        <div class="pkg-price">
+          <span class="currency">€</span>
+          <span class="amount">497</span>
+        </div>
+        <div class="pkg-recurring">+ ab €39/Monat Hosting & Wartung</div>
+        <div class="pkg-divider"></div>
+        <ul class="pkg-features">
+          <li>Kontaktformular das sofort automatisch antwortet</li>
+          <li>Kalender-Link direkt in der Antwort</li>
+          <li>3 automatische Follow-up Mails (bei ausbleibender Buchung)</li>
+          <li>WhatsApp Business Button</li>
+          <li>Alle Anfragen gesammelt & übersichtlich</li>
+        </ul>
+        <a href="https://buy.stripe.com/bJecN64jndli6hA6puaR202" class="btn btn-outline" style="width:100%; justify-content:center;">Jetzt buchen</a>
+        <div class="pkg-delivery">📅 Live in 5 Werktagen</div>
+      </div>
+
+    </div>
+
+    <!-- Custom -->
+    <div class="custom-card">
+      <div>
+        <h3>Mehr als Standard?</h3>
+        <p>CRM-Anbindung, mehrere Standorte, Angebots-Automatisierung oder komplette Digitalisierung deines Betriebs — wir machen es möglich.</p>
+      </div>
+      <a href="https://yad.rocks/termin" target="_blank" class="btn btn-white btn-lg">Kostenloses Gespräch buchen →</a>
+    </div>
+  </div>
+</section>
+
+<!-- GUARANTEE -->
+<section class="guarantee">
+  <div class="container">
+    <div class="guarantee-inner">
+      <div class="guarantee-icon">🛡️</div>
+      <div>
+        <h2>Dein Risiko: null.</h2>
+        <p>Wir wissen, dass du vielleicht schon schlechte Erfahrungen mit Agenturen gemacht hast — zu teuer, zu langsam, kein Ergebnis. Genau deshalb gibt es bei uns eine schriftliche Garantie: Wenn du nach dem ersten Entwurf nicht begeistert bist, arbeiten wir so lange nach bis du es bist — oder du bekommst dein Geld vollständig zurück. Ohne Wenn und Aber. Schriftlich.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about">
+  <div class="container">
+    <div class="about-inner">
+      <div class="about-photo-wrap">
+        <div class="about-photo-placeholder">👤</div>
+        <div class="about-badge-card">
+          <div class="badge-num">14 Tage</div>
+          <div class="badge-text">Liefergarantie</div>
+        </div>
+      </div>
+      <div>
+        <div class="about-label">Wer steckt dahinter</div>
+        <h2>Ich bin Max — und ich stehe persönlich dafür gerade.</h2>
+        <p>Ich helfe Handwerksbetrieben und kleinen Unternehmen im DACH-Raum dabei, ihre Abläufe zu digitalisieren — nicht mit teuren Agenturen oder generischen Lösungen, sondern mit Systemen die wirklich laufen und sofort Ergebnisse liefern.</p>
+        <p>Keine anonyme Firma. Kein Callcenter. Wenn du eine Frage hast, erreichst du mich direkt. Wenn etwas nicht stimmt, lösen wir es — ich verschwinde nicht nach dem Kauf.</p>
+        <div class="about-contact">
+          <div class="contact-item">
+            <span class="contact-icon">📧</span>
+            <span>E-Mail: <a href="mailto:max@yad.rocks">max@yad.rocks</a></span>
+          </div>
+          <div class="contact-item">
+            <span class="contact-icon">📅</span>
+            <span>Direkt Termin buchen: <a href="https://yad.rocks/termin" target="_blank">yad.rocks/termin</a></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="container">
+    <div class="section-label">Häufige Fragen</div>
+    <h2 class="section-title">Alles was du wissen möchtest</h2>
+
+    <div class="faq-grid">
+      <div class="faq-item reveal">
+        <h3>„Ich hatte schon mal eine schlechte Erfahrung mit einer Agentur."</h3>
+        <p>Das hören wir oft — und verstehen es. Genau deshalb gibt es bei uns eine schriftliche Geld-zurück-Garantie. Du zahlst, siehst den Entwurf in 48 Stunden, und wenn er dir nicht gefällt, bekommst du dein Geld zurück. Ohne Diskussion.</p>
+      </div>
+      <div class="faq-item reveal">
+        <h3>Wie lange dauert es wirklich bis ich live bin?</h3>
+        <p>Der Terminautomat ist in 48 Stunden live. Die vollständige Website mit Buchungssystem in 14 Werktagen — das schreiben wir in die Auftragsbestätigung. Wenn wir es nicht einhalten, reden wir darüber.</p>
+      </div>
+      <div class="faq-item reveal">
+        <h3>Ich bin kein Techniker — schaffe ich das?</h3>
+        <p>Du musst gar nichts wissen. Wir richten alles ein und erklären dir am Ende in 15 Minuten wie du deinen Kalender pflegst. Das war's. Danach läuft alles automatisch.</p>
+      </div>
+      <div class="faq-item reveal">
+        <h3>Was kostet mich das monatlich wirklich?</h3>
+        <p>Ab €29/Monat für Hosting, Wartung und technischen Support. Keine versteckten Kosten, kein Kleingedrucktes. Du kannst monatlich kündigen — wir verlieren dich lieber als dass wir dich mit einem Vertrag halten.</p>
+      </div>
+      <div class="faq-item reveal">
+        <h3>Ich habe schon eine Website — kann ich trotzdem buchen?</h3>
+        <p>Ja. Der Terminautomat wird einfach in deine bestehende Website eingebaut. Kein Neuaufbau nötig. Falls deine aktuelle Website dabei ein Problem ist, sagen wir dir das ehrlich.</p>
+      </div>
+      <div class="faq-item reveal">
+        <h3>Was wenn ich nach dem Kauf Fragen habe?</h3>
+        <p>Du erreichst mich direkt per E-Mail — kein Ticket-System, kein Callcenter. Ich antworte innerhalb von 24 Stunden, meistens deutlich schneller.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="container">
+    <h2>Bereit für volle Auftragsbücher?</h2>
+    <p>Wähl dein Paket und starte direkt — oder buch ein kostenloses 15-Minuten-Gespräch wenn du noch Fragen hast.</p>
+    <div class="final-ctas">
+      <a href="#pakete" class="btn btn-white btn-xl">Pakete ansehen</a>
+      <a href="https://yad.rocks/termin" target="_blank" class="btn btn-ghost btn-xl">Kostenloses Gespräch →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2026 yad digital · Max Schwarz · <a href="mailto:max@yad.rocks" style="color:rgba(255,255,255,.4);text-decoration:none;">max@yad.rocks</a></span>
+  <div class="footer-links">
+    <a href="/impressum">Impressum</a>
+    <a href="/datenschutz">Datenschutz</a>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script>
+  // Smooth scroll
+  const lenis = new Lenis({ duration: 1.1, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+  function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+  requestAnimationFrame(raf);
+
+  // Scroll reveal
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.utils.toArray('.reveal').forEach(el => {
+    gsap.to(el, {
+      opacity: 1,
+      y: 0,
+      duration: .7,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: el,
+        start: 'top 88%',
+        toggleActions: 'play none none none'
+      }
+    });
+  });
+
+  // Hero entrance
+  gsap.from('.hero-badge, .hero h1, .hero-sub, .hero-ctas, .hero-stats', {
+    opacity: 0,
+    y: 20,
+    duration: .7,
+    stagger: .12,
+    ease: 'power2.out',
+    delay: .1
+  });
+</script>
+</body>
+</html>

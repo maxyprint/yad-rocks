@@ -4,7 +4,8 @@
   "rewrites": [
     { "source": "/selbstcheck", "destination": "/selbstcheck.html" },
     { "source": "/bericht",     "destination": "/bericht.html"     },
-    { "source": "/coldcall",    "destination": "/coldcall.html"    }
+    { "source": "/coldcall",    "destination": "/coldcall.html"    },
+    { "source": "/handwerk",    "destination": "/handwerk.html"    }
   ],
   "headers": [
     {
