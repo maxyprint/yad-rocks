@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mehr Besichtigungen, weniger Koordinationsaufwand — yad digital für Immobilienmakler</title>
+  <meta name="description" content="Automatische Besichtigungstermine, digitale Exposés und Interessenten-Qualifizierung für Immobilienmakler. Ab 397 € einmalig.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;0,14..32,900;1,14..32,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #F9FAFB;
+      --surface: #FFFFFF;
+      --border: #E5E7EB;
+      --border-strong: #D1D5DB;
+      --text: #111827;
+      --text-muted: #6B7280;
+      --text-light: #9CA3AF;
+      --blue: #2563EB;
+      --blue-dark: #1D4ED8;
+      --blue-light: #EFF6FF;
+      --green: #059669;
+      --green-light: #D1FAE5;
+      --red-light: #FEE2E2;
+      --amber: #D97706;
+      --amber-light: #FEF3C7;
+      --gold: #B45309;
+      --gold-light: #FEF3C7;
+      --radius: 12px;
+      --radius-lg: 20px;
+      --shadow: 0 1px 3px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.04);
+      --shadow-lg: 0 4px 6px rgba(0,0,0,.05), 0 16px 48px rgba(0,0,0,.08);
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(255,255,255,.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 clamp(1rem, 4vw, 3rem); height: 64px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-size: 1.1rem; font-weight: 800; color: var(--text); letter-spacing: -.02em; text-decoration: none; }
+    .nav-logo span { color: var(--blue); }
+    .nav-right { display: flex; align-items: center; gap: .75rem; }
+    .nav-link { font-size: .875rem; font-weight: 500; color: var(--text-muted); text-decoration: none; transition: color .2s; }
+    .nav-link:hover { color: var(--text); }
+
+    .btn { display: inline-flex; align-items: center; gap: .5rem; padding: .625rem 1.25rem; border-radius: 8px; font-size: .875rem; font-weight: 600; text-decoration: none; transition: all .2s; cursor: pointer; border: none; }
+    .btn-primary { background: var(--blue); color: #fff; }
+    .btn-primary:hover { background: var(--blue-dark); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(37,99,235,.35); }
+    .btn-outline { background: transparent; color: var(--text); border: 1.5px solid var(--border-strong); }
+    .btn-outline:hover { border-color: var(--blue); color: var(--blue); }
+    .btn-white { background: #fff; color: var(--text); }
+    .btn-white:hover { background: #f3f4f6; }
+    .btn-ghost { background: rgba(255,255,255,.1); color: #fff; border: 1.5px solid rgba(255,255,255,.2); }
+    .btn-ghost:hover { background: rgba(255,255,255,.18); }
+    .btn-lg { padding: .875rem 2rem; font-size: 1rem; border-radius: 10px; }
+    .btn-xl { padding: 1rem 2.25rem; font-size: 1.0625rem; border-radius: 10px; }
+
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 3rem); }
+    section { padding: clamp(4rem, 8vw, 7rem) 0; }
+
+    /* HERO */
+    .hero { padding-top: calc(64px + clamp(4rem, 8vw, 7rem)); padding-bottom: clamp(4rem, 8vw, 7rem); background: #fff; border-bottom: 1px solid var(--border); }
+    .hero-badge { display: inline-flex; align-items: center; gap: .5rem; background: var(--gold-light); color: var(--gold); font-size: .8125rem; font-weight: 600; padding: .375rem .875rem; border-radius: 100px; margin-bottom: 1.75rem; letter-spacing: .01em; }
+    .hero-badge::before { content: ''; width: 6px; height: 6px; background: var(--gold); border-radius: 50%; display: block; }
+    .hero h1 { font-size: clamp(2.5rem, 6vw, 4.25rem); font-weight: 900; line-height: 1.1; letter-spacing: -.03em; margin-bottom: 1.25rem; max-width: 820px; }
+    .hero h1 em { font-style: normal; color: var(--blue); }
+    .hero-sub { font-size: clamp(1.0625rem, 2vw, 1.25rem); color: var(--text-muted); max-width: 600px; margin-bottom: 2.5rem; line-height: 1.7; }
+    .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem; }
+    .hero-stats { display: flex; gap: clamp(1.5rem, 4vw, 3rem); flex-wrap: wrap; padding-top: 2.5rem; border-top: 1px solid var(--border); }
+    .stat { display: flex; flex-direction: column; }
+    .stat-num { font-size: 1.75rem; font-weight: 800; color: var(--text); letter-spacing: -.03em; line-height: 1; }
+    .stat-label { font-size: .8125rem; color: var(--text-muted); margin-top: .25rem; }
+
+    .section-label { font-size: .75rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--text-light); margin-bottom: .875rem; }
+    .section-title { font-size: clamp(1.75rem, 3.5vw, 2.75rem); font-weight: 800; letter-spacing: -.03em; line-height: 1.2; margin-bottom: 1rem; }
+    .section-sub { font-size: 1.0625rem; color: var(--text-muted); max-width: 560px; line-height: 1.7; }
+
+    /* PROBLEM */
+    .problem { background: var(--bg); }
+    .problem-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; margin-top: 3rem; }
+    .problem-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow); }
+    .problem-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; margin-bottom: 1.25rem; }
+    .icon-red { background: var(--red-light); }
+    .icon-amber { background: var(--amber-light); }
+    .icon-gold { background: var(--gold-light); }
+    .problem-card h3 { font-size: 1.0625rem; font-weight: 700; margin-bottom: .5rem; letter-spacing: -.01em; }
+    .problem-card p { font-size: .9375rem; color: var(--text-muted); line-height: 1.65; }
+    .loss-box { margin-top: .875rem; padding: .625rem .875rem; background: var(--red-light); border-radius: 8px; font-size: .8125rem; font-weight: 600; color: #DC2626; }
+
+    /* WORKFLOW SECTION */
+    .workflow { background: #fff; }
+    .workflow-inner { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 5rem); align-items: center; }
+    .workflow-visual { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.75rem; box-shadow: var(--shadow); }
+    .flow-step { display: flex; gap: 1rem; align-items: flex-start; padding: 1rem; background: #fff; border: 1px solid var(--border); border-radius: 10px; margin-bottom: .75rem; box-shadow: var(--shadow); }
+    .flow-step:last-child { margin-bottom: 0; }
+    .flow-num { width: 28px; height: 28px; border-radius: 50%; background: var(--blue); color: #fff; font-size: .75rem; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .flow-text strong { display: block; font-size: .875rem; font-weight: 600; color: var(--text); }
+    .flow-text span { font-size: .8125rem; color: var(--text-muted); }
+    .flow-tag { display: inline-block; margin-top: .3rem; font-size: .7rem; font-weight: 700; padding: .15rem .5rem; border-radius: 4px; background: var(--green-light); color: var(--green); }
+    .workflow h2 { font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 800; letter-spacing: -.03em; margin-bottom: 1rem; line-height: 1.2; }
+    .workflow p { font-size: 1rem; color: var(--text-muted); line-height: 1.75; margin-bottom: 1rem; }
+
+    /* PROCESS */
+    .process { background: var(--bg); }
+    .process-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; margin-top: 3rem; }
+    .step { display: flex; flex-direction: column; gap: .875rem; }
+    .step-num { width: 40px; height: 40px; background: var(--blue); color: #fff; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: .875rem; font-weight: 800; flex-shrink: 0; }
+    .step h3 { font-size: 1rem; font-weight: 700; letter-spacing: -.01em; }
+    .step p { font-size: .9375rem; color: var(--text-muted); line-height: 1.6; }
+    .step-time { font-size: .8125rem; font-weight: 600; color: var(--blue); background: var(--blue-light); padding: .25rem .625rem; border-radius: 6px; width: fit-content; }
+
+    /* PACKAGES */
+    .packages { background: #fff; }
+    .packages-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; margin-top: 3rem; align-items: start; }
+    .pkg-card { background: var(--surface); border: 1.5px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow); position: relative; }
+    .pkg-card.featured { border-color: var(--blue); box-shadow: var(--shadow-lg), 0 0 0 1px var(--blue); }
+    .pkg-badge { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); background: var(--blue); color: #fff; font-size: .75rem; font-weight: 700; padding: .25rem .875rem; border-radius: 100px; white-space: nowrap; letter-spacing: .03em; }
+    .pkg-name { font-size: .8125rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: .5rem; }
+    .pkg-price { display: flex; align-items: baseline; gap: .375rem; margin-bottom: .25rem; }
+    .pkg-price .amount { font-size: 2.5rem; font-weight: 900; letter-spacing: -.04em; color: var(--text); }
+    .pkg-price .currency { font-size: 1.25rem; font-weight: 700; color: var(--text-muted); margin-right: .125rem; }
+    .pkg-recurring { font-size: .8125rem; color: var(--text-muted); margin-bottom: 1.5rem; }
+    .pkg-divider { height: 1px; background: var(--border); margin: 1.25rem 0; }
+    .pkg-features { list-style: none; display: flex; flex-direction: column; gap: .625rem; margin-bottom: 1.75rem; }
+    .pkg-features li { display: flex; align-items: flex-start; gap: .625rem; font-size: .9375rem; color: var(--text-muted); line-height: 1.5; }
+    .pkg-features li::before { content: '✓'; color: var(--green); font-weight: 700; font-size: .875rem; flex-shrink: 0; margin-top: .1em; }
+    .pkg-delivery { font-size: .8125rem; color: var(--text-light); margin-top: .5rem; text-align: center; }
+    .custom-card { background: var(--text); border-radius: var(--radius-lg); padding: 2rem; margin-top: 1.25rem; display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+    .custom-card h3 { color: #fff; font-size: 1.125rem; font-weight: 700; margin-bottom: .375rem; }
+    .custom-card p { color: rgba(255,255,255,.6); font-size: .9375rem; }
+
+    /* GUARANTEE */
+    .guarantee { background: var(--blue); padding: clamp(3rem, 6vw, 5rem) 0; }
+    .guarantee-inner { display: grid; grid-template-columns: auto 1fr; gap: 2.5rem; align-items: center; }
+    .guarantee-icon { width: 80px; height: 80px; background: rgba(255,255,255,.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.25rem; flex-shrink: 0; }
+    .guarantee h2 { font-size: clamp(1.5rem, 3vw, 2.25rem); font-weight: 800; color: #fff; letter-spacing: -.03em; margin-bottom: .75rem; }
+    .guarantee p { color: rgba(255,255,255,.8); font-size: 1rem; line-height: 1.7; max-width: 620px; }
+
+    /* ABOUT */
+    .about { background: var(--bg); }
+    .about-inner { display: grid; grid-template-columns: 1fr 1.5fr; gap: clamp(2.5rem, 5vw, 5rem); align-items: center; }
+    .about-photo-wrap { position: relative; }
+    .about-photo { width: 100%; height: auto; object-fit: contain; border-radius: var(--radius-lg); display: block; }
+    .about-badge-card { position: absolute; bottom: -1rem; right: -1rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: .875rem 1.25rem; box-shadow: var(--shadow-lg); }
+    .about-badge-card .badge-num { font-size: 1.5rem; font-weight: 900; color: var(--blue); letter-spacing: -.03em; }
+    .about-badge-card .badge-text { font-size: .75rem; color: var(--text-muted); margin-top: .125rem; }
+    .about-label { font-size: .75rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--blue); margin-bottom: .875rem; }
+    .about h2 { font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 800; letter-spacing: -.03em; margin-bottom: 1.25rem; line-height: 1.2; }
+    .about p { font-size: 1rem; color: var(--text-muted); line-height: 1.75; margin-bottom: 1rem; }
+    .about-contact { display: flex; flex-direction: column; gap: .625rem; margin-top: 1.75rem; padding-top: 1.75rem; border-top: 1px solid var(--border); }
+    .contact-item { display: flex; align-items: center; gap: .75rem; font-size: .9375rem; color: var(--text-muted); }
+    .contact-item a { color: var(--text); font-weight: 500; text-decoration: none; }
+    .contact-item a:hover { color: var(--blue); }
+
+    /* FAQ */
+    .faq { background: #fff; }
+    .faq-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(440px, 1fr)); gap: 1rem; margin-top: 3rem; }
+    .faq-item { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--shadow); }
+    .faq-item h3 { font-size: .9375rem; font-weight: 700; color: var(--text); margin-bottom: .625rem; line-height: 1.4; }
+    .faq-item p { font-size: .9375rem; color: var(--text-muted); line-height: 1.65; }
+
+    /* FINAL CTA */
+    .final-cta { background: var(--text); padding: clamp(4rem, 7vw, 6rem) 0; text-align: center; }
+    .final-cta h2 { font-size: clamp(1.75rem, 4vw, 3rem); font-weight: 900; color: #fff; letter-spacing: -.03em; margin-bottom: 1rem; }
+    .final-cta p { color: rgba(255,255,255,.65); font-size: 1.0625rem; max-width: 520px; margin: 0 auto 2.5rem; line-height: 1.7; }
+    .final-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    footer { background: var(--text); border-top: 1px solid rgba(255,255,255,.08); padding: 1.75rem clamp(1rem, 4vw, 3rem); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    footer span { font-size: .8125rem; color: rgba(255,255,255,.4); }
+    .footer-links { display: flex; gap: 1.25rem; }
+    .footer-links a { font-size: .8125rem; color: rgba(255,255,255,.4); text-decoration: none; }
+    .footer-links a:hover { color: rgba(255,255,255,.7); }
+
+    .reveal { opacity: 0; transform: translateY(24px); }
+
+    @media (max-width: 768px) {
+      .nav-link { display: none; }
+      .guarantee-inner { grid-template-columns: 1fr; }
+      .guarantee-icon { width: 56px; height: 56px; font-size: 1.5rem; }
+      .about-inner { grid-template-columns: 1fr; }
+      .about-badge-card { display: none; }
+      .workflow-inner { grid-template-columns: 1fr; }
+      .faq-grid { grid-template-columns: 1fr; }
+      .packages-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">yad <span>digital</span></a>
+  <div class="nav-right">
+    <a href="#pakete" class="nav-link">Pakete & Preise</a>
+    <a href="#pakete" class="btn btn-primary">Jetzt starten</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="container">
+    <div class="hero-badge">Für Immobilienmakler im DACH-Raum</div>
+    <h1>Mehr Besichtigungen.<br><em>Kein</em> Koordinations-Chaos.</h1>
+    <p class="hero-sub">Automatische Besichtigungstermine, digitale Interessenten-Qualifizierung und professionelle Online-Präsenz — damit du dich auf das konzentrierst was zählt: Abschlüsse.</p>
+    <div class="hero-ctas">
+      <a href="#pakete" class="btn btn-primary btn-xl">Jetzt direkt buchen</a>
+      <a href="https://yad.rocks/termin" target="_blank" class="btn btn-outline btn-xl">Erstgespräch (kostenlos)</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num">14 Tage</span>
+        <span class="stat-label">bis dein System live ist</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">24/7</span>
+        <span class="stat-label">Interessenten können selbst buchen</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">100%</span>
+        <span class="stat-label">Geld-zurück-Garantie</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">0</span>
+        <span class="stat-label">Telefonate für Terminvergabe</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- PROBLEM -->
+<section class="problem">
+  <div class="container">
+    <div class="section-label">Das Problem</div>
+    <h2 class="section-title">Besichtigungstermine fressen<br>deine produktivste Zeit</h2>
+    <p class="section-sub">Jeder Anruf, jede E-Mail, jeder Rückruf — für Termine die ein System in Sekunden erledigen könnte. Das ist Zeit die du für Abschlüsse brauchst.</p>
+
+    <div class="problem-grid">
+      <div class="problem-card reveal">
+        <div class="problem-icon icon-red">📞</div>
+        <h3>Terminvergabe läuft noch per Telefon & E-Mail</h3>
+        <p>Interessent ruft an, du bist beim Kunden. Er schreibt eine E-Mail, du antwortest abends. Bis ein Termin steht, sind 3–5 Nachrichten hin und her gegangen — und manche springen ab.</p>
+        <div class="loss-box">Ø 45 Minuten Koordinationsaufwand pro Besichtigung</div>
+      </div>
+      <div class="problem-card reveal">
+        <div class="problem-icon icon-amber">🧩</div>
+        <h3>Keine Qualifizierung vor der Besichtigung</h3>
+        <p>Du fährst zur Besichtigung — und merkst erst dort, dass der Interessent kein Budget hat, nicht finanziert ist oder das Objekt gar nicht passt. Verlorene Zeit, verlorener Sprit.</p>
+        <div class="loss-box">30–40 % der Besichtigungen sind nicht qualifiziert</div>
+      </div>
+      <div class="problem-card reveal">
+        <div class="problem-icon icon-gold">🌐</div>
+        <h3>Deine Online-Präsenz spricht nicht deine Zielgruppe an</h3>
+        <p>Eine veraltete Website oder kein professionelles Profil — Eigentümer die einen Makler suchen, entscheiden sich online. Wer dort nicht überzeugt, bekommt keinen Auftrag.</p>
+        <div class="loss-box">72 % der Eigentümer googeln den Makler vor dem Kontakt</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORKFLOW SECTION -->
+<section class="workflow">
+  <div class="container">
+    <div class="workflow-inner">
+      <div class="workflow-visual reveal">
+        <div style="font-size:.75rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--text-light); margin-bottom:1rem;">So läuft ein Termin ab — automatisch</div>
+        <div class="flow-step">
+          <div class="flow-num">1</div>
+          <div class="flow-text">
+            <strong>Interessent klickt auf "Besichtigung buchen"</strong>
+            <span>Direkt im Exposé oder auf deiner Website</span>
+            <div><span class="flow-tag">Keine E-Mail, kein Anruf</span></div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">2</div>
+          <div class="flow-text">
+            <strong>Kurzfragebogen: Budget, Finanzierung, Zeitplan</strong>
+            <span>2 Minuten — qualifiziert den Interessenten automatisch</span>
+            <div><span class="flow-tag">Vorqualifizierung ✓</span></div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">3</div>
+          <div class="flow-text">
+            <strong>Wählt Termin aus deinem Kalender</strong>
+            <span>Nur verfügbare Zeiten sichtbar — kein Doppelbuchung</span>
+            <div><span class="flow-tag">Automatisch gebucht ✓</span></div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">4</div>
+          <div class="flow-text">
+            <strong>Bestätigung + Erinnerung automatisch</strong>
+            <span>Du siehst den Termin, die Antworten und den Namen</span>
+            <div><span class="flow-tag">0 Aufwand für dich ✓</span></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="section-label">Automatisierter Workflow</div>
+        <h2>Interessenten buchen selbst — du bekommst qualifizierte Termine</h2>
+        <p>Kein Hin-und-Her mehr. Ein Interessent findet dein Objekt, klickt auf "Besichtigung buchen", beantwortet 3 Qualifizierungsfragen und wählt einen Termin aus deinem Kalender.</p>
+        <p>Du bekommst eine Benachrichtigung mit allen Infos — Budget, Finanzierungsstatus, Kaufzeitraum. Nur qualifizierte Interessenten kommen zur Besichtigung.</p>
+        <a href="#pakete" class="btn btn-primary btn-lg" style="margin-top:1.25rem;">System jetzt einrichten</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process">
+  <div class="container">
+    <div class="section-label">So funktioniert es</div>
+    <h2 class="section-title">Von Null auf digital —<br>in 14 Tagen</h2>
+    <p class="section-sub">Kein technisches Wissen nötig. Du verlierst den Fokus auf deine Tätigkeit nicht.</p>
+
+    <div class="process-steps">
+      <div class="step reveal">
+        <div class="step-num">1</div>
+        <span class="step-time">Kostenlos · 15 Min.</span>
+        <h3>Gespräch oder direkt buchen</h3>
+        <p>Wir analysieren deinen aktuellen Online-Auftritt und zeigen dir konkret was fehlt — oder du buchst direkt ohne Gespräch.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">2</div>
+        <span class="step-time">In 48 Stunden</span>
+        <h3>Erster Entwurf zur Ansicht</h3>
+        <p>Website und Buchungssystem, individuell für dein Büro. Kein Template, kein Einheitsbrei.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">3</div>
+        <span class="step-time">2 Revisionsrunden inklusive</span>
+        <h3>Anpassungen bis es stimmt</h3>
+        <p>Du gibst Feedback, wir setzen es um. Nicht begeistert nach dem Entwurf? Geld zurück.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">4</div>
+        <span class="step-time">Innerhalb von 14 Werktagen</span>
+        <h3>Live — Interessenten buchen automatisch</h3>
+        <p>Dein Buchungssystem läuft, Qualifizierungsfragen sind aktiv, du bekommst nur noch fertige Termine.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section class="packages" id="pakete">
+  <div class="container">
+    <div class="section-label">Pakete & Preise</div>
+    <h2 class="section-title">Einmal zahlen. Dauerhaft mehr Abschlüsse.</h2>
+    <p class="section-sub">Kein Abo, keine versteckten Kosten. Einmaliger Einrichtungspreis, danach nur Hosting & Wartung.</p>
+
+    <div class="packages-grid">
+
+      <div class="pkg-card reveal">
+        <div class="pkg-name">Terminautomat</div>
+        <div class="pkg-price"><span class="currency">€</span><span class="amount">397</span></div>
+        <div class="pkg-recurring">+ ab €29/Monat Hosting & Wartung</div>
+        <div class="pkg-divider"></div>
+        <ul class="pkg-features">
+          <li>Buchungsseite für Besichtigungstermine</li>
+          <li>Kurzfragebogen zur Interessenten-Qualifizierung</li>
+          <li>Automatische Bestätigung & Erinnerung</li>
+          <li>Einbindung auf deiner bestehenden Website</li>
+          <li>Einrichtung & Erklärung inklusive</li>
+        </ul>
+        <a href="https://buy.stripe.com/00w8wQ6rv9520Xgg04aR201" class="btn btn-outline" style="width:100%; justify-content:center;">Jetzt buchen</a>
+        <div class="pkg-delivery">⚡ Live in 48 Stunden</div>
+      </div>
+
+      <div class="pkg-card featured reveal">
+        <div class="pkg-badge">⭐ EMPFOHLEN</div>
+        <div class="pkg-name">Website + Buchung</div>
+        <div class="pkg-price"><span class="currency">€</span><span class="amount">697</span></div>
+        <div class="pkg-recurring">+ ab €49/Monat Hosting & Wartung</div>
+        <div class="pkg-divider"></div>
+        <ul class="pkg-features">
+          <li>Alles aus dem Terminautomat-Paket</li>
+          <li>Professionelle Makler-Website mit Objektübersicht</li>
+          <li>Buchungssystem für alle Objekte integriert</li>
+          <li>Google Business Profil eingerichtet & optimiert</li>
+          <li>Mobil-optimiert — perfekt für unterwegs</li>
+          <li>12 Monate kostenloses Update-Service</li>
+        </ul>
+        <a href="https://buy.stripe.com/bJebJ25nr80YeO6aFKaR200" class="btn btn-primary" style="width:100%; justify-content:center;">Jetzt buchen</a>
+        <div class="pkg-delivery">📅 Live in 14 Werktagen</div>
+      </div>
+
+      <div class="pkg-card reveal">
+        <div class="pkg-name">Anfragen-Automat</div>
+        <div class="pkg-price"><span class="currency">€</span><span class="amount">497</span></div>
+        <div class="pkg-recurring">+ ab €39/Monat Hosting & Wartung</div>
+        <div class="pkg-divider"></div>
+        <ul class="pkg-features">
+          <li>Eigentümer-Kontaktformular mit Auto-Antwort</li>
+          <li>Buchungslink direkt in der Antwort</li>
+          <li>3 automatische Follow-up Mails</li>
+          <li>Separate Formulare für Käufer & Verkäufer</li>
+          <li>Alle Anfragen gesammelt & übersichtlich</li>
+        </ul>
+        <a href="https://buy.stripe.com/bJecN64jndli6hA6puaR202" class="btn btn-outline" style="width:100%; justify-content:center;">Jetzt buchen</a>
+        <div class="pkg-delivery">📅 Live in 5 Werktagen</div>
+      </div>
+
+    </div>
+
+    <div class="custom-card">
+      <div>
+        <h3>Größeres Büro oder mehrere Standorte?</h3>
+        <p>CRM-Anbindung, automatische Exposé-Erstellung, Team-Kalender-Integration — wir bauen die Lösung die zu deinem Betrieb passt.</p>
+      </div>
+      <a href="https://yad.rocks/termin" target="_blank" class="btn btn-white btn-lg">Kostenloses Gespräch →</a>
+    </div>
+  </div>
+</section>
+
+<!-- GUARANTEE -->
+<section class="guarantee">
+  <div class="container">
+    <div class="guarantee-inner">
+      <div class="guarantee-icon">🛡️</div>
+      <div>
+        <h2>Dein Risiko: null.</h2>
+        <p>Wir wissen, dass du vielleicht schon schlechte Erfahrungen mit Agenturen gemacht hast — zu teuer, zu langsam, kein Ergebnis. Deshalb gibt es bei uns eine schriftliche Garantie: Wenn du nach dem ersten Entwurf nicht begeistert bist, arbeiten wir so lange nach bis du es bist — oder du bekommst dein Geld vollständig zurück. Ohne Wenn und Aber. Schriftlich.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about">
+  <div class="container">
+    <div class="about-inner">
+      <div class="about-photo-wrap">
+        <img src="/me-img.webp" alt="Max Schwarz" class="about-photo">
+        <div class="about-badge-card">
+          <div class="badge-num">14 Tage</div>
+          <div class="badge-text">Liefergarantie</div>
+        </div>
+      </div>
+      <div>
+        <div class="about-label">Wer steckt dahinter</div>
+        <h2>Ich bin Max — und ich stehe persönlich dafür gerade.</h2>
+        <p>Ich helfe Immobilienmaklern im DACH-Raum dabei, ihren Arbeitsalltag zu digitalisieren — nicht mit teuren Agenturen oder generischen Lösungen, sondern mit Systemen die wirklich laufen und Zeit sparen.</p>
+        <p>Keine anonyme Firma. Kein Callcenter. Wenn du eine Frage hast, erreichst du mich direkt. Nach dem Kauf bin ich genauso erreichbar wie davor.</p>
+        <div class="about-contact">
+          <div class="contact-item">
+            <span>📧</span>
+            <span>E-Mail: <a href="mailto:max@yad.rocks">max@yad.rocks</a></span>
+          </div>
+          <div class="contact-item">
+            <span>📅</span>
+            <span>Direkt Termin buchen: <a href="https://yad.rocks/termin" target="_blank">yad.rocks/termin</a></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="container">
+    <div class="section-label">Häufige Fragen</div>
+    <h2 class="section-title">Alles was du wissen möchtest</h2>
+    <div class="faq-grid">
+      <div class="faq-item reveal">
+        <h3>Kann das System verschiedene Objekte mit eigenen Buchungsseiten verwalten?</h3>
+        <p>Ja. Jedes Objekt bekommt eine eigene Buchungsseite mit individuellem Fragebogen. Interessenten buchen direkt für das Objekt das sie interessiert — du siehst sofort welches Objekt gefragt ist.</p>
+      </div>
+      <div class="faq-item reveal">
+        <h3>Was wenn ein Termin nicht zustande kommt?</h3>
+        <p>Interessenten können absagen oder verschieben über einen Link in der Bestätigungsmail. Der Slot wird sofort wieder freigegeben — automatisch, ohne deinen Eingriff.</p>
+      </div>
+      <div class="faq-item reveal">
+        <h3>Welche Qualifizierungsfragen kann ich stellen?</h3>
+        <p>Du bestimmst das. Typisch: Budget, Finanzierungsstatus, gewünschter Kaufzeitraum, Eigennutz oder Investment. Die Antworten siehst du vor der Besichtigung.</p>
+      </div>
+      <div class="faq-item reveal">
+        <h3>Ich hatte schon mal eine schlechte Erfahrung mit einer Agentur.</h3>
+        <p>Verstehen wir. Deshalb gibt es eine schriftliche Geld-zurück-Garantie. Entwurf in 48h, gefällt er dir nicht — Geld zurück. Kein Kleingedrucktes.</p>
+      </div>
+      <div class="faq-item reveal">
+        <h3>Funktioniert das auch wenn ich bereits eine Website habe?</h3>
+        <p>Ja. Wir bauen das Buchungssystem in deine bestehende Website ein. Falls sie doch komplett veraltet ist, sagen wir dir das ehrlich und zeigen Optionen.</p>
+      </div>
+      <div class="faq-item reveal">
+        <h3>Was kostet mich das monatlich wirklich?</h3>
+        <p>Ab €29/Monat für Hosting, Wartung und Support. Monatlich kündbar, kein Jahresvertrag, kein Kleingedrucktes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="container">
+    <h2>Bereit für mehr Abschlüsse?</h2>
+    <p>Wähl dein Paket und starte direkt — oder buch ein kostenloses 15-Minuten-Gespräch wenn du noch Fragen hast.</p>
+    <div class="final-ctas">
+      <a href="#pakete" class="btn btn-white btn-xl">Pakete ansehen</a>
+      <a href="https://yad.rocks/termin" target="_blank" class="btn btn-ghost btn-xl">Kostenloses Gespräch →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 yad digital · Max Schwarz · <a href="mailto:max@yad.rocks" style="color:rgba(255,255,255,.4);text-decoration:none;">max@yad.rocks</a></span>
+  <div class="footer-links">
+    <a href="/impressum">Impressum</a>
+    <a href="/datenschutz">Datenschutz</a>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script>
+  const lenis = new Lenis({ duration: 1.1, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+  function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+  requestAnimationFrame(raf);
+
+  gsap.registerPlugin(ScrollTrigger);
+  gsap.utils.toArray('.reveal').forEach(el => {
+    gsap.to(el, {
+      opacity: 1, y: 0, duration: .7, ease: 'power2.out',
+      scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
+    });
+  });
+
+  gsap.from('.hero-badge, .hero h1, .hero-sub, .hero-ctas, .hero-stats', {
+    opacity: 0, y: 20, duration: .7, stagger: .12, ease: 'power2.out', delay: .1
+  });
+</script>
+</body>
+</html>

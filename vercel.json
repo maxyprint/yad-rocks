@@ -6,7 +6,8 @@
     { "source": "/bericht",     "destination": "/bericht.html"     },
     { "source": "/coldcall",    "destination": "/coldcall.html"    },
     { "source": "/handwerk",    "destination": "/handwerk.html"    },
-    { "source": "/beauty",      "destination": "/beauty.html"      }
+    { "source": "/beauty",      "destination": "/beauty.html"      },
+    { "source": "/makler",     "destination": "/makler.html"      }
   ],
   "headers": [
     {
