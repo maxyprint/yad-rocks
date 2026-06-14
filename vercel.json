@@ -8,6 +8,12 @@
   ],
   "headers": [
     {
+      "source": "/(.*\\.html|selbstcheck|bericht|coldcall|termin|datenschutz|impressum)",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
+      ]
+    },
+    {
       "source": "/api/(.*)",
       "headers": [
         { "key": "Access-Control-Allow-Origin",  "value": "https://yad.rocks" },
