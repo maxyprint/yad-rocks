@@ -109,7 +109,10 @@ export default async function handler(req, res) {
     reply_label:     '',
   });
 
-  if (error) console.error('Supabase insert error:', error);
+  if (error) {
+    console.error('Supabase insert error:', error);
+    return res.status(500).json({ error: error.message, code: error.code, details: error.details });
+  }
 
   // ntfy push
   const title   = `📩 Antwort: ${subject || '(kein Betreff)'}`;
