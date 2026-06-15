@@ -101,6 +101,17 @@ export default async function handler(req, res) {
 
   const preview = bodyText.slice(0, 300).replace(/\s+/g, ' ').trim();
 
+  // Auto-classify obvious unsubscribe / hostile signals
+  const bodyLower = bodyText.toLowerCase();
+  const HOSTILE_KEYWORDS = ['beschwerde', 'belästigung', 'rechtlich', 'anwalt', 'strafanzeige', 'unterlassen', 'abmahnung'];
+  const UNSUB_KEYWORDS   = ['kein interesse', 'keine emails', 'bitte keine', 'austragen', 'abmelden', 'unsubscribe', 'nicht mehr kontaktieren', 'hören sie auf', 'hör auf', 'keine werbung', 'bitte entfernen'];
+  let autoLabel = '';
+  if (HOSTILE_KEYWORDS.some(k => bodyLower.includes(k))) {
+    autoLabel = 'negative_hostile';
+  } else if (UNSUB_KEYWORDS.some(k => bodyLower.includes(k))) {
+    autoLabel = 'unsubscribe';
+  }
+
   // Store in Supabase
   const { error } = await supabase.from('email_replies').insert({
     resend_email_id: emailId ?? null,
@@ -110,7 +121,7 @@ export default async function handler(req, res) {
     subject,
     body_text:       bodyText,
     body_html:       bodyHtml,
-    reply_label:     '',
+    reply_label:     autoLabel,
   });
 
   if (error) console.error('Supabase insert error:', error);
