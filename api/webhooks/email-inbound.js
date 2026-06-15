@@ -1,3 +1,4 @@
+import { Webhook }      from 'svix';
 import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
@@ -6,9 +7,17 @@ const supabase = createClient(
 );
 
 const NTFY_TOPIC = 'yad-cold-email-replies';
-const REPLY_TO   = 'max@reply.yad.rocks';
 
-export const config = { api: { bodyParser: true } };
+export const config = { api: { bodyParser: false } };
+
+async function getRawBody(req) {
+  return new Promise((resolve, reject) => {
+    const chunks = [];
+    req.on('data',  chunk => chunks.push(chunk));
+    req.on('end',   ()    => resolve(Buffer.concat(chunks)));
+    req.on('error', reject);
+  });
+}
 
 async function ntfy(title, message, priority = 'high') {
   try {
@@ -39,33 +48,45 @@ async function fetchEmailBody(emailId) {
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
 
-  // Verify shared secret (set RESEND_INBOUND_SECRET in Vercel env)
-  const secret = process.env.RESEND_INBOUND_SECRET;
-  if (secret && req.headers['x-inbound-secret'] !== secret) {
-    return res.status(401).json({ error: 'Unauthorized' });
+  const rawBody = await getRawBody(req);
+
+  // Verify Svix signature
+  const secret = process.env.RESEND_WEBHOOK_SECRET;
+  if (secret) {
+    const wh = new Webhook(secret);
+    try {
+      wh.verify(rawBody, {
+        'svix-id':        req.headers['svix-id'],
+        'svix-timestamp': req.headers['svix-timestamp'],
+        'svix-signature': req.headers['svix-signature'],
+      });
+    } catch (err) {
+      console.error('Webhook signature verification failed:', err.message);
+      return res.status(400).json({ error: 'Invalid signature' });
+    }
   }
 
-  const { type, data } = req.body ?? {};
+  const { type, data } = JSON.parse(rawBody.toString());
 
   if (type !== 'email.received' || !data) {
     return res.status(200).json({ received: true });
   }
 
   const {
-    email_id:  emailId,
-    from:      fromRaw,
-    to:        toRaw,
-    subject:   subject = '',
+    email_id: emailId,
+    from:     fromRaw = '',
+    to:       toRaw,
+    subject:  subject = '',
   } = data;
 
-  // Parse from: "Name <email>" or just "email"
-  const fromMatch = (fromRaw ?? '').match(/^(?:"?([^"<]*)"?\s*)?<?([^>]+)>?$/);
+  // Parse "Name <email>" or plain email
+  const fromMatch = fromRaw.match(/^(?:"?([^"<]*)"?\s*)?<?([^>]+)>?$/);
   const fromName  = fromMatch?.[1]?.trim() ?? '';
-  const fromEmail = fromMatch?.[2]?.trim().toLowerCase() ?? fromRaw ?? '';
+  const fromEmail = fromMatch?.[2]?.trim().toLowerCase() ?? fromRaw;
 
-  const toAddr = Array.isArray(toRaw) ? toRaw[0] : toRaw ?? REPLY_TO;
+  const toAddr = Array.isArray(toRaw) ? toRaw[0] : (toRaw ?? '');
 
-  // Fetch full body from Resend
+  // Fetch full body from Resend receiving API
   let bodyText = '';
   let bodyHtml = '';
   if (emailId) {
@@ -88,11 +109,9 @@ export default async function handler(req, res) {
     reply_label:     '',
   });
 
-  if (error) {
-    console.error('Supabase insert error:', error);
-  }
+  if (error) console.error('Supabase insert error:', error);
 
-  // ntfy notification
+  // ntfy push
   const title   = `📩 Antwort: ${subject || '(kein Betreff)'}`;
   const message = fromName
     ? `${fromName} <${fromEmail}>\n${preview}`
