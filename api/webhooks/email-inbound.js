@@ -79,10 +79,14 @@ export default async function handler(req, res) {
     subject:  subject = '',
   } = data;
 
-  // Parse "Name <email>" or plain email
-  const fromMatch = fromRaw.match(/^(?:"?([^"<]*)"?\s*)?<?([^>]+)>?$/);
-  const fromName  = fromMatch?.[1]?.trim() ?? '';
-  const fromEmail = fromMatch?.[2]?.trim().toLowerCase() ?? fromRaw;
+  // Parse "Name <email>" or plain "email"
+  let fromName  = '';
+  let fromEmail = fromRaw.trim().toLowerCase();
+  const angleMatch = fromRaw.match(/<([^>]+)>/);
+  if (angleMatch) {
+    fromEmail = angleMatch[1].trim().toLowerCase();
+    fromName  = fromRaw.replace(/<[^>]+>/, '').trim().replace(/^["']|["']$/g, '');
+  }
 
   const toAddr = Array.isArray(toRaw) ? toRaw[0] : (toRaw ?? '');
 
@@ -109,10 +113,7 @@ export default async function handler(req, res) {
     reply_label:     '',
   });
 
-  if (error) {
-    console.error('Supabase insert error:', error);
-    return res.status(500).json({ error: error.message, code: error.code, details: error.details });
-  }
+  if (error) console.error('Supabase insert error:', error);
 
   // ntfy push
   const title   = `📩 Antwort: ${subject || '(kein Betreff)'}`;
