@@ -1,13 +1,57 @@
-export const config = { maxDuration: 15 };
+export const config = { maxDuration: 30 };
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') return res.status(405).end();
 
-  const { q } = req.query;
-  if (!q || q.trim().length < 2) return res.status(200).json({ data: [] });
+  const { q, mode, country = 'DE', limit = '25', page_ids } = req.query;
 
   const token = process.env.FACEBOOK_ACCESS_TOKEN;
   if (!token) return res.status(200).json({ data: [] });
+
+  // ── Ads Archive mode: search active ad creatives ──────────────────────────
+  if (mode === 'ads') {
+    if (!q && !page_ids) return res.status(400).json({ error: 'q or page_ids required' });
+    const fields = [
+      'id','page_id','page_name',
+      'ad_creative_bodies','ad_creative_link_titles',
+      'ad_creative_link_descriptions','ad_creative_link_captions',
+      'ad_delivery_start_time','ad_delivery_stop_time',
+      'ad_snapshot_url','impressions','spend','currency',
+    ].join(',');
+    const p = new URLSearchParams({
+      ad_reached_countries: JSON.stringify([country]),
+      ad_active_status:     'ACTIVE',
+      ad_type:              'ALL',
+      fields,
+      limit:                String(Math.min(Number(limit), 50)),
+      access_token:         token,
+    });
+    if (q)        p.set('search_terms', q.trim());
+    if (page_ids) p.set('search_page_ids', page_ids);
+    try {
+      const r    = await fetch(`https://graph.facebook.com/v19.0/ads_archive?${p}`, { signal: AbortSignal.timeout(20000) });
+      const data = await r.json();
+      if (data.error) return res.status(200).json({ error: data.error.message, data: [] });
+      const ads = (data.data || []).map(ad => ({
+        id: ad.id, page_id: ad.page_id, page_name: ad.page_name,
+        bodies: ad.ad_creative_bodies || [],
+        titles: ad.ad_creative_link_titles || [],
+        descriptions: ad.ad_creative_link_descriptions || [],
+        captions: ad.ad_creative_link_captions || [],
+        snapshot: ad.ad_snapshot_url,
+        started: ad.ad_delivery_start_time,
+        stopped: ad.ad_delivery_stop_time,
+        impressions: ad.impressions,
+        spend: ad.spend, currency: ad.currency,
+      }));
+      return res.status(200).json({ count: ads.length, query: q || page_ids, country, data: ads });
+    } catch (err) {
+      return res.status(200).json({ error: err.message, data: [] });
+    }
+  }
+
+  // ── Original page search mode ──────────────────────────────────────────────
+  if (!q || q.trim().length < 2) return res.status(200).json({ data: [] });
 
   try {
     // 1. Facebook-Seiten suchen
