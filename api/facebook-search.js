@@ -71,9 +71,10 @@ export default async function handler(req, res) {
     const searchData = await searchRes.json();
 
     if (searchData.error) {
-      console.error('FB search error:', searchData.error.message);
-      return res.status(200).json({ data: [] });
+      console.error('FB search error:', JSON.stringify(searchData.error));
+      return res.status(200).json({ error: searchData.error.message, code: searchData.error.code, data: [] });
     }
+    console.log('FB search result count:', searchData.data?.length, 'raw:', JSON.stringify(searchData).slice(0, 200));
 
     const pages = searchData.data || [];
     if (!pages.length) return res.status(200).json({ data: [] });
