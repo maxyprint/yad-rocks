@@ -8,6 +8,13 @@ export default async function handler(req, res) {
   const token = process.env.FACEBOOK_ACCESS_TOKEN;
   if (!token) return res.status(200).json({ data: [] });
 
+  // ── Token debug: show permissions ─────────────────────────────────────────
+  if (mode === 'debug') {
+    const r = await fetch(`https://graph.facebook.com/v19.0/me?fields=id,name,permissions&access_token=${token}`);
+    const d = await r.json();
+    return res.status(200).json({ token_prefix: token.slice(0, 12), ...d });
+  }
+
   // ── Page slug → ID + active ads with creatives ────────────────────────────
   if (mode === 'competitor') {
     // q = comma-separated slugs/names or page IDs to research
