@@ -6,7 +6,8 @@ export default async function handler(req, res) {
   const { q, mode, country = 'DE', limit = '25', page_ids } = req.query;
 
   const token = process.env.FACEBOOK_ACCESS_TOKEN;
-  if (!token) return res.status(200).json({ data: [] });
+  if (!token) return res.status(200).json({ debug: 'no_token', data: [] });
+  console.log('FB token present, length:', token.length, 'prefix:', token.slice(0, 8));
 
   // ── Ads Archive mode: search active ad creatives ──────────────────────────
   if (mode === 'ads') {
