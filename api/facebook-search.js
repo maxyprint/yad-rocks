@@ -6,7 +6,7 @@ export default async function handler(req, res) {
   const { q, mode, country = 'DE', limit = '25', page_ids } = req.query;
 
   const token = process.env.FACEBOOK_ACCESS_TOKEN;
-  if (!token) return res.status(200).json({ debug: 'no_token', data: [] });
+  if (!token) return res.status(200).json({ data: [] });
 
   // ── Page slug → ID + active ads with creatives ────────────────────────────
   if (mode === 'competitor') {
@@ -25,12 +25,21 @@ export default async function handler(req, res) {
     const results = [];
     for (const slug of slugs) {
       try {
-        // 1. Resolve slug → page ID
-        const pageRes  = await fetch(`https://graph.facebook.com/v19.0/${encodeURIComponent(slug)}?fields=id,name,fan_count,category&access_token=${token}`, { signal: AbortSignal.timeout(8000) });
-        const pageData = await pageRes.json();
-        if (pageData.error) { results.push({ slug, error: pageData.error.message }); continue; }
+        let pageId, pageName, fanCount, category;
 
-        const pageId = pageData.id;
+        // If q is already a numeric page ID, skip the slug lookup
+        if (/^\d+$/.test(slug)) {
+          pageId = slug;
+        } else {
+          // 1. Resolve slug → page ID
+          const pageRes  = await fetch(`https://graph.facebook.com/v19.0/${encodeURIComponent(slug)}?fields=id,name,fan_count,category&access_token=${token}`, { signal: AbortSignal.timeout(8000) });
+          const pageData = await pageRes.json();
+          if (pageData.error) { results.push({ slug, error: pageData.error.message }); continue; }
+          pageId   = pageData.id;
+          pageName = pageData.name;
+          fanCount = pageData.fan_count;
+          category = pageData.category;
+        }
 
         // 2. Get active ads with creatives for this page
         const adsParams = new URLSearchParams({
@@ -51,7 +60,7 @@ export default async function handler(req, res) {
           snapshot: ad.ad_snapshot_url, impressions: ad.impressions, spend: ad.spend,
         }));
 
-        results.push({ slug, page_id: pageId, page_name: pageData.name, fans: pageData.fan_count, category: pageData.category, active_ads: ads.filter(a => !a.stopped).length, total_ads: ads.length, ads });
+        results.push({ slug, page_id: pageId, page_name: pageName, fans: fanCount, category, active_ads: ads.filter(a => !a.stopped).length, total_ads: ads.length, ads });
       } catch (e) {
         results.push({ slug, error: e.message });
       }
@@ -121,10 +130,9 @@ export default async function handler(req, res) {
     const searchData = await searchRes.json();
 
     if (searchData.error) {
-      console.error('FB search error:', JSON.stringify(searchData.error));
-      return res.status(200).json({ error: searchData.error.message, code: searchData.error.code, data: [] });
+      console.error('FB search error:', searchData.error.message);
+      return res.status(200).json({ data: [] });
     }
-    console.log('FB search result count:', searchData.data?.length, 'raw:', JSON.stringify(searchData).slice(0, 200));
 
     const pages = searchData.data || [];
     if (!pages.length) return res.status(200).json({ data: [] });
