@@ -7,7 +7,57 @@ export default async function handler(req, res) {
 
   const token = process.env.FACEBOOK_ACCESS_TOKEN;
   if (!token) return res.status(200).json({ debug: 'no_token', data: [] });
-  console.log('FB token present, length:', token.length, 'prefix:', token.slice(0, 8));
+
+  // ── Page slug → ID + active ads with creatives ────────────────────────────
+  if (mode === 'competitor') {
+    // q = comma-separated slugs/names or page IDs to research
+    const slugs = (q || '').split(',').map(s => s.trim()).filter(Boolean);
+    if (!slugs.length) return res.status(400).json({ error: 'q required' });
+
+    const creativeFields = [
+      'id','page_id','page_name',
+      'ad_creative_bodies','ad_creative_link_titles',
+      'ad_creative_link_descriptions','ad_creative_link_captions',
+      'ad_delivery_start_time','ad_delivery_stop_time','ad_snapshot_url',
+      'impressions','spend','currency',
+    ].join(',');
+
+    const results = [];
+    for (const slug of slugs) {
+      try {
+        // 1. Resolve slug → page ID
+        const pageRes  = await fetch(`https://graph.facebook.com/v19.0/${encodeURIComponent(slug)}?fields=id,name,fan_count,category&access_token=${token}`, { signal: AbortSignal.timeout(8000) });
+        const pageData = await pageRes.json();
+        if (pageData.error) { results.push({ slug, error: pageData.error.message }); continue; }
+
+        const pageId = pageData.id;
+
+        // 2. Get active ads with creatives for this page
+        const adsParams = new URLSearchParams({
+          search_page_ids:  JSON.stringify([pageId]),
+          ad_active_status: 'ALL',
+          fields:           creativeFields,
+          limit:            country === 'ALL' ? '50' : '25',
+          access_token:     token,
+        });
+        if (country !== 'ALL') adsParams.set('ad_reached_countries', JSON.stringify([country]));
+
+        const adsRes  = await fetch(`https://graph.facebook.com/v19.0/ads_archive?${adsParams}`, { signal: AbortSignal.timeout(12000) });
+        const adsData = await adsRes.json();
+        const ads = (adsData.data || []).map(ad => ({
+          id: ad.id, started: ad.ad_delivery_start_time, stopped: ad.ad_delivery_stop_time,
+          bodies: ad.ad_creative_bodies || [], titles: ad.ad_creative_link_titles || [],
+          descriptions: ad.ad_creative_link_descriptions || [], captions: ad.ad_creative_link_captions || [],
+          snapshot: ad.ad_snapshot_url, impressions: ad.impressions, spend: ad.spend,
+        }));
+
+        results.push({ slug, page_id: pageId, page_name: pageData.name, fans: pageData.fan_count, category: pageData.category, active_ads: ads.filter(a => !a.stopped).length, total_ads: ads.length, ads });
+      } catch (e) {
+        results.push({ slug, error: e.message });
+      }
+    }
+    return res.status(200).json({ results });
+  }
 
   // ── Ads Archive mode: search active ad creatives ──────────────────────────
   if (mode === 'ads') {
