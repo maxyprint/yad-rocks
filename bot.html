@@ -356,20 +356,20 @@
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-badge">WhatsApp KI-Assistent · DACH</div>
+  <div class="hero-badge" id="hero-badge">Lead-Qualifizierung · WhatsApp · DACH</div>
 
-  <h1>Ihr <em>24/7 WhatsApp-</em><br>Mitarbeiter</h1>
-  <p class="hero-sub">
-    Qualifiziert Leads, bucht Termine und sammelt Google-Bewertungen — vollautomatisch in Ihrem Namen. Kein Personal, kein Aufwand.
+  <h1 id="hero-h1">Kein Interessent mehr ohne<br><em>sofortige Antwort</em></h1>
+  <p class="hero-sub" id="hero-sub">
+    Ihr Bot qualifiziert Leads rund um die Uhr — in Ihrer Sprache, mit Ihren Fragen. Budget, Zeitrahmen, Termin: alles geklärt, bevor Sie sich melden.
   </p>
 
-  <div class="pills">
-    <div class="pill"><strong>✅</strong> Setup in 2–3 Wochen</div>
-    <div class="pill"><strong>✅</strong> Monatlich kündbar</div>
-    <div class="pill"><strong>✅</strong> DSGVO-konform</div>
+  <div class="pills" id="hero-pills">
+    <div class="pill">⚡ Erstantwort in &lt;60 Sek.</div>
+    <div class="pill">✅ Budget automatisch prüfen</div>
+    <div class="pill">📅 Termin direkt buchen</div>
   </div>
 
-  <p class="demo-label">Live-Demo — alle drei Use-Cases direkt testbar</p>
+  <p class="demo-label" id="hero-demo-label">Live-Demo — Ihr Bot für Lead-Qualifizierung</p>
 
   <div class="scenario-tabs" id="scenario-tabs">
     <button class="tab-btn active" data-niche="lead">🎯 Lead qualifizieren</button>
@@ -434,15 +434,15 @@
 <!-- USE CASES -->
 <section class="use-cases">
   <div class="container">
-    <p class="section-label">Anwendungsfälle</p>
-    <h2 class="section-title">Ein Bot. Drei Jobs.</h2>
-    <p class="section-sub">Ihr WhatsApp-Assistent übernimmt die Aufgaben, die sonst täglich Stunden kosten.</p>
+    <p class="section-label">Wie es funktioniert</p>
+    <h2 class="section-title">Nicht irgendein Bot.<br><em style="font-style:normal;color:var(--green)">Ihr Bot.</em></h2>
+    <p class="section-sub">Jeder Bot wird von uns individuell auf Ihr Unternehmen trainiert — Ihre Sprache, Ihre Kunden, Ihre Prozesse. Kein Template. Kein Copy-Paste.</p>
 
     <div class="use-grid">
-      <div class="use-card">
+      <div class="use-card" id="use-card-lead">
         <div class="use-icon">🎯</div>
         <h3>Lead-Qualifizierung</h3>
-        <p>Beantwortet Erstanfragen sofort, stellt die richtigen Fragen und leitet echte Kaufinteressenten weiter.</p>
+        <p>Beantwortet Erstanfragen sofort, stellt die richtigen Fragen und leitet echte Kaufinteressenten weiter — in genau Ihrer Sprache.</p>
         <div class="use-chat">
           <div class="uc-user">Ich interessiere mich für eure Küchen</div>
           <div class="uc-bot">Super! Welche Größe ungefähr und wann soll's losgehen?</div>
@@ -451,10 +451,10 @@
         </div>
       </div>
 
-      <div class="use-card">
+      <div class="use-card" id="use-card-support">
         <div class="use-icon">💬</div>
         <h3>Kunden-Support</h3>
-        <p>Beantwortet Fragen von Bestandskunden rund um die Uhr — ohne Warteschleife, ohne Ticket-System.</p>
+        <p>Beantwortet Fragen von Bestandskunden rund um die Uhr — kennt Ihre Öffnungszeiten, Preise, Prozesse. Nie wieder "kurz nachschauen".</p>
         <div class="use-chat">
           <div class="uc-user">Habt ihr morgen noch einen Termin?</div>
           <div class="uc-bot">Ja! 10 Uhr oder 14 Uhr — was passt?</div>
@@ -463,10 +463,10 @@
         </div>
       </div>
 
-      <div class="use-card">
+      <div class="use-card" id="use-card-followup">
         <div class="use-icon">📩</div>
         <h3>Automatische Follow-ups</h3>
-        <p>Schickt nach Besichtigungen, Käufen oder Terminen automatisch die passende Nachricht — zum richtigen Zeitpunkt.</p>
+        <p>Schreibt nach jedem Event automatisch nach — im richtigen Ton, zum richtigen Zeitpunkt. Bewertungen, Upsells, Rückmeldungen.</p>
         <div class="use-chat">
           <div class="uc-bot">Hey Thomas, danke für die Besichtigung! 😊 Wie hat's dir gefallen?</div>
           <div class="uc-user">War super, gefällt mir sehr!</div>
@@ -477,26 +477,58 @@
   </div>
 </section>
 
-<!-- HOW IT WORKS -->
+<!-- PERSONALIZATION SECTION -->
 <section>
   <div class="container">
-    <p class="section-label">So funktioniert's</p>
-    <h2 class="section-title">In 3 Schritten live</h2>
+    <p class="section-label">Individualisierung</p>
+    <h2 class="section-title">Trainiert auf Ihr Business.</h2>
+    <p class="section-sub" style="margin-bottom:3rem">Kein Bot klingt wie alle anderen. Wir bauen ihn so, dass Ihre Kunden denken, Sie schreiben persönlich.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem">
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:1.5rem">
+        <div style="font-size:1.5rem;margin-bottom:0.75rem">🗣️</div>
+        <h3 style="font-size:1rem;font-weight:700;margin-bottom:0.5rem">Ihre Sprache</h3>
+        <p style="font-size:0.855rem;color:var(--muted);line-height:1.6">Wir analysieren wie Sie mit Kunden kommunizieren — und trainieren den Bot auf genau diesen Ton.</p>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:1.5rem">
+        <div style="font-size:1.5rem;margin-bottom:0.75rem">🧠</div>
+        <h3 style="font-size:1rem;font-weight:700;margin-bottom:0.5rem">Ihr Wissen</h3>
+        <p style="font-size:0.855rem;color:var(--muted);line-height:1.6">Preise, Produkte, Prozesse, FAQs — der Bot weiß alles was er wissen muss. Nichts mehr, nichts weniger.</p>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:1.5rem">
+        <div style="font-size:1.5rem;margin-bottom:0.75rem">🎯</div>
+        <h3 style="font-size:1rem;font-weight:700;margin-bottom:0.5rem">Ihr Ziel</h3>
+        <p style="font-size:0.855rem;color:var(--muted);line-height:1.6">Lead qualifizieren? Termin buchen? Bewertung anfragen? Wir bauen den Bot um genau dieses Ziel herum.</p>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:1.5rem">
+        <div style="font-size:1.5rem;margin-bottom:0.75rem">🔄</div>
+        <h3 style="font-size:1rem;font-weight:700;margin-bottom:0.5rem">Immer aktuell</h3>
+        <p style="font-size:0.855rem;color:var(--muted);line-height:1.6">Preisänderung? Neues Angebot? Neue Öffnungszeiten? Wir passen den Bot an — ohne Aufwand für Sie.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section style="background:var(--bg2)">
+  <div class="container">
+    <p class="section-label">Ihr Weg zum eigenen Bot</p>
+    <h2 class="section-title">In 3 Schritten — fertig.</h2>
     <div class="steps">
       <div class="step">
         <div class="step-num">01</div>
-        <h3>Erstgespräch</h3>
-        <p>15 Minuten. Wir verstehen Ihr Unternehmen, Ihre Kunden, Ihre Sprache. Danach wissen Sie genau, was der Bot kann — und wie er klingt.</p>
+        <h3>Erstgespräch — wir verstehen Sie</h3>
+        <p>15 Minuten. Wir lernen Ihr Unternehmen, Ihre Kunden, Ihre Sprache kennen. Der Bot wird danach klingen wie Sie — nicht wie ein generisches KI-System.</p>
       </div>
       <div class="step">
         <div class="step-num">02</div>
-        <h3>Wir richten alles ein</h3>
-        <p>Setup dauert 2–3 Wochen. Sie müssen nichts installieren, nichts konfigurieren. Wir übernehmen alles.</p>
+        <h3>Wir bauen Ihren Bot</h3>
+        <p>Setup dauert 2–3 Wochen. Wir trainieren, testen, verfeinern — bis der Bot wirklich klingt wie Sie. Sie müssen nichts tun.</p>
       </div>
       <div class="step">
         <div class="step-num">03</div>
-        <h3>Bot läuft — Sie kassieren</h3>
-        <p>Ab jetzt antwortet Ihr Bot 24/7 in Ihrem Namen. Sie bekommen nur die qualifizierten Anfragen.</p>
+        <h3>Ihr Bot läuft — Sie wachsen</h3>
+        <p>Ab jetzt antwortet Ihr persönlicher Bot 24/7. Keine generischen Antworten. Nur Ihr Stil, Ihre Qualität — skalierbar.</p>
       </div>
     </div>
   </div>
@@ -543,6 +575,65 @@
 <script>
   // ── CONFIG ────────────────────────────────────────────────────────────────
   const BOOKING_URL = '/termin';
+
+  // ── HERO CONTENT PER SCENARIO ─────────────────────────────────────────────
+  const HERO = {
+    lead: {
+      badge: 'Lead-Qualifizierung · WhatsApp · DACH',
+      h1:   'Kein Interessent mehr ohne<br><em>sofortige Antwort</em>',
+      sub:  'Ihr Bot qualifiziert Leads rund um die Uhr — in Ihrer Sprache, mit Ihren Fragen. Budget, Zeitrahmen, Termin: alles geklärt, bevor Sie sich melden.',
+      pills: ['⚡ Erstantwort in &lt;60 Sek.', '✅ Budget automatisch prüfen', '📅 Termin direkt buchen'],
+      label: 'Live-Demo — Ihr Bot für Lead-Qualifizierung',
+      card: 'use-card-lead',
+    },
+    support: {
+      badge: 'Kunden-Support · 24/7 · DACH',
+      h1:   'Ihr Support-Team<br><em>schläft nie</em>',
+      sub:  'Bestandskunden bekommen sofort Antwort — auch samstags, auch nachts. Ihr Bot kennt Ihre Öffnungszeiten, Ihre Produkte, Ihre Prozesse.',
+      pills: ['🕐 24/7 erreichbar', '✅ Keine Warteschleife', '💬 Auf Ihr Business trainiert'],
+      label: 'Live-Demo — Ihr Bot für Kunden-Support',
+      card: 'use-card-support',
+    },
+    followup: {
+      badge: 'Follow-up Automation · WhatsApp · DACH',
+      h1:   'Automatisch dran bleiben —<br><em>ohne Aufwand</em>',
+      sub:  'Nach jedem Termin, Kauf oder Kontakt schreibt Ihr Bot automatisch nach. Zum richtigen Zeitpunkt, in Ihrer Sprache — kein Kunde geht verloren.',
+      pills: ['📩 Automatisch nach Event', '⭐ Bewertungen sammeln', '✅ Upsell-Sequenzen'],
+      label: 'Live-Demo — Ihr Bot für Follow-up Nachrichten',
+      card: 'use-card-followup',
+    },
+    onboarding: {
+      badge: 'Bot-Konfiguration · Ihr Business',
+      h1:   'Ihr Bot wird gerade<br><em>für Sie gebaut</em>',
+      sub:  'Beantworten Sie 5 kurze Fragen — wir generieren daraus den System-Prompt für Ihren persönlichen WhatsApp-Assistenten.',
+      pills: ['🧠 KI trainiert auf Ihr Business', '✅ Sofort einsatzbereit', '🔄 Jederzeit anpassbar'],
+      label: 'Bot-Konfiguration — individuell für Sie',
+      card: null,
+    },
+  };
+
+  function updateHero(niche) {
+    var h = HERO[niche] || HERO.lead;
+    document.getElementById('hero-badge').textContent = h.badge;
+    document.getElementById('hero-h1').innerHTML = h.h1;
+    document.getElementById('hero-sub').textContent = h.sub.replace(/<[^>]+>/g, '');
+    document.getElementById('hero-demo-label').textContent = h.label;
+
+    var pillsEl = document.getElementById('hero-pills');
+    pillsEl.innerHTML = h.pills.map(function(p) {
+      return '<div class="pill">' + p + '</div>';
+    }).join('');
+
+    // Highlight active use-case card
+    ['use-card-lead','use-card-support','use-card-followup'].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) el.style.borderColor = '';
+    });
+    if (h.card) {
+      var active = document.getElementById(h.card);
+      if (active) active.style.borderColor = 'rgba(37,211,102,0.5)';
+    }
+  }
 
   // ── ELEMENTS ──────────────────────────────────────────────────────────────
   const messagesEl   = document.getElementById('chat-messages');
@@ -656,6 +747,7 @@
     ppActions.classList.remove('visible');
     spBox.classList.remove('visible');
     document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+    updateHero('onboarding');
     resetChat('onboarding');
   }
 
@@ -727,6 +819,7 @@
       if (btn.dataset.niche === currentNiche) return;
       document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
       btn.classList.add('active');
+      updateHero(btn.dataset.niche);
       resetChat(btn.dataset.niche);
     });
   });
@@ -829,6 +922,7 @@
 
   window.addEventListener('DOMContentLoaded', function() {
     inputEl.placeholder = PLACEHOLDERS[currentNiche];
+    updateHero(currentNiche);
     setTimeout(function() { sendMessage(''); }, 600);
   });
 </script>
