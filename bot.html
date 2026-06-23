@@ -94,26 +94,26 @@
     .demo-label {
       font-size: 0.78rem; font-weight: 600; color: var(--muted);
       text-transform: uppercase; letter-spacing: 0.08em;
-      margin-bottom: 1rem;
+      margin-bottom: 0.75rem;
     }
 
     /* SCENARIO TABS */
     .scenario-tabs {
-      display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center;
-      margin-bottom: 1rem; max-width: 420px; width: 100%;
+      display: flex; gap: 0.45rem; flex-wrap: wrap; justify-content: center;
+      margin-bottom: 0.85rem; max-width: 440px; width: 100%;
     }
     .tab-btn {
       background: var(--bg2); border: 1px solid var(--border);
-      color: var(--muted); font-size: 0.8rem; font-weight: 600;
-      padding: 0.5rem 1rem; border-radius: 999px; cursor: pointer;
+      color: var(--muted); font-size: 0.78rem; font-weight: 600;
+      padding: 0.45rem 0.9rem; border-radius: 999px; cursor: pointer;
       font-family: var(--font); transition: all .2s; white-space: nowrap;
     }
     .tab-btn:hover { border-color: var(--green); color: var(--green); }
     .tab-btn.active { background: var(--green-glow); border-color: var(--green); color: var(--green); }
 
-    /* WHATSAPP CHAT */
+    /* WHATSAPP WIDGET */
     .wa-wrap {
-      width: 100%; max-width: 420px;
+      width: 100%; max-width: 440px;
       border-radius: 20px; overflow: hidden;
       box-shadow: 0 0 0 1px rgba(255,255,255,0.06), 0 32px 80px rgba(0,0,0,0.7), 0 0 60px rgba(37,211,102,0.08);
     }
@@ -131,9 +131,14 @@
     .wa-name { display: block; font-size: 0.9rem; font-weight: 600; color: #e9edef; }
     .wa-status { display: flex; align-items: center; gap: 0.35rem; font-size: 0.72rem; color: #8696a0; margin-top: 1px; }
     .wa-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; }
+    .wa-mode-badge {
+      font-size: 0.65rem; font-weight: 700; background: rgba(37,211,102,0.15);
+      color: var(--green); padding: 0.2rem 0.5rem; border-radius: 4px;
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
 
     .wa-messages {
-      background: var(--wa-bg); min-height: 320px; max-height: 380px;
+      background: var(--wa-bg); min-height: 300px; max-height: 360px;
       overflow-y: auto; padding: 1rem; display: flex; flex-direction: column; gap: 0.6rem;
       scroll-behavior: smooth;
     }
@@ -142,7 +147,7 @@
 
     .msg {
       max-width: 85%; padding: 0.6rem 0.85rem; border-radius: 10px;
-      font-size: 0.855rem; line-height: 1.55; white-space: pre-wrap;
+      font-size: 0.845rem; line-height: 1.55; white-space: pre-wrap;
       word-break: break-word; animation: msgIn .25s ease;
     }
     @keyframes msgIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
@@ -156,6 +161,71 @@
     .typing span:nth-child(3) { animation-delay: .4s; }
     @keyframes bounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-6px)} }
 
+    /* CHIPS */
+    .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0.5rem 0.75rem 0.5rem; background: var(--wa-bg); }
+    .chip {
+      background: transparent; border: 1px solid rgba(37,211,102,0.4);
+      color: var(--green); font-size: 0.75rem; font-weight: 500;
+      padding: 0.3rem 0.7rem; border-radius: 999px; cursor: pointer;
+      font-family: var(--font); transition: all .15s;
+    }
+    .chip:hover { background: var(--green-glow); }
+
+    /* POST-PITCH ACTION ROW */
+    .post-pitch-actions {
+      display: none; flex-direction: column; gap: 0.5rem;
+      padding: 0.75rem 0.75rem 0; background: var(--wa-bg);
+    }
+    .post-pitch-actions.visible { display: flex; }
+    .ppa-btn-primary {
+      width: 100%; padding: 0.75rem; border-radius: 10px; border: none;
+      background: var(--green); color: #000; font-weight: 700; font-size: 0.875rem;
+      cursor: pointer; font-family: var(--font); transition: opacity .2s;
+    }
+    .ppa-btn-primary:hover { opacity: 0.88; }
+    .ppa-btn-secondary {
+      width: 100%; padding: 0.65rem; border-radius: 10px;
+      border: 1px solid rgba(37,211,102,0.4); background: transparent;
+      color: var(--green); font-weight: 600; font-size: 0.875rem;
+      cursor: pointer; font-family: var(--font); transition: all .2s;
+    }
+    .ppa-btn-secondary:hover { background: var(--green-glow); }
+
+    /* SYSTEM PROMPT BOX */
+    .system-prompt-box {
+      display: none; margin: 0.75rem; border-radius: 10px; overflow: hidden;
+      border: 1px solid rgba(37,211,102,0.3); background: #0a1a0a;
+    }
+    .system-prompt-box.visible { display: block; }
+    .sp-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.6rem 0.75rem;
+      background: rgba(37,211,102,0.08); border-bottom: 1px solid rgba(37,211,102,0.2);
+    }
+    .sp-label { font-size: 0.7rem; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: 0.08em; }
+    .sp-copy-btn {
+      background: transparent; border: 1px solid rgba(37,211,102,0.4);
+      color: var(--green); font-size: 0.68rem; font-weight: 600;
+      padding: 0.2rem 0.55rem; border-radius: 5px; cursor: pointer;
+      font-family: var(--font); transition: all .15s;
+    }
+    .sp-copy-btn:hover { background: var(--green-glow); }
+    .sp-content {
+      padding: 0.75rem; font-size: 0.73rem; color: #a8c8a8; line-height: 1.65;
+      white-space: pre-wrap; max-height: 220px; overflow-y: auto;
+      font-family: 'Menlo', 'Monaco', monospace;
+    }
+    .sp-content::-webkit-scrollbar { width: 3px; }
+    .sp-content::-webkit-scrollbar-thumb { background: #2a4a2a; border-radius: 3px; }
+    .sp-book-btn {
+      display: block; width: calc(100% - 1.5rem); margin: 0 0.75rem 0.75rem;
+      padding: 0.7rem; border-radius: 8px; border: none;
+      background: var(--green); color: #000; font-weight: 700; font-size: 0.875rem;
+      cursor: pointer; font-family: var(--font); text-align: center; transition: opacity .2s;
+    }
+    .sp-book-btn:hover { opacity: 0.88; }
+
+    /* INPUT ROW */
     .wa-input-row {
       background: var(--wa-header); padding: 0.65rem 0.75rem;
       display: flex; align-items: center; gap: 0.5rem;
@@ -168,24 +238,34 @@
     #chat-input::placeholder { color: #8696a0; }
     #chat-send {
       width: 40px; height: 40px; border-radius: 50%; border: none;
-      background: var(--green); color: #000; font-size: 1.1rem; font-weight: 700;
+      background: var(--green); color: #000;
       cursor: pointer; display: flex; align-items: center; justify-content: center;
       flex-shrink: 0; transition: opacity .2s;
     }
     #chat-send:hover { opacity: 0.85; }
     #chat-send:disabled { opacity: 0.4; cursor: not-allowed; }
 
-    /* Quick reply chips */
-    .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0.5rem 1rem 0.75rem; background: var(--wa-bg); }
-    .chip {
-      background: transparent; border: 1px solid rgba(37,211,102,0.4);
-      color: var(--green); font-size: 0.78rem; font-weight: 500;
-      padding: 0.35rem 0.75rem; border-radius: 999px; cursor: pointer;
-      font-family: var(--font); transition: all .15s;
+    /* BOOKING MODAL */
+    .booking-modal {
+      display: none; position: fixed; inset: 0; z-index: 500;
+      background: rgba(0,0,0,0.85); backdrop-filter: blur(6px);
+      align-items: center; justify-content: center;
     }
-    .chip:hover { background: var(--green-glow); }
+    .booking-modal.open { display: flex; }
+    .booking-wrap {
+      width: min(680px, 92vw); height: 82vh; border-radius: 18px;
+      overflow: hidden; position: relative; background: #fff;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+    }
+    .booking-close {
+      position: absolute; top: 10px; right: 10px; z-index: 10;
+      background: rgba(0,0,0,0.55); border: none; border-radius: 50%;
+      width: 34px; height: 34px; color: #fff; font-size: 17px;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+    }
+    #booking-iframe { width: 100%; height: 100%; border: none; }
 
-    /* SECTION BASE */
+    /* SECTIONS */
     section { padding: 5rem 1.5rem; }
     .container { max-width: 1000px; margin: 0 auto; }
     .section-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); margin-bottom: 0.75rem; }
@@ -195,29 +275,19 @@
     /* USE CASES */
     .use-cases { background: var(--bg2); }
     .use-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-top: 3rem; }
-    .use-card {
-      background: var(--bg3); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 1.75rem;
-    }
+    .use-card { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.75rem; }
     .use-icon { font-size: 1.75rem; margin-bottom: 1rem; }
     .use-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.6rem; }
     .use-card p { font-size: 0.875rem; color: var(--muted); line-height: 1.6; }
-    .use-chat {
-      margin-top: 1.25rem; padding: 1rem; background: var(--bg);
-      border-radius: 10px; font-size: 0.78rem; line-height: 1.7; color: #aaa;
-    }
-    .use-chat .uc-bot { color: #e9edef; }
-    .use-chat .uc-user { color: #8696a0; }
-    .use-chat .uc-bot::before { content: '🤖 '; }
-    .use-chat .uc-user::before { content: '👤 '; }
+    .use-chat { margin-top: 1.25rem; padding: 1rem; background: var(--bg); border-radius: 10px; font-size: 0.78rem; line-height: 1.7; }
+    .uc-bot { color: #e9edef; }
+    .uc-user { color: #8696a0; }
+    .uc-bot::before { content: '🤖 '; }
+    .uc-user::before { content: '👤 '; }
 
-    /* HOW IT WORKS */
+    /* STEPS */
     .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 2rem; margin-top: 3rem; }
-    .step { position: relative; }
-    .step-num {
-      font-size: 3rem; font-weight: 800; color: var(--green); opacity: 0.18;
-      line-height: 1; margin-bottom: 0.75rem;
-    }
+    .step-num { font-size: 3rem; font-weight: 800; color: var(--green); opacity: 0.18; line-height: 1; margin-bottom: 0.75rem; }
     .step h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; }
     .step p { font-size: 0.875rem; color: var(--muted); line-height: 1.6; }
 
@@ -260,21 +330,28 @@
       display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;
     }
 
-    /* RESPONSIVE */
     @media (max-width: 600px) {
       nav { padding: 0 1rem; }
       .hero { padding: 88px 1rem 3rem; }
       .wa-wrap { border-radius: 16px; }
-      .wa-messages { min-height: 260px; max-height: 320px; }
+      .wa-messages { min-height: 240px; max-height: 300px; }
     }
   </style>
 </head>
 <body>
 
+<!-- BOOKING MODAL -->
+<div class="booking-modal" id="booking-modal">
+  <div class="booking-wrap">
+    <button class="booking-close" onclick="closeBooking()">✕</button>
+    <iframe id="booking-iframe" src="" title="Termin vereinbaren"></iframe>
+  </div>
+</div>
+
 <!-- NAV -->
 <nav>
   <div class="nav-logo">YAD<span>.</span></div>
-  <a href="/termin" class="nav-cta">Erstgespräch vereinbaren</a>
+  <a href="#" class="nav-cta" onclick="openBooking();return false;">Erstgespräch vereinbaren</a>
 </nav>
 
 <!-- HERO -->
@@ -283,7 +360,7 @@
 
   <h1>Ihr <em>24/7 WhatsApp-</em><br>Mitarbeiter</h1>
   <p class="hero-sub">
-    Qualifiziert Leads, beantwortet Support-Anfragen und sendet Follow-ups — vollautomatisch in Ihrem Namen. Kein Personal, kein Aufwand.
+    Qualifiziert Leads, bucht Termine und sammelt Google-Bewertungen — vollautomatisch in Ihrem Namen. Kein Personal, kein Aufwand.
   </p>
 
   <div class="pills">
@@ -297,7 +374,7 @@
   <div class="scenario-tabs" id="scenario-tabs">
     <button class="tab-btn active" data-niche="lead">🎯 Lead qualifizieren</button>
     <button class="tab-btn" data-niche="support">💬 Kunden-Support</button>
-    <button class="tab-btn" data-niche="followup">📩 Follow-up Nachrichten</button>
+    <button class="tab-btn" data-niche="followup">📩 Follow-up</button>
   </div>
 
   <div class="wa-wrap" id="wa-widget">
@@ -307,9 +384,29 @@
         <span class="wa-name">WhatsApp KI-Bot</span>
         <span class="wa-status"><span class="wa-dot"></span>Online</span>
       </div>
+      <span class="wa-mode-badge" id="wa-mode-badge">Demo</span>
     </div>
     <div class="wa-messages" id="chat-messages"></div>
     <div class="chips" id="chip-row" style="display:none"></div>
+
+    <!-- System prompt display (hidden until onboarding completes) -->
+    <div class="system-prompt-box" id="sp-box">
+      <div class="sp-header">
+        <span class="sp-label">Dein System-Prompt</span>
+        <button class="sp-copy-btn" id="sp-copy-btn" onclick="copySystemPrompt()">Kopieren</button>
+      </div>
+      <pre class="sp-content" id="sp-content"></pre>
+    </div>
+    <button class="sp-book-btn" id="sp-book-btn" style="display:none" onclick="openBooking()">
+      📅 Erstgespräch buchen — jetzt verfeinern
+    </button>
+
+    <!-- Post-pitch action buttons (hidden until pitch fires) -->
+    <div class="post-pitch-actions" id="post-pitch-actions">
+      <button class="ppa-btn-primary" onclick="openBooking()">📅 Erstgespräch vereinbaren</button>
+      <button class="ppa-btn-secondary" onclick="startOnboarding()">🚀 Bot jetzt konfigurieren</button>
+    </div>
+
     <div class="wa-input-row">
       <input type="text" id="chat-input" placeholder="Nachricht schreiben …" autocomplete="off" />
       <button id="chat-send" aria-label="Senden">
@@ -334,8 +431,8 @@
         <div class="use-chat">
           <div class="uc-user">Ich interessiere mich für eure Küchen</div>
           <div class="uc-bot">Super! Welche Größe ungefähr und wann soll's losgehen?</div>
-          <div class="uc-user">Ca. 12m², Einzug im Oktober</div>
-          <div class="uc-bot">Perfekt, ich vereinbare einen Beratungstermin für Sie 📅</div>
+          <div class="uc-user">Ca. 12m², Einzug Oktober</div>
+          <div class="uc-bot">Perfekt — passt dir Di 10 Uhr oder Do 14 Uhr? 📅</div>
         </div>
       </div>
 
@@ -344,10 +441,10 @@
         <h3>Kunden-Support</h3>
         <p>Beantwortet Fragen von Bestandskunden rund um die Uhr — ohne Warteschleife, ohne Ticket-System.</p>
         <div class="use-chat">
-          <div class="uc-user">Wann habt ihr heute geöffnet?</div>
-          <div class="uc-bot">Heute bis 19 Uhr! Kann ich dir sonst noch helfen?</div>
-          <div class="uc-user">Kann ich meinen Termin morgen verschieben?</div>
-          <div class="uc-bot">Klar! Gib mir kurz deinen Namen — ich schaue direkt nach 👍</div>
+          <div class="uc-user">Habt ihr morgen noch einen Termin?</div>
+          <div class="uc-bot">Ja! 10 Uhr oder 14 Uhr — was passt?</div>
+          <div class="uc-user">14 Uhr perfekt!</div>
+          <div class="uc-bot">Eingetragen ✅ Du bekommst gleich eine Bestätigung.</div>
         </div>
       </div>
 
@@ -356,9 +453,9 @@
         <h3>Automatische Follow-ups</h3>
         <p>Schickt nach Besichtigungen, Käufen oder Terminen automatisch die passende Nachricht — zum richtigen Zeitpunkt.</p>
         <div class="use-chat">
-          <div class="uc-bot">Hey Thomas, danke für die Besichtigung heute! 😊 Wie hat's dir gefallen?</div>
+          <div class="uc-bot">Hey Thomas, danke für die Besichtigung! 😊 Wie hat's dir gefallen?</div>
           <div class="uc-user">War super, gefällt mir sehr!</div>
-          <div class="uc-bot">Freut uns! Wann passt dir ein kurzes Gespräch für den nächsten Schritt?</div>
+          <div class="uc-bot">Freut mich — wann passt dir ein kurzes Gespräch für den nächsten Schritt?</div>
         </div>
       </div>
     </div>
@@ -374,7 +471,7 @@
       <div class="step">
         <div class="step-num">01</div>
         <h3>Erstgespräch</h3>
-        <p>15 Minuten. Wir verstehen Ihr Unternehmen, Ihre Kunden, Ihre Sprache. Danach wissen Sie genau, was der Bot kann.</p>
+        <p>15 Minuten. Wir verstehen Ihr Unternehmen, Ihre Kunden, Ihre Sprache. Danach wissen Sie genau, was der Bot kann — und wie er klingt.</p>
       </div>
       <div class="step">
         <div class="step-num">02</div>
@@ -402,11 +499,12 @@
         <li>WhatsApp Business API-Integration</li>
         <li>Unlimitierte Konversationen</li>
         <li>Lead-Qualifizierung, Support &amp; Follow-ups</li>
+        <li>Terminbuchung mit Kalender-Abstimmung</li>
         <li>Individuell auf Ihr Unternehmen trainiert</li>
         <li>DSGVO-konform, Server in Deutschland</li>
         <li>Änderungen &amp; Anpassungen inklusive</li>
       </ul>
-      <a href="/termin" class="btn-primary">Erstgespräch vereinbaren →</a>
+      <a href="#" class="btn-primary" onclick="openBooking();return false;">Erstgespräch vereinbaren →</a>
     </div>
   </div>
 </section>
@@ -416,7 +514,7 @@
   <div class="container">
     <h2>Bereit für Ihren<br><em style="font-style:normal;color:var(--green)">WhatsApp-Mitarbeiter?</em></h2>
     <p>15 Minuten. Danach wissen Sie genau ob es passt — und wie es weitergeht.</p>
-    <a href="/termin" class="btn-large">Erstgespräch vereinbaren →</a>
+    <a href="#" class="btn-large" onclick="openBooking();return false;">Erstgespräch vereinbaren →</a>
   </div>
 </section>
 
@@ -427,35 +525,98 @@
   <a href="/datenschutz">Datenschutz</a>
 </footer>
 
-<!-- CHAT JS -->
 <script>
-  const messagesEl = document.getElementById('chat-messages');
-  const chipRow    = document.getElementById('chip-row');
-  const inputEl    = document.getElementById('chat-input');
-  const sendBtn    = document.getElementById('chat-send');
+  // ── CONFIG ────────────────────────────────────────────────────────────────
+  const BOOKING_URL = '/termin';
 
+  // ── ELEMENTS ──────────────────────────────────────────────────────────────
+  const messagesEl   = document.getElementById('chat-messages');
+  const chipRow      = document.getElementById('chip-row');
+  const inputEl      = document.getElementById('chat-input');
+  const sendBtn      = document.getElementById('chat-send');
+  const ppActions    = document.getElementById('post-pitch-actions');
+  const spBox        = document.getElementById('sp-box');
+  const spContent    = document.getElementById('sp-content');
+  const spBookBtn    = document.getElementById('sp-book-btn');
+  const modeBadge    = document.getElementById('wa-mode-badge');
+
+  // ── STATE ─────────────────────────────────────────────────────────────────
   let history      = [];
   let busy         = false;
   let pitched      = false;
   let currentNiche = 'lead';
 
   const PLACEHOLDERS = {
-    lead:     'Z.B.: "Hallo, ich interessiere mich für euer Angebot"',
-    support:  'Z.B.: "Wann habt ihr heute geöffnet?"',
-    followup: 'Antwort eingeben oder Szenario wählen …',
+    lead:       'Z.B.: "Hallo, ich interessiere mich für euer Angebot"',
+    support:    'Z.B.: "Wann habt ihr heute geöffnet?"',
+    followup:   'Szenario wählen oder Antwort eingeben …',
+    onboarding: 'Antwort eingeben …',
   };
 
+  const BADGES = {
+    lead:       'Lead-Demo',
+    support:    'Support-Demo',
+    followup:   'Follow-up',
+    onboarding: 'Konfiguration',
+  };
+
+  // ── BOOKING MODAL ─────────────────────────────────────────────────────────
+  function openBooking() {
+    document.getElementById('booking-iframe').src = BOOKING_URL;
+    document.getElementById('booking-modal').classList.add('open');
+    if (typeof fbq !== 'undefined') fbq('track', 'Lead', { content_name: 'BookingOpened' });
+  }
+
+  function closeBooking() {
+    document.getElementById('booking-modal').classList.remove('open');
+    setTimeout(function() { document.getElementById('booking-iframe').src = ''; }, 300);
+  }
+
+  document.getElementById('booking-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeBooking();
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeBooking();
+  });
+
+  // ── SYSTEM PROMPT ─────────────────────────────────────────────────────────
+  function showSystemPrompt(text) {
+    spContent.textContent = text;
+    spBox.classList.add('visible');
+    spBookBtn.style.display = 'block';
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  function copySystemPrompt() {
+    const btn = document.getElementById('sp-copy-btn');
+    navigator.clipboard.writeText(spContent.textContent).then(function() {
+      btn.textContent = '✓ Kopiert!';
+      setTimeout(function() { btn.textContent = 'Kopieren'; }, 2000);
+    });
+  }
+
+  // ── ONBOARDING MODE ───────────────────────────────────────────────────────
+  function startOnboarding() {
+    ppActions.classList.remove('visible');
+    spBox.classList.remove('visible');
+    spBookBtn.style.display = 'none';
+    document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+    resetChat('onboarding');
+  }
+
+  // ── CHAT UTILS ────────────────────────────────────────────────────────────
   function now() {
     return new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
   }
 
   function appendMsg(text, role) {
-    const existing = messagesEl.querySelector('.typing');
+    var existing = messagesEl.querySelector('.typing');
     if (existing) existing.remove();
-    const el = document.createElement('div');
+    var el = document.createElement('div');
     el.className = 'msg ' + role;
     el.textContent = text;
-    const time = document.createElement('div');
+    var time = document.createElement('div');
     time.className = 'msg-time';
     time.textContent = now();
     el.appendChild(time);
@@ -464,7 +625,7 @@
   }
 
   function showTyping() {
-    const el = document.createElement('div');
+    var el = document.createElement('div');
     el.className = 'typing';
     el.innerHTML = '<span></span><span></span><span></span>';
     messagesEl.appendChild(el);
@@ -475,7 +636,7 @@
     chipRow.style.display = 'flex';
     chipRow.innerHTML = '';
     options.forEach(function(opt) {
-      const btn = document.createElement('button');
+      var btn = document.createElement('button');
       btn.className = 'chip';
       btn.textContent = opt;
       btn.onclick = function() {
@@ -494,13 +655,18 @@
     messagesEl.innerHTML = '';
     chipRow.style.display = 'none';
     chipRow.innerHTML = '';
+    ppActions.classList.remove('visible');
+    spBox.classList.remove('visible');
+    spBookBtn.style.display = 'none';
     inputEl.value = '';
     inputEl.placeholder = PLACEHOLDERS[niche] || 'Nachricht schreiben …';
+    modeBadge.textContent = BADGES[niche] || 'Demo';
     sendBtn.disabled = false;
     busy = false;
     setTimeout(function() { sendMessage(''); }, 400);
   }
 
+  // ── SCENARIO TABS ─────────────────────────────────────────────────────────
   document.querySelectorAll('.tab-btn').forEach(function(btn) {
     btn.addEventListener('click', function() {
       if (btn.dataset.niche === currentNiche) return;
@@ -510,6 +676,7 @@
     });
   });
 
+  // ── SEND MESSAGE ──────────────────────────────────────────────────────────
   async function sendMessage(userText) {
     if (busy) return;
     busy = true;
@@ -524,39 +691,64 @@
     showTyping();
 
     try {
-      const res = await fetch('/api/demo-chat', {
+      var res = await fetch('/api/demo-chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ messages: history, niche: currentNiche }),
       });
-      const data     = await res.json();
-      const reply    = data.content || data.error || 'Kurze Panne — versuch nochmal.';
-      const followUp = data.followUp || null;
+      var data     = await res.json();
+      var reply    = data.content || '';
+      var followUp = data.followUp || null;
+      var systemPrompt = data.systemPrompt || null;
 
-      appendMsg(reply, 'bot');
-      history.push({ role: 'assistant', content: reply });
-
-      if (currentNiche === 'followup' && history.length === 2) {
-        showChips(['📅 Nach Besichtigung', '🛒 Nach Kauf', '⭐ Bewertung anfragen']);
-      }
-
-      if (followUp && !pitched) {
-        pitched = true;
+      // System prompt generated (onboarding complete)
+      if (systemPrompt) {
+        if (reply) {
+          appendMsg(reply, 'bot');
+          history.push({ role: 'assistant', content: reply });
+        }
         setTimeout(function() {
-          showTyping();
-          setTimeout(function() {
-            appendMsg(followUp, 'bot');
-            if (typeof fbq !== 'undefined') fbq('track', 'Lead');
-          }, 1200);
-        }, 800);
-      }
+          showSystemPrompt(systemPrompt);
+          if (followUp) {
+            setTimeout(function() {
+              showTyping();
+              setTimeout(function() {
+                appendMsg(followUp, 'bot');
+              }, 800);
+            }, 600);
+          }
+          if (typeof fbq !== 'undefined') fbq('track', 'Lead', { content_name: 'SystemPromptGenerated' });
+        }, 400);
 
-      if (history.length === 2 && typeof fbq !== 'undefined') {
-        fbq('track', 'ViewContent', { content_name: 'ChatDemoStart_' + currentNiche });
+      } else if (reply) {
+        appendMsg(reply || (data.error || 'Kurze Panne — nochmal versuchen.'), 'bot');
+        history.push({ role: 'assistant', content: reply });
+
+        // Follow-up chips for followup scenario
+        if (currentNiche === 'followup' && history.length === 2) {
+          showChips(['📅 Nach Besichtigung', '🛒 Nach Kauf', '⭐ Bewertung anfragen']);
+        }
+
+        // Pitch follow-up with post-pitch actions
+        if (followUp && !pitched) {
+          pitched = true;
+          setTimeout(function() {
+            showTyping();
+            setTimeout(function() {
+              appendMsg(followUp, 'bot');
+              ppActions.classList.add('visible');
+              if (typeof fbq !== 'undefined') fbq('track', 'Lead');
+            }, 1200);
+          }, 800);
+        }
+
+        if (history.length === 2 && typeof fbq !== 'undefined') {
+          fbq('track', 'ViewContent', { content_name: 'ChatDemoStart_' + currentNiche });
+        }
       }
 
     } catch(e) {
-      const t = messagesEl.querySelector('.typing');
+      var t = messagesEl.querySelector('.typing');
       if (t) t.remove();
       appendMsg('Kurze Unterbrechung — bitte nochmal versuchen.', 'bot');
     }
@@ -566,16 +758,17 @@
     inputEl.focus();
   }
 
+  // ── INPUT EVENTS ──────────────────────────────────────────────────────────
   inputEl.addEventListener('keydown', function(e) {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      const v = inputEl.value.trim();
+      var v = inputEl.value.trim();
       if (v) { inputEl.value = ''; sendMessage(v); }
     }
   });
 
   sendBtn.addEventListener('click', function() {
-    const v = inputEl.value.trim();
+    var v = inputEl.value.trim();
     if (v) { inputEl.value = ''; sendMessage(v); }
   });
 

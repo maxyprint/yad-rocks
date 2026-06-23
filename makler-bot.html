@@ -256,6 +256,24 @@
     }
     .tab-btn:hover { border-color: var(--green); color: var(--green); }
     .tab-btn.active { background: rgba(37,211,102,0.12); border-color: var(--green); color: var(--green); }
+    .wa-mode-badge {
+      font-size: 0.62rem; font-weight: 700; background: rgba(37,211,102,0.15);
+      color: var(--green); padding: 0.18rem 0.45rem; border-radius: 4px;
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .ppa-primary {
+      width: 100%; padding: 0.65rem; border-radius: 9px; border: none;
+      background: var(--green); color: #000; font-weight: 700; font-size: 0.85rem;
+      cursor: pointer; font-family: var(--font); transition: opacity .2s;
+    }
+    .ppa-primary:hover { opacity: 0.88; }
+    .ppa-secondary {
+      width: 100%; padding: 0.6rem; border-radius: 9px;
+      border: 1px solid rgba(37,211,102,0.4); background: transparent;
+      color: var(--green); font-weight: 600; font-size: 0.85rem;
+      cursor: pointer; font-family: var(--font); transition: all .2s;
+    }
+    .ppa-secondary:hover { background: rgba(37,211,102,0.08); }
 
     @media (max-width: 900px) {
       .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
@@ -273,7 +291,7 @@
 
 <nav>
   <div class="nav-logo">YAD<span>.</span></div>
-  <a href="/termin" class="nav-cta">Erstgespräch vereinbaren</a>
+  <a href="#" class="nav-cta" onclick="openBooking();return false;">Erstgespräch vereinbaren</a>
 </nav>
 
 <!-- HERO -->
@@ -319,15 +337,35 @@
       <div class="wa-wrap">
         <div class="wa-header">
           <div class="wa-avatar">KI</div>
-          <div>
+          <div style="flex:1">
             <span class="wa-name">Ihr WhatsApp-Assistent</span>
             <span class="wa-status"><span class="wa-dot"></span>Online</span>
           </div>
+          <span class="wa-mode-badge" id="wa-mode-badge">Demo</span>
         </div>
         <div class="wa-messages" id="chat-messages"></div>
         <div class="chips" id="chip-row" style="display:none"></div>
+
+        <!-- System prompt box -->
+        <div id="sp-box" style="display:none;margin:0.6rem;border-radius:10px;overflow:hidden;border:1px solid rgba(37,211,102,0.3);background:#0a1a0a">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:0.55rem 0.7rem;background:rgba(37,211,102,0.08);border-bottom:1px solid rgba(37,211,102,0.2)">
+            <span style="font-size:0.68rem;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:0.08em">Dein System-Prompt</span>
+            <button id="sp-copy-btn" onclick="copySystemPrompt()" style="background:transparent;border:1px solid rgba(37,211,102,0.4);color:var(--green);font-size:0.65rem;font-weight:600;padding:0.18rem 0.5rem;border-radius:5px;cursor:pointer;font-family:inherit">Kopieren</button>
+          </div>
+          <pre id="sp-content" style="padding:0.7rem;font-size:0.7rem;color:#a8c8a8;line-height:1.6;white-space:pre-wrap;max-height:200px;overflow-y:auto;font-family:Menlo,Monaco,monospace"></pre>
+        </div>
+        <button id="sp-book-btn" style="display:none;width:calc(100% - 1.2rem);margin:0 0.6rem 0.6rem;padding:0.65rem;border-radius:8px;border:none;background:var(--green);color:#000;font-weight:700;font-size:0.85rem;cursor:pointer;font-family:inherit" onclick="openBooking()">
+          📅 Erstgespräch buchen — jetzt verfeinern
+        </button>
+
+        <!-- Post-pitch action row -->
+        <div id="post-pitch-actions" style="display:none;flex-direction:column;gap:0.45rem;padding:0.65rem 0.65rem 0;background:var(--wa-bg)">
+          <button class="ppa-primary" onclick="openBooking()">📅 Erstgespräch vereinbaren</button>
+          <button class="ppa-secondary" onclick="startOnboarding()">🚀 Meinen Bot konfigurieren</button>
+        </div>
+
         <div class="wa-input-row">
-          <input type="text" id="chat-input" placeholder="Antworten Sie …" autocomplete="off">
+          <input type="text" id="chat-input" placeholder="Schreib als Kaufinteressent …" autocomplete="off">
           <button id="chat-send" aria-label="Senden">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
           </button>
@@ -459,9 +497,17 @@
   <div class="container">
     <h2>Nie wieder einen<br><em>Interessenten verlieren</em></h2>
     <p>15 Minuten. Danach wissen Sie genau, ob das passt — und wie es weitergeht.</p>
-    <a href="/termin" class="btn-green" style="display:inline-flex">Erstgespräch vereinbaren →</a>
+    <a href="#" class="btn-green" style="display:inline-flex" onclick="openBooking();return false;">Erstgespräch vereinbaren →</a>
   </div>
 </section>
+
+<!-- BOOKING MODAL -->
+<div id="booking-modal" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.85);backdrop-filter:blur(6px);align-items:center;justify-content:center">
+  <div style="width:min(680px,92vw);height:82vh;border-radius:18px;overflow:hidden;position:relative;background:#fff;box-shadow:0 40px 100px rgba(0,0,0,0.6)">
+    <button onclick="closeBooking()" style="position:absolute;top:10px;right:10px;z-index:10;background:rgba(0,0,0,0.55);border:none;border-radius:50%;width:34px;height:34px;color:#fff;font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>
+    <iframe id="booking-iframe" src="" style="width:100%;height:100%;border:none" title="Termin vereinbaren"></iframe>
+  </div>
+</div>
 
 <footer>
   <span>© 2026 YAD</span>
@@ -470,27 +516,120 @@
 </footer>
 
 <script>
-  const messagesEl = document.getElementById('chat-messages');
-  const chipRow    = document.getElementById('chip-row');
-  const inputEl    = document.getElementById('chat-input');
-  const sendBtn    = document.getElementById('chat-send');
+  var BOOKING_URL   = '/termin';
+  var messagesEl    = document.getElementById('chat-messages');
+  var chipRow       = document.getElementById('chip-row');
+  var inputEl       = document.getElementById('chat-input');
+  var sendBtn       = document.getElementById('chat-send');
+  var ppActions     = document.getElementById('post-pitch-actions');
+  var spBox         = document.getElementById('sp-box');
+  var spContent     = document.getElementById('sp-content');
+  var spBookBtn     = document.getElementById('sp-book-btn');
+  var modeBadge     = document.getElementById('wa-mode-badge');
 
-  let history      = [];
-  let busy         = false;
-  let pitched      = false;
-  let currentNiche = 'makler';
+  var history      = [];
+  var busy         = false;
+  var pitched      = false;
+  var currentNiche = 'makler';
 
-  const PLACEHOLDERS = {
-    makler:   'Schreib als Kaufinteressent …',
-    support:  'Z.B.: "Wann habt ihr heute geöffnet?"',
-    followup: 'Antwort eingeben oder Szenario wählen …',
+  var PLACEHOLDERS = {
+    makler:     'Schreib als Kaufinteressent …',
+    support:    'Z.B.: "Wann habt ihr heute geöffnet?"',
+    followup:   'Szenario wählen oder antworten …',
+    onboarding: 'Antwort eingeben …',
   };
 
-  const SUGGESTIONS = [
+  var BADGES = {
+    makler:     'Lead-Demo',
+    support:    'Support-Demo',
+    followup:   'Follow-up',
+    onboarding: 'Konfiguration',
+  };
+
+  var SUGGESTIONS = [
     'Hallo, ich hab eure Wohnung in München gesehen',
     'Ist das Objekt noch verfügbar?',
     'Ich interessiere mich für die Anzeige',
   ];
+
+  function openBooking() {
+    document.getElementById('booking-iframe').src = BOOKING_URL;
+    var m = document.getElementById('booking-modal');
+    m.style.display = 'flex';
+    if (typeof fbq !== 'undefined') fbq('track', 'Lead', { content_name: 'MaklerBookingOpened' });
+  }
+
+  function closeBooking() {
+    document.getElementById('booking-modal').style.display = 'none';
+    setTimeout(function() { document.getElementById('booking-iframe').src = ''; }, 300);
+  }
+
+  document.getElementById('booking-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeBooking();
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeBooking();
+  });
+
+  function copySystemPrompt() {
+    var btn = document.getElementById('sp-copy-btn');
+    navigator.clipboard.writeText(spContent.textContent).then(function() {
+      btn.textContent = '✓ Kopiert!';
+      setTimeout(function() { btn.textContent = 'Kopieren'; }, 2000);
+    });
+  }
+
+  function startOnboarding() {
+    ppActions.style.display = 'none';
+    spBox.style.display = 'none';
+    spBookBtn.style.display = 'none';
+    document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+    resetChat('onboarding');
+  }
+
+  function now() {
+    return new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+  }
+
+  function appendMsg(text, role) {
+    var typing = messagesEl.querySelector('.typing');
+    if (typing) typing.remove();
+    var el = document.createElement('div');
+    el.className = 'msg ' + role;
+    el.textContent = text;
+    var t = document.createElement('div');
+    t.className = 'msg-time';
+    t.textContent = now();
+    el.appendChild(t);
+    messagesEl.appendChild(el);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  function showTyping() {
+    var el = document.createElement('div');
+    el.className = 'typing';
+    el.innerHTML = '<span></span><span></span><span></span>';
+    messagesEl.appendChild(el);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  function showChips(options, asInput) {
+    chipRow.style.display = 'flex';
+    chipRow.innerHTML = '';
+    options.forEach(function(opt) {
+      var b = document.createElement('button');
+      b.className = 'chip';
+      b.textContent = opt;
+      b.onclick = function() {
+        chipRow.style.display = 'none';
+        chipRow.innerHTML = '';
+        if (asInput) { inputEl.value = opt; inputEl.focus(); }
+        else sendMessage(opt);
+      };
+      chipRow.appendChild(b);
+    });
+  }
 
   function resetChat(niche) {
     currentNiche = niche;
@@ -499,70 +638,25 @@
     messagesEl.innerHTML = '';
     chipRow.style.display = 'none';
     chipRow.innerHTML = '';
+    ppActions.style.display = 'none';
+    spBox.style.display = 'none';
+    spBookBtn.style.display = 'none';
     inputEl.value = '';
     inputEl.placeholder = PLACEHOLDERS[niche] || 'Antworten Sie …';
+    if (modeBadge) modeBadge.textContent = BADGES[niche] || 'Demo';
     sendBtn.disabled = false;
     busy = false;
-    setTimeout(() => sendMessage(''), 400);
+    setTimeout(function() { sendMessage(''); }, 400);
   }
 
-  document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
+  document.querySelectorAll('.tab-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
       if (btn.dataset.niche === currentNiche) return;
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
       btn.classList.add('active');
       resetChat(btn.dataset.niche);
     });
   });
-
-  function now() {
-    return new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
-  }
-
-  function appendMsg(text, role, delay = 0) {
-    return new Promise(resolve => setTimeout(() => {
-      const typing = messagesEl.querySelector('.typing');
-      if (typing) typing.remove();
-
-      const el = document.createElement('div');
-      el.className = 'msg ' + role;
-      el.textContent = text;
-
-      const t = document.createElement('div');
-      t.className = 'msg-time';
-      t.textContent = now();
-      el.appendChild(t);
-
-      messagesEl.appendChild(el);
-      messagesEl.scrollTop = messagesEl.scrollHeight;
-      resolve();
-    }, delay));
-  }
-
-  function showTyping() {
-    const el = document.createElement('div');
-    el.className = 'typing';
-    el.innerHTML = '<span></span><span></span><span></span>';
-    messagesEl.appendChild(el);
-    messagesEl.scrollTop = messagesEl.scrollHeight;
-  }
-
-  function showSuggestions() {
-    chipRow.style.display = 'flex';
-    chipRow.innerHTML = '';
-    SUGGESTIONS.forEach(s => {
-      const b = document.createElement('button');
-      b.className = 'chip';
-      b.textContent = s;
-      b.onclick = () => {
-        chipRow.style.display = 'none';
-        chipRow.innerHTML = '';
-        inputEl.value = s;
-        inputEl.focus();
-      };
-      chipRow.appendChild(b);
-    });
-  }
 
   async function sendMessage(userText) {
     if (busy) return;
@@ -578,58 +672,65 @@
     showTyping();
 
     try {
-      const res = await fetch('/api/demo-chat', {
+      var res = await fetch('/api/demo-chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ messages: history, niche: currentNiche }),
       });
-      const data = await res.json();
-      const reply    = data.content  || 'Kurze Unterbrechung — bitte nochmal versuchen.';
-      const followUp = data.followUp || null;
+      var data         = await res.json();
+      var reply        = data.content || '';
+      var followUp     = data.followUp || null;
+      var systemPrompt = data.systemPrompt || null;
 
-      await appendMsg(reply, 'bot');
-      history.push({ role: 'assistant', content: reply });
+      if (systemPrompt) {
+        if (reply) {
+          appendMsg(reply, 'bot');
+          history.push({ role: 'assistant', content: reply });
+        }
+        setTimeout(function() {
+          spContent.textContent = systemPrompt;
+          spBox.style.display = 'block';
+          spBookBtn.style.display = 'block';
+          if (followUp) {
+            setTimeout(function() {
+              showTyping();
+              setTimeout(function() { appendMsg(followUp, 'bot'); }, 800);
+            }, 600);
+          }
+          if (typeof fbq !== 'undefined') fbq('track', 'Lead', { content_name: 'MaklerSystemPromptGenerated' });
+        }, 400);
 
-      // Eingabe-Suggestions nur beim Lead-Szenario nach erstem Bot-Message
-      if (currentNiche === 'makler' && history.length === 1 && !pitched) {
-        showSuggestions();
-        inputEl.placeholder = 'Schreib als Kaufinteressent …';
+      } else if (reply) {
+        appendMsg(reply || (data.error || 'Kurze Panne.'), 'bot');
+        history.push({ role: 'assistant', content: reply });
+
+        if (currentNiche === 'makler' && history.length === 1 && !pitched) {
+          showChips(SUGGESTIONS, true);
+        }
+
+        if (currentNiche === 'followup' && history.length === 2) {
+          showChips(['📅 Nach Besichtigung', '🛒 Nach Kauf', '⭐ Bewertung anfragen'], false);
+        }
+
+        if (followUp && !pitched) {
+          pitched = true;
+          setTimeout(function() {
+            showTyping();
+            setTimeout(function() {
+              appendMsg(followUp, 'bot');
+              ppActions.style.display = 'flex';
+              if (typeof fbq !== 'undefined') fbq('track', 'Lead');
+            }, 1200);
+          }, 800);
+        }
+
+        if (history.length === 2 && typeof fbq !== 'undefined') {
+          fbq('track', 'ViewContent', { content_name: 'MaklerDemo_' + currentNiche });
+        }
       }
 
-      // Follow-up Chips beim Follow-up Szenario
-      if (currentNiche === 'followup' && history.length === 2) {
-        chipRow.style.display = 'flex';
-        chipRow.innerHTML = '';
-        ['📅 Nach Besichtigung', '🛒 Nach Kauf', '⭐ Bewertung anfragen'].forEach(opt => {
-          const b = document.createElement('button');
-          b.className = 'chip';
-          b.textContent = opt;
-          b.onclick = () => {
-            chipRow.style.display = 'none';
-            chipRow.innerHTML = '';
-            sendMessage(opt);
-          };
-          chipRow.appendChild(b);
-        });
-      }
-
-      // Pitch als Follow-up mit kurzer Verzögerung
-      if (followUp && !pitched) {
-        pitched = true;
-        setTimeout(() => {
-          showTyping();
-          setTimeout(async () => {
-            await appendMsg(followUp, 'bot');
-            if (typeof fbq !== 'undefined') fbq('track', 'Lead');
-          }, 1200);
-        }, 800);
-      }
-
-      // Pixel events
-      if (history.length === 2 && typeof fbq !== 'undefined') fbq('track', 'ViewContent', { content_name: 'MaklerDemoStart_' + currentNiche });
-
-    } catch {
-      const t = messagesEl.querySelector('.typing');
+    } catch(e) {
+      var t = messagesEl.querySelector('.typing');
       if (t) t.remove();
       appendMsg('Kurze Unterbrechung — bitte nochmal versuchen.', 'bot');
     }
@@ -639,21 +740,22 @@
     inputEl.focus();
   }
 
-  inputEl.addEventListener('keydown', e => {
+  inputEl.addEventListener('keydown', function(e) {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      const v = inputEl.value.trim();
+      var v = inputEl.value.trim();
       if (v) { inputEl.value = ''; sendMessage(v); }
     }
   });
 
-  sendBtn.addEventListener('click', () => {
-    const v = inputEl.value.trim();
+  sendBtn.addEventListener('click', function() {
+    var v = inputEl.value.trim();
     if (v) { inputEl.value = ''; sendMessage(v); }
   });
 
-  window.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => sendMessage(''), 700);
+  window.addEventListener('DOMContentLoaded', function() {
+    inputEl.placeholder = PLACEHOLDERS[currentNiche];
+    setTimeout(function() { sendMessage(''); }, 700);
   });
 </script>
 
