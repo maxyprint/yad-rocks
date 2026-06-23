@@ -591,8 +591,16 @@
   }
 
   function startDemo() {
-    document.getElementById('chat-overlay').style.display = 'none';
+    var overlay = document.getElementById('chat-overlay');
+    var btn = document.getElementById('start-demo-btn');
+    btn.textContent = 'Lädt …';
+    btn.disabled = true;
     demoStarted = true;
+    busy = false;
+    history = [];
+    messagesEl.innerHTML = '';
+    sendBtn.disabled = false;
+    overlay.style.display = 'none';
     sendMessage('');
   }
 
