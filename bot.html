@@ -668,7 +668,7 @@
   const modeBadge    = document.getElementById('wa-mode-badge');
 
   // ── STATE ─────────────────────────────────────────────────────────────────
-  let history      = [];
+  let chatHistory      = [];
   let busy         = false;
   let pitched      = false;
   let currentNiche = 'lead';
@@ -741,7 +741,7 @@
           phone:         phoneVal,
           source:        'bot_' + currentNiche,
           system_prompt: spContent.textContent,
-          conversation:  JSON.stringify(history),
+          conversation:  JSON.stringify(chatHistory),
         }),
       });
     } catch(e) { /* still open booking even if save fails */ }
@@ -785,7 +785,7 @@
     btn.textContent = 'Lädt …';
     btn.disabled = true;
     busy = false;
-    history = [];
+    chatHistory = [];
     messagesEl.innerHTML = '';
     sendBtn.disabled = false;
     document.getElementById('chat-overlay').style.display = 'none';
@@ -800,7 +800,7 @@
     updateHero('onboarding');
     document.getElementById('chat-overlay').style.display = 'none';
     currentNiche = 'onboarding';
-    history = []; pitched = false;
+    chatHistory = []; pitched = false;
     messagesEl.innerHTML = '';
     chipRow.style.display = 'none'; chipRow.innerHTML = '';
     var lf = document.getElementById('lead-form');
@@ -856,7 +856,7 @@
 
   function resetChat(niche) {
     currentNiche = niche;
-    history      = [];
+    chatHistory      = [];
     pitched      = false;
     messagesEl.innerHTML = '';
     chipRow.style.display = 'none';
@@ -893,7 +893,7 @@
 
     if (userText) {
       appendMsg(userText, 'user');
-      history.push({ role: 'user', content: userText });
+      chatHistory.push({ role: 'user', content: userText });
     }
 
     showTyping();
@@ -902,7 +902,7 @@
       var res = await fetch('/api/demo-chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: history, niche: currentNiche }),
+        body: JSON.stringify({ messages: chatHistory, niche: currentNiche }),
       });
       var data     = await res.json();
       var reply    = data.content || '';
@@ -913,7 +913,7 @@
       if (systemPrompt) {
         if (reply) {
           appendMsg(reply, 'bot');
-          history.push({ role: 'assistant', content: reply });
+          chatHistory.push({ role: 'assistant', content: reply });
         }
         setTimeout(function() {
           showSystemPrompt(systemPrompt);
@@ -930,10 +930,10 @@
 
       } else if (reply) {
         appendMsg(reply || (data.error || 'Kurze Panne — nochmal versuchen.'), 'bot');
-        history.push({ role: 'assistant', content: reply });
+        chatHistory.push({ role: 'assistant', content: reply });
 
         // Follow-up chips for followup scenario
-        if (currentNiche === 'followup' && history.length === 2) {
+        if (currentNiche === 'followup' && chatHistory.length === 2) {
           showChips(['📅 Nach Besichtigung', '🛒 Nach Kauf', '⭐ Bewertung anfragen']);
         }
 
@@ -950,7 +950,7 @@
           }, 800);
         }
 
-        if (history.length === 2 && typeof fbq !== 'undefined') {
+        if (chatHistory.length === 2 && typeof fbq !== 'undefined') {
           fbq('track', 'ViewContent', { content_name: 'ChatDemoStart_' + currentNiche });
         }
       }

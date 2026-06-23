@@ -568,7 +568,7 @@
   var spBookBtn     = document.getElementById('sp-book-btn');
   var modeBadge     = document.getElementById('wa-mode-badge');
 
-  var history      = [];
+  var chatHistory      = [];
   var busy         = false;
   var pitched      = false;
   var currentNiche = 'makler';
@@ -597,7 +597,7 @@
     btn.disabled = true;
     demoStarted = true;
     busy = false;
-    history = [];
+    chatHistory = [];
     messagesEl.innerHTML = '';
     sendBtn.disabled = false;
     overlay.style.display = 'none';
@@ -659,7 +659,7 @@
     if (lf) lf.style.display = 'none';
     document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
     currentNiche = 'onboarding';
-    history = []; pitched = false; demoStarted = false;
+    chatHistory = []; pitched = false; demoStarted = false;
     messagesEl.innerHTML = '';
     chipRow.style.display = 'none'; chipRow.innerHTML = '';
     inputEl.value = ''; inputEl.placeholder = PLACEHOLDERS.onboarding;
@@ -694,7 +694,7 @@
           phone:         phoneVal,
           source:        'makler_bot_' + currentNiche,
           system_prompt: spContent ? spContent.textContent : null,
-          conversation:  JSON.stringify(history),
+          conversation:  JSON.stringify(chatHistory),
         }),
       });
     } catch(e) {}
@@ -751,7 +751,7 @@
 
   function resetChat(niche) {
     currentNiche = niche;
-    history  = [];
+    chatHistory  = [];
     pitched  = false;
     messagesEl.innerHTML = '';
     chipRow.style.display = 'none';
@@ -785,7 +785,7 @@
 
     if (userText) {
       appendMsg(userText, 'user');
-      history.push({ role: 'user', content: userText });
+      chatHistory.push({ role: 'user', content: userText });
     }
 
     showTyping();
@@ -794,7 +794,7 @@
       var res = await fetch('/api/demo-chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: history, niche: currentNiche }),
+        body: JSON.stringify({ messages: chatHistory, niche: currentNiche }),
       });
       var data         = await res.json();
       var reply        = data.content || '';
@@ -804,7 +804,7 @@
       if (systemPrompt) {
         if (reply) {
           appendMsg(reply, 'bot');
-          history.push({ role: 'assistant', content: reply });
+          chatHistory.push({ role: 'assistant', content: reply });
         }
         setTimeout(function() {
           spContent.textContent = systemPrompt;
@@ -822,13 +822,13 @@
 
       } else if (reply) {
         appendMsg(reply || (data.error || 'Kurze Panne.'), 'bot');
-        history.push({ role: 'assistant', content: reply });
+        chatHistory.push({ role: 'assistant', content: reply });
 
-        if (currentNiche === 'makler' && history.length === 1 && !pitched) {
+        if (currentNiche === 'makler' && chatHistory.length === 1 && !pitched) {
           showChips(SUGGESTIONS, true);
         }
 
-        if (currentNiche === 'followup' && history.length === 2) {
+        if (currentNiche === 'followup' && chatHistory.length === 2) {
           showChips(['📅 Nach Besichtigung', '🛒 Nach Kauf', '⭐ Bewertung anfragen'], false);
         }
 
@@ -844,7 +844,7 @@
           }, 800);
         }
 
-        if (history.length === 2 && typeof fbq !== 'undefined') {
+        if (chatHistory.length === 2 && typeof fbq !== 'undefined') {
           fbq('track', 'ViewContent', { content_name: 'MaklerDemo_' + currentNiche });
         }
       }
