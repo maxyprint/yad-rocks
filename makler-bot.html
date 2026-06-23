@@ -710,12 +710,16 @@
     return new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
   }
 
+  function stripMd(text) {
+    return text.replace(/\*\*(.*?)\*\*/g, '$1').replace(/\*(.*?)\*/g, '$1');
+  }
+
   function appendMsg(text, role) {
     var typing = messagesEl.querySelector('.typing');
     if (typing) typing.remove();
     var el = document.createElement('div');
     el.className = 'msg ' + role;
-    el.textContent = text;
+    el.textContent = stripMd(text);
     var t = document.createElement('div');
     t.className = 'msg-time';
     t.textContent = now();

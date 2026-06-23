@@ -816,12 +816,16 @@
     return new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
   }
 
+  function stripMd(text) {
+    return text.replace(/\*\*(.*?)\*\*/g, '$1').replace(/\*(.*?)\*/g, '$1');
+  }
+
   function appendMsg(text, role) {
     var existing = messagesEl.querySelector('.typing');
     if (existing) existing.remove();
     var el = document.createElement('div');
     el.className = 'msg ' + role;
-    el.textContent = text;
+    el.textContent = stripMd(text);
     var time = document.createElement('div');
     time.className = 'msg-time';
     time.textContent = now();
