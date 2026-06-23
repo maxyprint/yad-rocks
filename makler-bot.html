@@ -244,6 +244,19 @@
       font-size: 0.8rem; color: var(--muted);
     }
 
+    /* SCENARIO TABS */
+    .scenario-tabs {
+      display: flex; gap: 0.45rem; flex-wrap: wrap; margin-bottom: 0.85rem;
+    }
+    .tab-btn {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+      color: #8696a0; font-size: 0.75rem; font-weight: 600;
+      padding: 0.4rem 0.9rem; border-radius: 999px; cursor: pointer;
+      font-family: var(--font); transition: all .2s; white-space: nowrap;
+    }
+    .tab-btn:hover { border-color: var(--green); color: var(--green); }
+    .tab-btn.active { background: rgba(37,211,102,0.12); border-color: var(--green); color: var(--green); }
+
     @media (max-width: 900px) {
       .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
       .demo-col { max-width: 420px; margin: 0 auto; width: 100%; }
@@ -260,7 +273,7 @@
 
 <nav>
   <div class="nav-logo">YAD<span>.</span></div>
-  <a href="/termin" class="nav-cta">Termin buchen</a>
+  <a href="/termin" class="nav-cta">Erstgespräch vereinbaren</a>
 </nav>
 
 <!-- HERO -->
@@ -291,13 +304,18 @@
       </div>
 
       <div class="hero-cta-row">
-        <a href="/termin" class="btn-green">Kostenloses Demo-Gespräch →</a>
+        <a href="/termin" class="btn-green">Erstgespräch vereinbaren →</a>
         <a href="#demo" class="btn-ghost">Live-Demo ansehen</a>
       </div>
     </div>
 
     <div class="demo-col" id="demo">
-      <p class="demo-label">Live-Demo — testen Sie jetzt</p>
+      <p class="demo-label">Live-Demo — alle Use-Cases testbar</p>
+      <div class="scenario-tabs" id="scenario-tabs">
+        <button class="tab-btn active" data-niche="makler">🎯 Lead qualifizieren</button>
+        <button class="tab-btn" data-niche="support">💬 Kunden-Support</button>
+        <button class="tab-btn" data-niche="followup">📩 Follow-up</button>
+      </div>
       <div class="wa-wrap">
         <div class="wa-header">
           <div class="wa-avatar">KI</div>
@@ -430,7 +448,7 @@
         <li>DSGVO-konform, Server Deutschland</li>
         <li>Änderungen & Anpassungen inklusive</li>
       </ul>
-      <a href="/termin" class="btn-block">Kostenloses 15-Min-Gespräch buchen</a>
+      <a href="/termin" class="btn-block">Erstgespräch vereinbaren →</a>
       <p class="price-trust">Monatlich kündbar · Kein Kleingedrucktes</p>
     </div>
   </div>
@@ -440,8 +458,8 @@
 <section class="final">
   <div class="container">
     <h2>Nie wieder einen<br><em>Interessenten verlieren</em></h2>
-    <p>15 Minuten Gespräch. Kein Verkaufsdruck. Danach wissen Sie genau, ob das für Sie passt.</p>
-    <a href="/termin" class="btn-green" style="display:inline-flex">Jetzt Termin buchen →</a>
+    <p>15 Minuten. Danach wissen Sie genau, ob das passt — und wie es weitergeht.</p>
+    <a href="/termin" class="btn-green" style="display:inline-flex">Erstgespräch vereinbaren →</a>
   </div>
 </section>
 
@@ -457,15 +475,45 @@
   const inputEl    = document.getElementById('chat-input');
   const sendBtn    = document.getElementById('chat-send');
 
-  let history  = [];
-  let busy     = false;
-  let pitched  = false;
+  let history      = [];
+  let busy         = false;
+  let pitched      = false;
+  let currentNiche = 'makler';
+
+  const PLACEHOLDERS = {
+    makler:   'Schreib als Kaufinteressent …',
+    support:  'Z.B.: "Wann habt ihr heute geöffnet?"',
+    followup: 'Antwort eingeben oder Szenario wählen …',
+  };
 
   const SUGGESTIONS = [
     'Hallo, ich hab eure Wohnung in München gesehen',
     'Ist das Objekt noch verfügbar?',
     'Ich interessiere mich für die Anzeige',
   ];
+
+  function resetChat(niche) {
+    currentNiche = niche;
+    history  = [];
+    pitched  = false;
+    messagesEl.innerHTML = '';
+    chipRow.style.display = 'none';
+    chipRow.innerHTML = '';
+    inputEl.value = '';
+    inputEl.placeholder = PLACEHOLDERS[niche] || 'Antworten Sie …';
+    sendBtn.disabled = false;
+    busy = false;
+    setTimeout(() => sendMessage(''), 400);
+  }
+
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (btn.dataset.niche === currentNiche) return;
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      resetChat(btn.dataset.niche);
+    });
+  });
 
   function now() {
     return new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
@@ -533,7 +581,7 @@
       const res = await fetch('/api/demo-chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: history, niche: 'makler' }),
+        body: JSON.stringify({ messages: history, niche: currentNiche }),
       });
       const data = await res.json();
       const reply    = data.content  || 'Kurze Unterbrechung — bitte nochmal versuchen.';
@@ -542,10 +590,27 @@
       await appendMsg(reply, 'bot');
       history.push({ role: 'assistant', content: reply });
 
-      // Nach erstem Bot-Message: Eingabe-Suggestions zeigen
-      if (history.length === 1 && !pitched) {
+      // Eingabe-Suggestions nur beim Lead-Szenario nach erstem Bot-Message
+      if (currentNiche === 'makler' && history.length === 1 && !pitched) {
         showSuggestions();
         inputEl.placeholder = 'Schreib als Kaufinteressent …';
+      }
+
+      // Follow-up Chips beim Follow-up Szenario
+      if (currentNiche === 'followup' && history.length === 2) {
+        chipRow.style.display = 'flex';
+        chipRow.innerHTML = '';
+        ['📅 Nach Besichtigung', '🛒 Nach Kauf', '⭐ Bewertung anfragen'].forEach(opt => {
+          const b = document.createElement('button');
+          b.className = 'chip';
+          b.textContent = opt;
+          b.onclick = () => {
+            chipRow.style.display = 'none';
+            chipRow.innerHTML = '';
+            sendMessage(opt);
+          };
+          chipRow.appendChild(b);
+        });
       }
 
       // Pitch als Follow-up mit kurzer Verzögerung
@@ -555,14 +620,13 @@
           showTyping();
           setTimeout(async () => {
             await appendMsg(followUp, 'bot');
-            inputEl.placeholder = 'Fragen? Ich antworte …';
             if (typeof fbq !== 'undefined') fbq('track', 'Lead');
           }, 1200);
         }, 800);
       }
 
       // Pixel events
-      if (history.length === 2 && typeof fbq !== 'undefined') fbq('track', 'ViewContent', { content_name: 'MaklerDemoStart' });
+      if (history.length === 2 && typeof fbq !== 'undefined') fbq('track', 'ViewContent', { content_name: 'MaklerDemoStart_' + currentNiche });
 
     } catch {
       const t = messagesEl.querySelector('.typing');
