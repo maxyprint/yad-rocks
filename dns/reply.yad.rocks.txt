@@ -1,0 +1,23 @@
+; BIND Zone File — reply.yad.rocks (Resend Inbound + DKIM/SPF)
+; Domain:  yad.rocks
+; Import:  Cloudflare Dashboard → DNS → Import DNS Records
+; Created: 2026-06-15
+
+$ORIGIN yad.rocks.
+$TTL 300
+
+; ── Inbound Receiving ──────────────────────────────────────────────────────
+; Emails sent to *@reply.yad.rocks are routed to Resend for webhook delivery
+
+reply                   300  IN  MX   10  inbound-smtp.eu-west-1.amazonaws.com.
+
+; ── DKIM Signing ───────────────────────────────────────────────────────────
+; Authenticates outbound emails sent via Resend through the reply subdomain
+
+resend._domainkey.reply 300  IN  TXT  "p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC02mljA3L/V8faQwlXN+mNjCxnEo9i4ier0PujNdcY272MQHIbNSiPMliRAKxbWDFzRK0sxBZ2m+18TnAWGupZ9tlxYd2VF88zez7tWe3gO3bEjSAozqem5s1EegtXpn4BjAdlCrS6+oEC/rxSbfTcd6SJ/YehT761LJUedt8Q7QIDAQAB"
+
+; ── SPF + Bounce Feedback ──────────────────────────────────────────────────
+; Bounce/complaint notifications routed back to Amazon SES feedback handler
+
+send.reply              300  IN  MX   10  feedback-smtp.eu-west-1.amazonses.com.
+send.reply              300  IN  TXT  "v=spf1 include:amazonses.com ~all"

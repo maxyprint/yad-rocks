@@ -2,6 +2,8 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
+    { "source": "/api/webhooks/stripe",        "destination": "/api/webhooks?type=stripe" },
+    { "source": "/api/webhooks/email-inbound", "destination": "/api/webhooks?type=email-inbound" },
     { "source": "/selbstcheck", "destination": "/selbstcheck.html" },
     { "source": "/bericht",     "destination": "/bericht.html"     },
     { "source": "/coldcall",    "destination": "/coldcall.html"    },
