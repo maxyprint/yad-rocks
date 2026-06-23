@@ -354,9 +354,24 @@
           </div>
           <pre id="sp-content" style="padding:0.7rem;font-size:0.7rem;color:#a8c8a8;line-height:1.6;white-space:pre-wrap;max-height:200px;overflow-y:auto;font-family:Menlo,Monaco,monospace"></pre>
         </div>
-        <button id="sp-book-btn" style="display:none;width:calc(100% - 1.2rem);margin:0 0.6rem 0.6rem;padding:0.65rem;border-radius:8px;border:none;background:var(--green);color:#000;font-weight:700;font-size:0.85rem;cursor:pointer;font-family:inherit" onclick="openBooking()">
-          📅 Erstgespräch buchen — jetzt verfeinern
-        </button>
+        <!-- Lead capture form (shown after system prompt) -->
+        <div id="lead-form" style="display:none">
+          <div style="padding:0.7rem 0.65rem 0;background:var(--wa-bg)">
+            <p style="font-size:0.75rem;color:#8696a0;line-height:1.5;margin-bottom:0.55rem">
+              <strong style="color:#e9edef">Damit wir loslegen können:</strong><br>
+              Setup startet erst nach dem Erstgespräch — so passt alles.
+            </p>
+            <input id="lead-name" type="text" placeholder="Dein Name *" autocomplete="name"
+              style="width:100%;background:var(--wa-input);border:none;border-radius:9px;padding:0.55rem 0.8rem;color:#e9edef;font-size:0.835rem;font-family:inherit;margin-bottom:0.35rem;outline:none">
+            <input id="lead-phone" type="tel" placeholder="WhatsApp / Telefon *" autocomplete="tel"
+              style="width:100%;background:var(--wa-input);border:none;border-radius:9px;padding:0.55rem 0.8rem;color:#e9edef;font-size:0.835rem;font-family:inherit;margin-bottom:0.45rem;outline:none">
+            <button id="lead-submit-btn" onclick="submitLead()"
+              style="width:100%;padding:0.7rem;border-radius:9px;border:none;background:var(--green);color:#000;font-weight:700;font-size:0.85rem;cursor:pointer;font-family:inherit;transition:opacity .2s">
+              Setup anfragen + Termin wählen →
+            </button>
+            <p id="lead-error" style="display:none;font-size:0.7rem;color:#ff6b6b;margin-top:0.35rem;text-align:center"></p>
+          </div>
+        </div>
 
         <!-- Post-pitch action row -->
         <div id="post-pitch-actions" style="display:none;flex-direction:column;gap:0.45rem;padding:0.65rem 0.65rem 0;background:var(--wa-bg)">
@@ -583,9 +598,47 @@
   function startOnboarding() {
     ppActions.style.display = 'none';
     spBox.style.display = 'none';
-    spBookBtn.style.display = 'none';
+    var lf = document.getElementById('lead-form');
+    if (lf) lf.style.display = 'none';
     document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
     resetChat('onboarding');
+  }
+
+  async function submitLead() {
+    var nameVal  = document.getElementById('lead-name').value.trim();
+    var phoneVal = document.getElementById('lead-phone').value.trim();
+    var errEl    = document.getElementById('lead-error');
+    var btn      = document.getElementById('lead-submit-btn');
+
+    errEl.style.display = 'none';
+    if (!nameVal || !phoneVal) {
+      errEl.textContent = 'Bitte Name und Telefonnummer ausfüllen.';
+      errEl.style.display = 'block';
+      return;
+    }
+
+    btn.textContent = 'Wird gespeichert …';
+    btn.disabled = true;
+
+    try {
+      await fetch('/api/save-lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name:          nameVal,
+          phone:         phoneVal,
+          source:        'makler_bot_' + currentNiche,
+          system_prompt: spContent ? spContent.textContent : null,
+          conversation:  JSON.stringify(history),
+        }),
+      });
+    } catch(e) {}
+
+    document.getElementById('lead-form').innerHTML =
+      '<div style="padding:0.7rem;background:var(--wa-bg);font-size:0.8rem;color:var(--green);font-weight:600;text-align:center">✓ Gespeichert! Jetzt Termin wählen …</div>';
+
+    if (typeof fbq !== 'undefined') fbq('track', 'Lead', { content_name: 'MaklerOnboardingLeadSubmitted' });
+    setTimeout(function() { openBooking(); }, 600);
   }
 
   function now() {
@@ -640,7 +693,8 @@
     chipRow.innerHTML = '';
     ppActions.style.display = 'none';
     spBox.style.display = 'none';
-    spBookBtn.style.display = 'none';
+    var lf = document.getElementById('lead-form');
+    if (lf) lf.style.display = 'none';
     inputEl.value = '';
     inputEl.placeholder = PLACEHOLDERS[niche] || 'Antworten Sie …';
     if (modeBadge) modeBadge.textContent = BADGES[niche] || 'Demo';
@@ -690,7 +744,8 @@
         setTimeout(function() {
           spContent.textContent = systemPrompt;
           spBox.style.display = 'block';
-          spBookBtn.style.display = 'block';
+          var lf = document.getElementById('lead-form');
+          if (lf) lf.style.display = 'block';
           if (followUp) {
             setTimeout(function() {
               showTyping();
