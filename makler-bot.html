@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WhatsApp KI-Assistent für Immobilienmakler | YAD</title>
+  <meta name="description" content="Qualifiziert Kaufinteressenten automatisch via WhatsApp — Budget, Finanzierung, Zeitrahmen — bevor Sie auch nur eine Minute investieren. 24/7, in Ihrem Namen.">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','1419975432380195');fbq('track','PageView');</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0a;
+      --bg2: #111111;
+      --bg3: #161616;
+      --border: #222222;
+      --text: #ffffff;
+      --muted: #888888;
+      --green: #25D366;
+      --green-dark: #128C7E;
+      --green-glow: rgba(37,211,102,0.12);
+      --wa-bg: #0b141a;
+      --wa-header: #202c33;
+      --wa-bot: #202c33;
+      --wa-user: #005c4b;
+      --wa-input: #2a3942;
+      --radius: 14px;
+      --font: 'Inter', -apple-system, sans-serif;
+    }
+
+    html { background: var(--bg); scroll-behavior: smooth; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem; height: 64px;
+      background: rgba(10,10,10,0.9); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-size: 1.25rem; font-weight: 800; letter-spacing: -0.02em; }
+    .nav-logo span { color: var(--green); }
+    .nav-cta {
+      background: var(--green); color: #000; font-weight: 700; font-size: 0.85rem;
+      padding: 0.55rem 1.2rem; border-radius: 8px; transition: opacity .2s;
+    }
+    .nav-cta:hover { opacity: 0.88; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center;
+      padding: 100px 1.5rem 5rem;
+      background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(37,211,102,0.07), transparent);
+    }
+    .hero-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 420px; gap: 5rem; align-items: center;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--green-glow); border: 1px solid rgba(37,211,102,0.25);
+      color: var(--green); font-size: 0.75rem; font-weight: 600;
+      padding: 0.4rem 1rem; border-radius: 999px; margin-bottom: 1.5rem;
+      letter-spacing: 0.05em; text-transform: uppercase;
+    }
+    .hero-badge::before { content: ''; width: 7px; height: 7px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; flex-shrink: 0; }
+    @keyframes pulse { 0%,100%{opacity:1}50%{opacity:.3} }
+
+    h1 {
+      font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 800;
+      letter-spacing: -0.03em; line-height: 1.08; margin-bottom: 1.25rem;
+    }
+    h1 em { font-style: normal; color: var(--green); }
+
+    .hero-sub {
+      font-size: 1.05rem; color: var(--muted); line-height: 1.7;
+      margin-bottom: 2rem; max-width: 480px;
+    }
+    .hero-sub strong { color: var(--text); }
+
+    .stat-row { display: flex; gap: 2rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
+    .stat { }
+    .stat-num { font-size: 2rem; font-weight: 800; color: var(--green); letter-spacing: -0.03em; line-height: 1; }
+    .stat-label { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; }
+
+    .hero-cta-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+    .btn-green {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: var(--green); color: #000; font-weight: 700; font-size: 0.95rem;
+      padding: 0.9rem 1.75rem; border-radius: 10px; transition: opacity .2s;
+    }
+    .btn-green:hover { opacity: 0.88; }
+    .btn-ghost {
+      font-size: 0.88rem; color: var(--muted); text-decoration: underline; text-underline-offset: 3px;
+    }
+    .btn-ghost:hover { color: var(--text); }
+
+    /* DEMO WIDGET */
+    .demo-col { position: relative; }
+    .demo-label {
+      text-align: center; font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem;
+    }
+    .wa-wrap {
+      border-radius: 20px; overflow: hidden;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.06), 0 32px 80px rgba(0,0,0,0.6), 0 0 80px rgba(37,211,102,0.07);
+    }
+    .wa-header {
+      background: var(--wa-header); padding: 0.75rem 1rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .wa-avatar {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--green), var(--green-dark));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 800; color: #000; flex-shrink: 0;
+    }
+    .wa-name { display: block; font-size: 0.88rem; font-weight: 600; color: #e9edef; }
+    .wa-status { display: flex; align-items: center; gap: 0.35rem; font-size: 0.7rem; color: #8696a0; margin-top: 1px; }
+    .wa-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; }
+
+    .wa-messages {
+      background: var(--wa-bg); min-height: 300px; max-height: 360px;
+      overflow-y: auto; padding: 1rem; display: flex; flex-direction: column; gap: 0.55rem;
+    }
+    .wa-messages::-webkit-scrollbar { width: 3px; }
+    .wa-messages::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 3px; }
+
+    .msg {
+      max-width: 86%; padding: 0.55rem 0.8rem; border-radius: 10px;
+      font-size: 0.84rem; line-height: 1.55; white-space: pre-wrap; word-break: break-word;
+      animation: msgIn .2s ease;
+    }
+    @keyframes msgIn { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:none} }
+    .msg.bot { background: var(--wa-bot); color: #e9edef; align-self: flex-start; border-bottom-left-radius: 2px; }
+    .msg.user { background: var(--wa-user); color: #e9edef; align-self: flex-end; border-bottom-right-radius: 2px; }
+    .msg-time { font-size: 0.63rem; color: #8696a0; margin-top: 0.2rem; text-align: right; }
+
+    .typing { display: flex; gap: 4px; padding: 0.7rem 0.9rem; background: var(--wa-bot); border-radius: 10px; border-bottom-left-radius: 2px; align-self: flex-start; width: fit-content; }
+    .typing span { width: 7px; height: 7px; background: #8696a0; border-radius: 50%; animation: bounce 1.2s infinite; }
+    .typing span:nth-child(2) { animation-delay: .2s; }
+    .typing span:nth-child(3) { animation-delay: .4s; }
+    @keyframes bounce { 0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)} }
+
+    .wa-input-row {
+      background: var(--wa-header); padding: 0.6rem 0.7rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    #chat-input {
+      flex: 1; background: var(--wa-input); border: none; outline: none;
+      border-radius: 24px; padding: 0.55rem 1rem; color: #e9edef;
+      font-size: 0.85rem; font-family: var(--font);
+    }
+    #chat-input::placeholder { color: #8696a0; }
+    #chat-send {
+      width: 38px; height: 38px; border-radius: 50%; border: none;
+      background: var(--green); color: #000; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      transition: opacity .2s;
+    }
+    #chat-send:hover { opacity: 0.85; }
+    #chat-send:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0.5rem 0.75rem 0.65rem; background: var(--wa-bg); }
+    .chip {
+      background: transparent; border: 1px solid rgba(37,211,102,0.4);
+      color: var(--green); font-size: 0.77rem; font-weight: 500;
+      padding: 0.3rem 0.7rem; border-radius: 999px; cursor: pointer;
+      font-family: var(--font); transition: background .15s;
+    }
+    .chip:hover { background: var(--green-glow); }
+
+    /* PAIN SECTION */
+    .pain { background: var(--bg2); padding: 5rem 1.5rem; }
+    .container { max-width: 1000px; margin: 0 auto; }
+    .section-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); margin-bottom: 0.75rem; }
+    .section-title { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; letter-spacing: -0.025em; line-height: 1.12; margin-bottom: 1rem; }
+    .section-sub { color: var(--muted); font-size: 1rem; line-height: 1.65; }
+
+    .pain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-top: 2.5rem; }
+    .pain-card {
+      background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem;
+    }
+    .pain-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
+    .pain-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .pain-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+
+    /* HOW */
+    .how { padding: 5rem 1.5rem; }
+    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; margin-top: 2.5rem; }
+    .step-num { font-size: 2.75rem; font-weight: 800; color: var(--green); opacity: 0.2; line-height: 1; margin-bottom: 0.6rem; }
+    .step h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .step p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+
+    /* WHAT BOT DOES */
+    .features { background: var(--bg2); padding: 5rem 1.5rem; }
+    .feat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-top: 2.5rem; }
+    .feat-card {
+      background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem;
+      display: flex; flex-direction: column; gap: 0.6rem;
+    }
+    .feat-check { color: var(--green); font-size: 1.1rem; }
+    .feat-card h3 { font-size: 1rem; font-weight: 700; }
+    .feat-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+
+    /* PRICING */
+    .pricing { padding: 5rem 1.5rem; text-align: center; }
+    .pricing-card {
+      max-width: 460px; margin: 2.5rem auto 0;
+      background: var(--bg2); border: 1px solid rgba(37,211,102,0.3);
+      border-radius: 20px; padding: 2.5rem;
+      box-shadow: 0 0 60px rgba(37,211,102,0.06);
+    }
+    .price-tag { font-size: 3rem; font-weight: 800; letter-spacing: -0.04em; }
+    .price-tag span { font-size: 1rem; font-weight: 400; color: var(--muted); }
+    .price-note { font-size: 0.82rem; color: var(--muted); margin: 0.3rem 0 2rem; }
+    .price-list { list-style: none; margin-bottom: 2rem; display: flex; flex-direction: column; gap: 0.65rem; text-align: left; }
+    .price-list li { font-size: 0.9rem; display: flex; align-items: center; gap: 0.6rem; }
+    .price-list li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; }
+    .btn-block {
+      display: block; width: 100%; padding: 1rem; border-radius: 12px;
+      background: var(--green); color: #000; font-size: 1rem; font-weight: 700;
+      font-family: var(--font); border: none; cursor: pointer; text-align: center;
+      transition: opacity .2s;
+    }
+    .btn-block:hover { opacity: 0.88; }
+    .price-trust { font-size: 0.78rem; color: var(--muted); margin-top: 1rem; }
+
+    /* FINAL CTA */
+    .final { padding: 6rem 1.5rem; text-align: center; background: var(--bg2); }
+    .final h2 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 1rem; }
+    .final h2 em { font-style: normal; color: var(--green); }
+    .final p { color: var(--muted); font-size: 1rem; margin-bottom: 2.5rem; }
+
+    footer {
+      border-top: 1px solid var(--border); padding: 1.5rem;
+      display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;
+      font-size: 0.8rem; color: var(--muted);
+    }
+
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .demo-col { max-width: 420px; margin: 0 auto; width: 100%; }
+      .hero { padding: 90px 1.25rem 4rem; }
+      .stat-row { gap: 1.5rem; }
+    }
+    @media (max-width: 480px) {
+      nav { padding: 0 1rem; }
+      .wa-messages { min-height: 240px; max-height: 300px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">YAD<span>.</span></div>
+  <a href="/termin" class="nav-cta">Termin buchen</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-badge">Für Immobilienmakler · DACH · 2026</div>
+      <h1>Ihr Interessent fragt<br>an — Ihr Bot <em>qualifiziert</em><br>in 60 Sekunden</h1>
+      <p class="hero-sub">
+        Budget geprüft. Finanzierung bestätigt. Zeitrahmen geklärt.<br>
+        <strong>Bevor Sie auch nur eine Minute investiert haben.</strong><br><br>
+        Automatisch via WhatsApp — 24/7, in Ihrem Namen.
+      </p>
+
+      <div class="stat-row">
+        <div class="stat">
+          <div class="stat-num">&lt;60s</div>
+          <div class="stat-label">Reaktionszeit Ihres Bots</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">24/7</div>
+          <div class="stat-label">Auch nachts & am Wochenende</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">2–3 Wo.</div>
+          <div class="stat-label">Bis zur vollständigen Umstellung</div>
+        </div>
+      </div>
+
+      <div class="hero-cta-row">
+        <a href="/termin" class="btn-green">Kostenloses Demo-Gespräch →</a>
+        <a href="#demo" class="btn-ghost">Live-Demo ansehen</a>
+      </div>
+    </div>
+
+    <div class="demo-col" id="demo">
+      <p class="demo-label">Live-Demo — testen Sie jetzt</p>
+      <div class="wa-wrap">
+        <div class="wa-header">
+          <div class="wa-avatar">KI</div>
+          <div>
+            <span class="wa-name">Ihr WhatsApp-Assistent</span>
+            <span class="wa-status"><span class="wa-dot"></span>Online</span>
+          </div>
+        </div>
+        <div class="wa-messages" id="chat-messages"></div>
+        <div class="chips" id="chip-row" style="display:none"></div>
+        <div class="wa-input-row">
+          <input type="text" id="chat-input" placeholder="Antworten Sie …" autocomplete="off">
+          <button id="chat-send" aria-label="Senden">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PAIN -->
+<section class="pain">
+  <div class="container">
+    <p class="section-label">Das Problem</p>
+    <h2 class="section-title">Jede Stunde ohne Antwort<br>kostet Sie einen Auftrag</h2>
+    <p class="section-sub">Kaufinteressenten schreiben gleichzeitig bei 3–5 Maklern an. Wer zuerst antwortet und qualifiziert, bekommt den Auftrag.</p>
+
+    <div class="pain-grid">
+      <div class="pain-card">
+        <div class="pain-icon">⏳</div>
+        <h3>Sie antworten zu spät</h3>
+        <p>Beim Notar, im Kundengespräch, nach Feierabend — Interessenten warten nicht. Sie schreiben dem nächsten.</p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">🎯</div>
+        <h3>Schlechte Leads fressen Zeit</h3>
+        <p>30 Minuten Gespräch mit jemandem ohne Finanzierung oder Budget — das passiert täglich. Ihr Bot filtert das vorab.</p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">🌙</div>
+        <h3>Wochenende & Abend = Lücke</h3>
+        <p>Die meisten ImmoScout-Anfragen kommen abends und am Wochenende — genau dann, wenn Sie nicht erreichbar sind.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+  <div class="container">
+    <p class="section-label">Was der Bot erledigt</p>
+    <h2 class="section-title">Vollständig qualifiziert.<br>Bevor Sie dran gehen.</h2>
+
+    <div class="feat-grid">
+      <div class="feat-card">
+        <div class="feat-check">✓</div>
+        <h3>Sofortantwort in unter 60 Sekunden</h3>
+        <p>Jede Anfrage von ImmoScout, Immowelt oder Ihrer Website wird sofort beantwortet — in Ihrer Sprache, mit Ihrem Namen.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-check">✓</div>
+        <h3>Budget & Finanzierung prüfen</h3>
+        <p>Der Bot fragt natürlich nach Kaufbudget, Eigenkapital und ob eine Bankzusage vorliegt — ohne aufdringlich zu wirken.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-check">✓</div>
+        <h3>Besichtigungstermin vereinbaren</h3>
+        <p>Qualifizierte Interessenten bekommen direkt Terminvorschläge. Sie sehen nur echte Termine im Kalender.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-check">✓</div>
+        <h3>Google-Bewertungen sammeln</h3>
+        <p>Nach erfolgreichem Abschluss fragt der Bot automatisch nach einer Bewertung — mit direktem Link, zur richtigen Zeit.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-check">✓</div>
+        <h3>Vollständiges Qualifizierungsprotokoll</h3>
+        <p>Sie sehen für jeden Interessenten: Budget, Finanzierungsstatus, gesuchte Lage, Zeitrahmen — alles auf einen Blick.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-check">✓</div>
+        <h3>DSGVO-konform, Server in Deutschland</h3>
+        <p>Alle Daten bleiben in Deutschland. Kein US-Cloud-Anbieter. Datenschutzerklärung inklusive.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW -->
+<section class="how">
+  <div class="container">
+    <p class="section-label">So läuft's ab</p>
+    <h2 class="section-title">In 3 Schritten live</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>15-Minuten-Gespräch</h3>
+        <p>Wir verstehen Ihren Stil, Ihre typischen Interessenten, Ihre Objekte. Keine Technik, nur Ihr Geschäft.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>Wir richten alles ein</h3>
+        <p>Setup dauert 2–3 Wochen. Sie müssen nichts installieren, nichts konfigurieren — wir übernehmen alles.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>Bot qualifiziert, Sie abschließen</h3>
+        <p>Ab jetzt landen nur noch vorqualifizierte Interessenten mit bestätigtem Budget bei Ihnen. Kein Zeitverlust mehr.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing">
+  <div class="container">
+    <p class="section-label">Investition</p>
+    <h2 class="section-title">Weniger als ein verlorener Auftrag</h2>
+    <div class="pricing-card">
+      <div class="price-tag">€499 <span>/ Monat</span></div>
+      <p class="price-note">Setup inklusive · Monatlich kündbar · Keine Mindestlaufzeit</p>
+      <ul class="price-list">
+        <li>WhatsApp Business Integration (offiziell)</li>
+        <li>Unlimitierte Konversationen & Qualifizierungen</li>
+        <li>Lead-Protokoll mit Budget & Finanzierungsstatus</li>
+        <li>Automatische Terminbuchung</li>
+        <li>Google-Bewertungsanfragen nach Abschluss</li>
+        <li>Individuell auf Ihr Büro & Ihre Objekte trainiert</li>
+        <li>DSGVO-konform, Server Deutschland</li>
+        <li>Änderungen & Anpassungen inklusive</li>
+      </ul>
+      <a href="/termin" class="btn-block">Kostenloses 15-Min-Gespräch buchen</a>
+      <p class="price-trust">Kein Risiko · Monatlich kündbar · Kein Kleingedrucktes</p>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final">
+  <div class="container">
+    <h2>Nie wieder einen<br><em>Interessenten verlieren</em></h2>
+    <p>15 Minuten Gespräch. Kein Verkaufsdruck. Danach wissen Sie genau, ob das für Sie passt.</p>
+    <a href="/termin" class="btn-green" style="display:inline-flex">Jetzt Termin buchen →</a>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 YAD</span>
+  <a href="/impressum">Impressum</a>
+  <a href="/datenschutz">Datenschutz</a>
+</footer>
+
+<script>
+  const messagesEl = document.getElementById('chat-messages');
+  const chipRow    = document.getElementById('chip-row');
+  const inputEl   = document.getElementById('chat-input');
+  const sendBtn   = document.getElementById('chat-send');
+
+  let history = [];
+  let busy    = false;
+
+  function now() {
+    return new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+  }
+
+  function appendMsg(text, role) {
+    const typing = messagesEl.querySelector('.typing');
+    if (typing) typing.remove();
+
+    const el = document.createElement('div');
+    el.className = 'msg ' + role;
+    el.textContent = text;
+
+    const t = document.createElement('div');
+    t.className = 'msg-time';
+    t.textContent = now();
+    el.appendChild(t);
+
+    messagesEl.appendChild(el);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  function showTyping() {
+    const el = document.createElement('div');
+    el.className = 'typing';
+    el.innerHTML = '<span></span><span></span><span></span>';
+    messagesEl.appendChild(el);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  function showChips(opts) {
+    chipRow.style.display = 'flex';
+    chipRow.innerHTML = '';
+    opts.forEach(o => {
+      const b = document.createElement('button');
+      b.className = 'chip';
+      b.textContent = o;
+      b.onclick = () => {
+        chipRow.style.display = 'none';
+        sendMessage(o);
+      };
+      chipRow.appendChild(b);
+    });
+  }
+
+  async function sendMessage(userText) {
+    if (busy) return;
+    busy = true;
+    sendBtn.disabled = true;
+
+    if (userText) {
+      appendMsg(userText, 'user');
+      history.push({ role: 'user', content: userText });
+    }
+
+    showTyping();
+
+    try {
+      const res = await fetch('/api/demo-chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: history, niche: 'makler' }),
+      });
+      const data = await res.json();
+      const reply = data.content || 'Kurze Unterbrechung — bitte nochmal versuchen.';
+
+      appendMsg(reply, 'bot');
+      history.push({ role: 'assistant', content: reply });
+
+      // Quick-reply nach dem ersten Bot-Post
+      if (history.length === 1) {
+        showChips(['Los', 'Zeig mir die Demo']);
+      }
+
+      // Pixel events
+      if (history.length === 2 && typeof fbq !== 'undefined') fbq('track', 'ViewContent', { content_name: 'MaklerDemoStart' });
+      if (history.length >= 6 && typeof fbq !== 'undefined') fbq('track', 'Lead');
+
+    } catch {
+      const t = messagesEl.querySelector('.typing');
+      if (t) t.remove();
+      appendMsg('Kurze Unterbrechung — bitte nochmal versuchen.', 'bot');
+    }
+
+    busy = false;
+    sendBtn.disabled = false;
+    inputEl.focus();
+  }
+
+  inputEl.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      const v = inputEl.value.trim();
+      if (v) { inputEl.value = ''; sendMessage(v); }
+    }
+  });
+
+  sendBtn.addEventListener('click', () => {
+    const v = inputEl.value.trim();
+    if (v) { inputEl.value = ''; sendMessage(v); }
+  });
+
+  // Autostart
+  window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => sendMessage(''), 700);
+  });
+</script>
+
+</body>
+</html>
