@@ -454,31 +454,41 @@
 <script>
   const messagesEl = document.getElementById('chat-messages');
   const chipRow    = document.getElementById('chip-row');
-  const inputEl   = document.getElementById('chat-input');
-  const sendBtn   = document.getElementById('chat-send');
+  const inputEl    = document.getElementById('chat-input');
+  const sendBtn    = document.getElementById('chat-send');
 
-  let history = [];
-  let busy    = false;
+  let history  = [];
+  let busy     = false;
+  let pitched  = false;
+
+  const SUGGESTIONS = [
+    'Hallo, ich hab eure Wohnung in München gesehen',
+    'Ist das Objekt noch verfügbar?',
+    'Ich interessiere mich für die Anzeige',
+  ];
 
   function now() {
     return new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
   }
 
-  function appendMsg(text, role) {
-    const typing = messagesEl.querySelector('.typing');
-    if (typing) typing.remove();
+  function appendMsg(text, role, delay = 0) {
+    return new Promise(resolve => setTimeout(() => {
+      const typing = messagesEl.querySelector('.typing');
+      if (typing) typing.remove();
 
-    const el = document.createElement('div');
-    el.className = 'msg ' + role;
-    el.textContent = text;
+      const el = document.createElement('div');
+      el.className = 'msg ' + role;
+      el.textContent = text;
 
-    const t = document.createElement('div');
-    t.className = 'msg-time';
-    t.textContent = now();
-    el.appendChild(t);
+      const t = document.createElement('div');
+      t.className = 'msg-time';
+      t.textContent = now();
+      el.appendChild(t);
 
-    messagesEl.appendChild(el);
-    messagesEl.scrollTop = messagesEl.scrollHeight;
+      messagesEl.appendChild(el);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+      resolve();
+    }, delay));
   }
 
   function showTyping() {
@@ -489,16 +499,18 @@
     messagesEl.scrollTop = messagesEl.scrollHeight;
   }
 
-  function showChips(opts) {
+  function showSuggestions() {
     chipRow.style.display = 'flex';
     chipRow.innerHTML = '';
-    opts.forEach(o => {
+    SUGGESTIONS.forEach(s => {
       const b = document.createElement('button');
       b.className = 'chip';
-      b.textContent = o;
+      b.textContent = s;
       b.onclick = () => {
         chipRow.style.display = 'none';
-        sendMessage(o);
+        chipRow.innerHTML = '';
+        inputEl.value = s;
+        inputEl.focus();
       };
       chipRow.appendChild(b);
     });
@@ -508,6 +520,7 @@
     if (busy) return;
     busy = true;
     sendBtn.disabled = true;
+    chipRow.style.display = 'none';
 
     if (userText) {
       appendMsg(userText, 'user');
@@ -523,19 +536,33 @@
         body: JSON.stringify({ messages: history, niche: 'makler' }),
       });
       const data = await res.json();
-      const reply = data.content || 'Kurze Unterbrechung — bitte nochmal versuchen.';
+      const reply    = data.content  || 'Kurze Unterbrechung — bitte nochmal versuchen.';
+      const followUp = data.followUp || null;
 
-      appendMsg(reply, 'bot');
+      await appendMsg(reply, 'bot');
       history.push({ role: 'assistant', content: reply });
 
-      // Quick-reply nach dem ersten Bot-Post
-      if (history.length === 1) {
-        showChips(['Los', 'Zeig mir die Demo']);
+      // Nach erstem Bot-Message: Eingabe-Suggestions zeigen
+      if (history.length === 1 && !pitched) {
+        showSuggestions();
+        inputEl.placeholder = 'Schreib als Kaufinteressent …';
+      }
+
+      // Pitch als Follow-up mit kurzer Verzögerung
+      if (followUp && !pitched) {
+        pitched = true;
+        setTimeout(() => {
+          showTyping();
+          setTimeout(async () => {
+            await appendMsg(followUp, 'bot');
+            inputEl.placeholder = 'Fragen? Ich antworte …';
+            if (typeof fbq !== 'undefined') fbq('track', 'Lead');
+          }, 1200);
+        }, 800);
       }
 
       // Pixel events
       if (history.length === 2 && typeof fbq !== 'undefined') fbq('track', 'ViewContent', { content_name: 'MaklerDemoStart' });
-      if (history.length >= 6 && typeof fbq !== 'undefined') fbq('track', 'Lead');
 
     } catch {
       const t = messagesEl.querySelector('.typing');
@@ -561,7 +588,6 @@
     if (v) { inputEl.value = ''; sendMessage(v); }
   });
 
-  // Autostart
   window.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => sendMessage(''), 700);
   });

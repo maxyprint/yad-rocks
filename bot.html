@@ -416,25 +416,22 @@
 
   let history = [];
   let busy    = false;
+  let pitched = false;
 
   function now() {
     return new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
   }
 
   function appendMsg(text, role) {
-    // Remove typing indicator if present
     const existing = messagesEl.querySelector('.typing');
     if (existing) existing.remove();
-
     const el = document.createElement('div');
     el.className = 'msg ' + role;
     el.textContent = text;
-
     const time = document.createElement('div');
     time.className = 'msg-time';
     time.textContent = now();
     el.appendChild(time);
-
     messagesEl.appendChild(el);
     messagesEl.scrollTop = messagesEl.scrollHeight;
   }
@@ -447,7 +444,7 @@
     messagesEl.scrollTop = messagesEl.scrollHeight;
   }
 
-  function showChips(options) {
+  function showChips(options, sendOnClick = true) {
     chipRow.style.display = 'flex';
     chipRow.innerHTML = '';
     options.forEach(opt => {
@@ -457,27 +454,22 @@
       btn.onclick = () => {
         chipRow.style.display = 'none';
         chipRow.innerHTML = '';
-        sendMessage(opt);
+        if (sendOnClick) {
+          sendMessage(opt);
+        } else {
+          inputEl.value = opt;
+          inputEl.focus();
+        }
       };
       chipRow.appendChild(btn);
     });
-  }
-
-  function extractChips(text) {
-    // Detect industry selection prompt
-    if (text.includes('Gastronomie') && text.includes('Handwerk')) {
-      return ['🍽 Gastronomie', '🔧 Handwerk', '💇 Beauty & Wellness', '🏠 Immobilien', '📋 Anderes'];
-    }
-    if (text.includes('Google-Bewertung') && text.includes('bittet')) {
-      return ['✅ Ja, zeig mir das', '➡ Nein, weiter'];
-    }
-    return null;
   }
 
   async function sendMessage(userText) {
     if (busy) return;
     busy = true;
     sendBtn.disabled = true;
+    chipRow.style.display = 'none';
 
     if (userText) {
       appendMsg(userText, 'user');
@@ -492,25 +484,39 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ messages: history }),
       });
-      const data = await res.json();
-      const reply = data.content || data.error || 'Entschuldigung, kurze Panne. Versuch nochmal.';
+      const data  = await res.json();
+      const reply = data.content || data.error || 'Kurze Panne — versuch nochmal.';
+      const followUp = data.followUp || null;
 
       appendMsg(reply, 'bot');
       history.push({ role: 'assistant', content: reply });
 
-      // Show quick-reply chips if appropriate
-      const chips = extractChips(reply);
-      if (chips) showChips(chips);
+      // Branchen-Chips nach erster Nachricht
+      if (history.length === 1) {
+        showChips(['🍽 Gastronomie', '🔧 Handwerk', '💇 Beauty & Wellness', '🏠 Immobilien', '📋 Anderes']);
+      }
 
-      // Track first interaction
-      if (history.length === 2) {
-        if (typeof fbq !== 'undefined') fbq('track', 'ViewContent', { content_name: 'ChatDemoStart' });
+      // Nach Branchenwahl: Kunden-Suggestions als Eingabe-Hilfe
+      const branchenKeywords = ['gastronomie','handwerk','beauty','immobilien','anderes','wellness'];
+      if (history.length === 3 && branchenKeywords.some(k => history[2]?.content?.toLowerCase().includes(k))) {
+        inputEl.placeholder = 'Schreib als Kunde …';
       }
-      // Track after pitch (message 7+)
-      if (history.length >= 7) {
-        if (typeof fbq !== 'undefined') fbq('track', 'Lead');
+
+      // Pitch-Follow-up
+      if (followUp && !pitched) {
+        pitched = true;
+        setTimeout(() => {
+          showTyping();
+          setTimeout(() => {
+            appendMsg(followUp, 'bot');
+            if (typeof fbq !== 'undefined') fbq('track', 'Lead');
+          }, 1200);
+        }, 800);
       }
-    } catch (e) {
+
+      if (history.length === 2 && typeof fbq !== 'undefined') fbq('track', 'ViewContent', { content_name: 'ChatDemoStart' });
+
+    } catch {
       const t = messagesEl.querySelector('.typing');
       if (t) t.remove();
       appendMsg('Kurze Unterbrechung — bitte nochmal versuchen.', 'bot');
@@ -521,7 +527,6 @@
     inputEl.focus();
   }
 
-  // Send on Enter
   inputEl.addEventListener('keydown', e => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -535,7 +540,6 @@
     if (v) { inputEl.value = ''; sendMessage(v); }
   });
 
-  // Auto-start: bot sends first message
   window.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => sendMessage(''), 600);
   });
