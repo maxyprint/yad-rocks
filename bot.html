@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WhatsApp KI-Mitarbeiter für Ihr Unternehmen | YAD</title>
+  <meta name="description" content="Qualifiziert Leads, bucht Termine und sammelt Google-Bewertungen — vollautomatisch via WhatsApp. 24/7, in Ihrem Namen. Setup in 2–3 Wochen.">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','1419975432380195');fbq('track','PageView');</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0a;
+      --bg2: #111111;
+      --bg3: #161616;
+      --border: #222222;
+      --text: #ffffff;
+      --muted: #888888;
+      --green: #25D366;
+      --green-dark: #128C7E;
+      --green-glow: rgba(37,211,102,0.12);
+      --wa-bg: #0b141a;
+      --wa-header: #202c33;
+      --wa-bot: #202c33;
+      --wa-user: #005c4b;
+      --wa-input: #2a3942;
+      --radius: 14px;
+      --font: 'Inter', -apple-system, sans-serif;
+    }
+
+    html { background: var(--bg); scroll-behavior: smooth; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem; height: 64px;
+      background: rgba(10,10,10,0.85); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-size: 1.25rem; font-weight: 800; letter-spacing: -0.02em; }
+    .nav-logo span { color: var(--green); }
+    .nav-cta {
+      background: var(--green); color: #000; font-weight: 700; font-size: 0.85rem;
+      padding: 0.55rem 1.2rem; border-radius: 8px; border: none; cursor: pointer;
+      transition: opacity .2s;
+    }
+    .nav-cta:hover { opacity: 0.88; }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 100px 1.5rem 4rem; text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--green-glow); border: 1px solid rgba(37,211,102,0.25);
+      color: var(--green); font-size: 0.78rem; font-weight: 600;
+      padding: 0.4rem 1rem; border-radius: 999px; margin-bottom: 1.75rem;
+      letter-spacing: 0.04em; text-transform: uppercase;
+    }
+    .hero-badge::before { content: ''; width: 7px; height: 7px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+    h1 {
+      font-size: clamp(2.4rem, 6vw, 4.5rem); font-weight: 800;
+      letter-spacing: -0.03em; line-height: 1.08; margin-bottom: 1.25rem;
+      max-width: 800px;
+    }
+    h1 em { font-style: normal; color: var(--green); }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.2rem); color: var(--muted); font-weight: 400;
+      max-width: 540px; line-height: 1.65; margin-bottom: 2.5rem;
+    }
+
+    /* ─── PILLS ─── */
+    .pills { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; margin-bottom: 3rem; }
+    .pill {
+      background: var(--bg2); border: 1px solid var(--border);
+      font-size: 0.82rem; font-weight: 500; color: var(--muted);
+      padding: 0.45rem 1rem; border-radius: 999px;
+    }
+    .pill strong { color: var(--green); font-weight: 600; }
+
+    /* ─── DEMO LABEL ─── */
+    .demo-label {
+      font-size: 0.78rem; font-weight: 600; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.08em;
+      margin-bottom: 1rem;
+    }
+
+    /* ─── WHATSAPP CHAT ─── */
+    .wa-wrap {
+      width: 100%; max-width: 420px;
+      border-radius: 20px; overflow: hidden;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.06), 0 32px 80px rgba(0,0,0,0.7), 0 0 60px rgba(37,211,102,0.08);
+    }
+    .wa-header {
+      background: var(--wa-header); padding: 0.75rem 1rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .wa-avatar {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--green), var(--green-dark));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; font-weight: 700; color: #000; flex-shrink: 0;
+    }
+    .wa-info { flex: 1; }
+    .wa-name { display: block; font-size: 0.9rem; font-weight: 600; color: #e9edef; }
+    .wa-status { display: flex; align-items: center; gap: 0.35rem; font-size: 0.72rem; color: #8696a0; margin-top: 1px; }
+    .wa-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; }
+
+    .wa-messages {
+      background: var(--wa-bg); min-height: 320px; max-height: 380px;
+      overflow-y: auto; padding: 1rem; display: flex; flex-direction: column; gap: 0.6rem;
+      scroll-behavior: smooth;
+    }
+    .wa-messages::-webkit-scrollbar { width: 3px; }
+    .wa-messages::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+
+    .msg {
+      max-width: 85%; padding: 0.6rem 0.85rem; border-radius: 10px;
+      font-size: 0.855rem; line-height: 1.55; white-space: pre-wrap;
+      word-break: break-word; animation: msgIn .25s ease;
+    }
+    @keyframes msgIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
+    .msg.bot { background: var(--wa-bot); color: #e9edef; align-self: flex-start; border-bottom-left-radius: 2px; }
+    .msg.user { background: var(--wa-user); color: #e9edef; align-self: flex-end; border-bottom-right-radius: 2px; }
+    .msg-time { font-size: 0.65rem; color: #8696a0; margin-top: 0.25rem; text-align: right; }
+
+    .typing { display: flex; gap: 4px; padding: 0.75rem 1rem; background: var(--wa-bot); border-radius: 10px; border-bottom-left-radius: 2px; align-self: flex-start; width: fit-content; }
+    .typing span { width: 7px; height: 7px; background: #8696a0; border-radius: 50%; animation: bounce 1.2s infinite; }
+    .typing span:nth-child(2) { animation-delay: .2s; }
+    .typing span:nth-child(3) { animation-delay: .4s; }
+    @keyframes bounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-6px)} }
+
+    .wa-input-row {
+      background: var(--wa-header); padding: 0.65rem 0.75rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    #chat-input {
+      flex: 1; background: var(--wa-input); border: none; outline: none;
+      border-radius: 24px; padding: 0.6rem 1rem; color: #e9edef;
+      font-size: 0.875rem; font-family: var(--font);
+    }
+    #chat-input::placeholder { color: #8696a0; }
+    #chat-send {
+      width: 40px; height: 40px; border-radius: 50%; border: none;
+      background: var(--green); color: #000; font-size: 1.1rem; font-weight: 700;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: opacity .2s;
+    }
+    #chat-send:hover { opacity: 0.85; }
+    #chat-send:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* Quick reply chips */
+    .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0.5rem 1rem 0.75rem; background: var(--wa-bg); }
+    .chip {
+      background: transparent; border: 1px solid rgba(37,211,102,0.4);
+      color: var(--green); font-size: 0.78rem; font-weight: 500;
+      padding: 0.35rem 0.75rem; border-radius: 999px; cursor: pointer;
+      font-family: var(--font); transition: all .15s;
+    }
+    .chip:hover { background: var(--green-glow); }
+
+    /* ─── SECTION BASE ─── */
+    section { padding: 5rem 1.5rem; }
+    .container { max-width: 1000px; margin: 0 auto; }
+    .section-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); margin-bottom: 0.75rem; }
+    .section-title { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; letter-spacing: -0.025em; line-height: 1.12; margin-bottom: 1rem; }
+    .section-sub { color: var(--muted); font-size: 1rem; line-height: 1.65; max-width: 560px; }
+
+    /* ─── USE CASES ─── */
+    .use-cases { background: var(--bg2); }
+    .use-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-top: 3rem; }
+    .use-card {
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.75rem;
+    }
+    .use-icon { font-size: 1.75rem; margin-bottom: 1rem; }
+    .use-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.6rem; }
+    .use-card p { font-size: 0.875rem; color: var(--muted); line-height: 1.6; }
+    .use-chat {
+      margin-top: 1.25rem; padding: 1rem; background: var(--bg);
+      border-radius: 10px; font-size: 0.78rem; line-height: 1.7; color: #aaa;
+    }
+    .use-chat .uc-bot { color: #e9edef; }
+    .use-chat .uc-user { color: #8696a0; }
+    .use-chat .uc-bot::before { content: '🤖 '; }
+    .use-chat .uc-user::before { content: '👤 '; }
+
+    /* ─── HOW IT WORKS ─── */
+    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 2rem; margin-top: 3rem; }
+    .step { position: relative; }
+    .step-num {
+      font-size: 3rem; font-weight: 800; color: var(--green); opacity: 0.18;
+      line-height: 1; margin-bottom: 0.75rem;
+    }
+    .step h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .step p { font-size: 0.875rem; color: var(--muted); line-height: 1.6; }
+
+    /* ─── PRICING ─── */
+    .pricing-section { background: var(--bg2); }
+    .pricing-card {
+      max-width: 480px; margin: 3rem auto 0;
+      background: var(--bg3); border: 1px solid rgba(37,211,102,0.25);
+      border-radius: 20px; padding: 2.5rem;
+      box-shadow: 0 0 40px rgba(37,211,102,0.06);
+    }
+    .price-tag { font-size: 3rem; font-weight: 800; letter-spacing: -0.04em; }
+    .price-tag span { font-size: 1.1rem; font-weight: 500; color: var(--muted); }
+    .price-note { font-size: 0.82rem; color: var(--muted); margin-top: 0.25rem; margin-bottom: 2rem; }
+    .price-features { list-style: none; margin-bottom: 2rem; display: flex; flex-direction: column; gap: 0.6rem; }
+    .price-features li { font-size: 0.9rem; display: flex; align-items: center; gap: 0.6rem; }
+    .price-features li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; }
+    .btn-primary {
+      display: block; width: 100%; padding: 1rem; border-radius: 12px; border: none;
+      background: var(--green); color: #000; font-size: 1rem; font-weight: 700;
+      cursor: pointer; font-family: var(--font); transition: opacity .2s; text-align: center;
+    }
+    .btn-primary:hover { opacity: 0.88; }
+
+    /* ─── FINAL CTA ─── */
+    .final-cta { text-align: center; }
+    .final-cta h2 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 1rem; }
+    .final-cta p { color: var(--muted); font-size: 1.05rem; margin-bottom: 2.5rem; }
+    .btn-large {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--green); color: #000; font-size: 1.05rem; font-weight: 700;
+      padding: 1rem 2.25rem; border-radius: 12px; transition: opacity .2s;
+    }
+    .btn-large:hover { opacity: 0.88; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--border); padding: 1.75rem 1.5rem;
+      text-align: center; font-size: 0.82rem; color: var(--muted);
+      display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 600px) {
+      nav { padding: 0 1rem; }
+      .hero { padding: 88px 1rem 3rem; }
+      .wa-wrap { border-radius: 16px; }
+      .wa-messages { min-height: 260px; max-height: 320px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">YAD<span>.</span></div>
+  <a href="/termin" class="nav-cta">Demo buchen</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">WhatsApp KI-Assistent · DACH</div>
+
+  <h1>Ihr <em>24/7 WhatsApp-</em><br>Mitarbeiter</h1>
+  <p class="hero-sub">
+    Qualifiziert Leads, bucht Termine und sammelt Google-Bewertungen — vollautomatisch in Ihrem Namen. Kein Personal, kein Aufwand.
+  </p>
+
+  <div class="pills">
+    <div class="pill"><strong>✅</strong> Setup in 2–3 Wochen</div>
+    <div class="pill"><strong>✅</strong> Kein Vertrag</div>
+    <div class="pill"><strong>✅</strong> DSGVO-konform</div>
+  </div>
+
+  <p class="demo-label">Live-Demo — testen Sie es selbst</p>
+
+  <div class="wa-wrap" id="wa-widget">
+    <div class="wa-header">
+      <div class="wa-avatar">YAD</div>
+      <div class="wa-info">
+        <span class="wa-name">WhatsApp KI-Bot</span>
+        <span class="wa-status"><span class="wa-dot"></span>Online</span>
+      </div>
+    </div>
+    <div class="wa-messages" id="chat-messages"></div>
+    <div class="chips" id="chip-row" style="display:none"></div>
+    <div class="wa-input-row">
+      <input type="text" id="chat-input" placeholder="Nachricht schreiben …" autocomplete="off" />
+      <button id="chat-send" aria-label="Senden">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- USE CASES -->
+<section class="use-cases">
+  <div class="container">
+    <p class="section-label">Anwendungsfälle</p>
+    <h2 class="section-title">Ein Bot. Drei Jobs.</h2>
+    <p class="section-sub">Ihr WhatsApp-Assistent übernimmt die Aufgaben, die sonst täglich Stunden kosten.</p>
+
+    <div class="use-grid">
+      <div class="use-card">
+        <div class="use-icon">🎯</div>
+        <h3>Lead-Qualifizierung</h3>
+        <p>Beantwortet Erstanfragen sofort, stellt die richtigen Fragen und leitet echte Kaufinteressenten weiter.</p>
+        <div class="use-chat">
+          <div class="uc-user">Ich interessiere mich für eine Küche</div>
+          <div class="uc-bot">Super! Welche Größe ungefähr und wann soll's losgehen?</div>
+          <div class="uc-user">Ca. 12m², Einzug im Oktober</div>
+          <div class="uc-bot">Perfekt, ich vereinbare einen Beratungstermin für Sie 📅</div>
+        </div>
+      </div>
+
+      <div class="use-card">
+        <div class="use-icon">📅</div>
+        <h3>Terminbuchung</h3>
+        <p>Nimmt Buchungsanfragen entgegen, zeigt freie Slots und bestätigt automatisch — rund um die Uhr.</p>
+        <div class="use-chat">
+          <div class="uc-user">Wann habt ihr noch einen Termin diese Woche?</div>
+          <div class="uc-bot">Dienstag 10 Uhr oder Freitag 14 Uhr — was passt?</div>
+          <div class="uc-user">Freitag bitte!</div>
+          <div class="uc-bot">Eingetragen! Bestätigung kommt gleich ✅</div>
+        </div>
+      </div>
+
+      <div class="use-card">
+        <div class="use-icon">⭐</div>
+        <h3>Google-Bewertungen</h3>
+        <p>Fragt automatisch nach dem Service um eine Bewertung — freundlich, im richtigen Moment, mit direktem Link.</p>
+        <div class="use-chat">
+          <div class="uc-bot">Hat alles gepasst bei uns, Maria? 😊</div>
+          <div class="uc-user">Ja, super! Danke!</div>
+          <div class="uc-bot">Freut uns! Magst du kurz eine ⭐ hinterlassen? 30 Sek: [Link]</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section>
+  <div class="container">
+    <p class="section-label">So funktioniert's</p>
+    <h2 class="section-title">In 3 Schritten live</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>Demo-Gespräch</h3>
+        <p>15 Minuten. Wir verstehen Ihr Unternehmen, Ihre Kunden, Ihre Sprache.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>Wir richten alles ein</h3>
+        <p>Setup dauert 2–3 Wochen. Sie müssen nichts installieren, nichts konfigurieren.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>Bot läuft automatisch</h3>
+        <p>Ab jetzt antwortet Ihr Bot 24/7 in Ihrem Namen. Sie bekommen nur die qualifizierten Anfragen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section">
+  <div class="container" style="text-align:center">
+    <p class="section-label">Preise</p>
+    <h2 class="section-title">Transparent. Kein Kleingedrucktes.</h2>
+    <div class="pricing-card">
+      <div class="price-tag">€299 <span>/ Monat</span></div>
+      <p class="price-note">Setup inklusive · Monatlich kündbar · Kein Vertrag</p>
+      <ul class="price-features">
+        <li>WhatsApp Business API-Integration</li>
+        <li>Unlimitierte Konversationen</li>
+        <li>Lead-Qualifizierung, Buchung & Bewertungen</li>
+        <li>Individuell auf Ihr Unternehmen trainiert</li>
+        <li>DSGVO-konform, Server in Deutschland</li>
+        <li>Änderungen &amp; Anpassungen inklusive</li>
+      </ul>
+      <a href="/termin" class="btn-primary">Jetzt kostenloses Demo-Gespräch buchen</a>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="container">
+    <h2>Bereit für Ihren<br><em style="font-style:normal;color:var(--green)">WhatsApp-Mitarbeiter?</em></h2>
+    <p>15-Minuten-Gespräch. Kein Verkaufsdruck. Danach wissen Sie genau ob das zu Ihnen passt.</p>
+    <a href="/termin" class="btn-large">Demo-Gespräch buchen →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2026 YAD</span>
+  <a href="/impressum">Impressum</a>
+  <a href="/datenschutz">Datenschutz</a>
+</footer>
+
+<!-- CHAT JS -->
+<script>
+  const messagesEl = document.getElementById('chat-messages');
+  const chipRow    = document.getElementById('chip-row');
+  const inputEl    = document.getElementById('chat-input');
+  const sendBtn    = document.getElementById('chat-send');
+
+  let history = [];
+  let busy    = false;
+
+  function now() {
+    return new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+  }
+
+  function appendMsg(text, role) {
+    // Remove typing indicator if present
+    const existing = messagesEl.querySelector('.typing');
+    if (existing) existing.remove();
+
+    const el = document.createElement('div');
+    el.className = 'msg ' + role;
+    el.textContent = text;
+
+    const time = document.createElement('div');
+    time.className = 'msg-time';
+    time.textContent = now();
+    el.appendChild(time);
+
+    messagesEl.appendChild(el);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  function showTyping() {
+    const el = document.createElement('div');
+    el.className = 'typing';
+    el.innerHTML = '<span></span><span></span><span></span>';
+    messagesEl.appendChild(el);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  function showChips(options) {
+    chipRow.style.display = 'flex';
+    chipRow.innerHTML = '';
+    options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'chip';
+      btn.textContent = opt;
+      btn.onclick = () => {
+        chipRow.style.display = 'none';
+        chipRow.innerHTML = '';
+        sendMessage(opt);
+      };
+      chipRow.appendChild(btn);
+    });
+  }
+
+  function extractChips(text) {
+    // Detect industry selection prompt
+    if (text.includes('Gastronomie') && text.includes('Handwerk')) {
+      return ['🍽 Gastronomie', '🔧 Handwerk', '💇 Beauty & Wellness', '🏠 Immobilien', '📋 Anderes'];
+    }
+    if (text.includes('Google-Bewertung') && text.includes('bittet')) {
+      return ['✅ Ja, zeig mir das', '➡ Nein, weiter'];
+    }
+    return null;
+  }
+
+  async function sendMessage(userText) {
+    if (busy) return;
+    busy = true;
+    sendBtn.disabled = true;
+
+    if (userText) {
+      appendMsg(userText, 'user');
+      history.push({ role: 'user', content: userText });
+    }
+
+    showTyping();
+
+    try {
+      const res = await fetch('/api/demo-chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: history }),
+      });
+      const data = await res.json();
+      const reply = data.content || data.error || 'Entschuldigung, kurze Panne. Versuch nochmal.';
+
+      appendMsg(reply, 'bot');
+      history.push({ role: 'assistant', content: reply });
+
+      // Show quick-reply chips if appropriate
+      const chips = extractChips(reply);
+      if (chips) showChips(chips);
+
+      // Track first interaction
+      if (history.length === 2) {
+        if (typeof fbq !== 'undefined') fbq('track', 'ViewContent', { content_name: 'ChatDemoStart' });
+      }
+      // Track after pitch (message 7+)
+      if (history.length >= 7) {
+        if (typeof fbq !== 'undefined') fbq('track', 'Lead');
+      }
+    } catch (e) {
+      const t = messagesEl.querySelector('.typing');
+      if (t) t.remove();
+      appendMsg('Kurze Unterbrechung — bitte nochmal versuchen.', 'bot');
+    }
+
+    busy = false;
+    sendBtn.disabled = false;
+    inputEl.focus();
+  }
+
+  // Send on Enter
+  inputEl.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      const v = inputEl.value.trim();
+      if (v) { inputEl.value = ''; sendMessage(v); }
+    }
+  });
+
+  sendBtn.addEventListener('click', () => {
+    const v = inputEl.value.trim();
+    if (v) { inputEl.value = ''; sendMessage(v); }
+  });
+
+  // Auto-start: bot sends first message
+  window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => sendMessage(''), 600);
+  });
+</script>
+
+</body>
+</html>
