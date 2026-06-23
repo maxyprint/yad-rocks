@@ -113,10 +113,25 @@
 
     /* WHATSAPP WIDGET */
     .wa-wrap {
-      width: 100%; max-width: 440px;
+      width: 100%; max-width: 440px; position: relative;
       border-radius: 20px; overflow: hidden;
       box-shadow: 0 0 0 1px rgba(255,255,255,0.06), 0 32px 80px rgba(0,0,0,0.7), 0 0 60px rgba(37,211,102,0.08);
     }
+    #chat-overlay {
+      position: absolute; inset: 0; z-index: 10;
+      background: rgba(11,20,26,0.93); backdrop-filter: blur(4px);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 0.85rem; padding: 2rem 1.5rem; text-align: center;
+    }
+    #overlay-icon  { font-size: 2.2rem; }
+    #overlay-title { font-size: 1rem; font-weight: 700; color: #e9edef; }
+    #overlay-desc  { font-size: 0.82rem; color: #8696a0; line-height: 1.6; max-width: 270px; }
+    #start-demo-btn {
+      background: var(--green); color: #000; font-weight: 700; font-size: 0.9rem;
+      padding: 0.7rem 1.75rem; border-radius: 999px; border: none; cursor: pointer;
+      font-family: var(--font); margin-top: 0.25rem; transition: opacity .2s;
+    }
+    #start-demo-btn:hover { opacity: 0.88; }
     .wa-header {
       background: var(--wa-header); padding: 0.75rem 1rem;
       display: flex; align-items: center; gap: 0.75rem;
@@ -378,6 +393,13 @@
   </div>
 
   <div class="wa-wrap" id="wa-widget">
+    <!-- Start overlay -->
+    <div id="chat-overlay">
+      <div id="overlay-icon">🎯</div>
+      <div id="overlay-title">Lead-Qualifizierung</div>
+      <div id="overlay-desc">Sieh wie dein Bot Anfragen sofort qualifiziert — was der Kunde sucht, Zeitrahmen, Budget — vollautomatisch.</div>
+      <button id="start-demo-btn" onclick="startDemo()">▶ Demo starten</button>
+    </div>
     <div class="wa-header">
       <div class="wa-avatar">YAD</div>
       <div class="wa-info">
@@ -582,7 +604,7 @@
       badge: 'Lead-Qualifizierung · WhatsApp · DACH',
       h1:   'Kein Interessent mehr ohne<br><em>sofortige Antwort</em>',
       sub:  'Ihr Bot qualifiziert Leads rund um die Uhr — in Ihrer Sprache, mit Ihren Fragen. Budget, Zeitrahmen, Termin: alles geklärt, bevor Sie sich melden.',
-      pills: ['⚡ Erstantwort in &lt;60 Sek.', '✅ Budget automatisch prüfen', '📅 Termin direkt buchen'],
+      pills: ['⚡ Erstantwort in &lt;3 Sek.', '✅ Budget automatisch prüfen', '📅 Termin direkt buchen'],
       label: 'Live-Demo — Ihr Bot für Lead-Qualifizierung',
       card: 'use-card-lead',
     },
@@ -742,13 +764,44 @@
     });
   }
 
+  // ── OVERLAY ───────────────────────────────────────────────────────────────
+  var OVERLAY_CONTENT = {
+    lead:       { icon: '🎯', title: 'Lead-Qualifizierung', desc: 'Sieh wie dein Bot neue Anfragen sofort qualifiziert — Bedarf, Zeitrahmen, Budget — vollautomatisch, bevor du dich meldest.' },
+    support:    { icon: '💬', title: 'Kunden-Support', desc: 'Sieh wie dein Bot Bestandskunden rund um die Uhr betreut — Öffnungszeiten, Termine & Fragen sofort beantwortet.' },
+    followup:   { icon: '📩', title: 'Follow-up Nachrichten', desc: 'Sieh wie dein Bot nach Terminen & Käufen automatisch nachfasst — zur richtigen Zeit, für jeden Kunden individuell.' },
+    onboarding: { icon: '🚀', title: 'Bot konfigurieren', desc: 'Beantworte 5 kurze Fragen — wir generieren daraus deinen fertigen System-Prompt.' },
+  };
+
+  function showOverlay(niche) {
+    var c = OVERLAY_CONTENT[niche] || OVERLAY_CONTENT.lead;
+    document.getElementById('overlay-icon').textContent  = c.icon;
+    document.getElementById('overlay-title').textContent = c.title;
+    document.getElementById('overlay-desc').textContent  = c.desc;
+    document.getElementById('chat-overlay').style.display = 'flex';
+  }
+
+  function startDemo() {
+    document.getElementById('chat-overlay').style.display = 'none';
+    sendMessage('');
+  }
+
   // ── ONBOARDING MODE ───────────────────────────────────────────────────────
   function startOnboarding() {
     ppActions.classList.remove('visible');
     spBox.classList.remove('visible');
     document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
     updateHero('onboarding');
-    resetChat('onboarding');
+    document.getElementById('chat-overlay').style.display = 'none';
+    currentNiche = 'onboarding';
+    history = []; pitched = false;
+    messagesEl.innerHTML = '';
+    chipRow.style.display = 'none'; chipRow.innerHTML = '';
+    var lf = document.getElementById('lead-form');
+    if (lf) lf.style.display = 'none';
+    inputEl.value = ''; inputEl.placeholder = PLACEHOLDERS.onboarding;
+    modeBadge.textContent = BADGES.onboarding;
+    sendBtn.disabled = false; busy = false;
+    sendMessage('');
   }
 
   // ── CHAT UTILS ────────────────────────────────────────────────────────────
@@ -810,7 +863,7 @@
     modeBadge.textContent = BADGES[niche] || 'Demo';
     sendBtn.disabled = false;
     busy = false;
-    setTimeout(function() { sendMessage(''); }, 400);
+    showOverlay(niche);
   }
 
   // ── SCENARIO TABS ─────────────────────────────────────────────────────────
@@ -923,7 +976,7 @@
   window.addEventListener('DOMContentLoaded', function() {
     inputEl.placeholder = PLACEHOLDERS[currentNiche];
     updateHero(currentNiche);
-    setTimeout(function() { sendMessage(''); }, 600);
+    showOverlay(currentNiche);
   });
 </script>
 

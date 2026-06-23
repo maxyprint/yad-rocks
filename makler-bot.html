@@ -108,9 +108,24 @@
       letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem;
     }
     .wa-wrap {
-      border-radius: 20px; overflow: hidden;
+      border-radius: 20px; overflow: hidden; position: relative;
       box-shadow: 0 0 0 1px rgba(255,255,255,0.06), 0 32px 80px rgba(0,0,0,0.6), 0 0 80px rgba(37,211,102,0.07);
     }
+    #chat-overlay {
+      position: absolute; inset: 0; z-index: 10;
+      background: rgba(11,20,26,0.93); backdrop-filter: blur(4px);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 0.85rem; padding: 2rem 1.5rem; text-align: center;
+    }
+    #overlay-icon { font-size: 2.2rem; }
+    #overlay-title { font-size: 1rem; font-weight: 700; color: #e9edef; }
+    #overlay-desc { font-size: 0.82rem; color: #8696a0; line-height: 1.6; max-width: 270px; }
+    #start-demo-btn {
+      background: var(--green); color: #000; font-weight: 700; font-size: 0.9rem;
+      padding: 0.7rem 1.75rem; border-radius: 999px; border: none; cursor: pointer;
+      font-family: var(--font); margin-top: 0.25rem; transition: opacity .2s;
+    }
+    #start-demo-btn:hover { opacity: 0.88; }
     .wa-header {
       background: var(--wa-header); padding: 0.75rem 1rem;
       display: flex; align-items: center; gap: 0.75rem;
@@ -307,7 +322,7 @@
 
       <div class="stat-row">
         <div class="stat">
-          <div class="stat-num">&lt;60s</div>
+          <div class="stat-num">&lt;3 Sek</div>
           <div class="stat-label">Reaktionszeit Ihres Bots</div>
         </div>
         <div class="stat">
@@ -334,6 +349,13 @@
         <button class="tab-btn" data-niche="followup">📩 Follow-up</button>
       </div>
       <div class="wa-wrap">
+        <!-- Start overlay -->
+        <div id="chat-overlay">
+          <div id="overlay-icon">🎯</div>
+          <div id="overlay-title">Lead-Qualifizierung</div>
+          <div id="overlay-desc">Sieh wie dein Bot Kaufinteressenten nach Budget &amp; Finanzierung qualifiziert — vollautomatisch, bevor du dich meldest.</div>
+          <button id="start-demo-btn" onclick="startDemo()">▶ Demo starten</button>
+        </div>
         <div class="wa-header">
           <div class="wa-avatar">KI</div>
           <div style="flex:1">
@@ -425,7 +447,7 @@
     <div class="feat-grid">
       <div class="feat-card">
         <div class="feat-check">✓</div>
-        <h3>Sofortantwort in unter 60 Sekunden</h3>
+        <h3>Sofortantwort in unter 3 Sekunden</h3>
         <p>Jede Anfrage von ImmoScout, Immowelt oder Ihrer Website wird sofort beantwortet — in Ihrer Sprache, mit Ihrem Namen.</p>
       </div>
       <div class="feat-card">
@@ -493,7 +515,7 @@
     <p class="section-label">Investition</p>
     <h2 class="section-title">Weniger als ein verlorener Auftrag</h2>
     <div class="pricing-card">
-      <div class="price-tag">€499 <span>/ Monat</span></div>
+      <div class="price-tag">€299 <span>/ Monat</span></div>
       <p class="price-note">Setup inklusive · Monatlich kündbar</p>
       <ul class="price-list">
         <li>WhatsApp Business Integration (offiziell)</li>
@@ -550,6 +572,29 @@
   var busy         = false;
   var pitched      = false;
   var currentNiche = 'makler';
+  var demoStarted  = false;
+
+  var OVERLAY_CONTENT = {
+    makler:     { icon: '🎯', title: 'Lead-Qualifizierung', desc: 'Sieh wie dein Bot Kaufinteressenten nach Budget & Finanzierung qualifiziert — vollautomatisch, bevor du dich meldest.' },
+    support:    { icon: '💬', title: 'Kunden-Support', desc: 'Sieh wie dein Bot Bestandskunden rund um die Uhr betreut — Öffnungszeiten, Termine & Fragen sofort beantwortet.' },
+    followup:   { icon: '📩', title: 'Follow-up Nachrichten', desc: 'Sieh wie dein Bot nach Besichtigungen & Terminen automatisch nachfasst — zur richtigen Zeit, für jeden Kunden.' },
+    onboarding: { icon: '🚀', title: 'Bot konfigurieren', desc: 'Beantworte 5 kurze Fragen — wir generieren daraus deinen fertigen System-Prompt.' },
+  };
+
+  function showOverlay(niche) {
+    var c = OVERLAY_CONTENT[niche] || OVERLAY_CONTENT.makler;
+    document.getElementById('overlay-icon').textContent  = c.icon;
+    document.getElementById('overlay-title').textContent = c.title;
+    document.getElementById('overlay-desc').textContent  = c.desc;
+    document.getElementById('chat-overlay').style.display = 'flex';
+    demoStarted = false;
+  }
+
+  function startDemo() {
+    document.getElementById('chat-overlay').style.display = 'none';
+    demoStarted = true;
+    sendMessage('');
+  }
 
   var PLACEHOLDERS = {
     makler:     'Schreib als Kaufinteressent …',
@@ -605,7 +650,15 @@
     var lf = document.getElementById('lead-form');
     if (lf) lf.style.display = 'none';
     document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
-    resetChat('onboarding');
+    currentNiche = 'onboarding';
+    history = []; pitched = false; demoStarted = false;
+    messagesEl.innerHTML = '';
+    chipRow.style.display = 'none'; chipRow.innerHTML = '';
+    inputEl.value = ''; inputEl.placeholder = PLACEHOLDERS.onboarding;
+    if (modeBadge) modeBadge.textContent = BADGES.onboarding;
+    sendBtn.disabled = false; busy = false;
+    document.getElementById('chat-overlay').style.display = 'none';
+    sendMessage('');
   }
 
   async function submitLead() {
@@ -704,7 +757,7 @@
     if (modeBadge) modeBadge.textContent = BADGES[niche] || 'Demo';
     sendBtn.disabled = false;
     busy = false;
-    setTimeout(function() { sendMessage(''); }, 400);
+    showOverlay(niche);
   }
 
   document.querySelectorAll('.tab-btn').forEach(function(btn) {
@@ -814,7 +867,7 @@
 
   window.addEventListener('DOMContentLoaded', function() {
     inputEl.placeholder = PLACEHOLDERS[currentNiche];
-    setTimeout(function() { sendMessage(''); }, 700);
+    showOverlay(currentNiche);
   });
 </script>
 
