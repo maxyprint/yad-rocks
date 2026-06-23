@@ -1,9 +1,47 @@
 export const config = { maxDuration: 30 };
 
+async function instagramLookup(handle) {
+  const key = process.env.RAPIDAPI_KEY;
+  if (key) {
+    try {
+      const r = await fetch('https://instagram120.p.rapidapi.com/api/instagram/userInfo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-rapidapi-host': 'instagram120.p.rapidapi.com', 'x-rapidapi-key': key },
+        body: JSON.stringify({ username: handle }),
+        signal: AbortSignal.timeout(12000),
+      });
+      if (r.ok) {
+        const d = await r.json();
+        const user = d?.result?.[0]?.user ?? d?.data?.user ?? d?.user ?? null;
+        if (user?.username) return { exists: true, followers: user.follower_count ?? null, posts: user.media_count ?? null };
+      }
+    } catch {}
+  }
+  try {
+    const r = await fetch(`https://www.instagram.com/api/v1/users/web_profile_info/?username=${encodeURIComponent(handle)}`, {
+      headers: { 'x-ig-app-id': '936619743392459', 'User-Agent': 'Mozilla/5.0', 'Accept': '*/*', 'Referer': 'https://www.instagram.com/' },
+      signal: AbortSignal.timeout(10000),
+    });
+    if (r.ok) {
+      const d = await r.json();
+      const user = d?.data?.user;
+      if (user) return { exists: true, followers: user.edge_followed_by?.count ?? null, posts: user.edge_owner_to_timeline_media?.count ?? null };
+    }
+  } catch {}
+  return { exists: false };
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'GET') return res.status(405).end();
 
   const { q, mode, country = 'DE', limit = '25', page_ids } = req.query;
+
+  // ── Instagram lookup (no token needed) ───────────────────────────────────
+  if (mode === 'instagram') {
+    const handle = (q || '').replace(/^@/, '').trim();
+    if (!handle) return res.status(400).json({ error: 'q required' });
+    return res.status(200).json(await instagramLookup(handle));
+  }
 
   const token = process.env.FACEBOOK_ACCESS_TOKEN;
   if (!token) return res.status(200).json({ data: [] });
