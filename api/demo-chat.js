@@ -114,13 +114,16 @@ QUALIFIZIERUNG in 4 Schritten:
 1. Kaufen oder mieten? — danach passendes Objekt aus dem Portfolio vorstellen
 2. Welche Stadt oder Lage? — konkretes Objekt mit Preis und Fakten präsentieren
 3. Wann möchten Sie einziehen? (Miete: Verfügbarkeit prüfen; Kauf: Zeitrahmen klären)
-4. Besichtigungstermin → "Passt Ihnen Dienstag 10 Uhr oder Freitag 14 Uhr?"
+4. Terminpräferenz abfragen → "Passt Ihnen eher Dienstag Vormittag oder Freitag 14 Uhr für eine Besichtigung?"
+   Sobald der Interessent antwortet → eine kurze Antwort wie "Super! Sie können jetzt Ihren Termin direkt im Kalender buchen." → dann SOFORT ---PITCH--- ausgeben
+
+ABSOLUTES VERBOT: Niemals einen Termin selbst bestätigen. Nie "ist notiert", "ist eingetragen", "wir sehen uns Freitag" o.ä. sagen. Du buchst KEINE Termine — das tut der Buchungskalender.
 
 NACH SCHRITT 4 → exakt:
 ---PITCH---
 Das war Ihr Bot — vollautomatisch, 24/7.
 
-Objekt gezeigt ✓  Lage bestätigt ✓  Termin gebucht ✓ — ohne dass Sie eine Sekunde investiert haben.
+Objekt gezeigt ✓  Lage bestätigt ✓  Terminwunsch erfasst ✓ — ohne dass Sie eine Sekunde investiert haben.
 
 €299/Monat · Setup in 2–3 Wochen · monatlich kündbar
 
@@ -193,13 +196,16 @@ QUALIFIZIERUNG in 4 Schritten:
 1. Kauf, Bau oder Anschlussfinanzierung? Und ungefähre Kreditsumme?
 2. Wie viel Eigenkapital steht zur Verfügung?
 3. Beschäftigt, selbstständig — und wie lange schon?
-4. Beratungstermin → "Passt dir Dienstag 10 Uhr oder Donnerstag 15 Uhr für ein kurzes Gespräch?"
+4. Terminpräferenz abfragen → "Passt dir eher Dienstag 10 Uhr oder Donnerstag 15 Uhr für ein kurzes Gespräch?"
+   Sobald der Interessent antwortet → "Super! Du kannst deinen Termin jetzt direkt im Kalender buchen." → dann SOFORT ---PITCH--- ausgeben
+
+ABSOLUTES VERBOT: Niemals einen Termin selbst bestätigen. Nie "ist notiert", "ist eingetragen", "wir sprechen uns dann" o.ä. Du buchst KEINE Termine — das tut der Buchungskalender.
 
 NACH SCHRITT 4 → exakt:
 ---PITCH---
 Das war dein Bot — vollautomatisch, 24/7.
 
-Kreditbedarf ✓  Eigenkapital ✓  Termin ✓ — ohne dass du eine Sekunde investiert hast.
+Kreditbedarf ✓  Eigenkapital ✓  Terminwunsch erfasst ✓ — ohne dass du eine Sekunde investiert hast.
 
 €299/Monat · Setup in 2–3 Wochen · monatlich kündbar
 
@@ -221,13 +227,16 @@ QUALIFIZIERUNG in 4 Schritten:
 1. Was soll gemacht werden? (Küche, Bad, Renovierung etc.) und ungefähre Größe?
 2. Eigenheim oder Mietwohnung?
 3. Ungefähres Budget und gewünschter Zeitrahmen?
-4. Besichtigungstermin → "Passt dir Dienstag Vormittag oder Donnerstag ab 14 Uhr für eine kurze Besichtigung?"
+4. Terminpräferenz abfragen → "Passt dir eher Dienstag Vormittag oder Donnerstag ab 14 Uhr für eine kurze Besichtigung?"
+   Sobald der Interessent antwortet → "Super! Du kannst deinen Wunschtermin jetzt direkt im Kalender buchen." → dann SOFORT ---PITCH--- ausgeben
+
+ABSOLUTES VERBOT: Niemals einen Termin selbst bestätigen. Nie "ist notiert", "ist eingetragen", "dann bis Dienstag" o.ä. Du buchst KEINE Termine — das tut der Buchungskalender.
 
 NACH SCHRITT 4 → exakt:
 ---PITCH---
 Das war dein Bot — vollautomatisch, 24/7.
 
-Auftragsart ✓  Budget ✓  Termin ✓ — ohne dass du auch nur zurückgerufen hast.
+Auftragsart ✓  Budget ✓  Terminwunsch erfasst ✓ — ohne dass du auch nur zurückgerufen hast.
 
 €299/Monat · Setup in 2–3 Wochen · monatlich kündbar
 
@@ -257,6 +266,28 @@ Möchtest du jetzt deinen eigenen Bot konfigurieren?
 
 STIL: Kurz. Locker. Du-Form. Max 2 Sätze.`,
 };
+
+async function ntfyAppointment(niche, messages) {
+  try {
+    const userMsgs = messages
+      .filter(m => m.role === 'user')
+      .map(m => m.content)
+      .slice(-5)
+      .join(' → ');
+    await fetch('https://ntfy.sh/yad-rocks-appointments', {
+      method: 'POST',
+      headers: {
+        'Title': `🎯 Bot-Lead: ${niche}`,
+        'Priority': 'high',
+        'Tags': 'white_check_mark',
+        'Content-Type': 'text/plain',
+      },
+      body: `Nische: ${niche}\n\n${userMsgs || 'keine Details'}`,
+    });
+  } catch (e) {
+    console.error('ntfy error:', e.message);
+  }
+}
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -300,6 +331,7 @@ export default async function handler(req, res) {
     // Pitch / follow-up
     if (text.includes('---PITCH---')) {
       const [botMsg, pitchMsg] = text.split('---PITCH---').map(s => s.trim());
+      ntfyAppointment(niche, messages); // fire and forget
       return res.status(200).json({ content: botMsg, followUp: pitchMsg || null });
     }
 
