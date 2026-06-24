@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WhatsApp KI-Assistent für Handwerksbetriebe | YAD</title>
+  <meta name="description" content="Qualifiziert Handwerksanfragen automatisch via WhatsApp — Auftragsart, Budget, Eigentümer — bevor Sie auch nur zurückrufen. 24/7, in Ihrem Namen.">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','1419975432380195');fbq('track','PageView');</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0a;
+      --bg2: #111111;
+      --bg3: #161616;
+      --border: #222222;
+      --text: #ffffff;
+      --muted: #888888;
+      --green: #25D366;
+      --green-dark: #128C7E;
+      --green-glow: rgba(37,211,102,0.12);
+      --wa-bg: #0b141a;
+      --wa-header: #202c33;
+      --wa-bot: #202c33;
+      --wa-user: #005c4b;
+      --wa-input: #2a3942;
+      --radius: 14px;
+      --font: 'Inter', -apple-system, sans-serif;
+    }
+
+    html { background: var(--bg); scroll-behavior: smooth; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem; height: 64px;
+      background: rgba(10,10,10,0.9); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-size: 1.25rem; font-weight: 800; letter-spacing: -0.02em; }
+    .nav-logo span { color: var(--green); }
+    .nav-cta {
+      background: var(--green); color: #000; font-weight: 700; font-size: 0.85rem;
+      padding: 0.55rem 1.2rem; border-radius: 8px; transition: opacity .2s;
+    }
+    .nav-cta:hover { opacity: 0.88; }
+
+    .hero {
+      min-height: 100vh; display: flex; align-items: center;
+      padding: 100px 1.5rem 5rem;
+      background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(37,211,102,0.07), transparent);
+    }
+    .hero-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 420px; gap: 5rem; align-items: center;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--green-glow); border: 1px solid rgba(37,211,102,0.25);
+      color: var(--green); font-size: 0.75rem; font-weight: 600;
+      padding: 0.4rem 1rem; border-radius: 999px; margin-bottom: 1.5rem;
+      letter-spacing: 0.05em; text-transform: uppercase;
+    }
+    .hero-badge::before { content: ''; width: 7px; height: 7px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; flex-shrink: 0; }
+    @keyframes pulse { 0%,100%{opacity:1}50%{opacity:.3} }
+
+    h1 {
+      font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 800;
+      letter-spacing: -0.03em; line-height: 1.08; margin-bottom: 1.25rem;
+    }
+    h1 em { font-style: normal; color: var(--green); }
+
+    .hero-sub {
+      font-size: 1.05rem; color: var(--muted); line-height: 1.7;
+      margin-bottom: 2rem; max-width: 480px;
+    }
+    .hero-sub strong { color: var(--text); }
+
+    .stat-row { display: flex; gap: 2rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
+    .stat-num { font-size: 2rem; font-weight: 800; color: var(--green); letter-spacing: -0.03em; line-height: 1; }
+    .stat-label { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; }
+
+    .hero-cta-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+    .btn-green {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: var(--green); color: #000; font-weight: 700; font-size: 0.95rem;
+      padding: 0.9rem 1.75rem; border-radius: 10px; transition: opacity .2s;
+    }
+    .btn-green:hover { opacity: 0.88; }
+    .btn-ghost {
+      font-size: 0.88rem; color: var(--muted); text-decoration: underline; text-underline-offset: 3px;
+    }
+    .btn-ghost:hover { color: var(--text); }
+
+    .demo-col { position: relative; }
+    .demo-label {
+      text-align: center; font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem;
+    }
+    .wa-wrap {
+      border-radius: 20px; overflow: hidden; position: relative;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.06), 0 32px 80px rgba(0,0,0,0.6), 0 0 80px rgba(37,211,102,0.07);
+    }
+    #chat-overlay {
+      position: absolute; inset: 0; z-index: 10;
+      background: rgba(11,20,26,0.93); backdrop-filter: blur(4px);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 0.85rem; padding: 2rem 1.5rem; text-align: center;
+    }
+    #overlay-icon { font-size: 2.2rem; }
+    #overlay-title { font-size: 1rem; font-weight: 700; color: #e9edef; }
+    #overlay-desc { font-size: 0.82rem; color: #8696a0; line-height: 1.6; max-width: 270px; }
+    #start-demo-btn {
+      background: var(--green); color: #000; font-weight: 700; font-size: 0.9rem;
+      padding: 0.7rem 1.75rem; border-radius: 999px; border: none; cursor: pointer;
+      font-family: var(--font); margin-top: 0.25rem; transition: opacity .2s;
+    }
+    #start-demo-btn:hover { opacity: 0.88; }
+    .wa-header {
+      background: var(--wa-header); padding: 0.75rem 1rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .wa-avatar {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--green), var(--green-dark));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 800; color: #000; flex-shrink: 0;
+    }
+    .wa-name { display: block; font-size: 0.88rem; font-weight: 600; color: #e9edef; }
+    .wa-status { display: flex; align-items: center; gap: 0.35rem; font-size: 0.7rem; color: #8696a0; margin-top: 1px; }
+    .wa-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; }
+
+    .wa-messages {
+      background: var(--wa-bg); min-height: 300px; max-height: 360px;
+      overflow-y: auto; padding: 1rem; display: flex; flex-direction: column; gap: 0.55rem;
+    }
+    .wa-messages::-webkit-scrollbar { width: 3px; }
+    .wa-messages::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 3px; }
+
+    .msg {
+      max-width: 86%; padding: 0.55rem 0.8rem; border-radius: 10px;
+      font-size: 0.84rem; line-height: 1.55; white-space: pre-wrap; word-break: break-word;
+      animation: msgIn .2s ease;
+    }
+    @keyframes msgIn { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:none} }
+    .msg.bot { background: var(--wa-bot); color: #e9edef; align-self: flex-start; border-bottom-left-radius: 2px; }
+    .msg.user { background: var(--wa-user); color: #e9edef; align-self: flex-end; border-bottom-right-radius: 2px; }
+    .msg-time { font-size: 0.63rem; color: #8696a0; margin-top: 0.2rem; text-align: right; }
+
+    .typing { display: flex; gap: 4px; padding: 0.7rem 0.9rem; background: var(--wa-bot); border-radius: 10px; border-bottom-left-radius: 2px; align-self: flex-start; width: fit-content; }
+    .typing span { width: 7px; height: 7px; background: #8696a0; border-radius: 50%; animation: bounce 1.2s infinite; }
+    .typing span:nth-child(2) { animation-delay: .2s; }
+    .typing span:nth-child(3) { animation-delay: .4s; }
+    @keyframes bounce { 0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)} }
+
+    .wa-input-row {
+      background: var(--wa-header); padding: 0.6rem 0.7rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    #chat-input {
+      flex: 1; background: var(--wa-input); border: none; outline: none;
+      border-radius: 24px; padding: 0.55rem 1rem; color: #e9edef;
+      font-size: 0.85rem; font-family: var(--font);
+    }
+    #chat-input::placeholder { color: #8696a0; }
+    #chat-send {
+      width: 38px; height: 38px; border-radius: 50%; border: none;
+      background: var(--green); color: #000; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      transition: opacity .2s;
+    }
+    #chat-send:hover { opacity: 0.85; }
+    #chat-send:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0.5rem 0.75rem 0.65rem; background: var(--wa-bg); }
+    .chip {
+      background: transparent; border: 1px solid rgba(37,211,102,0.4);
+      color: var(--green); font-size: 0.77rem; font-weight: 500;
+      padding: 0.3rem 0.7rem; border-radius: 999px; cursor: pointer;
+      font-family: var(--font); transition: background .15s;
+    }
+    .chip:hover { background: var(--green-glow); }
+
+    .pain { background: var(--bg2); padding: 5rem 1.5rem; }
+    .container { max-width: 1000px; margin: 0 auto; }
+    .section-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); margin-bottom: 0.75rem; }
+    .section-title { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; letter-spacing: -0.025em; line-height: 1.12; margin-bottom: 1rem; }
+    .section-sub { color: var(--muted); font-size: 1rem; line-height: 1.65; }
+
+    .pain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-top: 2.5rem; }
+    .pain-card {
+      background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem;
+    }
+    .pain-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
+    .pain-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .pain-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+
+    .how { padding: 5rem 1.5rem; }
+    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; margin-top: 2.5rem; }
+    .step-num { font-size: 2.75rem; font-weight: 800; color: var(--green); opacity: 0.2; line-height: 1; margin-bottom: 0.6rem; }
+    .step h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .step p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+
+    .features { background: var(--bg2); padding: 5rem 1.5rem; }
+    .feat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-top: 2.5rem; }
+    .feat-card {
+      background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem;
+      display: flex; flex-direction: column; gap: 0.6rem;
+    }
+    .feat-check { color: var(--green); font-size: 1.1rem; }
+    .feat-card h3 { font-size: 1rem; font-weight: 700; }
+    .feat-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+
+    .pricing { padding: 5rem 1.5rem; text-align: center; }
+    .pricing-card {
+      max-width: 460px; margin: 2.5rem auto 0;
+      background: var(--bg2); border: 1px solid rgba(37,211,102,0.3);
+      border-radius: 20px; padding: 2.5rem;
+      box-shadow: 0 0 60px rgba(37,211,102,0.06);
+    }
+    .price-tag { font-size: 3rem; font-weight: 800; letter-spacing: -0.04em; }
+    .price-tag span { font-size: 1rem; font-weight: 400; color: var(--muted); }
+    .price-note { font-size: 0.82rem; color: var(--muted); margin: 0.3rem 0 2rem; }
+    .price-list { list-style: none; margin-bottom: 2rem; display: flex; flex-direction: column; gap: 0.65rem; text-align: left; }
+    .price-list li { font-size: 0.9rem; display: flex; align-items: center; gap: 0.6rem; }
+    .price-list li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; }
+    .btn-block {
+      display: block; width: 100%; padding: 1rem; border-radius: 12px;
+      background: var(--green); color: #000; font-size: 1rem; font-weight: 700;
+      font-family: var(--font); border: none; cursor: pointer; text-align: center;
+      transition: opacity .2s;
+    }
+    .btn-block:hover { opacity: 0.88; }
+    .price-trust { font-size: 0.78rem; color: var(--muted); margin-top: 1rem; }
+
+    .final { padding: 6rem 1.5rem; text-align: center; background: var(--bg2); }
+    .final h2 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 1rem; }
+    .final h2 em { font-style: normal; color: var(--green); }
+    .final p { color: var(--muted); font-size: 1rem; margin-bottom: 2.5rem; }
+
+    footer {
+      border-top: 1px solid var(--border); padding: 1.5rem;
+      display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;
+      font-size: 0.8rem; color: var(--muted);
+    }
+
+    .scenario-tabs { display: flex; gap: 0.45rem; flex-wrap: wrap; margin-bottom: 0.85rem; }
+    .tab-btn {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+      color: #8696a0; font-size: 0.75rem; font-weight: 600;
+      padding: 0.4rem 0.9rem; border-radius: 999px; cursor: pointer;
+      font-family: var(--font); transition: all .2s; white-space: nowrap;
+    }
+    .tab-btn:hover { border-color: var(--green); color: var(--green); }
+    .tab-btn.active { background: rgba(37,211,102,0.12); border-color: var(--green); color: var(--green); }
+    .wa-mode-badge {
+      font-size: 0.62rem; font-weight: 700; background: rgba(37,211,102,0.15);
+      color: var(--green); padding: 0.18rem 0.45rem; border-radius: 4px;
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .ppa-primary {
+      width: 100%; padding: 0.65rem; border-radius: 9px; border: none;
+      background: var(--green); color: #000; font-weight: 700; font-size: 0.85rem;
+      cursor: pointer; font-family: var(--font); transition: opacity .2s;
+    }
+    .ppa-primary:hover { opacity: 0.88; }
+    .ppa-secondary {
+      width: 100%; padding: 0.6rem; border-radius: 9px;
+      border: 1px solid rgba(37,211,102,0.4); background: transparent;
+      color: var(--green); font-weight: 600; font-size: 0.85rem;
+      cursor: pointer; font-family: var(--font); transition: all .2s;
+    }
+    .ppa-secondary:hover { background: rgba(37,211,102,0.08); }
+
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .demo-col { max-width: 420px; margin: 0 auto; width: 100%; }
+      .hero { padding: 90px 1.25rem 4rem; }
+      .stat-row { gap: 1.5rem; }
+    }
+    @media (max-width: 480px) {
+      nav { padding: 0 1rem; }
+      .wa-messages { min-height: 240px; max-height: 300px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">YAD<span>.</span></div>
+  <a href="#" class="nav-cta" onclick="openBooking();return false;">Erstgespräch vereinbaren</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-badge">Individuell für Handwerksbetriebe · DACH · 2026</div>
+      <h1>Ihr Bot. Ihr Betrieb.<br><em>Qualifizierte Aufträge.</em></h1>
+      <p class="hero-sub">
+        Kein generisches Tool — ein Assistent der weiß was Sie machen, was ein guter Auftrag für Sie ist, und Anfragen 24/7 vorsortiert.<br><br>
+        Auftragsart ✓ &nbsp;Budget ✓ &nbsp;Termin ✓ — bevor Sie auch nur zurückrufen.
+      </p>
+
+      <div class="stat-row">
+        <div class="stat">
+          <div class="stat-num">&lt;3 Sek</div>
+          <div class="stat-label">Reaktionszeit Ihres Bots</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">24/7</div>
+          <div class="stat-label">Auch abends & am Wochenende</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">Nur echt</div>
+          <div class="stat-label">Qualifizierte Besichtigungen</div>
+        </div>
+      </div>
+
+      <div class="hero-cta-row">
+        <a href="/termin" class="btn-green">Erstgespräch vereinbaren →</a>
+        <a href="#demo" class="btn-ghost">Live-Demo ansehen</a>
+      </div>
+    </div>
+
+    <div class="demo-col" id="demo">
+      <p class="demo-label">Live-Demo — alle Use-Cases testbar</p>
+      <div class="scenario-tabs" id="scenario-tabs">
+        <button class="tab-btn active" data-niche="handwerker">🔨 Auftrag qualifizieren</button>
+        <button class="tab-btn" data-niche="support">💬 Kunden-Support</button>
+        <button class="tab-btn" data-niche="followup">📩 Follow-up</button>
+      </div>
+      <div class="wa-wrap">
+        <div id="chat-overlay">
+          <div id="overlay-icon">🔨</div>
+          <div id="overlay-title">Auftrags-Qualifizierung</div>
+          <div id="overlay-desc">Sieh wie dein Bot Anfragen nach Auftragsart, Budget & Eigentümer vorsortiert — vollautomatisch, bevor du zurückrufst.</div>
+          <button id="start-demo-btn" onclick="startDemo()">▶ Demo starten</button>
+        </div>
+        <div class="wa-header">
+          <div class="wa-avatar">KI</div>
+          <div style="flex:1">
+            <span class="wa-name">Ihr WhatsApp-Assistent</span>
+            <span class="wa-status"><span class="wa-dot"></span>Online</span>
+          </div>
+          <span class="wa-mode-badge" id="wa-mode-badge">Demo</span>
+        </div>
+        <div class="wa-messages" id="chat-messages"></div>
+        <div class="chips" id="chip-row" style="display:none"></div>
+
+        <div id="sp-box" style="display:none;margin:0.6rem;border-radius:10px;overflow:hidden;border:1px solid rgba(37,211,102,0.3);background:#0a1a0a">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:0.55rem 0.7rem;background:rgba(37,211,102,0.08);border-bottom:1px solid rgba(37,211,102,0.2)">
+            <span style="font-size:0.68rem;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:0.08em">Dein System-Prompt</span>
+            <button id="sp-copy-btn" onclick="copySystemPrompt()" style="background:transparent;border:1px solid rgba(37,211,102,0.4);color:var(--green);font-size:0.65rem;font-weight:600;padding:0.18rem 0.5rem;border-radius:5px;cursor:pointer;font-family:inherit">Kopieren</button>
+          </div>
+          <pre id="sp-content" style="padding:0.7rem;font-size:0.7rem;color:#a8c8a8;line-height:1.6;white-space:pre-wrap;max-height:200px;overflow-y:auto;font-family:Menlo,Monaco,monospace"></pre>
+        </div>
+        <div id="lead-form" style="display:none">
+          <div style="padding:0.7rem 0.65rem 0;background:var(--wa-bg)">
+            <p style="font-size:0.75rem;color:#8696a0;line-height:1.5;margin-bottom:0.55rem">
+              <strong style="color:#e9edef">Damit wir loslegen können:</strong><br>
+              Setup startet erst nach dem Erstgespräch — so passt alles.
+            </p>
+            <input id="lead-name" type="text" placeholder="Dein Name *" autocomplete="name"
+              style="width:100%;background:var(--wa-input);border:none;border-radius:9px;padding:0.55rem 0.8rem;color:#e9edef;font-size:0.835rem;font-family:inherit;margin-bottom:0.35rem;outline:none">
+            <input id="lead-phone" type="tel" placeholder="WhatsApp / Telefon *" autocomplete="tel"
+              style="width:100%;background:var(--wa-input);border:none;border-radius:9px;padding:0.55rem 0.8rem;color:#e9edef;font-size:0.835rem;font-family:inherit;margin-bottom:0.45rem;outline:none">
+            <button id="lead-submit-btn" onclick="submitLead()"
+              style="width:100%;padding:0.7rem;border-radius:9px;border:none;background:var(--green);color:#000;font-weight:700;font-size:0.85rem;cursor:pointer;font-family:inherit;transition:opacity .2s">
+              Setup anfragen + Termin wählen →
+            </button>
+            <p id="lead-error" style="display:none;font-size:0.7rem;color:#ff6b6b;margin-top:0.35rem;text-align:center"></p>
+          </div>
+        </div>
+
+        <div id="post-pitch-actions" style="display:none;flex-direction:column;gap:0.45rem;padding:0.65rem 0.65rem 0;background:var(--wa-bg)">
+          <button class="ppa-primary" onclick="openBooking()">📅 Erstgespräch vereinbaren</button>
+          <button class="ppa-secondary" onclick="startOnboarding()">🚀 Meinen Bot konfigurieren</button>
+        </div>
+
+        <div class="wa-input-row">
+          <input type="text" id="chat-input" placeholder="Schreib als Kunde …" autocomplete="off">
+          <button id="chat-send" aria-label="Senden">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pain">
+  <div class="container">
+    <p class="section-label">Das Problem</p>
+    <h2 class="section-title">Jeder Rückruf kostet Zeit —<br>auch wenn daraus nichts wird</h2>
+    <p class="section-sub">Anfahrt, Aufmaß, Angebot — und am Ende entscheidet sich der Kunde für jemanden mit niedrigerem Preis. Ihr Bot stellt sicher, dass Sie nur zu echten Aufträgen fahren.</p>
+
+    <div class="pain-grid">
+      <div class="pain-card">
+        <div class="pain-icon">💸</div>
+        <h3>Unqualifizierte Anfragen</h3>
+        <p>Kein realistisches Budget, Mietwohnung ohne Genehmigung, zu klein für Ihre Kapazität — das erkennt Ihr Bot sofort, bevor Sie eine Stunde investieren.</p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">🌙</div>
+        <h3>Anfragen nach Feierabend</h3>
+        <p>Die meisten Anfragen kommen abends und am Wochenende — genau dann, wenn Sie auf der Baustelle sind oder Feierabend haben. Ihr Bot antwortet sofort.</p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">📞</div>
+        <h3>Rückruf-Chaos statt Aufträge</h3>
+        <p>10 Anfragen, 6 Rückrufe, 3 Besichtigungen, 1 Auftrag. Ihr Bot qualifiziert vorab — und Sie fahren nur noch zu den richtigen Kunden.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="features">
+  <div class="container">
+    <p class="section-label">Was der Bot erledigt</p>
+    <h2 class="section-title">Vorqualifiziert. Terminiert.<br>Bevor Sie zurückrufen.</h2>
+
+    <div class="feat-grid">
+      <div class="feat-card">
+        <div class="feat-check">✓</div>
+        <h3>Sofortantwort in unter 3 Sekunden</h3>
+        <p>Jede Anfrage — über Ihre Website, Google oder Empfehlung — wird sofort beantwortet. In Ihrer Sprache, mit Ihrem Namen. Kein Interessent geht verloren.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-check">✓</div>
+        <h3>Auftragsart & Umfang qualifizieren</h3>
+        <p>Küche, Bad, Renovierung, Anbau? Wie viele Quadratmeter? Der Bot erfragt alles auf natürliche Weise — bevor Sie auch nur zurückrufen.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-check">✓</div>
+        <h3>Budget & Eigentümer prüfen</h3>
+        <p>Eigenheim oder Mietwohnung? Realistisches Budget? Ihr Bot filtert Anfragen heraus, die garantiert zu keinem Auftrag führen.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-check">✓</div>
+        <h3>Besichtigungstermin direkt buchen</h3>
+        <p>Qualifizierte Kunden bekommen sofort Terminvorschläge für eine Besichtigung. Sie sehen nur echte, lohnenswerte Termine im Kalender.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-check">✓</div>
+        <h3>Google-Bewertungen nach Auftrag</h3>
+        <p>Nach Auftragsabschluss fragt der Bot automatisch nach einer Bewertung — mit direktem Link, zum richtigen Zeitpunkt.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-check">✓</div>
+        <h3>DSGVO-konform, Server in Deutschland</h3>
+        <p>Alle Daten bleiben in Deutschland. Kein US-Cloud-Anbieter. Datenschutzerklärung für Ihre Website inklusive.</p>
+      </div>
+      <div class="feat-card" style="border-color:rgba(37,211,102,0.3);background:rgba(37,211,102,0.04)">
+        <div class="feat-check" style="background:var(--green);color:#000">★</div>
+        <h3>100% individuell trainiert</h3>
+        <p>Ihr Bot kennt Ihre Gewerke, Ihr Einzugsgebiet, Ihre Mindestauftragsgröße — und klingt wie Sie. Kein Template. Kein Copy-Paste.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="how">
+  <div class="container">
+    <p class="section-label">Ihr Weg zum eigenen Bot</p>
+    <h2 class="section-title">In 3 Schritten — fertig.</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>Erstgespräch — wir verstehen Ihr Handwerk</h3>
+        <p>15 Minuten. Wir lernen Ihre Gewerke, Ihre Qualifizierungskriterien (Mindestgröße, Region, Budget) und Ihren Stil kennen. Der Bot wird klingen wie Sie — nicht wie ein generisches KI-System.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>Wir bauen Ihren Bot</h3>
+        <p>2–3 Wochen. Wir trainieren, testen und verfeinern — bis der Bot wirklich wie Sie klingt und Anfragen nach Ihren Kriterien vorsortiert. Sie müssen nichts tun.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>Ihr Bot qualifiziert — Sie bauen</h3>
+        <p>Ab jetzt landen nur noch lohnenswerte Aufträge bei Ihnen. Auftragsart geprüft, Budget bestätigt, Termin vereinbart — Ihr Bot hat alles vorbereitet.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing">
+  <div class="container">
+    <p class="section-label">Investition</p>
+    <h2 class="section-title">Weniger als ein verlorener Auftrag</h2>
+    <div class="pricing-card">
+      <div class="price-tag">€299 <span>/ Monat</span></div>
+      <p class="price-note">Setup inklusive · Monatlich kündbar</p>
+      <ul class="price-list">
+        <li>WhatsApp Business Integration (offiziell)</li>
+        <li>Unlimitierte Konversationen & Qualifizierungen</li>
+        <li>Qualifizierungsprotokoll (Auftragsart, Budget, Eigentümer)</li>
+        <li>Automatische Terminbuchung für Besichtigungen</li>
+        <li>Google-Bewertungsanfragen nach Auftragsabschluss</li>
+        <li>Individuell auf Ihre Gewerke & Kriterien trainiert</li>
+        <li>DSGVO-konform, Server Deutschland</li>
+        <li>Änderungen & Anpassungen inklusive</li>
+      </ul>
+      <a href="/termin" class="btn-block">Erstgespräch vereinbaren →</a>
+      <p class="price-trust">Monatlich kündbar · Kein Kleingedrucktes</p>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="container">
+    <h2>Nur noch Aufträge die<br><em>sich wirklich lohnen</em></h2>
+    <p>15 Minuten. Danach wissen Sie genau, ob das passt — und wie Ihr Bot klingt.</p>
+    <a href="#" class="btn-green" style="display:inline-flex" onclick="openBooking();return false;">Erstgespräch vereinbaren →</a>
+  </div>
+</section>
+
+<div id="booking-modal" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.85);backdrop-filter:blur(6px);align-items:center;justify-content:center">
+  <div style="width:min(680px,92vw);height:82vh;border-radius:18px;overflow:hidden;position:relative;background:#fff;box-shadow:0 40px 100px rgba(0,0,0,0.6)">
+    <button onclick="closeBooking()" style="position:absolute;top:10px;right:10px;z-index:10;background:rgba(0,0,0,0.55);border:none;border-radius:50%;width:34px;height:34px;color:#fff;font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>
+    <iframe id="booking-iframe" src="" style="width:100%;height:100%;border:none" title="Termin vereinbaren"></iframe>
+  </div>
+</div>
+
+<footer>
+  <span>© 2026 YAD</span>
+  <a href="/impressum">Impressum</a>
+  <a href="/datenschutz">Datenschutz</a>
+</footer>
+
+<script>
+  var BOOKING_URL = '/termin';
+  var messagesEl  = document.getElementById('chat-messages');
+  var chipRow     = document.getElementById('chip-row');
+  var inputEl     = document.getElementById('chat-input');
+  var sendBtn     = document.getElementById('chat-send');
+  var ppActions   = document.getElementById('post-pitch-actions');
+  var spBox       = document.getElementById('sp-box');
+  var spContent   = document.getElementById('sp-content');
+  var modeBadge   = document.getElementById('wa-mode-badge');
+
+  var chatHistory  = [];
+  var busy         = false;
+  var pitched      = false;
+  var currentNiche = 'handwerker';
+  var demoStarted  = false;
+
+  var OVERLAY_CONTENT = {
+    handwerker: { icon: '🔨', title: 'Auftrags-Qualifizierung', desc: 'Sieh wie dein Bot Anfragen nach Auftragsart, Budget & Eigentümer vorsortiert — vollautomatisch, bevor du zurückrufst.' },
+    support:    { icon: '💬', title: 'Kunden-Support', desc: 'Sieh wie dein Bot Bestandskunden rund um die Uhr betreut — Terminrückfragen, Status & Fragen sofort beantwortet.' },
+    followup:   { icon: '📩', title: 'Follow-up Nachrichten', desc: 'Sieh wie dein Bot nach Besichtigungen & Angeboten automatisch nachfasst — zur richtigen Zeit, für jeden Kunden.' },
+    onboarding: { icon: '🚀', title: 'Bot konfigurieren', desc: 'Beantworte 5 kurze Fragen — wir generieren daraus deinen fertigen System-Prompt.' },
+  };
+
+  var PLACEHOLDERS = {
+    handwerker: 'Schreib als Kunde …',
+    support:    'Z.B.: "Wann kommt Ihr Monteur?"',
+    followup:   'Szenario wählen oder antworten …',
+    onboarding: 'Antwort eingeben …',
+  };
+
+  var BADGES = {
+    handwerker: 'Auftrags-Demo',
+    support:    'Support-Demo',
+    followup:   'Follow-up',
+    onboarding: 'Konfiguration',
+  };
+
+  var SUGGESTIONS = [
+    'Ich brauche eine neue Küche einbauen lassen',
+    'Wir möchten unser Bad renovieren',
+    'Ich suche jemanden für einen Wintergarten',
+  ];
+
+  function showOverlay(niche) {
+    var c = OVERLAY_CONTENT[niche] || OVERLAY_CONTENT.handwerker;
+    document.getElementById('overlay-icon').textContent  = c.icon;
+    document.getElementById('overlay-title').textContent = c.title;
+    document.getElementById('overlay-desc').textContent  = c.desc;
+    var btn = document.getElementById('start-demo-btn');
+    btn.textContent = '▶ Demo starten';
+    btn.disabled = false;
+    document.getElementById('chat-overlay').style.display = 'flex';
+    demoStarted = false;
+  }
+
+  function startDemo() {
+    var overlay = document.getElementById('chat-overlay');
+    var btn = document.getElementById('start-demo-btn');
+    btn.textContent = 'Lädt …';
+    btn.disabled = true;
+    demoStarted = true;
+    busy = false;
+    chatHistory = [];
+    messagesEl.innerHTML = '';
+    sendBtn.disabled = false;
+    overlay.style.display = 'none';
+    sendMessage('');
+  }
+
+  function openBooking() {
+    document.getElementById('booking-iframe').src = BOOKING_URL;
+    var m = document.getElementById('booking-modal');
+    m.style.display = 'flex';
+    if (typeof fbq !== 'undefined') fbq('track', 'Lead', { content_name: 'HandwerkerBookingOpened' });
+  }
+
+  function closeBooking() {
+    document.getElementById('booking-modal').style.display = 'none';
+    setTimeout(function() { document.getElementById('booking-iframe').src = ''; }, 300);
+  }
+
+  document.getElementById('booking-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeBooking();
+  });
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeBooking(); });
+
+  function copySystemPrompt() {
+    var btn = document.getElementById('sp-copy-btn');
+    navigator.clipboard.writeText(spContent.textContent).then(function() {
+      btn.textContent = '✓ Kopiert!';
+      setTimeout(function() { btn.textContent = 'Kopieren'; }, 2000);
+    });
+  }
+
+  function startOnboarding() {
+    ppActions.style.display = 'none';
+    spBox.style.display = 'none';
+    var lf = document.getElementById('lead-form');
+    if (lf) lf.style.display = 'none';
+    document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+    currentNiche = 'onboarding';
+    chatHistory = []; pitched = false; demoStarted = false;
+    messagesEl.innerHTML = '';
+    chipRow.style.display = 'none'; chipRow.innerHTML = '';
+    inputEl.value = ''; inputEl.placeholder = PLACEHOLDERS.onboarding;
+    if (modeBadge) modeBadge.textContent = BADGES.onboarding;
+    sendBtn.disabled = false; busy = false;
+    document.getElementById('chat-overlay').style.display = 'none';
+    sendMessage('');
+  }
+
+  async function submitLead() {
+    var nameVal  = document.getElementById('lead-name').value.trim();
+    var phoneVal = document.getElementById('lead-phone').value.trim();
+    var errEl    = document.getElementById('lead-error');
+    var btn      = document.getElementById('lead-submit-btn');
+    errEl.style.display = 'none';
+    if (!nameVal || !phoneVal) {
+      errEl.textContent = 'Bitte Name und Telefonnummer ausfüllen.';
+      errEl.style.display = 'block';
+      return;
+    }
+    btn.textContent = 'Wird gespeichert …';
+    btn.disabled = true;
+    try {
+      await fetch('/api/save-lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: nameVal, phone: phoneVal,
+          source: 'handwerker_' + currentNiche,
+          system_prompt: spContent ? spContent.textContent : null,
+          conversation: JSON.stringify(chatHistory),
+        }),
+      });
+    } catch(e) {}
+    document.getElementById('lead-form').innerHTML =
+      '<div style="padding:0.7rem;background:var(--wa-bg);font-size:0.8rem;color:var(--green);font-weight:600;text-align:center">✓ Gespeichert! Jetzt Termin wählen …</div>';
+    if (typeof fbq !== 'undefined') fbq('track', 'Lead', { content_name: 'HandwerkerOnboardingLeadSubmitted' });
+    setTimeout(function() { openBooking(); }, 600);
+  }
+
+  function now() {
+    return new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+  }
+
+  function stripMd(text) {
+    return text.replace(/\*\*(.*?)\*\*/g, '$1').replace(/\*(.*?)\*/g, '$1');
+  }
+
+  function appendMsg(text, role) {
+    var typing = messagesEl.querySelector('.typing');
+    if (typing) typing.remove();
+    var el = document.createElement('div');
+    el.className = 'msg ' + role;
+    el.textContent = stripMd(text);
+    var t = document.createElement('div');
+    t.className = 'msg-time';
+    t.textContent = now();
+    el.appendChild(t);
+    messagesEl.appendChild(el);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  function showTyping() {
+    var el = document.createElement('div');
+    el.className = 'typing';
+    el.innerHTML = '<span></span><span></span><span></span>';
+    messagesEl.appendChild(el);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  function showChips(options, asInput) {
+    chipRow.style.display = 'flex';
+    chipRow.innerHTML = '';
+    options.forEach(function(opt) {
+      var b = document.createElement('button');
+      b.className = 'chip';
+      b.textContent = opt;
+      b.onclick = function() {
+        chipRow.style.display = 'none';
+        chipRow.innerHTML = '';
+        if (asInput) { inputEl.value = opt; inputEl.focus(); }
+        else sendMessage(opt);
+      };
+      chipRow.appendChild(b);
+    });
+  }
+
+  function resetChat(niche) {
+    currentNiche = niche;
+    chatHistory  = [];
+    pitched  = false;
+    messagesEl.innerHTML = '';
+    chipRow.style.display = 'none';
+    chipRow.innerHTML = '';
+    ppActions.style.display = 'none';
+    spBox.style.display = 'none';
+    var lf = document.getElementById('lead-form');
+    if (lf) lf.style.display = 'none';
+    inputEl.value = '';
+    inputEl.placeholder = PLACEHOLDERS[niche] || 'Antworten …';
+    if (modeBadge) modeBadge.textContent = BADGES[niche] || 'Demo';
+    sendBtn.disabled = false;
+    busy = false;
+    showOverlay(niche);
+  }
+
+  document.querySelectorAll('.tab-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      if (btn.dataset.niche === currentNiche) return;
+      document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      resetChat(btn.dataset.niche);
+    });
+  });
+
+  async function sendMessage(userText) {
+    if (busy) return;
+    busy = true;
+    sendBtn.disabled = true;
+    chipRow.style.display = 'none';
+
+    if (userText) {
+      appendMsg(userText, 'user');
+      chatHistory.push({ role: 'user', content: userText });
+    }
+
+    showTyping();
+
+    try {
+      var res = await fetch('/api/demo-chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: chatHistory, niche: currentNiche }),
+      });
+      var data         = await res.json();
+      var reply        = data.content || '';
+      var followUp     = data.followUp || null;
+      var systemPrompt = data.systemPrompt || null;
+
+      if (systemPrompt) {
+        if (reply) {
+          appendMsg(reply, 'bot');
+          chatHistory.push({ role: 'assistant', content: reply });
+        }
+        setTimeout(function() {
+          spContent.textContent = systemPrompt;
+          spBox.style.display = 'block';
+          var lf = document.getElementById('lead-form');
+          if (lf) lf.style.display = 'block';
+          if (followUp) {
+            setTimeout(function() {
+              showTyping();
+              setTimeout(function() { appendMsg(followUp, 'bot'); }, 800);
+            }, 600);
+          }
+          if (typeof fbq !== 'undefined') fbq('track', 'Lead', { content_name: 'HandwerkerSystemPromptGenerated' });
+        }, 400);
+
+      } else if (reply) {
+        appendMsg(reply, 'bot');
+        chatHistory.push({ role: 'assistant', content: reply });
+
+        if (chatHistory.length === 1 && !pitched) {
+          showChips(SUGGESTIONS, true);
+        }
+        if (currentNiche === 'followup' && chatHistory.length === 2) {
+          showChips(['🏗️ Nach Besichtigung', '📋 Angebot nachfassen', '⭐ Bewertung anfragen'], false);
+        }
+
+        if (followUp && !pitched) {
+          pitched = true;
+          setTimeout(function() {
+            showTyping();
+            setTimeout(function() {
+              appendMsg(followUp, 'bot');
+              ppActions.style.display = 'flex';
+              if (typeof fbq !== 'undefined') fbq('track', 'Lead');
+            }, 1200);
+          }, 800);
+        }
+
+        if (chatHistory.length === 2 && typeof fbq !== 'undefined') {
+          fbq('track', 'ViewContent', { content_name: 'HandwerkerDemo_' + currentNiche });
+        }
+      }
+
+    } catch(e) {
+      var t = messagesEl.querySelector('.typing');
+      if (t) t.remove();
+      appendMsg('Kurze Unterbrechung — bitte nochmal versuchen.', 'bot');
+    }
+
+    busy = false;
+    sendBtn.disabled = false;
+    inputEl.focus();
+  }
+
+  inputEl.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      var v = inputEl.value.trim();
+      if (v) { inputEl.value = ''; sendMessage(v); }
+    }
+  });
+  sendBtn.addEventListener('click', function() {
+    var v = inputEl.value.trim();
+    if (v) { inputEl.value = ''; sendMessage(v); }
+  });
+
+  window.addEventListener('DOMContentLoaded', function() {
+    inputEl.placeholder = PLACEHOLDERS[currentNiche];
+    showOverlay(currentNiche);
+  });
+</script>
+
+</body>
+</html>

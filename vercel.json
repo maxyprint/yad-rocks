@@ -12,6 +12,8 @@
     { "source": "/makler",     "destination": "/makler.html"      },
     { "source": "/kanzlei",   "destination": "/kanzlei.html"    },
     { "source": "/coaches",   "destination": "/coaches.html"    },
+    { "source": "/kreditvermittler", "destination": "/kreditvermittler.html" },
+    { "source": "/handwerker",       "destination": "/handwerker.html"      },
     { "source": "/bot",        "destination": "/bot.html"        },
     { "source": "/makler-bot", "destination": "/makler-bot.html" }
   ],
