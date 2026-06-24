@@ -491,16 +491,16 @@
 
 <section style="padding: 5rem 1.5rem; background: var(--bg);">
   <style>
-    .about-layout { display: grid; grid-template-columns: 200px 1fr; gap: 4rem; align-items: center; max-width: 860px; margin: 0 auto; }
+    .about-layout { display: grid; grid-template-columns: 260px 1fr; gap: 4rem; align-items: center; max-width: 900px; margin: 0 auto; }
     .about-img-wrap { position: relative; }
-    .about-img-wrap img { width: 100%; aspect-ratio: 3/4; object-fit: cover; border-radius: 16px; box-shadow: 0 0 0 1px rgba(255,255,255,0.06), 0 24px 60px rgba(0,0,0,0.5), 0 0 60px rgba(37,211,102,0.06); display: block; }
+    .about-img-wrap img { width: 100%; aspect-ratio: 3/4; object-fit: cover; object-position: top center; border-radius: 16px; box-shadow: 0 0 0 1px rgba(255,255,255,0.06), 0 24px 60px rgba(0,0,0,0.5), 0 0 60px rgba(37,211,102,0.06); display: block; }
     .about-badge { position: absolute; bottom: -14px; left: 50%; transform: translateX(-50%); white-space: nowrap; background: var(--bg2); border: 1px solid rgba(37,211,102,0.25); border-radius: 999px; padding: 0.4rem 1rem; font-size: 0.72rem; font-weight: 700; color: var(--green); letter-spacing: 0.03em; }
     .about-stats { display: flex; gap: 2.5rem; margin-bottom: 2.25rem; flex-wrap: wrap; }
     .about-stat-num { font-size: 1.9rem; font-weight: 800; color: var(--green); letter-spacing: -0.03em; line-height: 1; }
     .about-stat-label { font-size: 0.78rem; color: var(--muted); margin-top: 0.25rem; line-height: 1.4; }
     @media (max-width: 700px) {
-      .about-layout { grid-template-columns: 1fr; gap: 3rem; text-align: center; }
-      .about-img-wrap { width: 180px; margin: 0 auto; }
+      .about-layout { grid-template-columns: 1fr; gap: 2rem; text-align: center; }
+      .about-img-wrap { width: min(300px, 72%); margin: 0 auto; }
       .about-stats { justify-content: center; }
     }
   </style>
