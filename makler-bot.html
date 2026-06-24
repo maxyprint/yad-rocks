@@ -509,26 +509,45 @@
   </div>
 </section>
 
-<!-- PRICING -->
-<section class="pricing">
-  <div class="container">
-    <p class="section-label">Investition</p>
-    <h2 class="section-title">Weniger als ein verlorener Auftrag</h2>
-    <div class="pricing-card">
-      <div class="price-tag">€299 <span>/ Monat</span></div>
-      <p class="price-note">Setup inklusive · Monatlich kündbar</p>
-      <ul class="price-list">
-        <li>WhatsApp Business Integration (offiziell)</li>
-        <li>Unlimitierte Konversationen & Qualifizierungen</li>
-        <li>Lead-Protokoll mit Budget & Finanzierungsstatus</li>
-        <li>Automatische Terminbuchung</li>
-        <li>Google-Bewertungsanfragen nach Abschluss</li>
-        <li>Individuell auf Ihr Büro & Ihre Objekte trainiert</li>
-        <li>DSGVO-konform, Server Deutschland</li>
-        <li>Änderungen & Anpassungen inklusive</li>
-      </ul>
-      <a href="/termin" class="btn-block">Erstgespräch vereinbaren →</a>
-      <p class="price-trust">Monatlich kündbar · Kein Kleingedrucktes</p>
+<!-- FOUNDER -->
+<section style="padding: 5rem 1.5rem; background: var(--bg);">
+  <style>
+    .about-layout { display: grid; grid-template-columns: 200px 1fr; gap: 4rem; align-items: center; max-width: 860px; margin: 0 auto; }
+    .about-img-wrap { position: relative; }
+    .about-img-wrap img { width: 100%; aspect-ratio: 3/4; object-fit: cover; border-radius: 16px; box-shadow: 0 0 0 1px rgba(255,255,255,0.06), 0 24px 60px rgba(0,0,0,0.5), 0 0 60px rgba(37,211,102,0.06); display: block; }
+    .about-badge { position: absolute; bottom: -14px; left: 50%; transform: translateX(-50%); white-space: nowrap; background: var(--bg2); border: 1px solid rgba(37,211,102,0.25); border-radius: 999px; padding: 0.4rem 1rem; font-size: 0.72rem; font-weight: 700; color: var(--green); letter-spacing: 0.03em; }
+    .about-stats { display: flex; gap: 2.5rem; margin-bottom: 2.25rem; flex-wrap: wrap; }
+    .about-stat-num { font-size: 1.9rem; font-weight: 800; color: var(--green); letter-spacing: -0.03em; line-height: 1; }
+    .about-stat-label { font-size: 0.78rem; color: var(--muted); margin-top: 0.25rem; line-height: 1.4; }
+    @media (max-width: 700px) {
+      .about-layout { grid-template-columns: 1fr; gap: 3rem; text-align: center; }
+      .about-img-wrap { width: 180px; margin: 0 auto; }
+      .about-stats { justify-content: center; }
+    }
+  </style>
+  <div class="about-layout">
+    <div class="about-img-wrap">
+      <picture>
+        <source srcset="/me-img.webp" type="image/webp">
+        <img src="/me-img.png" alt="Max Schwarz, Gründer YAD">
+      </picture>
+      <div class="about-badge">Max Schwarz · Gründer YAD</div>
+    </div>
+    <div>
+      <p class="section-label">Ihr Ansprechpartner</p>
+      <h2 class="section-title" style="font-size: clamp(1.6rem, 3.5vw, 2.2rem); margin-bottom: 1.1rem;">
+        Kein Self-Service-Tool.<br>Ein persönlicher Service.
+      </h2>
+      <p style="color: var(--muted); font-size: 0.97rem; line-height: 1.75; margin-bottom: 2rem;">
+        Ich lerne Ihre Objekte, Ihre typischen Interessenten und Ihren Stil kennen — und trainiere Ihren Bot bis er klingt wie Sie. Persönlich, nicht über ein Ticket-System.<br><br>
+        Wenn Sie mich anrufen, sprechen Sie mit mir.
+      </p>
+      <div class="about-stats">
+        <div><div class="about-stat-num">80+</div><div class="about-stat-label">betreute<br>Unternehmen</div></div>
+        <div><div class="about-stat-num">3 J.</div><div class="about-stat-label">KI & Marketing<br>Erfahrung</div></div>
+        <div><div class="about-stat-num">DSGVO</div><div class="about-stat-label">Server in<br>Deutschland</div></div>
+      </div>
+      <a href="/termin" class="btn-green" style="display: inline-flex;">Erstgespräch vereinbaren →</a>
     </div>
   </div>
 </section>
