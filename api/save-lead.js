@@ -78,7 +78,7 @@ async function notifyEmail(name, phone, email, system_prompt, conversation, sour
       },
       body: JSON.stringify({
         from:    'YAD Bot <max@yprint.de>',
-        to:      ['max@yad.rocks'],
+        to:      ['maxschwarz727@icloud.com'],
         subject: `Neuer Bot-Lead: ${name}`,
         text:    body,
       }),
