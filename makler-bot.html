@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','1419975432380195');fbq('track','PageView');</script>
+  <script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)})(window,document,"clarity","script","x3pw514816");</script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -645,6 +646,7 @@
   ];
 
   function openBooking() {
+    hasBooked = true;
     document.getElementById('booking-iframe').src = BOOKING_URL;
     var m = document.getElementById('booking-modal');
     m.style.display = 'flex';
@@ -897,7 +899,68 @@
     inputEl.placeholder = PLACEHOLDERS[currentNiche];
     showOverlay(currentNiche);
   });
+
+  // ─── EXIT INTENT ──────────────────────────────────────────────────────────
+  var exitShown = false;
+  var hasBooked = false;
+  var exitSelected = null;
+
+  document.addEventListener('mouseleave', function(e) {
+    if (e.clientY <= 0 && !exitShown && demoStarted && !hasBooked) {
+      exitShown = true;
+      document.getElementById('exit-popup').style.display = 'flex';
+    }
+  });
+
+  function selectExit(btn, reason) {
+    exitSelected = reason;
+    document.querySelectorAll('.exit-opt').forEach(function(b) { b.classList.remove('selected'); });
+    btn.classList.add('selected');
+    document.getElementById('exit-send').style.display = 'block';
+  }
+
+  function sendExitFeedback() {
+    if (!exitSelected) return;
+    if (typeof fbq !== 'undefined') fbq('trackCustom', 'ExitFeedback', { reason: exitSelected, page: window.location.pathname });
+    if (typeof clarity !== 'undefined') clarity('set', 'exit_reason', exitSelected);
+    document.getElementById('exit-question').style.display = 'none';
+    document.getElementById('exit-thanks').style.display = 'block';
+    setTimeout(closeExitPopup, 2200);
+  }
+
+  function closeExitPopup() {
+    document.getElementById('exit-popup').style.display = 'none';
+  }
 </script>
+
+<!-- EXIT INTENT POPUP -->
+<div id="exit-popup" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.78);z-index:9999;align-items:center;justify-content:center;backdrop-filter:blur(4px);">
+  <div style="background:#141414;border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:2.25rem 2rem;max-width:400px;width:90%;text-align:center;position:relative;box-shadow:0 32px 80px rgba(0,0,0,0.6);">
+    <button onclick="closeExitPopup()" style="position:absolute;top:0.85rem;right:1rem;background:none;border:none;color:#555;font-size:1.1rem;cursor:pointer;line-height:1;padding:0.25rem;">✕</button>
+    <div id="exit-question">
+      <p style="font-size:0.7rem;color:#25d366;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin:0 0 0.6rem;">Kurze Frage</p>
+      <h3 style="color:#fff;font-size:1.1rem;font-weight:700;margin:0 0 0.4rem;line-height:1.35;">Was hat dich heute aufgehalten?</h3>
+      <p style="color:#555;font-size:0.82rem;margin:0 0 1.4rem;">Dein Feedback hilft uns, besser zu werden.</p>
+      <div style="display:flex;flex-direction:column;gap:0.45rem;">
+        <button class="exit-opt" onclick="selectExit(this,'preis')">💶 Preis war zu hoch</button>
+        <button class="exit-opt" onclick="selectExit(this,'infos')">🤔 Ich brauche noch mehr Infos</button>
+        <button class="exit-opt" onclick="selectExit(this,'timing')">⏳ Jetzt nicht der richtige Zeitpunkt</button>
+        <button class="exit-opt" onclick="selectExit(this,'passt_nicht')">❌ Nicht die richtige Lösung für mich</button>
+      </div>
+      <button id="exit-send" onclick="sendExitFeedback()" style="margin-top:1rem;width:100%;padding:0.8rem;background:#25d366;color:#000;border:none;border-radius:10px;font-weight:700;font-size:0.88rem;cursor:pointer;display:none;">Feedback senden →</button>
+    </div>
+    <div id="exit-thanks" style="display:none;padding:1rem 0;">
+      <div style="font-size:2.5rem;margin-bottom:0.75rem;">🙏</div>
+      <p style="color:#fff;font-weight:700;margin:0 0 0.35rem;font-size:1rem;">Danke für dein Feedback!</p>
+      <p style="color:#555;font-size:0.82rem;margin:0;">Wir nutzen es um uns zu verbessern.</p>
+    </div>
+  </div>
+</div>
+<style>
+  .exit-opt { background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:10px;color:#aaa;padding:0.65rem 1rem;font-size:0.86rem;cursor:pointer;text-align:left;transition:all .15s;width:100%; }
+  .exit-opt:hover { background:rgba(255,255,255,0.07);border-color:rgba(255,255,255,0.14);color:#fff; }
+  .exit-opt.selected { background:rgba(37,211,102,0.08);border-color:rgba(37,211,102,0.35);color:#fff; }
+</style>
 
 </body>
 </html>
