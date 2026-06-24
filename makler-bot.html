@@ -601,6 +601,7 @@
     messagesEl.innerHTML = '';
     sendBtn.disabled = false;
     overlay.style.display = 'none';
+    if (typeof fbq !== 'undefined') fbq('track', 'ViewContent', { content_name: currentNiche, content_category: 'bot_demo' });
     sendMessage('');
   }
 
@@ -628,7 +629,7 @@
     document.getElementById('booking-iframe').src = BOOKING_URL;
     var m = document.getElementById('booking-modal');
     m.style.display = 'flex';
-    if (typeof fbq !== 'undefined') fbq('track', 'Lead', { content_name: 'MaklerBookingOpened' });
+    if (typeof fbq !== 'undefined') fbq('track', 'Lead', { content_name: currentNiche, value: 299, currency: 'EUR' });
   }
 
   function closeBooking() {
@@ -702,7 +703,7 @@
     document.getElementById('lead-form').innerHTML =
       '<div style="padding:0.7rem;background:var(--wa-bg);font-size:0.8rem;color:var(--green);font-weight:600;text-align:center">✓ Gespeichert! Jetzt Termin wählen …</div>';
 
-    if (typeof fbq !== 'undefined') fbq('track', 'Lead', { content_name: 'MaklerOnboardingLeadSubmitted' });
+    if (typeof fbq !== 'undefined') fbq('track', 'Contact', { content_name: currentNiche, value: 299, currency: 'EUR' });
     setTimeout(function() { openBooking(); }, 600);
   }
 
@@ -821,7 +822,7 @@
               setTimeout(function() { appendMsg(followUp, 'bot'); }, 800);
             }, 600);
           }
-          if (typeof fbq !== 'undefined') fbq('track', 'Lead', { content_name: 'MaklerSystemPromptGenerated' });
+          if (typeof fbq !== 'undefined') fbq('track', 'ViewContent', { content_name: 'onboarding_complete' });
         }, 400);
 
       } else if (reply) {
@@ -843,13 +844,9 @@
             setTimeout(function() {
               appendMsg(followUp, 'bot');
               ppActions.style.display = 'flex';
-              if (typeof fbq !== 'undefined') fbq('track', 'Lead');
+              if (typeof fbq !== 'undefined') fbq('track', 'AddToCart', { content_name: currentNiche, value: 299, currency: 'EUR' });
             }, 1200);
           }, 800);
-        }
-
-        if (chatHistory.length === 2 && typeof fbq !== 'undefined') {
-          fbq('track', 'ViewContent', { content_name: 'MaklerDemo_' + currentNiche });
         }
       }
 
