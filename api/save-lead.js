@@ -38,15 +38,17 @@ export default async function handler(req, res) {
   }
 
   await Promise.all([
-    ntfy(name, phone, source),
-    notifyEmail(name, phone, email, system_prompt),
+    ntfy(name, phone, source, conversation),
+    notifyEmail(name, phone, email, system_prompt, conversation, source),
   ]);
 
   return res.status(200).json({ ok: true });
 }
 
-async function ntfy(name, phone, source) {
+async function ntfy(name, phone, source, conversation) {
   try {
+    let body = `${phone}${source ? ' · ' + source : ''}`;
+    if (conversation) body += `\n\n${conversation}`;
     await fetch(`https://ntfy.sh/${NTFY_TOPIC}`, {
       method: 'POST',
       headers: {
@@ -54,7 +56,7 @@ async function ntfy(name, phone, source) {
         Tags: 'robot,phone',
         Priority: 'high',
       },
-      body: `${phone}${source ? ' · ' + source : ''}`,
+      body,
       signal: AbortSignal.timeout(6000),
     });
   } catch (e) {
@@ -62,9 +64,12 @@ async function ntfy(name, phone, source) {
   }
 }
 
-async function notifyEmail(name, phone, email, system_prompt) {
+async function notifyEmail(name, phone, email, system_prompt, conversation, source) {
   if (!RESEND_KEY) return;
   try {
+    let body = `Name: ${name}\nTelefon: ${phone}\nEmail: ${email || '–'}\nQuelle: ${source || '–'}`;
+    if (conversation) body += `\n\nNachricht:\n${conversation}`;
+    if (system_prompt) body += `\n\nSystem-Prompt:\n${system_prompt}`;
     await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
@@ -75,7 +80,7 @@ async function notifyEmail(name, phone, email, system_prompt) {
         from:    'YAD Bot <max@yprint.de>',
         to:      ['max@yad.rocks'],
         subject: `Neuer Bot-Lead: ${name}`,
-        text:    `Name: ${name}\nTelefon: ${phone}\nEmail: ${email || '–'}\n\nSystem-Prompt:\n${system_prompt || '–'}`,
+        text:    body,
       }),
       signal: AbortSignal.timeout(8000),
     });
