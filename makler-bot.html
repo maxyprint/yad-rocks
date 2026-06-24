@@ -903,7 +903,7 @@
   // ─── EXIT INTENT ──────────────────────────────────────────────────────────
   var exitShown = false;
   var hasBooked = false;
-  var exitSelected = null;
+  var epCurrentReason = null;
 
   document.addEventListener('mouseleave', function(e) {
     if (e.clientY <= 0 && !exitShown && demoStarted && !hasBooked) {
@@ -912,20 +912,81 @@
     }
   });
 
-  function selectExit(btn, reason) {
-    exitSelected = reason;
-    document.querySelectorAll('.exit-opt').forEach(function(b) { b.classList.remove('selected'); });
-    btn.classList.add('selected');
-    document.getElementById('exit-send').style.display = 'block';
+  function epSelect(reason) {
+    epCurrentReason = reason;
+    if (typeof fbq !== 'undefined') fbq('trackCustom', 'ExitFeedback', { reason: reason, page: window.location.pathname });
+    if (typeof clarity !== 'undefined') clarity('set', 'exit_reason', reason);
+    document.getElementById('ep-options').style.display = 'none';
+    if (reason === 'teuer') {
+      document.getElementById('ep-price-q').style.display = 'block';
+      setTimeout(function() { document.getElementById('ep-price-input').focus(); }, 100);
+    } else if (reason === 'infos') {
+      document.getElementById('ep-form-info').innerHTML = epFormHTML('info');
+      document.getElementById('ep-info').style.display = 'block';
+    } else if (reason === 'passt_nicht') {
+      document.getElementById('ep-form-explain').innerHTML = epFormHTML('explain');
+      document.getElementById('ep-explain').style.display = 'block';
+    } else {
+      document.getElementById('ep-thanks').style.display = 'block';
+      setTimeout(closeExitPopup, 2200);
+    }
   }
 
-  function sendExitFeedback() {
-    if (!exitSelected) return;
-    if (typeof fbq !== 'undefined') fbq('trackCustom', 'ExitFeedback', { reason: exitSelected, page: window.location.pathname });
-    if (typeof clarity !== 'undefined') clarity('set', 'exit_reason', exitSelected);
-    document.getElementById('exit-question').style.display = 'none';
-    document.getElementById('exit-thanks').style.display = 'block';
-    setTimeout(closeExitPopup, 2200);
+  function epFormHTML(section) {
+    var s = 'width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:0.7rem 1rem;color:#fff;font-size:0.87rem;font-family:inherit;box-sizing:border-box;';
+    return '<div style="display:flex;flex-direction:column;gap:0.5rem;margin-bottom:0.75rem;">'
+      + '<input type="text" id="ep-name-' + section + '" placeholder="Dein Name *" style="' + s + '">'
+      + '<input type="tel" id="ep-phone-' + section + '" placeholder="Telefon *" style="' + s + '">'
+      + '<input type="email" id="ep-email-' + section + '" placeholder="Email (optional)" style="' + s + '">'
+      + '</div>'
+      + '<div id="ep-err-' + section + '" style="color:#f87171;font-size:0.8rem;margin-bottom:0.5rem;display:none;"></div>';
+  }
+
+  function epPriceSubmit() {
+    var raw = document.getElementById('ep-price-input').value.trim();
+    if (!raw) { document.getElementById('ep-price-input').focus(); return; }
+    var num = parseInt(raw.replace(/[^0-9]/g, '')) || 0;
+    document.getElementById('ep-price-q').style.display = 'none';
+    document.getElementById('ep-form-reveal').innerHTML = epFormHTML('reveal')
+      + '<button onclick="epSubmit(\'reveal\',\'exit_teuer\')" class="ep-btn-primary" style="margin-top:0.25rem;">Erstgespräch vereinbaren →</button>';
+    document.getElementById('ep-price-reveal').style.display = 'block';
+    var msg = document.getElementById('ep-reveal-msg');
+    if (num > 299) {
+      msg.innerHTML = '💡 Tatsächlich nur 299 €/Monat — du hast ' + num + ' € geschätzt, es kostet also deutlich weniger als gedacht.';
+    } else if (num > 0) {
+      msg.textContent = 'Genau — 299 €/Monat, alles inklusive. Kein versteckter Aufpreis.';
+    } else {
+      msg.textContent = '💡 Nur 299 €/Monat — inklusive Setup, unbegrenzte Chats, monatlich kündbar.';
+    }
+  }
+
+  async function epSubmit(section, reason) {
+    var name  = ((document.getElementById('ep-name-'  + section) || {}).value || '').trim();
+    var phone = ((document.getElementById('ep-phone-' + section) || {}).value || '').trim();
+    var email = ((document.getElementById('ep-email-' + section) || {}).value || '').trim();
+    var errEl = document.getElementById('ep-err-' + section);
+    if (!name || !phone) {
+      errEl.textContent = 'Bitte Name und Telefonnummer angeben.';
+      errEl.style.display = 'block';
+      return;
+    }
+    var extra = '';
+    if (section === 'info')    extra = ((document.getElementById('ep-info-input')    || {}).value || '').trim();
+    if (section === 'explain') extra = ((document.getElementById('ep-explain-input') || {}).value || '').trim();
+    try {
+      await fetch('/api/save-lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: name, phone: phone, email: email || null, source: reason || epCurrentReason, conversation: extra || null }),
+      });
+    } catch(e) {}
+    if (typeof fbq !== 'undefined') fbq('track', 'Lead', { content_name: 'exit_popup', value: 299, currency: 'EUR' });
+    document.getElementById('ep-box').innerHTML = '<div style="text-align:center;padding:1.5rem 0;">'
+      + '<div style="font-size:2.5rem;margin-bottom:0.75rem;">🙏</div>'
+      + '<p style="color:#fff;font-weight:700;margin:0 0 0.35rem;font-size:1rem;">Danke! Wir melden uns.</p>'
+      + '<p style="color:#555;font-size:0.82rem;margin:0;">Normalerweise innerhalb von 24 Stunden.</p>'
+      + '</div>';
+    setTimeout(closeExitPopup, 2500);
   }
 
   function closeExitPopup() {
@@ -935,31 +996,74 @@
 
 <!-- EXIT INTENT POPUP -->
 <div id="exit-popup" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.78);z-index:9999;align-items:center;justify-content:center;backdrop-filter:blur(4px);">
-  <div style="background:#141414;border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:2.25rem 2rem;max-width:400px;width:90%;text-align:center;position:relative;box-shadow:0 32px 80px rgba(0,0,0,0.6);">
-    <button onclick="closeExitPopup()" style="position:absolute;top:0.85rem;right:1rem;background:none;border:none;color:#555;font-size:1.1rem;cursor:pointer;line-height:1;padding:0.25rem;">✕</button>
-    <div id="exit-question">
+  <div id="ep-box" style="background:#141414;border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:2rem;max-width:420px;width:90%;position:relative;box-shadow:0 32px 80px rgba(0,0,0,0.6);max-height:90vh;overflow-y:auto;">
+    <button onclick="closeExitPopup()" style="position:absolute;top:0.85rem;right:1rem;background:none;border:none;color:#555;font-size:1.1rem;cursor:pointer;padding:0.25rem;">✕</button>
+
+    <!-- Options -->
+    <div id="ep-options">
       <p style="font-size:0.7rem;color:#25d366;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin:0 0 0.6rem;">Kurze Frage</p>
-      <h3 style="color:#fff;font-size:1.1rem;font-weight:700;margin:0 0 0.4rem;line-height:1.35;">Was hat dich heute aufgehalten?</h3>
-      <p style="color:#555;font-size:0.82rem;margin:0 0 1.4rem;">Dein Feedback hilft uns, besser zu werden.</p>
+      <h3 style="color:#fff;font-size:1.05rem;font-weight:700;margin:0 0 0.35rem;line-height:1.35;">Was hat dich heute aufgehalten?</h3>
+      <p style="color:#555;font-size:0.82rem;margin:0 0 1.2rem;">Dein Feedback hilft uns weiter.</p>
       <div style="display:flex;flex-direction:column;gap:0.45rem;">
-        <button class="exit-opt" onclick="selectExit(this,'preis')">💶 Preis war zu hoch</button>
-        <button class="exit-opt" onclick="selectExit(this,'infos')">🤔 Ich brauche noch mehr Infos</button>
-        <button class="exit-opt" onclick="selectExit(this,'timing')">⏳ Jetzt nicht der richtige Zeitpunkt</button>
-        <button class="exit-opt" onclick="selectExit(this,'passt_nicht')">❌ Nicht die richtige Lösung für mich</button>
+        <button class="exit-opt" onclick="epSelect('teuer')">💭 Ich denke das ist mir zu teuer</button>
+        <button class="exit-opt" onclick="epSelect('infos')">🤔 Ich brauche noch mehr Infos</button>
+        <button class="exit-opt" onclick="epSelect('timing')">⏳ Jetzt nicht der richtige Zeitpunkt</button>
+        <button class="exit-opt" onclick="epSelect('passt_nicht')">❌ Nicht die richtige Lösung für mich</button>
       </div>
-      <button id="exit-send" onclick="sendExitFeedback()" style="margin-top:1rem;width:100%;padding:0.8rem;background:#25d366;color:#000;border:none;border-radius:10px;font-weight:700;font-size:0.88rem;cursor:pointer;display:none;">Feedback senden →</button>
     </div>
-    <div id="exit-thanks" style="display:none;padding:1rem 0;">
+
+    <!-- Price question -->
+    <div id="ep-price-q" style="display:none;">
+      <p style="font-size:0.7rem;color:#25d366;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin:0 0 0.6rem;">Preisfrage</p>
+      <h3 style="color:#fff;font-size:1.05rem;font-weight:700;margin:0 0 0.4rem;line-height:1.4;">Kein Problem — was schätzt du, was sowas monatlich kostet?</h3>
+      <p style="color:#555;font-size:0.82rem;margin:0 0 1rem;">Einfach drauflosschätzen 👇</p>
+      <input id="ep-price-input" type="text" placeholder="z.B. 500 € / Monat" onkeydown="if(event.key==='Enter')epPriceSubmit()"
+        style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:0.75rem 1rem;color:#fff;font-size:0.9rem;font-family:inherit;box-sizing:border-box;margin-bottom:0.75rem;">
+      <button onclick="epPriceSubmit()" class="ep-btn-primary">Weiter →</button>
+    </div>
+
+    <!-- Price reveal + contact -->
+    <div id="ep-price-reveal" style="display:none;">
+      <div id="ep-reveal-msg" style="background:rgba(37,211,102,0.08);border:1px solid rgba(37,211,102,0.25);border-radius:12px;padding:0.9rem 1rem;margin-bottom:1rem;color:#25d366;font-weight:700;font-size:0.92rem;line-height:1.5;"></div>
+      <p style="color:#888;font-size:0.82rem;margin:0 0 0.9rem;">Soll ich dir die Details schicken?</p>
+      <div id="ep-form-reveal"></div>
+    </div>
+
+    <!-- More info + contact -->
+    <div id="ep-info" style="display:none;">
+      <p style="font-size:0.7rem;color:#25d366;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin:0 0 0.6rem;">Deine Frage</p>
+      <h3 style="color:#fff;font-size:1.05rem;font-weight:700;margin:0 0 0.4rem;">Was möchtest du wissen?</h3>
+      <p style="color:#555;font-size:0.82rem;margin:0 0 0.8rem;">Wir antworten persönlich.</p>
+      <textarea id="ep-info-input" placeholder="Deine Frage..." rows="3"
+        style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:0.75rem 1rem;color:#fff;font-size:0.87rem;resize:vertical;margin-bottom:0.85rem;font-family:inherit;box-sizing:border-box;"></textarea>
+      <div id="ep-form-info"></div>
+      <button onclick="epSubmit('info','exit_infos')" class="ep-btn-primary" style="margin-top:0.5rem;">Frage absenden →</button>
+    </div>
+
+    <!-- Not right + contact -->
+    <div id="ep-explain" style="display:none;">
+      <p style="font-size:0.7rem;color:#25d366;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin:0 0 0.6rem;">Feedback</p>
+      <h3 style="color:#fff;font-size:1.05rem;font-weight:700;margin:0 0 0.4rem;">Was passt nicht?</h3>
+      <p style="color:#555;font-size:0.82rem;margin:0 0 0.8rem;">Hilf uns zu verstehen — wir verbessern uns gerne.</p>
+      <textarea id="ep-explain-input" placeholder="Kurz erklären..." rows="3"
+        style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:0.75rem 1rem;color:#fff;font-size:0.87rem;resize:vertical;margin-bottom:0.85rem;font-family:inherit;box-sizing:border-box;"></textarea>
+      <div id="ep-form-explain"></div>
+      <button onclick="epSubmit('explain','exit_passt_nicht')" class="ep-btn-primary" style="margin-top:0.5rem;">Absenden →</button>
+    </div>
+
+    <!-- Thanks -->
+    <div id="ep-thanks" style="display:none;text-align:center;padding:1rem 0;">
       <div style="font-size:2.5rem;margin-bottom:0.75rem;">🙏</div>
       <p style="color:#fff;font-weight:700;margin:0 0 0.35rem;font-size:1rem;">Danke für dein Feedback!</p>
-      <p style="color:#555;font-size:0.82rem;margin:0;">Wir nutzen es um uns zu verbessern.</p>
+      <p style="color:#555;font-size:0.82rem;margin:0;">Wir melden uns so schnell wie möglich.</p>
     </div>
   </div>
 </div>
 <style>
   .exit-opt { background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:10px;color:#aaa;padding:0.65rem 1rem;font-size:0.86rem;cursor:pointer;text-align:left;transition:all .15s;width:100%; }
   .exit-opt:hover { background:rgba(255,255,255,0.07);border-color:rgba(255,255,255,0.14);color:#fff; }
-  .exit-opt.selected { background:rgba(37,211,102,0.08);border-color:rgba(37,211,102,0.35);color:#fff; }
+  .ep-btn-primary { width:100%;padding:0.8rem;background:#25d366;color:#000;border:none;border-radius:10px;font-weight:700;font-size:0.88rem;cursor:pointer;font-family:inherit;transition:background .15s; }
+  .ep-btn-primary:hover { background:#1da851; }
 </style>
 
 </body>
