@@ -295,7 +295,7 @@
 
 <nav>
   <div class="nav-logo">YAD<span>.</span></div>
-  <a href="#" class="nav-cta" onclick="openBooking();return false;">Erstgespräch vereinbaren</a>
+  <a href="#" class="nav-cta" onclick="openBooking();return false;">Konfigurationstermin ausmachen</a>
 </nav>
 
 <section class="hero">
@@ -324,7 +324,7 @@
       </div>
 
       <div class="hero-cta-row">
-        <a href="/termin" class="btn-green">Erstgespräch vereinbaren →</a>
+        <a href="/termin" class="btn-green">Konfigurationstermin ausmachen →</a>
         <a href="#demo" class="btn-ghost">Live-Demo ansehen</a>
       </div>
     </div>
@@ -380,8 +380,7 @@
         </div>
 
         <div id="post-pitch-actions" style="display:none;flex-direction:column;gap:0.45rem;padding:0.65rem 0.65rem 0;background:var(--wa-bg)">
-          <button class="ppa-primary" onclick="openBooking()">📅 Erstgespräch vereinbaren</button>
-          <button class="ppa-secondary" onclick="startOnboarding()">🚀 Meinen Bot konfigurieren</button>
+          <button class="ppa-primary" onclick="openBooking()">📅 Konfigurationstermin ausmachen</button>
         </div>
 
         <div class="wa-input-row">
@@ -527,7 +526,7 @@
         <div><div class="about-stat-num">3 J.</div><div class="about-stat-label">KI & Marketing<br>Erfahrung</div></div>
         <div><div class="about-stat-num">DSGVO</div><div class="about-stat-label">Server in<br>Deutschland</div></div>
       </div>
-      <a href="/termin" class="btn-green" style="display: inline-flex;">Erstgespräch vereinbaren →</a>
+      <a href="/termin" class="btn-green" style="display: inline-flex;">Konfigurationstermin ausmachen →</a>
     </div>
   </div>
 </section>
@@ -536,7 +535,7 @@
   <div class="container">
     <h2>Nur noch Aufträge die<br><em>sich wirklich lohnen</em></h2>
     <p>15 Minuten. Danach wissen Sie genau, ob das passt — und wie Ihr Bot klingt.</p>
-    <a href="#" class="btn-green" style="display:inline-flex" onclick="openBooking();return false;">Erstgespräch vereinbaren →</a>
+    <a href="#" class="btn-green" style="display:inline-flex" onclick="openBooking();return false;">Konfigurationstermin ausmachen →</a>
   </div>
 </section>
 
@@ -916,7 +915,7 @@
     var num = parseInt(raw.replace(/[^0-9]/g, '')) || 0;
     document.getElementById('ep-price-q').style.display = 'none';
     document.getElementById('ep-form-reveal').innerHTML = epFormHTML('reveal')
-      + '<button onclick="epSubmit(\'reveal\',\'exit_teuer\')" class="ep-btn-primary" style="margin-top:0.25rem;">Erstgespräch vereinbaren →</button>';
+      + '<button onclick="epSubmit(\'reveal\',\'exit_teuer\')" class="ep-btn-primary" style="margin-top:0.25rem;">Konfigurationstermin ausmachen →</button>';
     document.getElementById('ep-price-reveal').style.display = 'block';
     var msg = document.getElementById('ep-reveal-msg');
     if (num > 299) {
