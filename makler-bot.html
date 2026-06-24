@@ -649,7 +649,6 @@
     document.getElementById('booking-iframe').src = BOOKING_URL;
     var m = document.getElementById('booking-modal');
     m.style.display = 'flex';
-    if (typeof fbq !== 'undefined') fbq('track', 'Lead', { content_name: currentNiche, value: 299, currency: 'EUR' });
   }
 
   function closeBooking() {
