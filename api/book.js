@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { createHash } from 'crypto';
 
 const supabase = createClient(
   process.env.SUPABASE_URL,
@@ -115,12 +116,47 @@ export default async function handler(req, res) {
       ntfy(`Neuer Termin: ${name}`,
         `${dateLong} · ${slot_time}–${endTime} Uhr · ${email}${phone ? ' · ' + phone : ''}${message ? '\n"' + message + '"' : ''}`),
       sendConfirmation({ name, email, date, slot_time, endTime, dateLong }),
+      capiLead({ name, email, phone }),
     ]);
 
     return res.json({ id: booking.id, date, slot_time, name });
   }
 
   return res.status(405).end();
+}
+
+function sha256(str) {
+  return createHash('sha256').update(str).digest('hex');
+}
+
+async function capiLead({ name, email, phone }) {
+  const token = process.env.FB_ACCESS_TOKEN;
+  if (!token) return;
+  try {
+    const userData = {
+      em: [sha256(email.toLowerCase().trim())],
+      fn: [sha256(name.split(' ')[0].toLowerCase())],
+    };
+    if (phone) userData.ph = [sha256(phone.replace(/[^0-9]/g, ''))];
+
+    await fetch('https://graph.facebook.com/v21.0/1419975432380195/events?access_token=' + token, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        data: [{
+          event_name:       'Lead',
+          event_time:       Math.floor(Date.now() / 1000),
+          action_source:    'website',
+          event_source_url: 'https://yad.rocks/termin',
+          user_data:        userData,
+          custom_data:      { currency: 'EUR', value: 299, content_name: 'booking_complete' },
+        }],
+      }),
+      signal: AbortSignal.timeout(8000),
+    });
+  } catch (e) {
+    console.error('CAPI error:', e.message);
+  }
 }
 
 async function ntfy(title, body) {

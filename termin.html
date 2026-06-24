@@ -486,7 +486,8 @@ function showConfirmation() {
   goStep(4);
 
   if (typeof fbq !== 'undefined') {
-    fbq('track', 'Schedule', { content_name: 'bot_call', value: 299, currency: 'EUR' });
+    fbq('track', 'Lead',     { content_name: 'booking_complete', value: 299, currency: 'EUR' });
+    fbq('track', 'Schedule', { content_name: 'bot_call',         value: 299, currency: 'EUR' });
   }
 
   const { date, slot_time, name } = state.booking;
