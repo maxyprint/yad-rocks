@@ -14,16 +14,16 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --black:      #0a0a0a;
-      --black-2:    #111111;
-      --black-3:    #1a1a1a;
-      --grey-dark:  #222222;
-      --grey-mid:   #444444;
-      --grey-light: #888888;
-      --border:     #2a2a2a;
-      --white:      #ffffff;
-      --red:        #e8173a;
-      --red-dark:   #c0102e;
+      --black:        #0a0a0a;
+      --black-2:      #111111;
+      --black-3:      #1a1a1a;
+      --grey-dark:    #222222;
+      --grey-mid:     #444444;
+      --grey-light:   #888888;
+      --border:       #2a2a2a;
+      --white:        #ffffff;
+      --green:        #25d366;
+      --green-dark:   #1da851;
       --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       --r: 12px;
     }
@@ -40,7 +40,7 @@
       padding: 0 24px; height: 64px;
     }
     .logo { font-size: 1.1rem; font-weight: 700; letter-spacing: -.02em; color: var(--white); text-decoration: none; }
-    .logo span { color: var(--red); }
+    .logo span { color: var(--green); }
     .nav-back { font-size: .85rem; color: var(--grey-light); text-decoration: none; transition: color .2s; }
     .nav-back:hover { color: var(--white); }
 
@@ -67,12 +67,12 @@
       font-size: .75rem; font-weight: 600; color: var(--grey-light);
       transition: all .3s; position: relative; z-index: 1; background: var(--black);
     }
-    .step-item.active .step-dot { border-color: var(--red); color: var(--red); }
-    .step-item.done .step-dot { border-color: var(--red); background: var(--red); color: var(--white); }
+    .step-item.active .step-dot { border-color: var(--green); color: var(--green); }
+    .step-item.done .step-dot { border-color: var(--green); background: var(--green); color: var(--white); }
     .step-label { font-size: .7rem; color: var(--grey-mid); margin-top: 6px; }
     .step-item.active .step-label, .step-item.done .step-label { color: var(--grey-light); }
     .step-line { flex: 1; height: 1px; background: var(--border); margin: 0 -1px; margin-bottom: 22px; }
-    .step-line.done { background: var(--red); }
+    .step-line.done { background: var(--green); }
 
     /* ── Card ── */
     .card {
@@ -114,7 +114,7 @@
     }
     .cal-day.bookable:hover { background: var(--black-3); border-color: var(--border); }
     .cal-day.today { border: 1px solid var(--grey-mid) !important; }
-    .cal-day.selected { background: var(--red) !important; border-color: var(--red) !important; color: var(--white) !important; }
+    .cal-day.selected { background: var(--green) !important; border-color: var(--green) !important; color: var(--white) !important; }
     .cal-day.empty { pointer-events: none; }
 
     /* ── Time slots ── */
@@ -132,7 +132,7 @@
       transition: all .15s; background: var(--black-3);
     }
     .slot:hover:not(.booked) { border-color: var(--grey-mid); background: var(--grey-dark); }
-    .slot.selected { background: var(--red); border-color: var(--red); }
+    .slot.selected { background: var(--green); border-color: var(--green); }
     .slot.booked { color: var(--grey-mid); cursor: default; text-decoration: line-through; }
     .slots-loading { color: var(--grey-light); font-size: .9rem; padding: 24px 0; text-align: center; }
 
@@ -160,8 +160,8 @@
       font-size: .9rem; font-weight: 600; cursor: pointer; transition: all .15s;
       border: none; text-decoration: none;
     }
-    .btn-primary { background: var(--red); color: var(--white); width: 100%; }
-    .btn-primary:hover { background: var(--red-dark); }
+    .btn-primary { background: var(--green); color: #000; width: 100%; font-weight: 700; }
+    .btn-primary:hover { background: var(--green-dark); }
     .btn-primary:disabled { opacity: .5; cursor: default; }
     .btn-ghost {
       background: none; border: 1px solid var(--border); color: var(--grey-light);
@@ -203,8 +203,8 @@
 </nav>
 
 <div class="hero">
-  <h1>Termin buchen</h1>
-  <p>45-Minuten-Call mit Max — kostenlos, unverbindlich. Montags, freitags & samstags.</p>
+  <h1>Kostenloses Erstgespräch</h1>
+  <p>45 Minuten mit Max — ich zeige dir wie dein WhatsApp-Bot aussieht, beantworte deine Fragen und erkläre den nächsten Schritt. Kostenlos & unverbindlich.</p>
 </div>
 
 <!-- Step indicator -->
@@ -270,12 +270,12 @@
     <input type="email" id="f-email" placeholder="max@studio.de" autocomplete="email">
   </div>
   <div class="form-group">
-    <label for="f-phone">Telefon</label>
+    <label for="f-phone">Telefon *</label>
     <input type="tel" id="f-phone" placeholder="+49 170 1234567" autocomplete="tel">
   </div>
   <div class="form-group">
-    <label for="f-msg">Womit kann ich helfen? <span style="color:var(--grey-mid)">(optional)</span></label>
-    <textarea id="f-msg" placeholder="Kurz beschreiben worum es geht…"></textarea>
+    <label for="f-msg">Anmerkungen für das Gespräch <span style="color:var(--grey-mid)">(optional)</span></label>
+    <textarea id="f-msg" placeholder="Für welche Branche ist der Bot gedacht? Was soll er können? Gibt es konkrete Fragen, die ich vorbereiten soll?"></textarea>
   </div>
   <button class="btn btn-primary" id="submit-btn" onclick="submitBooking()">Termin bestätigen</button>
 </div>
@@ -431,13 +431,18 @@ async function submitBooking() {
 
   errEl.style.display = 'none';
 
-  if (!name || !email) {
-    errEl.textContent = 'Bitte Name und Email angeben.';
+  if (!name || !email || !phone) {
+    errEl.textContent = 'Bitte Name, Email und Telefonnummer angeben.';
     errEl.style.display = 'block';
     return;
   }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    errEl.textContent = 'Bitte eine gültige Email-Adresse eingeben.';
+    errEl.textContent = 'Bitte eine gültige Email-Adresse eingeben (z.B. name@firma.de).';
+    errEl.style.display = 'block';
+    return;
+  }
+  if (!/^[\+\d][\d\s\-\(\)]{6,19}$/.test(phone)) {
+    errEl.textContent = 'Bitte eine gültige Telefonnummer eingeben (z.B. +49 170 1234567).';
     errEl.style.display = 'block';
     return;
   }
