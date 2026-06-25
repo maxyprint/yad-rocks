@@ -343,12 +343,7 @@
     </div>
 
     <div class="demo-col" id="demo">
-      <p class="demo-label">Live-Demo — alle Use-Cases testbar</p>
-      <div class="scenario-tabs" id="scenario-tabs">
-        <button class="tab-btn active" data-niche="makler">🎯 Lead qualifizieren</button>
-        <button class="tab-btn" data-niche="support">💬 Kunden-Support</button>
-        <button class="tab-btn" data-niche="followup">📩 Follow-up</button>
-      </div>
+      <p class="demo-label">Live-Demo — schreib wie ein echter Interessent</p>
       <div class="wa-wrap">
         <!-- Start overlay -->
         <div id="chat-overlay">
@@ -594,9 +589,7 @@
   var demoStarted  = false;
 
   var OVERLAY_CONTENT = {
-    makler:     { icon: '🎯', title: 'Lead-Qualifizierung', desc: 'Sieh wie dein Bot Kaufinteressenten nach Budget & Finanzierung qualifiziert — vollautomatisch, bevor du dich meldest.' },
-    support:    { icon: '💬', title: 'Kunden-Support', desc: 'Sieh wie dein Bot Bestandskunden rund um die Uhr betreut — Öffnungszeiten, Termine & Fragen sofort beantwortet.' },
-    followup:   { icon: '📩', title: 'Follow-up Nachrichten', desc: 'Sieh wie dein Bot nach Besichtigungen & Terminen automatisch nachfasst — zur richtigen Zeit, für jeden Kunden.' },
+    makler:     { icon: '🏠', title: 'Ihr Immobilien-Assistent', desc: 'Schreiben Sie wie ein echter Interessent — Anfragen, Follow-ups, Fragen nach der Besichtigung. Der Bot reagiert auf alles.' },
     onboarding: { icon: '🚀', title: 'Bot konfigurieren', desc: 'Beantworte 5 kurze Fragen — wir generieren daraus deinen fertigen System-Prompt.' },
   };
 
@@ -625,23 +618,19 @@
   }
 
   var PLACEHOLDERS = {
-    makler:     'Schreib als Kaufinteressent …',
-    support:    'Z.B.: "Wann habt ihr heute geöffnet?"',
-    followup:   'Szenario wählen oder antworten …',
+    makler:     'Schreiben Sie wie ein echter Interessent …',
     onboarding: 'Antwort eingeben …',
   };
 
   var BADGES = {
-    makler:     'Lead-Demo',
-    support:    'Support-Demo',
-    followup:   'Follow-up',
+    makler:     'Live-Demo',
     onboarding: 'Konfiguration',
   };
 
   var SUGGESTIONS = [
-    'Hallo, ich hab eure Wohnung in München gesehen',
     'Ist das Objekt noch verfügbar?',
-    'Ich interessiere mich für die Anzeige',
+    'Ich war gestern bei der Besichtigung — wie geht es weiter?',
+    'Ich suche eine Wohnung zum Kauf in München',
   ];
 
   function openBooking() {
@@ -792,14 +781,15 @@
     showOverlay(niche);
   }
 
-  document.querySelectorAll('.tab-btn').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      if (btn.dataset.niche === currentNiche) return;
-      document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
-      btn.classList.add('active');
-      resetChat(btn.dataset.niche);
-    });
-  });
+  function appendTesterNote(note) {
+    var t = messagesEl.querySelector('.typing');
+    if (t) t.remove();
+    var div = document.createElement('div');
+    div.style.cssText = 'margin:0.4rem 0 0.2rem;padding:0.5rem 0.75rem;background:rgba(37,211,102,0.05);border-left:3px solid rgba(37,211,102,0.35);border-radius:0 8px 8px 0;font-size:0.72rem;color:#5a8a6a;line-height:1.55;white-space:pre-wrap;word-break:break-word;';
+    div.textContent = note;
+    messagesEl.appendChild(div);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
 
   async function sendMessage(userText) {
     if (busy) return;
@@ -823,6 +813,7 @@
       var data         = await res.json();
       var reply        = data.content || '';
       var followUp     = data.followUp || null;
+      var testerNote   = data.testerNote || null;
       var systemPrompt = data.systemPrompt || null;
 
       if (systemPrompt) {
@@ -852,8 +843,8 @@
           showChips(SUGGESTIONS, true);
         }
 
-        if (currentNiche === 'followup' && chatHistory.length === 2) {
-          showChips(['📅 Nach Besichtigung', '🛒 Nach Kauf', '⭐ Bewertung anfragen'], false);
+        if (testerNote) {
+          setTimeout(function() { appendTesterNote(testerNote); }, 200);
         }
 
         if (followUp && !pitched) {
