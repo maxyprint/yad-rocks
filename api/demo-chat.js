@@ -322,7 +322,34 @@ Möchtest du jetzt deinen eigenen Bot konfigurieren?
 STIL: Kurz. Locker. Du-Form. Max 2 Sätze.`,
 };
 
-async function ntfyAppointment(niche, messages) {
+async function sendCapiLead(ip, userAgent) {
+  const token = process.env.META_CAPI_TOKEN;
+  if (!token) return;
+  try {
+    await fetch('https://graph.facebook.com/v21.0/27377162821974280/events', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        data: [{
+          event_name: 'Lead',
+          event_time: Math.floor(Date.now() / 1000),
+          event_id: `lead-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+          action_source: 'website',
+          event_source_url: 'https://yad.rocks/makler-bot',
+          user_data: {
+            client_ip_address: ip || '0.0.0.0',
+            client_user_agent: userAgent || '',
+          },
+        }],
+        access_token: token,
+      }),
+    });
+  } catch (e) {
+    console.error('capi error:', e.message);
+  }
+}
+
+async function ntfyAppointment(niche, messages, req) {
   try {
     const userMsgs = messages
       .filter(m => m.role === 'user')
@@ -342,6 +369,9 @@ async function ntfyAppointment(niche, messages) {
   } catch (e) {
     console.error('ntfy error:', e.message);
   }
+  const ip = req?.headers?.['x-forwarded-for']?.split(',')[0]?.trim();
+  const ua = req?.headers?.['user-agent'];
+  sendCapiLead(ip, ua);
 }
 
 export default async function handler(req, res) {
@@ -398,7 +428,7 @@ export default async function handler(req, res) {
         pitchMsg = parts[1] ? parts[1].trim() : null;
         testerNote = null;
       }
-      ntfyAppointment(niche, messages); // fire and forget
+      ntfyAppointment(niche, messages, req); // fire and forget
       return res.status(200).json({ content: botMsg, testerNote, followUp: pitchMsg || null });
     }
 
