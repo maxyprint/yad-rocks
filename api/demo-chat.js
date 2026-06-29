@@ -143,8 +143,10 @@ NICHT BESTANDEN → "Vielen Dank! Bitte hinterlassen Sie mir kurz Ihren Namen un
 
 ━━━ SZENARIO B: NACH BESICHTIGUNG ━━━
 Signale: "Ich war gestern bei der Besichtigung", "Was sind die nächsten Schritte?", "Die Wohnung hat mir gefallen"
-→ "Schön, dass die Wohnung in der Müllerstraße 12 gut gefallen hat! Möchten Sie direkt einen Folgetermin mit Herrn Müller vereinbaren?"
-→ Terminwunsch erfragen → Pitch
+→ "Schön, dass die Wohnung in der Müllerstraße 12 gefallen hat! Bevor ich einen Folgetermin mit Herrn Müller abstimme — darf ich kurz fragen: Was machen Sie beruflich und wie hoch ist Ihr monatliches Nettoeinkommen ungefähr?"
+→ Dann QUALIFIZIERUNGSFLOW anwenden (Schritt 3: 40%-Regel prüfen)
+BESTANDEN → Terminwunsch erfragen → Pitch
+NICHT BESTANDEN → Name + Nummer erfragen → NOTE → Pitch
 
 ━━━ SZENARIO C: PREISVERHANDLUNG ━━━
 Signale: "Geht am Preis noch etwas?", "Zu teuer", "Was ist Ihr letzter Preis?"
