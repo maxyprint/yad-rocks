@@ -418,9 +418,14 @@
       .steps { grid-template-columns: 1fr; gap: 2rem; }
     }
     @media (max-width: 900px) {
-      .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
-      .demo-col   { max-width: 420px; margin: 0 auto; width: 100%; }
-      .hero       { padding: 90px 1.25rem 4.5rem; }
+      .hero       { padding: 84px 1.25rem 0; min-height: 100svh; align-items: flex-start; }
+      .hero-inner { grid-template-columns: 1fr; gap: 0; }
+      .hero-text  {
+        min-height: calc(100svh - 84px);
+        display: flex; flex-direction: column; justify-content: center;
+        padding-bottom: 3rem;
+      }
+      .demo-col   { max-width: 460px; margin: 0 auto; width: 100%; padding-bottom: 4rem; }
       section     { padding: 5rem 1.25rem; }
       .problem-grid { grid-template-columns: 1fr; gap: 2rem; }
       .about-layout { grid-template-columns: 1fr; gap: 2.5rem; text-align: center; }
@@ -437,13 +442,13 @@
       .wa-messages  { min-height: 240px; max-height: 300px; }
       section       { padding: 4rem 1.25rem; }
       .stat-row     { gap: 1.75rem; }
-      .hero         { padding: 80px 1.25rem 5rem; min-height: 100svh; }
-      h1            { font-size: clamp(2rem, 8vw, 2.4rem); }
-      .hero-sub     { font-size: 0.97rem; }
-      .stat-num     { font-size: 1.8rem; }
-      .stat-label   { font-size: 0.74rem; }
-      .btn-green    { font-size: 0.9rem; padding: 0.8rem 1.4rem; width: 100%; justify-content: center; }
-      .btn-ghost    { font-size: 0.85rem; }
+      h1            { font-size: clamp(1.9rem, 7.5vw, 2.4rem); margin-bottom: 1rem; }
+      .hero-sub     { font-size: 0.95rem; margin-bottom: 1.75rem; }
+      .stat-row     { margin-bottom: 1.75rem; }
+      .stat-num     { font-size: 1.75rem; }
+      .stat-label   { font-size: 0.73rem; }
+      .btn-green    { font-size: 0.9rem; padding: 0.85rem 1.4rem; width: 100%; justify-content: center; }
+      .btn-ghost    { font-size: 0.85rem; text-align: center; }
       .hero-cta-row { flex-direction: column; align-items: stretch; }
       .scroll-hint  { display: none; }
     }
