@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { createHash } from 'crypto';
 
 export const config = { maxDuration: 15 };
 
@@ -40,9 +41,39 @@ export default async function handler(req, res) {
   await Promise.all([
     ntfy(name, phone, source, conversation),
     notifyEmail(name, phone, email, system_prompt, conversation, source),
+    capiLead({ name, phone, email }),
   ]);
 
   return res.status(200).json({ ok: true });
+}
+
+async function capiLead({ name, phone, email }) {
+  const token = process.env.META_CAPI_TOKEN;
+  if (!token) return;
+  try {
+    const sha = s => createHash('sha256').update(s).digest('hex');
+    const userData = { fn: [sha(name.split(' ')[0].toLowerCase())] };
+    if (email) userData.em = [sha(email.toLowerCase().trim())];
+    if (phone) userData.ph = [sha(phone.replace(/[^0-9]/g, ''))];
+    await fetch('https://graph.facebook.com/v21.0/27377162821974280/events', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        data: [{
+          event_name:       'Lead',
+          event_time:       Math.floor(Date.now() / 1000),
+          action_source:    'website',
+          event_source_url: 'https://yad.rocks/makler-bot',
+          user_data:        userData,
+          custom_data:      { currency: 'EUR', value: 299, content_name: 'exit_popup_lead' },
+          access_token:     token,
+        }],
+      }),
+      signal: AbortSignal.timeout(8000),
+    });
+  } catch (e) {
+    console.error('CAPI error:', e.message);
+  }
 }
 
 async function ntfy(name, phone, source, conversation) {

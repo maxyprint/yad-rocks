@@ -130,7 +130,7 @@ function sha256(str) {
 }
 
 async function capiLead({ name, email, phone }) {
-  const token = process.env.FB_ACCESS_TOKEN;
+  const token = process.env.META_CAPI_TOKEN;
   if (!token) return;
   try {
     const userData = {
