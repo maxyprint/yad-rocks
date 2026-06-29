@@ -397,17 +397,13 @@
 
     /* ── SECTION IMAGES ─────────────────────────────────────── */
     .section-img {
-      width: 100%; border-radius: var(--radius);
+      max-width: 340px; width: 100%;
+      aspect-ratio: 16/9; border-radius: var(--radius);
       display: block; object-fit: cover;
-      margin: 2.5rem 0 3rem;
+      margin: 1.5rem 0 2.5rem;
     }
-    .problem-grid {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 4rem; align-items: center;
-    }
-    .problem-img {
-      width: 100%; border-radius: var(--radius);
-      display: block; object-fit: cover; aspect-ratio: 16/9;
+    @media (max-width: 600px) {
+      .section-img { max-width: 100%; }
     }
 
     /* ── RESPONSIVE ──────────────────────────────────────── */
@@ -427,7 +423,7 @@
       }
       .demo-col   { max-width: 460px; margin: 0 auto; width: 100%; padding-bottom: 4rem; }
       section     { padding: 5rem 1.25rem; }
-      .problem-grid { grid-template-columns: 1fr; gap: 2rem; }
+
       .about-layout { grid-template-columns: 1fr; gap: 2.5rem; text-align: center; }
       .about-img-wrap { width: min(280px, 70%); margin: 0 auto; }
       .about-stats { justify-content: center; }
@@ -554,21 +550,17 @@
 <!-- PROBLEM -->
 <section class="problem">
   <div class="container">
-    <div class="problem-grid">
-      <div>
-        <span class="section-label">Das Problem</span>
-        <p class="problem-statement">Die meisten Aufträge gehen verloren, bevor Sie sich überhaupt melden.</p>
-        <p class="problem-body">
-          Kaufinteressenten schreiben gleichzeitig bei mehreren Maklern an. Wer zuerst antwortet und seriös qualifiziert, bekommt den Termin — wer nicht, verliert. Das entscheidet sich in den ersten Minuten.
-        </p>
-        <ul class="problem-list">
-          <li>Die meisten ImmoScout-Anfragen kommen abends und am Wochenende — genau wenn Sie nicht erreichbar sind</li>
-          <li>Unqualifizierte Interessenten kosten täglich Stunden, die Sie sinnvoller einsetzen könnten</li>
-          <li>Wer drei Stunden zu spät antwortet, hat den Auftrag in den meisten Fällen bereits verloren</li>
-        </ul>
-      </div>
-      <img src="/makler-problem.png" class="problem-img" alt="Makler overwhelmed at desk">
-    </div>
+    <span class="section-label">Das Problem</span>
+    <p class="problem-statement">Die meisten Aufträge gehen verloren, bevor Sie sich überhaupt melden.</p>
+    <img src="/makler-problem.png" class="section-img" alt="Makler overwhelmed at desk">
+    <p class="problem-body">
+      Kaufinteressenten schreiben gleichzeitig bei mehreren Maklern an. Wer zuerst antwortet und seriös qualifiziert, bekommt den Termin — wer nicht, verliert. Das entscheidet sich in den ersten Minuten.
+    </p>
+    <ul class="problem-list">
+      <li>Die meisten ImmoScout-Anfragen kommen abends und am Wochenende — genau wenn Sie nicht erreichbar sind</li>
+      <li>Unqualifizierte Interessenten kosten täglich Stunden, die Sie sinnvoller einsetzen könnten</li>
+      <li>Wer drei Stunden zu spät antwortet, hat den Auftrag in den meisten Fällen bereits verloren</li>
+    </ul>
   </div>
 </section>
 
