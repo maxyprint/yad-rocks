@@ -127,6 +127,58 @@
     }
     .btn-ghost:hover { color: var(--text); }
 
+    /* ── HERO TRUST STRIP ───────────────────────────────── */
+    .hero-trust {
+      display: flex; flex-wrap: wrap; gap: 0.65rem 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .hero-trust-item {
+      font-size: 0.82rem; color: var(--muted);
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+    .hero-trust-item::before { content: '✓'; color: var(--green); font-weight: 700; }
+
+    /* ── DEMO FULLSCREEN ─────────────────────────────────── */
+    #demo-backdrop {
+      position: fixed; inset: 0; z-index: 998;
+      background: rgba(0,0,0,0.88); backdrop-filter: blur(8px);
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    #demo-backdrop.open { opacity: 1; pointer-events: auto; }
+
+    #demo-close-btn {
+      display: none; position: fixed; z-index: 1001;
+      top: 1rem; right: 1rem;
+      width: 40px; height: 40px;
+      background: rgba(22,22,22,0.96); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 50%; color: #fff; font-size: 19px; cursor: pointer;
+      align-items: center; justify-content: center; transition: background .2s;
+    }
+    #demo-close-btn:hover { background: rgba(45,45,45,0.96); }
+    #demo-close-btn.visible { display: flex; }
+
+    .wa-wrap {
+      transition: border-radius 0.45s cubic-bezier(0.16,1,0.3,1);
+    }
+    .wa-wrap.fs-animating {
+      position: fixed !important; z-index: 1000 !important;
+      overflow: hidden;
+      transition: left 0.45s cubic-bezier(0.16,1,0.3,1),
+                  top 0.45s cubic-bezier(0.16,1,0.3,1),
+                  width 0.45s cubic-bezier(0.16,1,0.3,1),
+                  height 0.45s cubic-bezier(0.16,1,0.3,1),
+                  border-radius 0.45s cubic-bezier(0.16,1,0.3,1) !important;
+    }
+    .wa-wrap.fs-open {
+      position: fixed !important; z-index: 1000 !important;
+      overflow: hidden;
+    }
+    .wa-wrap.fs-open .wa-messages {
+      max-height: none !important; min-height: 0 !important;
+      flex: 1;
+    }
+
     /* ── DEMO WIDGET ─────────────────────────────────────── */
     .demo-col { position: relative; }
     .demo-label {
@@ -461,10 +513,17 @@
 <section class="hero">
   <div class="hero-inner">
     <div class="hero-text">
-      <h1>Ihr Bot. <em>Ihre Sprache.</em></h1>
+      <h1>Ihre ImmoScout-Anfragen.<br><em>Sofort beantwortet.</em></h1>
       <p class="hero-sub">
-        Ihr persönlicher WhatsApp-Assistent beantwortet ImmoScout-Anfragen sofort, prüft Budget und Finanzierungsstatus automatisch und gibt Ihnen nur noch Interessenten weiter, die wirklich kaufen können — inklusive fertigem Besichtigungstermin.
+        Ihr WhatsApp-Assistent antwortet in <strong>unter 3 Sekunden</strong>, prüft Budget und Finanzierungsstatus — und bucht nur echte Kaufinteressenten in Ihren Kalender.
       </p>
+
+      <div class="hero-trust">
+        <span class="hero-trust-item">Unter 3 Sekunden Reaktionszeit</span>
+        <span class="hero-trust-item">24/7 aktiv, auch am Wochenende</span>
+        <span class="hero-trust-item">DSGVO-konform, Server in Deutschland</span>
+        <span class="hero-trust-item">Setup in 2–3 Wochen</span>
+      </div>
 
       <div class="stat-row">
         <div class="stat">
@@ -475,11 +534,15 @@
           <div class="stat-num">24/7</div>
           <div class="stat-label">Auch nachts<br>und am Wochenende</div>
         </div>
+        <div class="stat">
+          <div class="stat-num">80+</div>
+          <div class="stat-label">Betreute<br>Unternehmen</div>
+        </div>
       </div>
 
       <div class="hero-cta-row">
-        <a href="/termin" class="btn-green">Konfigurationstermin ausmachen →</a>
-        <a href="#demo" class="btn-ghost">Live-Demo ansehen</a>
+        <a href="#" class="btn-green" onclick="openBooking();return false;">Jetzt Bot konfigurieren →</a>
+        <a href="#demo" class="btn-ghost" onclick="scrollToDemo(event)">Live-Demo ansehen ↓</a>
       </div>
     </div>
 
@@ -487,9 +550,9 @@
       <p class="demo-label">Live-Demo — schreib wie ein echter Interessent</p>
       <div class="wa-wrap">
         <div id="chat-overlay">
-          <div id="overlay-icon">🎯</div>
-          <div id="overlay-title">Lead-Qualifizierung</div>
-          <div id="overlay-desc">Sieh wie dein Bot Kaufinteressenten nach Budget &amp; Finanzierung qualifiziert — vollautomatisch, bevor du dich meldest.</div>
+          <div id="overlay-icon">🏠</div>
+          <div id="overlay-title">Ihr Immobilien-Assistent</div>
+          <div id="overlay-desc">Schreiben Sie wie ein echter Interessent — der Bot antwortet sofort, qualifiziert Budget &amp; Finanzierung und bucht Termine vollautomatisch.</div>
           <button id="start-demo-btn" onclick="startDemo()">▶ Demo starten</button>
         </div>
         <div class="wa-header">
@@ -761,6 +824,10 @@
   </div>
 </div>
 
+<!-- DEMO FULLSCREEN ELEMENTS -->
+<div id="demo-backdrop" onclick="collapseDemoFS()"></div>
+<button id="demo-close-btn" onclick="collapseDemoFS()" aria-label="Demo schließen">✕</button>
+
 <footer>
   <span>© 2026 YAD</span>
   <a href="/impressum">Impressum</a>
@@ -799,6 +866,93 @@
     demoStarted = false;
   }
 
+  var _fsOrigStyle = null;
+
+  function expandDemoFS() {
+    var wa = document.querySelector('.wa-wrap');
+    var rect = wa.getBoundingClientRect();
+    var pad = 16;
+    var targetW = Math.min(480, window.innerWidth - pad * 2);
+    var targetH = Math.min(window.innerHeight - pad * 2, 720);
+    var targetL = Math.round((window.innerWidth - targetW) / 2);
+    var targetT = Math.round((window.innerHeight - targetH) / 2);
+
+    // snapshot natural position
+    _fsOrigStyle = {
+      position: wa.style.position,
+      left: wa.style.left, top: wa.style.top,
+      width: wa.style.width, height: wa.style.height,
+      borderRadius: wa.style.borderRadius,
+      zIndex: wa.style.zIndex,
+    };
+
+    // pin at current location without transition
+    wa.style.transition = 'none';
+    wa.style.position = 'fixed';
+    wa.style.left = rect.left + 'px';
+    wa.style.top  = rect.top  + 'px';
+    wa.style.width  = rect.width  + 'px';
+    wa.style.height = rect.height + 'px';
+    wa.style.zIndex = '1000';
+    wa.style.borderRadius = '20px';
+
+    // show backdrop + close button
+    document.getElementById('demo-backdrop').classList.add('open');
+    document.getElementById('demo-close-btn').classList.add('visible');
+    document.body.style.overflow = 'hidden';
+
+    // force reflow then animate to fullscreen
+    wa.getBoundingClientRect();
+    wa.classList.add('fs-animating');
+    wa.style.left   = targetL + 'px';
+    wa.style.top    = targetT + 'px';
+    wa.style.width  = targetW + 'px';
+    wa.style.height = targetH + 'px';
+    wa.style.borderRadius = '20px';
+
+    wa.addEventListener('transitionend', function onEnd() {
+      wa.removeEventListener('transitionend', onEnd);
+      wa.classList.remove('fs-animating');
+      wa.classList.add('fs-open');
+      wa.style.transition = '';
+      // fill messages area
+      var msgs = wa.querySelector('.wa-messages');
+      var waH = wa.getBoundingClientRect().height;
+      var hdrH = (wa.querySelector('.wa-header') || {offsetHeight:52}).offsetHeight || 52;
+      var inpH = (wa.querySelector('.wa-input-row') || {offsetHeight:58}).offsetHeight || 58;
+      msgs.style.maxHeight = (waH - hdrH - inpH - 60) + 'px';
+      msgs.style.minHeight = '0';
+      inputEl.focus();
+    });
+  }
+
+  function collapseDemoFS() {
+    var wa = document.querySelector('.wa-wrap');
+    var rect = wa.getBoundingClientRect();
+
+    wa.classList.remove('fs-open');
+    var msgs = wa.querySelector('.wa-messages');
+    msgs.style.maxHeight = '';
+    msgs.style.minHeight = '';
+
+    // animate back to natural position (approximate — just shrink + fade via opacity on backdrop)
+    document.getElementById('demo-backdrop').classList.remove('open');
+    document.getElementById('demo-close-btn').classList.remove('visible');
+    document.body.style.overflow = '';
+
+    // remove fixed positioning after short delay
+    wa.style.transition = 'opacity 0.25s ease';
+    wa.style.opacity = '0';
+    setTimeout(function() {
+      wa.style.position = '';
+      wa.style.left = ''; wa.style.top = '';
+      wa.style.width = ''; wa.style.height = '';
+      wa.style.zIndex = ''; wa.style.borderRadius = '';
+      wa.style.transition = '';
+      wa.style.opacity = '';
+    }, 260);
+  }
+
   function startDemo() {
     var overlay = document.getElementById('chat-overlay');
     var btn = document.getElementById('start-demo-btn');
@@ -811,7 +965,14 @@
     sendBtn.disabled = false;
     overlay.style.display = 'none';
     if (typeof fbq !== 'undefined') fbq('track', 'ViewContent', { content_name: currentNiche, content_category: 'bot_demo' });
+    expandDemoFS();
     sendMessage('');
+  }
+
+  function scrollToDemo(e) {
+    e.preventDefault();
+    var el = document.getElementById('demo');
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
   var PLACEHOLDERS = {
@@ -847,7 +1008,11 @@
   });
 
   document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeBooking();
+    if (e.key === 'Escape') {
+      var wa = document.querySelector('.wa-wrap');
+      if (wa && wa.classList.contains('fs-open')) { collapseDemoFS(); return; }
+      closeBooking();
+    }
   });
 
   function copySystemPrompt() {
